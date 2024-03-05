@@ -14,16 +14,16 @@ class GVAR(RscSectorHUD) {
 		// Background Controls Group
 		class Background_CtrlGrp : RscControlsGroupNoScrollbars {
 			idc = MACRO_IDC_SHUD_CTRLGRP;
-			x = safeZoneX + 0.5 * safezoneW - MACRO_POS_SHUD_WIDTH * 0.5;
+			x = safeZoneX + 0.5 * safezoneW - (MACRO_POS_SHUD_FLAG_WIDTH + MACRO_POS_SHUD_SIDE_WIDTH * 2) / 2;
 			y = safeZoneY;
-			w = MACRO_POS_SHUD_WIDTH;
+			w = MACRO_POS_SHUD_FLAG_WIDTH + MACRO_POS_SHUD_SIDE_WIDTH * 2;
 			h = MACRO_POS_SHUD_HEIGHT;
 
 			class controls {
 
 				class Background : GVAR(RscFrame) {
 					colorBackground[] = CURLY(MACRO_COLOUR_INGAME_BACKGROUND);
-					w = MACRO_POS_SHUD_WIDTH;
+					w = MACRO_POS_SHUD_FLAG_WIDTH + MACRO_POS_SHUD_SIDE_WIDTH * 2;
 					h = MACRO_POS_SHUD_HEIGHT;
 				};
 
@@ -31,43 +31,40 @@ class GVAR(RscSectorHUD) {
 					idc = MACRO_IDC_SHUD_LETTER_TEXT;
 					font = MACRO_FONT_UI_MEDIUM;
 					text = "?";
-					sizeEx = 0.045;
-					w = pixelW * 20;
+					sizeEx = MACRO_POS_SHUD_TEXTSIZE;
+					w = MACRO_POS_SHUD_SIDE_WIDTH;
 					h = MACRO_POS_SHUD_HEIGHT;
 				};
 
 				class Sector_Flag : GVAR(RscPictureNoAR) {
 					idc = MACRO_IDC_SHUD_FLAG_PICTURE;
 					text = "a3\data_f\Flags\flag_white_co.paa";
-					x = pixelW * 20;
-					w = MACRO_POS_SHUD_WIDTH - pixelW * 40;
+					x = MACRO_POS_SHUD_SIDE_WIDTH;
+					w = MACRO_POS_SHUD_FLAG_WIDTH;
 					h = MACRO_POS_SHUD_HEIGHT;
 				};
 
 				class Sector_Level_Back : GVAR(RscFrame) {
 					idc = MACRO_IDC_SHUD_LEVEL_BACK;
 					colorBackground[] = CURLY(MACRO_COLOUR_A100_WHITE);
-					x = MACRO_POS_SHUD_WIDTH - pixelW * 20;
-					y = 0;
-					w = pixelW * 20;
+					x = MACRO_POS_SHUD_FLAG_WIDTH + MACRO_POS_SHUD_SIDE_WIDTH;
+					w = MACRO_POS_SHUD_SIDE_WIDTH;
 					h = MACRO_POS_SHUD_HEIGHT;
 				};
 
 				class Sector_Level_Front : GVAR(RscFrame) {
 					idc = MACRO_IDC_SHUD_LEVEL_FRONT;
 					colorBackground[] = CURLY(MACRO_COLOUR_A100_SIDE_WEST);
-					x = MACRO_POS_SHUD_WIDTH - pixelW * 20;
+					x = MACRO_POS_SHUD_FLAG_WIDTH + MACRO_POS_SHUD_SIDE_WIDTH;
 					y = MACRO_POS_SHUD_HEIGHT;
-					w = pixelW * 20;
-					h = 0;
+					w = MACRO_POS_SHUD_SIDE_WIDTH;
 				};
 
 				class Sector_Lock_Icon : GVAR(RscPicture) {
 					idc = MACRO_IDC_SHUD_LOCK_ICON;
 					text = "res\images\sector_locked_full.paa";
-					x = MACRO_POS_SHUD_WIDTH - pixelW * 20;
-					y = 0;
-					w = pixelW * 20;
+					x = MACRO_POS_SHUD_FLAG_WIDTH + MACRO_POS_SHUD_SIDE_WIDTH;
+					w = MACRO_POS_SHUD_SIDE_WIDTH;
 					h = MACRO_POS_SHUD_HEIGHT;
 				};
 			};

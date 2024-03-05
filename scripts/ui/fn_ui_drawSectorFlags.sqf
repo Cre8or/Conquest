@@ -87,7 +87,7 @@ private ["_flagTexture", "_flagPole", "_pos"];
 		0,
 		format [" %1", _x getVariable [QGVAR(letter), "???"]],
 		2,
-		0.06,
+		MACRO_POS_SFLAG_TEXTSIZE,
 		MACRO_FONT_UI_MEDIUM
 	];
 

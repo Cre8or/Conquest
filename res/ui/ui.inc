@@ -44,7 +44,6 @@ class GVAR(RscText) : RscText {
 
 class GVAR(RscTextHeader) : GVAR(RscText) {
 	style = ST_LEFT;
-	shadow = 2;
 };
 
 class GVAR(RscListBox) : RscListBox {
@@ -76,16 +75,12 @@ class GVAR(RscEdit) : RscEdit {
 // Scripted controls
 class GVAR(RscScoreFeed_Text) : GVAR(RscText) {
 	style = ST_RIGHT;
-	font = MACRO_FONT_UI_MEDIUM;
 	sizeEx = MACRO_POS_SF_ENTRY_TEXTSIZE;
-	shadow = 2;
 };
 
 class GVAR(RscKillFeed_Name_Killer) : GVAR(RscText) {
 	style = ST_LEFT;
-	font = MACRO_FONT_UI_MEDIUM;
 	sizeEx = MACRO_POS_KF_ENTRY_TEXTSIZE;
-	shadow = 2;
 };
 class GVAR(RscKillFeed_Name_Victim) : GVAR(RscKillFeed_Name_Killer) {
 	style = ST_RIGHT;

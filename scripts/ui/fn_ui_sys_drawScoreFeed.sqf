@@ -88,9 +88,9 @@ GVAR(ui_sys_drawScoreFeed_EH) = addMissionEventHandler ["EachFrame", {
 				_UI setVariable [QGVAR(animEndTime), _animEndTime];
 				_UI setVariable [QGVAR(animOffset),  _animOffset];
 
-				_messageWidth = ("o" + _messageText) getTextWidth [MACRO_FONT_UI_MEDIUM, MACRO_POS_SF_ENTRY_TEXTSIZE];
-				_argWidth     = ("o" + _messageArg) getTextWidth [MACRO_FONT_UI_MEDIUM, MACRO_POS_SF_ENTRY_TEXTSIZE];
-				_scoreWidth   = ("o" + str _score) getTextWidth [MACRO_FONT_UI_MEDIUM, MACRO_POS_SF_ENTRY_TEXTSIZE];
+				_messageWidth = ("w" + _messageText) getTextWidth [MACRO_FONT_UI_MEDIUM, MACRO_POS_SF_ENTRY_TEXTSIZE];
+				_argWidth     = ("w" + _messageArg) getTextWidth [MACRO_FONT_UI_MEDIUM, MACRO_POS_SF_ENTRY_TEXTSIZE];
+				_scoreWidth   = ("w" + str _score) getTextWidth [MACRO_FONT_UI_MEDIUM, MACRO_POS_SF_ENTRY_TEXTSIZE];
 
 				// Main background
 				_ctrlBackground = _UI ctrlCreate [QGVAR(RscFrame), -1, _ctrlGrp];
@@ -98,7 +98,7 @@ GVAR(ui_sys_drawScoreFeed_EH) = addMissionEventHandler ["EachFrame", {
 					MACRO_POS_SF_X_OFFSET - _messageWidth - _argWidth,
 					0,
 					_messageWidth + _argWidth + MACRO_POS_SF_SCORE_WIDTH,
-					MACRO_POS_KF_ENTRY_HEIGHT
+					MACRO_POS_SF_ENTRY_HEIGHT
 				];
 				_ctrlBackground ctrlCommit 0;
 				_ctrlBackground setVariable [QGVAR(fillColour), SQUARE(MACRO_COLOUR_INGAME_BACKGROUND)];

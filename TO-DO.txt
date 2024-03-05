@@ -1,4 +1,12 @@
 TO DO:
+	- Unify UI text sizes:
+		- Score feed
+		- Kill feed
+		+ Sector HUD
+		+ Health bar
+		+ Sector letters on maps
+		- Spawn menu
+		- End screen
 	- Fix respawn delays not working in MP
 		(i) Mission params don't get broadcast before mission preInit -> default values are used.
 		Rewrite gm_compileParams to initialise GVARs with config-defined default values (not 0!),
@@ -223,35 +231,3 @@ DONE:
 	- Render combat areas on the map and on the GPS/terrain avoidance panel
 	- Make group AI members move to the group's waypoint rather than following their leader
 	- Make a to-do file (go me, woo)
-
-CANCELLED:
-	- Prevent units from taking damage when hit/ran over by AI-driven vehicles
-		--> EHs don't give "cascading" damage when returning a custom value (HandleDamage EH), meaning ACE3 always deals damage, no matter what
-
-
-
-
-
-
-CONVERSATIONS:
-
-guy kbAddTopic ["supports", "\a3\modules_f\supports\kb\protocol.bikb", "\a3\modules_f\supports\kb\protocol.fsm"];
-guy kbTell [player, "supports", "CAS_Bombing_Accomplished", "SIDE"];
-
-
-
-guy kbRemoveTopic "cre8ive_kb";
-guy kbAddTopic ["cre8ive_kb", "a_m01_20_survivor.bikb"];
-guy kbTell [player, "cre8ive_kb", "a_m01_20_survivor_ALP_0", "DIRECT"];
-
-
-
-
-
-["25_Inform", "A_m01", nil, "SIDE", nil, nil, 1] call BIS_fnc_kbTell;
-
-
-
-guy kbRemoveTopic "test_kb";
-guy kbAddTopic ["test_kb", "kb\test.bikb"];
-guy kbTell [player, "test_kb", "enemywb", "COMMAND"];

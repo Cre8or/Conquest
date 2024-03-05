@@ -117,10 +117,10 @@ private _sound = switch (_messageEnum) do {
 };
 
 /*
-"D:\Steam\SteamApps\common\ArmA 2 Mods\P Drive\a3\dubbing_f_epc\C_m01\03_Stage_1\c_m01_03_stage_1_BHQ_0.ogg"
-"D:\Steam\SteamApps\common\ArmA 2 Mods\P Drive\a3\dubbing_f_gamma\showcase_armed_assault\15_UAVOnline\showcase_armed_assault_15_uavonline_BHQ_0.ogg"
-"D:\Steam\SteamApps\common\ArmA 2 Mods\P Drive\a3\dubbing_f_gamma\showcase_armed_assault\15_UAVOnline\showcase_armed_assault_17_uavdestroyed_BHQ_0.ogg"
-"D:\Steam\steamapps\common\Arma 2 Mods\P Drive\a3\dubbing_f_tank\ta_showcase_tank_destroyers\032_ex_leaving_ao\ta_showcase_tank_destroyers_032_ex_leaving_ao_TDHQ_1.ogg"
+"a3\dubbing_f_epc\C_m01\03_Stage_1\c_m01_03_stage_1_BHQ_0.ogg"
+"a3\dubbing_f_gamma\showcase_armed_assault\15_UAVOnline\showcase_armed_assault_15_uavonline_BHQ_0.ogg"
+"a3\dubbing_f_gamma\showcase_armed_assault\15_UAVOnline\showcase_armed_assault_17_uavdestroyed_BHQ_0.ogg"
+"a3\dubbing_f_tank\ta_showcase_tank_destroyers\032_ex_leaving_ao\ta_showcase_tank_destroyers_032_ex_leaving_ao_TDHQ_1.ogg"
 */
 
 

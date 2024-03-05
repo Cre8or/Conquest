@@ -183,4 +183,24 @@ if (!isNil QGVAR(ACE3_addedActionPAK)) then {
 
 
 
+// Preslotting (debug)
+#ifdef MACRO_DEBUG_GM_PRESLOT
+
+	// Select the first valid side and spawnable sector
+	GVAR(side) = GVAR(sides) param [GVAR(sides) findIf {_x != sideEmpty}, sideEmpty];
+	GVAR(role) = MACRO_ENUM_ROLE_ASSAULT;
+	GVAR(spawnSector) = GVAR(allSectors) param [GVAR(allSectors) findIf {
+		_x getVariable [QGVAR(side), sideEmpty] == GVAR(side)
+		and {_x getVariable [format [QGVAR(spawnPoints_%1), GVAR(side)], []] isNotEqualTo []}
+	}, objNull];
+
+	// Skip the spawn menu altogether
+	GVAR(sys_handlePlayerRespawn_spawnRequested) = true;
+	GVAR(sys_handlePlayerRespawn_state) = MACRO_ENUM_RESPAWN_SECTORSELECTED;
+#endif
+
+
+
+
+
 diag_log "[CONQUEST] Client initialisation done.";

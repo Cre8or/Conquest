@@ -57,8 +57,8 @@
 
 	// Health Bar
 	#define MACRO_IDC_HB_CTRLGRP                                    100
-	#define MACRO_IDC_HB_HEALTH_ICON                                101
-	#define MACRO_IDC_HB_HEALTH_TEXT                                102
+	#define MACRO_IDC_HB_HEALTH_TEXT                                101
+	#define MACRO_IDC_HB_HEALTH_ICON                                102
 
 	// Hit Effect
 	#define MACRO_IDC_HFX_CTRLGRP                                   100
@@ -215,24 +215,29 @@
 	#define MACRO_POS_KF_WIDTH                                      (0.2 * safeZoneW)
 	#define MACRO_POS_KF_WEAPON_WIDTH                               (0.025 * safeZoneW)
 	#define MACRO_POS_KF_ICON_WIDTH                                 (0.015 * safeZoneW)
-	#define MACRO_POS_KF_ENTRY_TEXTSIZE                             (0.015 * safeZoneW)
-	#define MACRO_POS_KF_ENTRY_HEIGHT                               (0.02 * safeZoneW)
+	#define MACRO_POS_KF_ENTRY_HEIGHT                               0.05
+	#define MACRO_POS_KF_ENTRY_TEXTSIZE                             0.035
 	#define MACRO_POS_KF_ENTRY_MAXCOUNT                             8
 
 	#define MACRO_POS_SF_WIDTH                                      (0.33 * safeZoneW)
 	#define MACRO_POS_SF_X_OFFSET                                   (0.65 * MACRO_POS_SF_WIDTH)
 	#define MACRO_POS_SF_SCORE_WIDTH                                (0.15 * MACRO_POS_SF_WIDTH)
-	#define MACRO_POS_SF_ENTRY_TEXTSIZE                             (0.02 * safeZoneW)
+	#define MACRO_POS_SF_ENTRY_HEIGHT                               0.05
+	#define MACRO_POS_SF_ENTRY_TEXTSIZE                             0.05
 	#define MACRO_POS_SF_ENTRY_MAXCOUNT                             6
 
-	#define MACRO_POS_SHUD_WIDTH                                    (pixelW * 110)
-	#define MACRO_POS_SHUD_HEIGHT                                   (pixelH * 40)
+	#define MACRO_POS_SHUD_HEIGHT                                   0.07
+	#define MACRO_POS_SHUD_FLAG_WIDTH                               ((3 / 2) * MACRO_POS_SHUD_HEIGHT)
+	#define MACRO_POS_SHUD_SIDE_WIDTH                               0.03
+	#define MACRO_POS_SHUD_TEXTSIZE                                 0.05
 
-	#define MACRO_POS_HB_WIDTH                                      (pixelW * 70)
-	#define MACRO_POS_HB_HEIGHT                                     (pixelH * 30)
-	#define MACRO_POS_HB_ICON_WIDTH                                 (pixelW * 26)
+	#define MACRO_POS_SFLAG_TEXTSIZE                                0.07
+
+	#define MACRO_POS_HB_WIDTH                                      0.1
+	#define MACRO_POS_HB_HEIGHT                                     0.05
+	#define MACRO_POS_HB_ICON_WIDTH                                 0.04
 	#define MACRO_POS_HB_ICON_SPACER                                (pixelW * 3)
-	#define MACRO_POS_HB_TEXTSIZE                                   0.045
+	#define MACRO_POS_HB_TEXTSIZE                                   0.05
 
 	#define MACRO_POS_HFX_WIDTH                                     (safeZoneW / 2)
 	#define MACRO_POS_HFX_HEIGHT                                    (safeZoneH / 2)
@@ -352,7 +357,7 @@
 	#define MACRO_UI_SCOREFEED_ANIMDURATION                         0.25
 
 	// UI Sector Names (Locations)
-	#define MACRO_UI_SECTORNAMES_SCALEMUL                           1.25 // Scales the size of the sector names on the map. Higher numbers increase the size of the text
+	#define MACRO_UI_SECTORNAMES_SCALEMUL                           1.25 // Scales the size of the sector names (but not their letters) on the map. Higher numbers increase the size of the text
 	#define MACRO_UI_SECTORNAMES_FADEMUL                            20 // Scales how quickly the sector names fade out when zooming into the map. Larger numbers make the sector names fade quicker
 	#define MACRO_UI_SECTORFLAGS_SCALEMUL                           1.0 // Scales the size of the sector flag icons on the map. Higher numbers increase the size of the flag icons
 	#define MACRO_UI_SECTORFLAGS_SCALEOFFSET                        0.03 // When zooming in on the map, the sector flag icons will eventually increase to twice their normal size. This offset lets you choose at which zoom level this transition should happen. Larger numbers lean towards "zoomed out", smaller numbers towards "zoomed in" (logarithmic scale). Accepted range is 0 to 1
@@ -398,7 +403,7 @@
 	#define MACRO_TICKETS_DECISIVETHRESHOLD                         100 // If the round ends, and the winning side has at least this many tickets left, the end counts as a decisive victory/crushing defeat
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.12.509"
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.12.513"
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -759,3 +764,5 @@
 	//#define MACRO_DEBUG_NM_NODES_INF
 	//#define MACRO_DEBUG_NM_NODES_VEH
 	//#define MACRO_DEBUG_NM_PATH
+
+	#define MACRO_DEBUG_GM_PRESLOT

@@ -61,22 +61,6 @@ class CfgFunctions {
 
 
 
-/*
-class CfgSentences {
-
-	// Include the conquest bikb sentences
-	class MACRO_PROJECT_PREFIX {
-
-		class GVAR(kbTopic_announcer) {
-			file = "res\vo\topic_announcer.bikb";
-			#include "res\vo\topic_announcer.bikb"
-		};
-	};
-};
-*/
-
-
-
 
 class CfgSounds {
 	sounds[] = {};
@@ -88,7 +72,7 @@ class CfgSounds {
 
 	#include "res\sounds\sounds.inc"
 
-	#include "res\vo\radioMessages.inc"
+	#include "res\sounds\radioMessages.inc"
 };
 
 

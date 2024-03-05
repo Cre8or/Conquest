@@ -145,7 +145,7 @@ GVAR(ui_sys_drawKillFeed_EH) = addMissionEventHandler ["EachFrame", {
 				_ctrlBackgroundWeapon ctrlSetPixelPrecision 2;
 
 				// TODO:
-				// Suicide icon: "D:\Steam\steamapps\common\ArmA 2 Mods\P Drive\a3\ui_f\data\IGUI\Cfg\HoldActions\holdAction_forceRespawn_ca.paa"
+				// Suicide icon: "\a3\ui_f\data\IGUI\Cfg\HoldActions\holdAction_forceRespawn_ca.paa"
 
 				// Special icon
 				if (_iconEnum != MACRO_ENUM_KF_ICON_NONE) then {

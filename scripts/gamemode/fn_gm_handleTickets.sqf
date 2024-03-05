@@ -121,8 +121,6 @@ GVAR(EH_handleTickets_eachFrame) = addMissionEventHandler ["EachFrame", {
 		} forEach GVAR(sides);
 		_sideSectorCounts params ["_sectorCountEast", "_sectorCountResistance", "_sectorCountWest"]; // Needed by the ticket bleed macro
 
-		cre_sideSectorCounts = _sideSectorCounts;
-		cre_sideSectorRatios = _sideSectorRatios;
 
 
 		GVAR(ticketBleedEast)       = false;
