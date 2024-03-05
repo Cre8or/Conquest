@@ -1,0 +1,122 @@
+#include "res\common\macros.inc"
+#include "mission\settings.inc"
+
+
+
+
+
+// Mission config
+author = "Cre8or";
+briefingName  = __EVAL(MACRO_MISSION_FRAMEWORK_GAMEMODE + " - " + MACRO_MISSION_NAME + " (v" + MACRO_MISSION_FRAMEWORK_VERSION + ")");
+onLoadName    = __EVAL(MACRO_MISSION_NAME);
+onLoadMission = __EVAL(MACRO_MISSION_FRAMEWORK_GAMEMODE + " (v" + MACRO_MISSION_FRAMEWORK_VERSION + ")");
+overviewText  = __EVAL(MACRO_MISSION_FRAMEWORK_GAMEMODE + " - " + MACRO_MISSION_NAME + " (v" + MACRO_MISSION_FRAMEWORK_VERSION + ")<br /><br />Made by Cre8or<br />(C) 2019 - 2024");
+
+// TODO: Add custom overview and banner images
+//overviewPicture = MACRO_MISSION_OVERVIEW_IMAGE;
+loadScreen = MACRO_MISSION_LOADING_BANNER;
+
+joinUnassigned = 0; // Auto-slot players
+disabledAI = 1;
+briefing = 0;
+debriefing = 0;
+saving = 0;
+allowFunctionsRecompile = __EVAL((isServer and !isDedicated) or is3DENMultiplayer or is3DENPreview);
+
+
+
+
+
+// Include the shared UI defines file
+#include "res\common\defines.inc"
+
+// Include the conquest UI classes
+#include "res\ui\ui.inc"
+
+
+
+
+
+class CfgDebriefing {
+
+	class Not_Whitelisted {
+		title = "Uh oh!";
+		subtitle = "Well this is awkward...";
+		description = "This mission is still under active development, and currently in closed testing.<br />Unfortunately, you're not whitelisted for the closed testing. Please wait until the public testing phase begins. Thank you for understanding!<br /><br />- Cre8or";
+		pictureBackground = "";
+		picture = "mil_warning";
+		pictureColor[] = {1, 0, 0, 1};
+	};
+};
+
+
+
+
+
+class CfgFunctions {
+
+	#include "scripts\functions.inc"
+};
+
+
+
+
+/*
+class CfgSentences {
+
+	// Include the conquest bikb sentences
+	class MACRO_PROJECT_PREFIX {
+
+		class GVAR(kbTopic_announcer) {
+			file = "res\vo\topic_announcer.bikb";
+			#include "res\vo\topic_announcer.bikb"
+		};
+	};
+};
+*/
+
+
+
+
+class CfgSounds {
+	sounds[] = {};
+
+	class GVAR(Default) {
+		sound[] = {"", 1, 1, 100};
+		titles[] = {0, ""};
+	};
+
+	#include "res\sounds\sounds.inc"
+
+	#include "res\vo\radioMessages.inc"
+};
+
+
+
+
+
+class Header {
+	gameType   = MACRO_MISSION_FRAMEWORK_MP_GAMETYPE_ENUM;
+	minPlayers = MACRO_MISSION_FRAMEWORK_MP_MINPLAYERS;
+	maxPlayers = MACRO_MISSION_FRAMEWORK_MP_MAXPLAYERS;
+};
+
+
+
+
+
+class Params {
+
+	#include "res\params.inc"
+};
+
+
+
+
+/*
+// DEBUG
+class CfgCustomSentences {
+
+	#include "dev\conversations.inc"
+};
+*/

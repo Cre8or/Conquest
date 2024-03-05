@@ -1,0 +1,257 @@
+TO DO:
+	- Fix respawn delays not working in MP
+		(i) Mission params don't get broadcast before mission preInit -> default values are used.
+		Rewrite gm_compileParams to initialise GVARs with config-defined default values (not 0!),
+		and (if server) broadcast real values publicly (as the server knows the real values)
+	- Fix spawn menu being inconsistent in MP
+	 	+ Sides with no tickets don't get greyed out
+		- Group lists don't seem to get refreshed after switching sides
+		+ (?) Sometimes spawn menus cannot be opened at all + chat spam (see screenshot)
+	- Refactor AI systems to run locally
+		+ Decouple nodemesh setup from mission state
+		+ Run nodemesh setup on the client
+		- Ensure dangerLevel is synchronised on all machines (when running locally)
+		+ Rewrite knowledgeManager as its own system
+		+ Rewrite veh_followPath as its own system
+		+ Investigate remaining scripts:
+			+ ai_commander
+			/ ai_knowledgeManager
+			+ ai_spawnManager
+			+ ai_unitControl
+			+ gm_corpseManager
+			+ unit_onKilled
+			+ veh_followPath
+	- Move macros/variables pertaining to a side's definition into single file (merge with loadouts file?)
+	- Investigate Joe's isssue with being able to spawn when no sectors are owned
+	- (Fix vehicle cook-off (blastcore addon settings))
+	- Add a custom scoreboard UI
+		- Display score, kills, deaths, revives
+		- Separate scoreboard by teams and squads
+		- Add a keybind to toggle the UI
+		- Force-show the UI during mission ending sequence
+	- Implement resupply system (prevent looting bodies/opening the gear)
+	- Add a repair ability to the engineer role
+		- Implement looping action logic
+		- Handle unit gestures
+		- Notify the crew they are being repaired (via a UI element)?
+	- (Fix curator module not being reassigned owners when another admin logs in)
+	- Rewrite the combat area drawing handler (see init_client.sqf)
+	- Rewrite safestart system (it's super ugly and weird)
+		- Freeze players in an animation that prevents them from moving (rotation is fine, though)
+		+ Prevent AI units from firing (using combat mode)
+	- (Add a custom unit info display to show magazines/grenades irrespective of difficulty/mod settings)
+	- Search for "DEBUG" and "TODO" keywords
+
+DONE:
+	- Investigate vehicles being counted as abandoned while enemies are inside of them
+	- Fix ticket bleed incorrectly counting capturable sectors in its calculation
+	- Complete removeCorpses system to handle vehicle wrecks too
+		- requires rewriting sector_handleServer
+	- Rewrite veh_followPath as an AI system
+		+ Adjust speed limit to curvature and distance of route
+		+ Add debug visualisation
+		+ Handle uncontrolled reversing for tracked vehicles
+		+ Replace addForce hotfix for stuck vehicles with scripted brake toggling
+		+ Add vehicle/wreckage avoidance
+	- Add optional starting node input parameter to nm_findPath (to ensure continuity on path updates)
+	- Consider vehicle direction and speed when choosing initial nodes in nm_findPath
+	- Make AI drivers wait for other units to mount up
+	- Modify commander system to account for group distribution (scatter groups across multiple sectors, in a smart way)
+	- Add initial/final node path optimisations on nm_findPath (when nodes align)
+	- Fix normals direction in exportCombatArea to always point inwards
+	- Rework ACE pointing hook to use *all* inputs, not just the first
+	- Group unit related event handler code into a single function (shared for players and AI)
+	- Investigate incorrect damage instigator/shooter handling when using vehicles, e.g. AA/APCs (friendly-fire counts as kills?)
+	- Add a mechanic to respawn in singleplayer
+	- Add a custom medical system that replaces ACE/vanilla damage
+		+ Scale damage in a more arcade-y fashion (flat damage)
+		+ Use a central health variable to represent unit damage (0 to 100)
+		+ Implement splash damage calculation (currently *massively* overpowered)
+		+ Filter out damage from friendly vehicles (when getting run over)
+		+ Register vehicle damage into the score system (implements roadkills on enemies)
+		+ Implement UI/sound damage feedback (blood splatter, scream, etc)
+	- Add a health bar UI
+	- Rework gamemode handling of units whose side ran out of tickets:
+		+ Prevent units from capturing sectors
+		+ Prevent AI from respawning on still-owned sectors
+		+ Prevent side from counting towards ticket bleed of remaining sides
+		+ Notify players about this side's defeat (but to keep the game going)
+	- Fix corpses sometimes being deleted immediately upon death
+	- Fix vehicle destruction not killing its crew
+	- Fix health not being reset on player respawn!
+	- Implement remaining score events
+		+ Spot assist
+		+ Kill assist (WIP)
+		+ Headshot bonus
+	- Make use of isGamePaused in EachFrame EHs to stop them from executing
+	- Add a score feed UI
+		+ Display the reason for score increase/decrease
+		+ Display how much score was gained/lost
+		+ Display recent score events in an ordered queue, preferably animated
+		+ Colour player names according to their side/group
+		+ Play a sound
+	- Add a hit marker indicator on unit hits
+		+ Tracks the limb/local position that was hit
+		+ Plays a custom hit marker sound
+	- Fix groups not synchronising properly when created through the spawnmenu (compare to vanilla group menu?)
+	- Add a keybinding to open the spawnmenu while alive/awaiting respawn
+		+ Prevent changing sides while alive
+		+ Move group switching code to gm_handlePlayerVars
+	- Fix nametag positions being inconsistent (UI scale factor?)
+	- Rewrite radio message system (without kbTell --> no filters, sadly)
+		+ Has to work locally
+		+ Support message priorities
+	- Added fast ticket bleed (occurs when a side owns no sectors)
+	- Replace all occurences of QUOTE(FUNC(...)) with QFUNC(...)
+	- Fix vehicles not being marked as abandoned when they are still driveable, but away from their spawn
+	- Add random idle animations to the R2T role unit
+	- Implement an anti-spam limit on spotTarget action
+		+ Feedback via sounds (success/spam limit)
+	- Fix sector logic running commands with global effect from the clients (needs refactoring)
+	- Fix players showing as spawned when they're not (spawnMenu)
+	- Fix continuous publicVariable in handleTickets
+	- Fix spotting action opening the commanding menu
+	- Forcefully remove ACE pointing action (CBA mission settings may be overriden by the server)
+	- Fix sector markers being deleted globally on init (should be local only)
+	- Clear vehicle inventory on spawn
+	- Fix mission parameters being ignored
+	- Center maps onto the mission area
+		+ Multiplayer briefing map (initially)
+		+ Main map (every respawn)
+	- Refactor map centering code into separate functions
+	- Assign AI unit classes based on their role (improves voice callouts)
+	- Rewrite the drawing hook into map controls
+		+ Use unscheduled environment
+		+ Support overriding of existing EHs (useful for development purposes)
+		+ Hook into the multiplayer map-screen control
+	- Add support for vehicle icons in drawUnits3D
+	- Add a way to spot enemies with a keybinding
+		+ Spot units/vehicles within a cone and with LOS
+		+ Default to the ACE finger action keybinding
+	- Make AI units spot targets automatically
+	- Add a short player invincibility phase after respawning (spawn protection)
+	- Add a respawn system
+		+ Implement respawn time
+		+ Implement client-server handshake (client requests respawn, server acknowledges/ignores it)
+		+ Add a status UI to show the respawn count/prompt user action
+		+ Handle the player camera with black screen transitions
+	- Freeze AI/gamemode scripts upon mission end
+	- Add an end screen handler
+		+ Handle camera movement
+		+ Handle music
+		+ Spawn a UI showing which side won and how many tickets remain
+	- Add a custom spawn menu
+		+ Add a submenu for side selection
+			+ Show each side's tickets count
+			+ List all players on every side
+			+ Dynamically hide unavailable sides
+		+ Add a submenu for role/group selecton
+			+ Show ability icons on every role to indicate what special gear it has
+			+ Add a role preview using a rendertarget screen
+			+ Add a group selection menu
+				+ Display existing AI groups and custom-created player groups
+				+ Display members of the currently selected group
+				+ Display amount of alive units compared to units count in group
+				+ Add buttons to join/create/leave a group
+				+ Add a way to set the callsign when creating a new group
+		- Add a submenu for deployment
+			+ Add an embedded map that shows the combat area and the sectors
+			+ Add a list of selectable spawnable sectors with icons for which vehicles are spawned/available
+	- Play a radio message and music when tickets are running out
+	- Add an end condition handler to detect when all but 1 sides have been defeated (no sectors + no units left / no tickets)
+	- Add a tickets system and hook it into the AI respawning
+	- Draw 3D icons on units to show their location and name
+		+ Draw team mates in blue
+		+ Draw squad mates in green
+		+ Draw spotted enemies in red
+	- Add a lock icon next to sectors that cannot be captured
+	- Make the sectors colour depend on ownership (blue = friendly, red = hostile), not based on side only
+	- Add a flag icon next to sectors to display which side owns it
+	- Move mission-related macros to settings.inc
+	- Replace all direct function calls with the FUNC() macro
+	- Set callsign of AI groups to ALPHA .. ZULU
+	- Rewrite the AI spawn manager to work in unscheduled environment
+	- Generate AI identities without spawning any units in
+	 	+ Add mission settings for the faces and voices for each side
+		+ Add a list of bot names using the ones from BF2
+	- Add a custom HUD to show the current sector's letter, side and level
+	- Use a combination of hideBody and deleteVehicle to clean up bodies, as they sometimes take up to a few minutes to delete after being hidden
+	- Rename .hpp files to .inc (syntax highlighting compatible, avoids confusion with actual c++ files, works with external tools such as mikero's)
+	- Extend the nodemesh/pathfind system to consider combat areas
+		+ Nodes should save a blacklist on themselves (and their connections) for sides that may not use them (e.g. if a side can't access it due to being outside its combat area)
+		+ The findPath function needs to consider the unit's side:
+			+ when looking for start/end nodes
+			+ when exploring a node's segments
+			+ when exploring neighbouring knots
+	- Make infantry units consider the distance between nodes when finding paths, rather than the cost
+	- Implement the nodemesh's danger levels between nodes
+		- Make danger level increase when a unit/vehicle gets killed (using the previous and current move node)
+		- Iterate over the nodemesh each frame and lower the cost by some amount
+	- Add a system to destroy abandoned/disabled vehicles (without explosions) after a delay, so they can respawn
+	- Add a AI combat area handler
+	- Add a player combat area handler and UI warning
+	- Refactor the combat area system to load data from included files, rather than from named objects (similar to nodemesh and occluder data)
+		* Rewrite the combat area exporter
+		* Rewrite/adapt the combat area setup function
+	- Make a radio message announcer for sector captures and ticket loss
+	- Make AI drivers recalculate their path every minute or so, to get up-to-date information, and to further prevent them from getting stuck
+	- Write an exporter for nodemesh occluders
+	- Fix the pathfind script infinitely looping over the same nodes (when starting on a segment node)
+	- Implement nodemesh occlusion into the findPath function (to prevent finding end nodes that can't be reached)
+	- Enable the pathfind function to work with multiple/optional start/end nodes, depending on where the exact origin/destination is
+		* Write a function to return the cost between two PosASL
+		* Implement that function into exportNodeMesh to ensure everything is using the same code
+		* Modify findPath to create a dummy node on the start and end positions, with a list of neighbour nodes and the costs to them
+	- Make followPath function attempt to unstuck vehicles by applying force on them when they haven't moved in a few seconds
+	- Fix tracked vehicles continuing to move after the followPath script completes
+	- Prevent AI group leaders from ordering their units to mount in a vehicle
+	- Make the pathfind system consider the danger level between two nodes in its calculation (enables the use of alternate paths)
+	- Fix the pathfind system not accounting for multiple segments between two knots
+	- Ensure that vehicle crews stay in their original group when entering a vehicle
+	- Integrate the pathfinding algorithm into the unitControl function
+	- Write a pathfinding system!
+	- Write a nodemesh creation tool
+	- Prevent AI from stealing enemy vehicles
+	- Add a vehicle parameter to remove certain weapons and/or magazines
+	- Add a vehicle parameter to prevent AI from using them
+	- Add a safeStart system that stops AI from moving and prevents players from entering vehicles
+	- Rewrite the AI spawner to always generate <MAXCOUNT> AI identities, irrespective of how many players there are (to accomodate for players switching sides mid-game)
+	- Fix issue where, if players count towards the AI limit, and they switch sides, the AI spawner doesn't rebalance the teams
+	- Stop AI from jumping out of vehicles when stuck
+	- Stop AI from getting stuck issuing getIn orders to eachother by moving them to a vehicle specific group when mounting
+	- Add vehice support for AI
+	- Render combat areas on the map and on the GPS/terrain avoidance panel
+	- Make group AI members move to the group's waypoint rather than following their leader
+	- Make a to-do file (go me, woo)
+
+CANCELLED:
+	- Prevent units from taking damage when hit/ran over by AI-driven vehicles
+		--> EHs don't give "cascading" damage when returning a custom value (HandleDamage EH), meaning ACE3 always deals damage, no matter what
+
+
+
+
+
+
+CONVERSATIONS:
+
+guy kbAddTopic ["supports", "\a3\modules_f\supports\kb\protocol.bikb", "\a3\modules_f\supports\kb\protocol.fsm"];
+guy kbTell [player, "supports", "CAS_Bombing_Accomplished", "SIDE"];
+
+
+
+guy kbRemoveTopic "cre8ive_kb";
+guy kbAddTopic ["cre8ive_kb", "a_m01_20_survivor.bikb"];
+guy kbTell [player, "cre8ive_kb", "a_m01_20_survivor_ALP_0", "DIRECT"];
+
+
+
+
+
+["25_Inform", "A_m01", nil, "SIDE", nil, nil, 1] call BIS_fnc_kbTell;
+
+
+
+guy kbRemoveTopic "test_kb";
+guy kbAddTopic ["test_kb", "kb\test.bikb"];
+guy kbTell [player, "test_kb", "enemywb", "COMMAND"];

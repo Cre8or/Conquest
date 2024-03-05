@@ -1,0 +1,5 @@
+#define MACRO_FNC_INITVAR(VARNAME,DEFAULTVALUE)	 \
+						 \
+	if (isNil QUOTE(VARNAME)) then {	 \
+		VARNAME = DEFAULTVALUE;		 \
+	};

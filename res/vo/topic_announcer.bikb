@@ -1,0 +1,30 @@
+class Sentences {
+
+	class Default {
+		text = "<Insert message caption here>";
+		speech[] = {"<Insert sound filepath here>"};
+		actor = "<Insert actor here>";			// "Oi oi oi,
+		variant = "<Insert variant here>";		// what's all
+		variantText = "<Insert variant text here>";	// this then?"
+		class Arguments {};
+	};
+/*
+	class enemywb : Default {
+		text = "Enemy wheelbarrow spotted, YAAAARR!";
+		speech[] = {"\res\sounds\enemywb.ogg"};
+	};
+*/
+	class Gibbs : Default {
+		speech[] = {"\res\sounds\gibbs.ogg"};
+	};
+};
+
+
+
+
+
+// Extra stuff that is needed for the conversation to work... apparently
+class Arguments {};
+class Special {};
+startWithVocal[] = {hour};
+startWithConsonant[] = {europe, university};
