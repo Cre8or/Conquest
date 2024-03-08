@@ -1,10 +1,9 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
-		Monitors and updates the player's object variables according to the gamemode's global vars.
+		Monitors and updates the player's object variables in accordance to the gamemode's global vars.
 
 		Only executed once by the client upon initialisation.
-
 	Arguments:
 		(none)
 	Returns:
@@ -16,7 +15,7 @@
 #include "..\..\res\macros\fnc_initVar.inc"
 #include "..\..\res\macros\fnc_leaveGroup.inc"
 
-// If this machine doesn't have an interface, exit
+// If this machine doesn't have an interface, do nothing
 if (!hasInterface) exitWith {};
 
 
@@ -24,14 +23,14 @@ if (!hasInterface) exitWith {};
 
 
 // Set up some variales
-MACRO_FNC_INITVAR(GVAR(EH_handlePlayerVars_eachFrame),-1);
+MACRO_FNC_INITVAR(GVAR(EH_sys_updatePlayerVars_eachFrame),-1);
 
 
 
 
 
-removeMissionEventHandler ["EachFrame", GVAR(EH_handlePlayerVars_eachFrame)];
-GVAR(EH_handlePlayerVars_eachFrame) = addMissionEventHandler ["EachFrame", {
+removeMissionEventHandler ["EachFrame", GVAR(EH_sys_updatePlayerVars_eachFrame)];
+GVAR(EH_sys_updatePlayerVars_eachFrame) = addMissionEventHandler ["EachFrame", {
 
 	if (isGamePaused) exitWith {};
 
@@ -39,7 +38,7 @@ GVAR(EH_handlePlayerVars_eachFrame) = addMissionEventHandler ["EachFrame", {
 	private _player = player;
 	private _group  = group _player;
 
-	// Broadcast the player's side (if it has been set yet)
+	// Broadcast the player's side (if it has been set)
 	if (GVAR(side) != sideEmpty and {GVAR(side) != _player getVariable [QGVAR(side), sideEmpty]}) then {
 		_player setVariable [QGVAR(side), GVAR(side), true];
 	};
@@ -54,7 +53,7 @@ GVAR(EH_handlePlayerVars_eachFrame) = addMissionEventHandler ["EachFrame", {
 		MACRO_FNC_LEAVEGROUP(_group);
 	};
 
-	// Prevent the player from joing AI driver groups (redirect to the real group)
+	// Prevent the player from joing AI driver groups (redirect to the real group instead)
 	if (_group getVariable [QGVAR(isVehicleGroup), false]) then {
 		private _unit          = units _group select {!isPlayer _x} param [0, objNull];
 		private _groupIndex    = _unit getVariable [QGVAR(groupIndex), 0];
@@ -62,7 +61,10 @@ GVAR(EH_handlePlayerVars_eachFrame) = addMissionEventHandler ["EachFrame", {
 
 		if (side _originalGroup == GVAR(side) and {_group != _originalGroup}) then {
 			[_player] joinSilent _originalGroup;
+
+		// Fallback: create a new group if the original AI group no longer exists
+		} else {
+			MACRO_FNC_LEAVEGROUP(_group);
 		};
 	};
-
 }];

@@ -23,15 +23,14 @@ if (!hasInterface) exitWith {};
 
 
 // Set up some variales
-MACRO_FNC_INITVAR(GVAR(EH_disableThirdPerson_eachFrame),-1);
+MACRO_FNC_INITVAR(GVAR(EH_sys_enforceFPVInCamera_eachFrame),-1);
 
 
 
 
 
-// Handle ticket bleed
-removeMissionEventHandler ["EachFrame", GVAR(EH_disableThirdPerson_eachFrame)];
-GVAR(EH_disableThirdPerson_eachFrame) = addMissionEventHandler ["EachFrame", {
+removeMissionEventHandler ["EachFrame", GVAR(EH_sys_enforceFPVInCamera_eachFrame)];
+GVAR(EH_sys_enforceFPVInCamera_eachFrame) = addMissionEventHandler ["EachFrame", {
 
 	if (isGamePaused) exitWith {};
 

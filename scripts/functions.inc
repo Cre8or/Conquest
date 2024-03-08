@@ -58,15 +58,11 @@ class MACRO_PROJECT_PREFIX {
 
 		class gm_addScore {};
 		class gm_compileParams {};
-		class gm_disableThirdPerson {};
 		class gm_endMission {};
 		class gm_getFlagTexture {};
 		class gm_getSideName {};
 		class gm_getSideTickets {};
-		class gm_handleEndConditions {};
 		class gm_handleEntityDeaths {};
-		class gm_handlePlayerVars {};
-		class gm_handleTickets {};
 		class gm_isSidePlayable {};
 		class gm_playRadioMsg {};
 		class gm_postInit {
@@ -76,9 +72,13 @@ class MACRO_PROJECT_PREFIX {
 		class gm_requestPlayerSpawn {};
 		class gm_spawnPlayer {};
 		class gm_spotTargetLocal {};
+		class gm_sys_endConditions {};
+		class gm_sys_enforceFPVInCamera {};
 		class gm_sys_handlePlayerRespawn {};
 		class gm_sys_monitorUnitDamage {};
 		class gm_sys_removeCorpses {};
+		class gm_sys_tickets {};
+		class gm_sys_updatePlayerVars {};
 	};
 
 	class loadouts {

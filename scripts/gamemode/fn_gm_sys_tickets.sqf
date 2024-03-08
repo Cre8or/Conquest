@@ -1,8 +1,11 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
-		Handles the respawn ticket counts for each side. Includes player and AI respawns, aswell as ticket
-		bleed due to uneven side ratios of captured sectors.
+		Handles the respawn ticket counts for each side, aswell as ticket bleed resulting from each side's ratio
+		of captured sectors.
+		A side is considered as playable if it fulfills these two conditions:
+			- it still has tickets left, and
+			- it owns at least one sector with spawn points, OR has at least one alive unit.
 
 		Only executed once by the server upon initialisation.
 	Arguments:
@@ -22,14 +25,14 @@
 
 
 // Set up some variales
-MACRO_FNC_INITVAR(GVAR(EH_handleTickets_eachFrame),-1);
-MACRO_FNC_INITVAR(GVAR(EH_handleTickets_killed),-1);
+MACRO_FNC_INITVAR(GVAR(EH_sys_tickets_eachFrame),-1);
+MACRO_FNC_INITVAR(GVAR(EH_sys_tickets_killed),-1);
 
 MACRO_FNC_INITVAR(GVAR(AIUnits),[]);
 
-GVAR(handleTickets_nextTime) = -1;
-GVAR(handleTickets_canBeWarned) = GVAR(sides) apply {_x != sideEmpty};
-GVAR(handleTickets_remainingWarnings) = ({_x} count GVAR(handleTickets_canBeWarned)) - 1;
+GVAR(sys_tickets_nextTime) = -1;
+GVAR(sys_tickets_canBeWarned) = GVAR(sides) apply {_x != sideEmpty};
+GVAR(sys_tickets_remainingWarnings) = ({_x} count GVAR(sys_tickets_canBeWarned)) - 1;
 
 GVAR(ticketBleedCounterEast)       = 0;
 GVAR(ticketBleedCounterResistance) = 0;
@@ -44,16 +47,14 @@ GVAR(ticketBleedResistance_last) = false;
 GVAR(ticketBleedWest_last)       = false;
 
 // Define some macros
-#define MACRO_HANDLETICKETS_UPDATEINTERVAL 0.5
-
-#define MACRO_FNC_PERFORMTICKETBLEED(SIDE)																 \
-																					 \
-	if (																				 \
-		(MERGE(_sectorCount,SIDE) == 0 and {GVAR(MERGE(ticketBleedCounter,SIDE)) >= MACRO_TICKETBLEED_INTERVAL_FAST / MACRO_HANDLETICKETS_UPDATEINTERVAL})	 \
-		or {GVAR(MERGE(ticketBleedCounter,SIDE)) >= MACRO_TICKETBLEED_INTERVAL_SLOW / MACRO_HANDLETICKETS_UPDATEINTERVAL}					 \
-	) then {																			 \
-		GVAR(MERGE(ticketBleedCounter,SIDE)) = 0;														 \
-		GVAR(MERGE(tickets,SIDE)) = (GVAR(MERGE(tickets,SIDE)) - 1) max 0;											 \
+#define MACRO_FNC_PERFORMTICKETBLEED(SIDE)															 \
+																				 \
+	if (																			 \
+		(MERGE(_sectorCount,SIDE) == 0 and {GVAR(MERGE(ticketBleedCounter,SIDE)) >= MACRO_TICKETBLEED_INTERVAL_FAST / MACRO_GM_SYS_TICKETS_INTERVAL})	 \
+		or {GVAR(MERGE(ticketBleedCounter,SIDE)) >= MACRO_TICKETBLEED_INTERVAL_SLOW / MACRO_GM_SYS_TICKETS_INTERVAL}					 \
+	) then {																		 \
+		GVAR(MERGE(ticketBleedCounter,SIDE)) = 0;													 \
+		GVAR(MERGE(tickets,SIDE)) = (GVAR(MERGE(tickets,SIDE)) - 1) max 0;										 \
 	}
 
 
@@ -61,13 +62,13 @@ GVAR(ticketBleedWest_last)       = false;
 
 
 // Handle ticket bleed
-removeMissionEventHandler ["EachFrame", GVAR(EH_handleTickets_eachFrame)];
-GVAR(EH_handleTickets_eachFrame) = addMissionEventHandler ["EachFrame", {
+removeMissionEventHandler ["EachFrame", GVAR(EH_sys_tickets_eachFrame)];
+GVAR(EH_sys_tickets_eachFrame) = addMissionEventHandler ["EachFrame", {
 
 	if (isGamePaused) exitWith {};
 
 	private _time = time;
-	if (GVAR(missionState) == MACRO_ENUM_MISSION_LIVE and {_time > GVAR(handleTickets_nextTime)}) then {
+	if (GVAR(missionState) == MACRO_ENUM_MISSION_LIVE and {_time > GVAR(sys_tickets_nextTime)}) then {
 
 		// NOTE: The order *MUST* match that of GVAR(sides)!
 		private ["_sideX", "_validX", "_sectorsX", "_sectorCountX", "_ratioX"];
@@ -157,15 +158,15 @@ GVAR(EH_handleTickets_eachFrame) = addMissionEventHandler ["EachFrame", {
 		MACRO_FNC_BROADCASTONCHANGE(GVAR(ticketBleedWest),GVAR(ticketBleedWest_last));
 
 		// Send a warning if tickets are running low
-		if (GVAR(handleTickets_remainingWarnings) > 0) then {
+		if (GVAR(sys_tickets_remainingWarnings) > 0) then {
 			{
 				_sideX = _x;
 				if (
-					GVAR(handleTickets_canBeWarned) # _forEachIndex
+					GVAR(sys_tickets_canBeWarned) # _forEachIndex
 					and {_sideTickets # _forEachIndex < MACRO_TICKETS_WARNINGTHRESHOLD}
 				) then {
-					GVAR(handleTickets_remainingWarnings) = GVAR(handleTickets_remainingWarnings) - 1;
-					GVAR(handleTickets_canBeWarned) set [_forEachIndex, false];
+					GVAR(sys_tickets_remainingWarnings) = GVAR(sys_tickets_remainingWarnings) - 1;
+					GVAR(sys_tickets_canBeWarned) set [_forEachIndex, false];
 
 					[MACRO_ENUM_RADIOMSG_TICKETSLOW_LOSE] remoteExecCall [QFUNC(gm_playRadioMsg), _sideX, true];
 					{
@@ -178,7 +179,7 @@ GVAR(EH_handleTickets_eachFrame) = addMissionEventHandler ["EachFrame", {
 			} forEach GVAR(sides);
 		};
 
-		GVAR(handleTickets_nextTime) = _time + MACRO_HANDLETICKETS_UPDATEINTERVAL;
+		GVAR(sys_tickets_nextTime) = _time + MACRO_GM_SYS_TICKETS_INTERVAL;
 	};
 }];
 
@@ -187,8 +188,8 @@ GVAR(EH_handleTickets_eachFrame) = addMissionEventHandler ["EachFrame", {
 
 
 // Handle unit deaths
-removeMissionEventHandler ["EntityKilled", GVAR(EH_handleTickets_killed)];
-GVAR(EH_handleTickets_killed) = addMissionEventHandler ["EntityKilled", {
+removeMissionEventHandler ["EntityKilled", GVAR(EH_sys_tickets_killed)];
+GVAR(EH_sys_tickets_killed) = addMissionEventHandler ["EntityKilled", {
 
 	params ["_unit"];
 

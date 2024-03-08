@@ -353,11 +353,11 @@ call FUNC(ai_generateIdentities);
 
 
 // Start the systems
-call FUNC(gm_handleTickets);
-call FUNC(gm_handleEndConditions);
-call FUNC(gm_handleEntityDeaths);
-
+call FUNC(gm_sys_tickets);
 call FUNC(gm_sys_removeCorpses);
+
+call FUNC(gm_sys_endConditions);
+call FUNC(gm_handleEntityDeaths);
 
 // Start the safestart handler
 if (!isNil QGVAR(handle_safeStart)) then {terminate GVAR(handle_safeStart)};

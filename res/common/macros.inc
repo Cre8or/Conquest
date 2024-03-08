@@ -342,6 +342,8 @@
 
 	// Gamemode
 	#define MACRO_GM_KILLASSISTDURATION                             10 // How long (in seconds), after damaging an enemy unit, it is possible to receive a kill assist for
+	#define MACRO_GM_SYS_TICKETS_INTERVAL                           0.25 // Interval, in seconds, between two update cycles of the tickets system
+	#define MACRO_GM_SYS_ENDCONDITIONS_INTERVAL                     0.25 // Interval, in seconds, between two update cycles of the end conditions system
 
 	// Hit Markers
 	#define MACRO_UI_HITMARKERS_DURATION                            0.5
@@ -403,7 +405,7 @@
 	#define MACRO_TICKETS_DECISIVETHRESHOLD                         100 // If the round ends, and the winning side has at least this many tickets left, the end counts as a decisive victory/crushing defeat
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.12.515"
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.12.519"
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

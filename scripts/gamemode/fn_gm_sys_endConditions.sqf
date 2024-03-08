@@ -1,11 +1,8 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
-		Handles the gamemode's ending conditions.
-		Conquest missions end when only one side is still able to play. A side is considered as playable if it
-		fulfills these two conditions:
-		- it still has tickets left,
-		- it owns at least one sector, OR has units that are still alive (and thus able to capture any flags).
+		Handles the gamemode's ending conditions. Conquest missions end when only one playable side remains.
+		Additionally handles score rewarding when a side is defeated.
 
 		Only executed once by the server upon initialisation.
 	Arguments:
@@ -25,29 +22,29 @@ if (!isServer) exitWith {};
 
 
 // Set up some variales
-MACRO_FNC_INITVAR(GVAR(EH_endConditions_eachFrame),-1);
+MACRO_FNC_INITVAR(GVAR(EH_sys_endConditions_eachFrame),-1);
 
-GVAR(endConditions_nextTime) = -1;
-GVAR(endConditions_validSidesCountPrev) = {_x > 0} count [GVAR(ticketsEast), GVAR(ticketsResistance), GVAR(ticketsWest)];
-
-
+GVAR(sys_endConditions_nextTime) = -1;
+GVAR(sys_endConditions_validSidesCountPrev) = {_x > 0} count [GVAR(ticketsEast), GVAR(ticketsResistance), GVAR(ticketsWest)];
 
 
 
-// Handle ticket bleed
-removeMissionEventHandler ["EachFrame", GVAR(EH_endConditions_eachFrame)];
-GVAR(EH_endConditions_eachFrame) = addMissionEventHandler ["EachFrame", {
+
+
+// Monitor game end conditions
+removeMissionEventHandler ["EachFrame", GVAR(EH_sys_endConditions_eachFrame)];
+GVAR(EH_sys_endConditions_eachFrame) = addMissionEventHandler ["EachFrame", {
 
 	if (isGamePaused) exitWith {};
 
 	private _time = time;
-	if (GVAR(missionState) == MACRO_ENUM_MISSION_LIVE and {_time > GVAR(endConditions_nextTime)}) then {
+	if (GVAR(missionState) == MACRO_ENUM_MISSION_LIVE and {_time > GVAR(sys_endConditions_nextTime)}) then {
 
 		private _sideTickets     = [GVAR(ticketsEast), GVAR(ticketsResistance), GVAR(ticketsWest)];
 		private _validSidesCount = {_x > 0} count _sideTickets;
 
 		// Check if only one valid side remains
-		if (_validSidesCount < GVAR(endConditions_validSidesCountPrev)) then {
+		if (_validSidesCount < GVAR(sys_endConditions_validSidesCountPrev)) then {
 
 			switch (_validSidesCount) do {
 
@@ -92,9 +89,9 @@ GVAR(EH_endConditions_eachFrame) = addMissionEventHandler ["EachFrame", {
 				};
 			};
 
-			GVAR(endConditions_validSidesCountPrev) = _validSidesCount;
+			GVAR(sys_endConditions_validSidesCountPrev) = _validSidesCount;
 		};
 
-		GVAR(endConditions_nextTime) = _time + 0.25;
+		GVAR(sys_endConditions_nextTime) = _time + MACRO_GM_SYS_ENDCONDITIONS_INTERVAL;
 	};
 }];

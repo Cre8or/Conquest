@@ -58,9 +58,9 @@ call FUNC(act_registerKeybindings);
 
 call FUNC(ca_handleCombatArea_player);
 
-call FUNC(gm_handlePlayerVars);
+call FUNC(gm_sys_enforceFPVInCamera);
+call FUNC(gm_sys_updatePlayerVars);
 call FUNC(gm_sys_handlePlayerRespawn);
-call FUNC(gm_disableThirdPerson);
 
 call FUNC(sector_handleClient);
 
