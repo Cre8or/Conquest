@@ -72,9 +72,6 @@ class MACRO_PROJECT_PREFIX {
 		class gm_postInit {
 			postInit = 1;
 		};
-		class gm_preInit {
-			preInit = 1;
-		};
 		class gm_processUnitDamage {};
 		class gm_requestPlayerSpawn {};
 		class gm_spawnPlayer {};

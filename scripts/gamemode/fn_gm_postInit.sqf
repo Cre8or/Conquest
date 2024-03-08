@@ -1,9 +1,9 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
-		Handles the execution of mission post-initialisation code across all machines. To ensure correct order of
-		execution, this function calls the server, client and shared components in sequential order. This
-		addresses the edge case of locally hosted servers, while maintaining compatibility with traditional
+		Handles the execution of initialisation code across all machines. To ensure correct order of execution,
+		this function is divided into stages - some are shared, and some are server/client-specific. This
+		handles the edge case of locally hosted servers, while maintaining compatibility with traditional
 		multiplayer server/client separation.
 
 		Only executed once by all machines upon post-initialisation.
@@ -31,20 +31,26 @@ if (canSuspend) exitWith {
 
 
 
+// Shared component (stage 1)
+#include "init\init_s1_shared.sqf"
 
-// Server component (init)
+
+
+
+
+// Server component (stage 2)
 if (isServer) then {
-	#include "init\init_server.sqf"
+	#include "init\init_s2_server.sqf"
 };
 
-// Client component (init)
+// Client component (stage 2)
 if (hasInterface) then {
-	#include "init\init_client.sqf"
+	#include "init\init_s2_client.sqf"
 };
 
 
 
 
 
-// Shared component (postInit)
-#include "init\postInit_shared.sqf"
+// Shared component (stage 3)
+#include "init\init_s3_shared.sqf"

@@ -1,5 +1,5 @@
-// Shared component (postInit)
-diag_log "[CONQUEST] Shared post-initialisation starting...";
+// Shared component (stage 3)
+diag_log "[CONQUEST] Shared initialisation (stage 3) starting...";
 
 
 
@@ -32,4 +32,4 @@ call FUNC(nm_sys_dangerLevel);
 
 
 
-diag_log "[CONQUEST] Shared post-initialisation done.";
+diag_log "[CONQUEST] Shared initialisation (stage 3) done.";

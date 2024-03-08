@@ -7,10 +7,6 @@ TO DO:
 		+ Sector letters on maps
 		- Spawn menu
 		- End screen
-	- Fix respawn delays not working in MP
-		(i) Mission params don't get broadcast before mission preInit -> default values are used.
-		Rewrite gm_compileParams to initialise GVARs with config-defined default values (not 0!),
-		and (if server) broadcast real values publicly (as the server knows the real values)
 	- Fix spawn menu being inconsistent in MP
 	 	+ Sides with no tickets don't get greyed out
 		- Group lists don't seem to get refreshed after switching sides
@@ -51,6 +47,7 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Fix mission parameters being evaluated too early in MP (causing default values to be used)
 	- Investigate vehicles being counted as abandoned while enemies are inside of them
 	- Fix ticket bleed incorrectly counting capturable sectors in its calculation
 	- Complete removeCorpses system to handle vehicle wrecks too

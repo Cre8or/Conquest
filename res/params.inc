@@ -14,7 +14,7 @@ class Param_AI_MaxCount {
 };
 
 class Param_AI_IncludePlayers {
-	title = "Players count towards AI count:";
+	title = "Consider players in the AI count:";
 	values[] = { 0, 1 };
 	texts[] = { "No", "Yes" };
 	isBoolean = 1;
@@ -36,20 +36,20 @@ class Param_AI_MaxUnitsPerGroup {
 };
 
 class Param_AI_SpawnWeight_East {
-	title = __EVAL("AI spawn bias as " + MACRO_SIDE_NAME_EAST + ":");
-	values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	title = __EVAL("AI spawn bias for side """ + MACRO_SIDE_NAME_EAST + """:");
+	values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
 	default = MACRO_AI_SPAWNWEIGHT_EAST;
 };
 
 class Param_AI_SpawnWeight_Resistance {
-	title = __EVAL("AI spawn bias as " + MACRO_SIDE_NAME_RESISTANCE + ":");
-	values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	title = __EVAL("AI spawn bias for side """ + MACRO_SIDE_NAME_RESISTANCE + """:");
+	values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
 	default = MACRO_AI_SPAWNWEIGHT_RESISTANCE;
 };
 
 class Param_AI_SpawnWeight_West {
-	title = __EVAL("AI spawn bias as " + MACRO_SIDE_NAME_WEST + ":");
-	values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	title = __EVAL("AI spawn bias for side """ + MACRO_SIDE_NAME_WEST + """:");
+	values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
 	default = MACRO_AI_SPAWNWEIGHT_WEST;
 };
 

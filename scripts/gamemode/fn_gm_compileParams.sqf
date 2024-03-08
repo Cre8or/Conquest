@@ -17,7 +17,6 @@
 
 
 
-diag_log format ["[CONQUEST] Param values: %1", missionNamespace getVariable ["paramsArray", []]];
 
 // Fetch all mission parameters
 private ["_name", "_value", "_override"];
@@ -28,14 +27,7 @@ private ["_name", "_value", "_override"];
 
 		_value    = [_name, -9e9] call BIS_fnc_getParamValue;
 		_override = missionNamespace getVariable [format [QGVAR(%1_override), _name], _value];
-		diag_log format ["[CONQUEST] Parameter ""%1"": %2 (%3)", _name, _value, _override];
-
-		// DEBUG
-		if (_value <= -9e9) then {
-			private _valueRaw = getMissionConfigValue [_name, "???"];
-			diag_log format ["[CONQUEST] -> Raw value: %1 (%2)", _valueRaw, typeName _valueRaw];
-		};
-
+		diag_log format ["[CONQUEST] Mission parameter ""%1"": %2 (%3)", _name, _value, _override];
 
 		// Enable manual overriding
 		if (_override isNotEqualTo _value) then {

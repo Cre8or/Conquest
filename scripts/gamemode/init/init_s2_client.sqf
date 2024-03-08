@@ -1,5 +1,5 @@
-// Client component (init)
-diag_log "[CONQUEST] Client initialisation starting...";
+// Client component (stage 2)
+diag_log "[CONQUEST] Client initialisation (stage 2) starting...";
 
 
 
@@ -54,9 +54,9 @@ GVAR(cam_panorama) = "camera" camCreate [0,0,0];
 GVAR(cam_panorama) setPosWorld MACRO_MISSION_CAMERAPOSITION;
 GVAR(cam_panorama) setVectorDirAndUp [MACRO_MISSION_CAMERADIRECTION, [0,0,1]];
 
-call FUNC(ca_handleCombatArea_player);
-
 call FUNC(act_registerKeybindings);
+
+call FUNC(ca_handleCombatArea_player);
 
 call FUNC(gm_handlePlayerVars);
 call FUNC(gm_sys_handlePlayerRespawn);
@@ -203,4 +203,4 @@ if (!isNil QGVAR(ACE3_addedActionPAK)) then {
 
 
 
-diag_log "[CONQUEST] Client initialisation done.";
+diag_log "[CONQUEST] Client initialisation (stage 2) done.";

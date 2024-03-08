@@ -1,5 +1,5 @@
-// Shared component (preInit)
-diag_log "[CONQUEST] Shared pre-initialisation starting...";
+// Shared component (stage 1)
+diag_log "[CONQUEST] Shared initialisation (stage 1) starting...";
 
 
 
@@ -24,4 +24,4 @@ call FUNC(ca_setupCombatAreas);
 
 
 
-diag_log "[CONQUEST] Shared pre-initialisation done.";
+diag_log "[CONQUEST] Shared initialisation (stage 1) done.";

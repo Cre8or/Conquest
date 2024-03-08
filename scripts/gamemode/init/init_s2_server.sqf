@@ -1,5 +1,5 @@
-// Server component (init)
-diag_log "[CONQUEST] Server initialisation starting...";
+// Server component (stage 2)
+diag_log "[CONQUEST] Server initialisation (stage 2) starting...";
 
 
 
@@ -367,4 +367,4 @@ GVAR(handle_safeStart) = [] spawn FUNC(handleSafeStart);
 
 
 
-diag_log "[CONQUEST] Server initialisation done.";
+diag_log "[CONQUEST] Server initialisation (stage 2) done.";
