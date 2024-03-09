@@ -5,13 +5,6 @@ diag_log "[CONQUEST] Shared initialisation (stage 3) starting...";
 
 
 
-// Set up some variables
-GVAR(nm_isSetup) = false;
-
-
-
-
-
 // Prepare data
 call FUNC(lo_compileLoadouts);
 

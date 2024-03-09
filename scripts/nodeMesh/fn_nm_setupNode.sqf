@@ -22,30 +22,32 @@ params ["_node", "_curNodeData", "_nodeID", "_isVehNode"];
 
 
 // Set up some constants
-private _allSides = [east, resistance, west];	// The order must match that of the array below!
-private _allFlags = [MACRO_NM_BITFLAG_SIDE_EAST, MACRO_NM_BITFLAG_SIDE_RESISTANCE, MACRO_NM_BITFLAG_SIDE_WEST];
+private _c_allSides = [east, resistance, west]; // The order must match that of the array below!
+private _c_allFlags = [MACRO_NM_BITFLAG_SIDE_EAST, MACRO_NM_BITFLAG_SIDE_RESISTANCE, MACRO_NM_BITFLAG_SIDE_WEST];
 
 // Read the node data
 private _connections = [];
-private ["_nodeX", "_segment"];
+private ["_nodeX", "_allSegmentArrays", "_connectionDataX", "_allCostArrays", "_allDistArrays", "_segment"];
 
 // Save the node's variables onto it
 _node setVariable [QGVAR(nodeID), _nodeID];
 _node setVariable [QGVAR(knots), _curNodeData # 1]; // 1
 {
 	_nodeX = _x # 0; // 3.0
-	private _allSegmentArrays = [[], [], []];
+	_allSegmentArrays = [[], [], []];
 
 	// Check the format of the second element
-	// If it's an array, there are multiple connections leading to this node
-	if (_x # 1 isEqualType []) then {
-
-		private _allCostArrays = [[], [], []];
-		private _allDistArrays = [[], [], []];
+	// If it's an array, we deduce that there are multiple connections leading to this node
+	_connectionDataX = _x # 1;
+	if (_connectionDataX isEqualType []) then {
+		_allCostArrays = [[], [], []];
+		_allDistArrays = [[], [], []];
 
 		// Iterate over all connections to this node
-		for "_i" from 1 to (count _x) - 1 do {
-			(_x # _i) params ["_costX", "_distX", ["_segmentX", []], ["_segmentFlag", 0]];
+		{
+			_x params ["_costX", "_distX", ["_segmentX", []], ["_segmentFlag", 0]];
+
+			diag_log format ["[nm_setupNode] Parsing connection (%1): %2 / %3 / %4 / %5", _nodeID, _costX, _distX, _segmentX, _segmentFlag];
 
 			// If we have a segment flag, decompose it
 			if (_segmentFlag > 0) then {
@@ -56,7 +58,7 @@ _node setVariable [QGVAR(knots), _curNodeData # 1]; // 1
 						(_allDistArrays # _forEachIndex) pushBack _distX;
 						(_allSegmentArrays # _forEachIndex) pushBack _segmentX;
 					};
-				} forEach ([_segmentFlag, _allFlags] call FUNC(math_parseBitFlag));
+				} forEach ([_segmentFlag, _c_allFlags] call FUNC(math_parseBitFlag));
 
 			// Otherwise, allow every side to use this segment
 			} else {
@@ -64,18 +66,18 @@ _node setVariable [QGVAR(knots), _curNodeData # 1]; // 1
 				{_x pushback _distX} forEach _allDistArrays;
 				{_x pushback _segmentX} forEach _allSegmentArrays;
 			};
-		};
+		} forEach _connectionDataX;
 
 		// Save the cost arrays onto this node
 		{
-			_node setVariable [format [QGVAR(costs_%1_%2), _nodeX, _allSides # _forEachIndex],
+			_node setVariable [format [QGVAR(costs_%1_%2), _nodeX, _c_allSides # _forEachIndex],
 				_x, // 3.1
 			false];
 		} forEach _allCostArrays;
 
 		// Save the distance arrays onto this node
 		{
-			_node setVariable [format [QGVAR(distances_%1_%2), _nodeX, _allSides # _forEachIndex],
+			_node setVariable [format [QGVAR(distances_%1_%2), _nodeX, _c_allSides # _forEachIndex],
 				_x, // 3.2
 			false];
 		} forEach _allCostArrays;
@@ -84,13 +86,13 @@ _node setVariable [QGVAR(knots), _curNodeData # 1]; // 1
 		{
 			// If this segments array contains more than one segment, save it as-is
 			if (count _x > 1) then {
-				_node setVariable [format [QGVAR(segments_%1_%2), _nodeX, _allSides # _forEachIndex],
+				_node setVariable [format [QGVAR(segments_%1_%2), _nodeX, _c_allSides # _forEachIndex],
 					_x, // 3.3
 				false];
 
 			// Otherwise, only save its contents (if there are any)
 			} else {
-				_node setVariable [format [QGVAR(segments_%1_%2), _nodeX, _allSides # _forEachIndex],
+				_node setVariable [format [QGVAR(segments_%1_%2), _nodeX, _c_allSides # _forEachIndex],
 					_x param [0, []], // 3.3
 				false];
 			};
@@ -107,7 +109,7 @@ _node setVariable [QGVAR(knots), _curNodeData # 1]; // 1
 				_node setVariable [format [QGVAR(segments_%1_%2), _nodeX, _x],
 					_segment, // 3.3
 				false];
-			} forEach _allSides;
+			} forEach _c_allSides;
 		};
 	};
 
@@ -128,7 +130,7 @@ if (_sidesFlag != 0) then {
 
 	// Iterate over the bit flags
 	{
-		_node setVariable [format [QGVAR(usedBy_%1), _allSides # _forEachIndex], !_x, false];
+		_node setVariable [format [QGVAR(usedBy_%1), _c_allSides # _forEachIndex], !_x, false];
 	} forEach ([_sidesFlag, _allFlags] call FUNC(math_parseBitFlag));
 };
 

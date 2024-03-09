@@ -8,7 +8,7 @@ class EditorData
 	toggles=521;
 	class ItemIDProvider
 	{
-		nextID=5119;
+		nextID=5139;
 	};
 	class MarkerIDProvider
 	{
@@ -20,10 +20,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={5728.2808,141.92003,10703.886};
-		dir[]={0.91225511,-0.31933942,0.25654039};
-		up[]={0.30741513,0.94764036,0.086449943};
-		aside[]={0.27071488,7.4505806e-009,-0.96265948};
+		pos[]={6179.4263,193.95186,11504.564};
+		dir[]={-0.069165833,-0.93609864,-0.34489259};
+		up[]={-0.18407071,0.35162872,-0.9178614};
+		aside[]={-0.98048347,1.2823148e-007,0.19662894};
 	};
 };
 binarizationWanted=0;
@@ -39031,10 +39031,9 @@ class Mission
 				{
 					dataType="Layer";
 					name="Nodemesh - VEHICLES";
-					state=2;
 					class Entities
 					{
-						items=360;
+						items=378;
 						class Item0
 						{
 							dataType="Object";
@@ -51924,13 +51923,654 @@ class Mission
 								nAttributes=1;
 							};
 						};
+						class Item360
+						{
+							dataType="Object";
+							class PositionInfo
+							{
+								position[]={5870.4966,32.081837,11361.499};
+								angles[]={0.33703089,1.9516304,6.2408113};
+							};
+							side="Empty";
+							flags=4;
+							class Attributes
+							{
+								presenceCondition="false";
+								description="11 (5)";
+							};
+							id=5119;
+							type="Sign_Sphere200cm_F";
+							atlOffset=0.0001411438;
+							class CustomAttributes
+							{
+								class Attribute0
+								{
+									property="ObjectTextureCustom0";
+									expression="_this setObjectTextureGlobal [0,_value]";
+									class Value
+									{
+										class data
+										{
+											singleType="STRING";
+											value="#(argb,8,8,3)color(0,0.25,1,1,ca)";
+										};
+									};
+								};
+								nAttributes=1;
+							};
+						};
+						class Item361
+						{
+							dataType="Object";
+							class PositionInfo
+							{
+								position[]={5830.4116,40.455151,11333.127};
+								angles[]={0.0095932409,1.9664834,0.031988446};
+							};
+							side="Empty";
+							flags=4;
+							class Attributes
+							{
+								presenceCondition="false";
+								description="7 (5)";
+							};
+							id=5120;
+							type="Sign_Sphere200cm_F";
+							class CustomAttributes
+							{
+								class Attribute0
+								{
+									property="ObjectTextureCustom0";
+									expression="_this setObjectTextureGlobal [0,_value]";
+									class Value
+									{
+										class data
+										{
+											singleType="STRING";
+											value="#(argb,8,8,3)color(0,1,0,1,ca)";
+										};
+									};
+								};
+								nAttributes=1;
+							};
+						};
+						class Item362
+						{
+							dataType="Object";
+							class PositionInfo
+							{
+								position[]={5874.5972,45.392879,11298.369};
+								angles[]={0.10520995,1.9413865,6.2073317};
+							};
+							side="Empty";
+							flags=4;
+							class Attributes
+							{
+								presenceCondition="false";
+								description="3 (5)";
+							};
+							id=5121;
+							type="Sign_Sphere200cm_F";
+							atlOffset=1.1444092e-005;
+							class CustomAttributes
+							{
+								class Attribute0
+								{
+									property="ObjectTextureCustom0";
+									expression="_this setObjectTextureGlobal [0,_value]";
+									class Value
+									{
+										class data
+										{
+											singleType="STRING";
+											value="#(argb,8,8,3)color(0,0.25,1,1,ca)";
+										};
+									};
+								};
+								nAttributes=1;
+							};
+						};
+						class Item363
+						{
+							dataType="Object";
+							class PositionInfo
+							{
+								position[]={5827.8862,43.790451,11314.271};
+								angles[]={0.33060423,1.9491739,6.185894};
+							};
+							side="Empty";
+							flags=4;
+							class Attributes
+							{
+								presenceCondition="false";
+								description="6 (5)";
+							};
+							id=5122;
+							type="Sign_Sphere200cm_F";
+							atlOffset=0.0001373291;
+							class CustomAttributes
+							{
+								class Attribute0
+								{
+									property="ObjectTextureCustom0";
+									expression="_this setObjectTextureGlobal [0,_value]";
+									class Value
+									{
+										class data
+										{
+											singleType="STRING";
+											value="#(argb,8,8,3)color(0,0.25,1,1,ca)";
+										};
+									};
+								};
+								nAttributes=1;
+							};
+						};
+						class Item364
+						{
+							dataType="Object";
+							class PositionInfo
+							{
+								position[]={5889.0591,42.931385,11315.838};
+								angles[]={0.015998369,1.9634786,0.06072529};
+							};
+							side="Empty";
+							flags=4;
+							class Attributes
+							{
+								presenceCondition="false";
+								description="2 (5)";
+							};
+							id=5123;
+							type="Sign_Sphere200cm_F";
+							class CustomAttributes
+							{
+								class Attribute0
+								{
+									property="ObjectTextureCustom0";
+									expression="_this setObjectTextureGlobal [0,_value]";
+									class Value
+									{
+										class data
+										{
+											singleType="STRING";
+											value="#(argb,8,8,3)color(0,1,0,1,ca)";
+										};
+									};
+								};
+								nAttributes=1;
+							};
+						};
+						class Item365
+						{
+							dataType="Object";
+							class PositionInfo
+							{
+								position[]={5812.9019,39.460686,11342.046};
+								angles[]={0.022397626,1.9955163,0.055941612};
+							};
+							side="Empty";
+							flags=4;
+							class Attributes
+							{
+								presenceCondition="false";
+								description="8 (5)";
+							};
+							id=5125;
+							type="Sign_Sphere200cm_F";
+							atlOffset=1.1444092e-005;
+							class CustomAttributes
+							{
+								class Attribute0
+								{
+									property="ObjectTextureCustom0";
+									expression="_this setObjectTextureGlobal [0,_value]";
+									class Value
+									{
+										class data
+										{
+											singleType="STRING";
+											value="#(argb,8,8,3)color(0,0.25,1,1,ca)";
+										};
+									};
+								};
+								nAttributes=1;
+							};
+						};
+						class Item366
+						{
+							dataType="Object";
+							class PositionInfo
+							{
+								position[]={5799.2065,38.525761,11353.674};
+								angles[]={6.2735858,1.9646722,0.011995304};
+							};
+							side="Empty";
+							flags=4;
+							class Attributes
+							{
+								presenceCondition="false";
+								description="9 (5)";
+							};
+							id=5126;
+							type="Sign_Sphere200cm_F";
+							atlOffset=1.5258789e-005;
+							class CustomAttributes
+							{
+								class Attribute0
+								{
+									property="ObjectTextureCustom0";
+									expression="_this setObjectTextureGlobal [0,_value]";
+									class Value
+									{
+										class data
+										{
+											singleType="STRING";
+											value="#(argb,8,8,3)color(0,0.25,1,1,ca)";
+										};
+									};
+								};
+								nAttributes=1;
+							};
+						};
+						class Item367
+						{
+							dataType="Object";
+							class PositionInfo
+							{
+								position[]={5909.2583,43.732559,11307.532};
+								angles[]={0.0032018756,1.9539503,0.0072011296};
+							};
+							side="Empty";
+							flags=4;
+							class Attributes
+							{
+								presenceCondition="false";
+								description="1 (5)";
+							};
+							id=5127;
+							type="Sign_Sphere200cm_F";
+							atlOffset=3.8146973e-006;
+							class CustomAttributes
+							{
+								class Attribute0
+								{
+									property="ObjectTextureCustom0";
+									expression="_this setObjectTextureGlobal [0,_value]";
+									class Value
+									{
+										class data
+										{
+											singleType="STRING";
+											value="#(argb,8,8,3)color(0,0.25,1,1,ca)";
+										};
+									};
+								};
+								nAttributes=1;
+							};
+						};
+						class Item368
+						{
+							dataType="Object";
+							class PositionInfo
+							{
+								position[]={5932.5234,40.77491,11316.861};
+								angles[]={0.11232498,1.9359515,6.148015};
+							};
+							side="Empty";
+							flags=4;
+							class Attributes
+							{
+								presenceCondition="false";
+								description="0 (5)";
+							};
+							id=5128;
+							type="Sign_Sphere200cm_F";
+							class CustomAttributes
+							{
+								class Attribute0
+								{
+									property="ObjectTextureCustom0";
+									expression="_this setObjectTextureGlobal [0,_value]";
+									class Value
+									{
+										class data
+										{
+											singleType="STRING";
+											value="#(argb,8,8,3)color(0,1,0,1,ca)";
+										};
+									};
+								};
+								nAttributes=1;
+							};
+						};
+						class Item369
+						{
+							dataType="Object";
+							class PositionInfo
+							{
+								position[]={5858.5542,47.937401,11287.86};
+								angles[]={0.2012388,0,6.1519442};
+							};
+							side="Empty";
+							flags=4;
+							class Attributes
+							{
+								presenceCondition="false";
+								description="4 (5)";
+							};
+							id=5129;
+							type="Sign_Sphere200cm_F";
+							class CustomAttributes
+							{
+								class Attribute0
+								{
+									property="ObjectTextureCustom0";
+									expression="_this setObjectTextureGlobal [0,_value]";
+									class Value
+									{
+										class data
+										{
+											singleType="STRING";
+											value="#(argb,8,8,3)color(0,0.25,1,1,ca)";
+										};
+									};
+								};
+								nAttributes=1;
+							};
+						};
+						class Item370
+						{
+							dataType="Object";
+							class PositionInfo
+							{
+								position[]={5835.3896,47.78561,11295.982};
+								angles[]={0.20967233,0,6.2591896};
+							};
+							side="Empty";
+							flags=4;
+							class Attributes
+							{
+								presenceCondition="false";
+								description="5 (5)";
+							};
+							id=5130;
+							type="Sign_Sphere200cm_F";
+							class CustomAttributes
+							{
+								class Attribute0
+								{
+									property="ObjectTextureCustom0";
+									expression="_this setObjectTextureGlobal [0,_value]";
+									class Value
+									{
+										class data
+										{
+											singleType="STRING";
+											value="#(argb,8,8,3)color(0,0.25,1,1,ca)";
+										};
+									};
+								};
+								nAttributes=1;
+							};
+						};
+						class Item371
+						{
+							dataType="Object";
+							class PositionInfo
+							{
+								position[]={5777.145,38.648529,11360.91};
+								angles[]={6.249599,0,6.2607903};
+							};
+							side="Empty";
+							flags=4;
+							class Attributes
+							{
+								presenceCondition="false";
+								description="10 (5)";
+							};
+							id=5132;
+							type="Sign_Sphere200cm_F";
+							class CustomAttributes
+							{
+								class Attribute0
+								{
+									property="ObjectTextureCustom0";
+									expression="_this setObjectTextureGlobal [0,_value]";
+									class Value
+									{
+										class data
+										{
+											singleType="STRING";
+											value="#(argb,8,8,3)color(0,1,0,1,ca)";
+										};
+									};
+								};
+								nAttributes=1;
+							};
+						};
+						class Item372
+						{
+							dataType="Object";
+							class PositionInfo
+							{
+								position[]={6213.1079,19.557934,11391.25};
+								angles[]={0.11548356,1.9516304,0.004796607};
+							};
+							side="Empty";
+							flags=4;
+							class Attributes
+							{
+								presenceCondition="false";
+								description="0 (5)";
+							};
+							id=5133;
+							type="Sign_Sphere200cm_F";
+							class CustomAttributes
+							{
+								class Attribute0
+								{
+									property="ObjectTextureCustom0";
+									expression="_this setObjectTextureGlobal [0,_value]";
+									class Value
+									{
+										class data
+										{
+											singleType="STRING";
+											value="#(argb,8,8,3)color(0,1,0,1,ca)";
+										};
+									};
+								};
+								nAttributes=1;
+							};
+						};
+						class Item373
+						{
+							dataType="Object";
+							class PositionInfo
+							{
+								position[]={6183.438,18.612452,11397.635};
+								angles[]={0.06072529,1.9516304,0.049560208};
+							};
+							side="Empty";
+							flags=4;
+							class Attributes
+							{
+								presenceCondition="false";
+								description="1 (5)";
+							};
+							id=5134;
+							type="Sign_Sphere200cm_F";
+							atlOffset=0.0001411438;
+							class CustomAttributes
+							{
+								class Attribute0
+								{
+									property="ObjectTextureCustom0";
+									expression="_this setObjectTextureGlobal [0,_value]";
+									class Value
+									{
+										class data
+										{
+											singleType="STRING";
+											value="#(argb,8,8,3)color(0,1,0,1,ca)";
+										};
+									};
+								};
+								nAttributes=1;
+							};
+						};
+						class Item374
+						{
+							dataType="Object";
+							class PositionInfo
+							{
+								position[]={6124.895,16.7026,11418.396};
+								angles[]={0.050356328,1.9516304,0.0039967569};
+							};
+							side="Empty";
+							flags=4;
+							class Attributes
+							{
+								presenceCondition="false";
+								description="3 (5)";
+							};
+							id=5135;
+							type="Sign_Sphere200cm_F";
+							atlOffset=0.0001411438;
+							class CustomAttributes
+							{
+								class Attribute0
+								{
+									property="ObjectTextureCustom0";
+									expression="_this setObjectTextureGlobal [0,_value]";
+									class Value
+									{
+										class data
+										{
+											singleType="STRING";
+											value="#(argb,8,8,3)color(0,1,0,1,ca)";
+										};
+									};
+								};
+								nAttributes=1;
+							};
+						};
+						class Item375
+						{
+							dataType="Object";
+							class PositionInfo
+							{
+								position[]={6126.0288,43.381874,11284.786};
+								angles[]={0.17033349,1.9516304,6.0310669};
+							};
+							side="Empty";
+							flags=4;
+							class Attributes
+							{
+								presenceCondition="false";
+								description="2 (5)";
+							};
+							id=5136;
+							type="Sign_Sphere200cm_F";
+							atlOffset=0.00012969971;
+							class CustomAttributes
+							{
+								class Attribute0
+								{
+									property="ObjectTextureCustom0";
+									expression="_this setObjectTextureGlobal [0,_value]";
+									class Value
+									{
+										class data
+										{
+											singleType="STRING";
+											value="#(argb,8,8,3)color(0,0.25,1,1,ca)";
+										};
+									};
+								};
+								nAttributes=1;
+							};
+						};
+						class Item376
+						{
+							dataType="Object";
+							class PositionInfo
+							{
+								position[]={6096.5337,15.771591,11424.713};
+								angles[]={0.13202716,1.9516304,0.09966857};
+							};
+							side="Empty";
+							flags=4;
+							class Attributes
+							{
+								presenceCondition="false";
+								description="4 (5)";
+							};
+							id=5137;
+							type="Sign_Sphere200cm_F";
+							atlOffset=3.6239624e-005;
+							class CustomAttributes
+							{
+								class Attribute0
+								{
+									property="ObjectTextureCustom0";
+									expression="_this setObjectTextureGlobal [0,_value]";
+									class Value
+									{
+										class data
+										{
+											singleType="STRING";
+											value="#(argb,8,8,3)color(0,1,0,1,ca)";
+										};
+									};
+								};
+								nAttributes=1;
+							};
+						};
+						class Item377
+						{
+							dataType="Object";
+							class PositionInfo
+							{
+								position[]={6169.1333,4.5452161,11467.393};
+								angles[]={0.017598685,1.9516304,6.1692805};
+							};
+							side="Empty";
+							flags=4;
+							class Attributes
+							{
+								presenceCondition="false";
+								description="5 (5)";
+							};
+							id=5138;
+							type="Sign_Sphere200cm_F";
+							atlOffset=0.00012969971;
+							class CustomAttributes
+							{
+								class Attribute0
+								{
+									property="ObjectTextureCustom0";
+									expression="_this setObjectTextureGlobal [0,_value]";
+									class Value
+									{
+										class data
+										{
+											singleType="STRING";
+											value="#(argb,8,8,3)color(0,0.25,1,1,ca)";
+										};
+									};
+								};
+								nAttributes=1;
+							};
+						};
 					};
 					id=1558;
-					atlOffset=19.854595;
+					atlOffset=-1.1193237;
 				};
 			};
 			id=3646;
-			atlOffset=-13.018845;
+			atlOffset=-41.778259;
 		};
 		class Item25
 		{
@@ -53562,11 +54202,11 @@ class Mission
 	{
 		class LinkIDProvider
 		{
-			nextID=1338;
+			nextID=1357;
 		};
 		class Links
 		{
-			items=1338;
+			items=1357;
 			class Item0
 			{
 				linkID=0;
@@ -66942,6 +67582,196 @@ class Mission
 				linkID=1337;
 				item0=5118;
 				item1=5112;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1338
+			{
+				linkID=1338;
+				item0=5121;
+				item1=5123;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1339
+			{
+				linkID=1339;
+				item0=5119;
+				item1=5123;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1340
+			{
+				linkID=1340;
+				item0=5120;
+				item1=5122;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1341
+			{
+				linkID=1341;
+				item0=5126;
+				item1=5125;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1342
+			{
+				linkID=1342;
+				item0=5125;
+				item1=5120;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1343
+			{
+				linkID=1343;
+				item0=5128;
+				item1=5127;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1344
+			{
+				linkID=1344;
+				item0=5123;
+				item1=5127;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1345
+			{
+				linkID=1345;
+				item0=5119;
+				item1=5120;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1346
+			{
+				linkID=1346;
+				item0=5120;
+				item1=5123;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1347
+			{
+				linkID=1347;
+				item0=5122;
+				item1=5130;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1348
+			{
+				linkID=1348;
+				item0=5129;
+				item1=5130;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1349
+			{
+				linkID=1349;
+				item0=5129;
+				item1=5121;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1350
+			{
+				linkID=1350;
+				item0=5132;
+				item1=5126;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1351
+			{
+				linkID=1351;
+				item0=5134;
+				item1=5136;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1352
+			{
+				linkID=1352;
+				item0=5134;
+				item1=5133;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1353
+			{
+				linkID=1353;
+				item0=5136;
+				item1=5135;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1354
+			{
+				linkID=1354;
+				item0=5137;
+				item1=5135;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1355
+			{
+				linkID=1355;
+				item0=5138;
+				item1=5134;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item1356
+			{
+				linkID=1356;
+				item0=5138;
+				item1=5135;
 				class CustomData
 				{
 					type="Sync";

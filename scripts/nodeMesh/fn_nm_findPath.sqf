@@ -164,8 +164,7 @@ if (alive _startNode) then {
 				if ([_posX, _origin, _startOccluders, _occluderClass] call FUNC(nm_checkOcclusion)) then {
 					_startNodesCount = _startNodesCount + 1;
 
-					// Determine the cost to this node
-					_cost = ([_origin, _posX] call FUNC(nm_getRawCost)) * ([MACRO_NM_COSTMULTIPLIER_OFFMESH_INF, MACRO_NM_COSTMULTIPLIER_OFFMESH_VEH] select _isVehicle);
+					_cost = ([_origin, _posX, _isVehicle] call FUNC(nm_getRawCost)) * ([MACRO_NM_COSTMULTIPLIER_OFFMESH_INF, MACRO_NM_COSTMULTIPLIER_OFFMESH_VEH] select _isVehicle);
 
 					// Special case: nodes that are not aligned with the vehicle's forward direction get a penalty (to prevent 180°s)
 					if (_isVehicle) then {
@@ -208,8 +207,7 @@ if (alive _startNode) then {
 	};
 	_endNodesCount = _endNodesCount + 1;
 
-	// Determine the cost from this node
-	_cost = ([_posX, _destination] call FUNC(nm_getRawCost)) * ([MACRO_NM_COSTMULTIPLIER_OFFMESH_INF, MACRO_NM_COSTMULTIPLIER_OFFMESH_VEH] select _isVehicle);
+	_cost = ([_posX, _destination, _isVehicle] call FUNC(nm_getRawCost)) * ([MACRO_NM_COSTMULTIPLIER_OFFMESH_INF, MACRO_NM_COSTMULTIPLIER_OFFMESH_VEH] select _isVehicle);
 
 	// Mark this node as an end node and save its cost
 	_nodeStrX = str (_nodeX getVariable [QGVAR(nodeID), -1]);
@@ -226,6 +224,15 @@ if (alive _startNode) then {
 			_namespace_isEndNode setVariable [_knotStrX, true];
 			_namespace_endNodes setVariable [_knotStrX,
 				(_namespace_endNodes getVariable [_knotStrX, []]) + [_nodeX]
+			];
+
+			// To prevent this knot from bypassing its own end node(s), we set its end cost to
+			// the default maximum value.
+			// Might seem odd, but this effectively makes the knot a bad end node candidate, but
+			// still allows it to become one if it is a potential end node itself (and thus already
+			// has an end cost defined for it). This will be useful later.
+			_namespace_endNodesCost setVariable [_knotStrX,
+				(_namespace_endNodesCost getVariable [_knotStrX, _const_maxCost])
 			];
 		} forEach (_nodeX getVariable [_varName_knots, []]);
 	};
@@ -280,8 +287,7 @@ while {true} do {
 
 	// If this knot leads to the destination, compare it to the current best end node
 	if (_namespace_isEndNode getVariable [_curKnotStr, false]) then {
-		_newCost = (_namespace_endNodesCost getVariable [_curKnotStr, 0]) + _curCost;
-		diag_log format ["  Knot %1 leads to the end (cost: %2)", _curKnotStr, _newCost];
+		diag_log format ["  Knot %1 leads to the end", _curKnotStr];
 
 		// Let the knot's end nodes have the first go at being the best candidate
 		private _endNodes = _namespace_endNodes getVariable [_curKnotStr, []];
@@ -304,13 +310,21 @@ while {true} do {
 			};
 		} forEach _endNodes;
 
-		// Only if this knot has no end nodes (meaning it *is* the end node), consider it as a candidate.
-		// By doing things this way, we prevent edge cases where end nodes are discarded because the knot wants to
-		// be the best end node first. Damn you, knot! >:(
-		if (_endNodes isEqualTo [] and {_newCost < _maxCost}) then {
+		// Only after checking the knot's end nodes (if it has any), we check the knot itself as a candidate.
+		// Generally, knots lead to an end node via a segment (or part thereof) that they're connected to. However,
+		// sometimes the knot itself is a candidate end node, so we can't just ignore it.
+		// This is why we give the knot's end nodes "dibs" on this check, and afterwards check the knot.
+		//
+		// The reason this works (the knot does not have an end cost precalculated; only segment nodes do), is because
+		// when determining end nodes (stage #2), we defaulted the knot's cost to the maximum value.
+		_newCost = (_namespace_endNodesCost getVariable [_curKnotStr, 0]) + _curCost;
+
+		if (_newCost < _maxCost) then {
 			diag_log format ["    Knot %1 is new best end node (%2 < %3)", _curKnotStr, _newCost, _maxCost];
 			_maxCost     = _newCost;
 			_bestEndNode = _curKnot;
+		} else {
+			diag_log format ["    Knot %1 costs more (%2 > %3), ignoring...", _curKnotStr, _newCost, _maxCost];
 		};
 	};
 
@@ -330,7 +344,7 @@ while {true} do {
 
 			// If the new cost is lower, update the node's precedent
 			if (_newCost < _oldCost) then {
-				diag_log format ["  Saving new cost (%1 -> %2: %3) - previous (old): %4", _curKnotStr, _nodeStrX, _newCost, _oldCost];
+				diag_log format ["  Saving new cost (%1 -> %2: %3) - previous: %4", _curKnotStr, _nodeStrX, _newCost, _oldCost];
 				_namespace_costs setVariable [_nodeStrX, _newCost];
 				_namespace_precedents setVariable [_nodeStrX, _curKnot];
 				_namespace_segmentIndex setVariable [format ["%1_%2", _curKnotStr, _nodeStrX], _segmentCost # 1];
@@ -372,12 +386,12 @@ while {alive _curKnot} do {
 
 	// Add the segment nodes between the two knots (if there are any)
 	if (_segmentIndex >= 0 or {!(_segment isEqualTo [])}) then {
-		diag_log format ["    Appending segment #%1 (%2 -> %3): %4", _segmentIndex, _curKnotStr, _lastNodeStr, _segment apply {_x getVariable [QGVAR(nodeID), -1]}];
 
 		// If there are multiple segments; we need to pick the right one
 		if (_segmentIndex >= 0) then {
 			_segment = _segment # _segmentIndex;
 		};
+		diag_log format ["    Appending segment #%1 (%2 -> %3): %4", _segmentIndex, _curKnotStr, _lastNodeStr, _segment apply {_x getVariable [QGVAR(nodeID), -1]}];
 
 		// Reverse the segment so the nodes are in the correct order, then append it to the results
 		_segment = +_segment;
@@ -437,7 +451,7 @@ if (_shouldRebuildResult) then {
 
 
 
-
+/*
 // --------------------------------------------------- STAGE 4 / 6 ----------------------------------------------------
 // Check if the head and tail of the path can be optimised
 private _indexLast = count _result - 1;
@@ -539,8 +553,8 @@ if (_newHeadIndex > 0 or {_newTailIndex < _indexLast}) then {
 	};
 
 };
-
-diag_log format ["Found a path! (%1s) Cost: %2 - Nodes: %3", diag_tickTime - _timeStart, _maxCost, _result apply {_x getVariable [QGVAR(nodeID), -1]}];
+*/
+diag_log format ["Found a path! (%1 ms) Cost: %2 - Nodes: %3", (diag_tickTime - _timeStart) * 1000, _maxCost, _result apply {_x getVariable [QGVAR(nodeID), -1]}];
 
 
 

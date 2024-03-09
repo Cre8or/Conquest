@@ -23,6 +23,8 @@
 #define MACRO_MAX_LINKSPERFRAME 100 // How many nodes to link together per frame (stage 2)
 
 // Set up some variables
+GVAR(nm_isSetup) = false;
+
 MACRO_FNC_INITVAR(GVAR(nm_nodesInf), []);
 MACRO_FNC_INITVAR(GVAR(nm_nodesVeh), []);
 MACRO_FNC_INITVAR(GVAR(nm_occludersInf), []);
@@ -30,12 +32,17 @@ MACRO_FNC_INITVAR(GVAR(nm_occludersVeh), []);
 MACRO_FNC_INITVAR(GVAR(nm_setupNodeMesh_EH), -1);
 MACRO_FNC_INITVAR(GVAR(nm_setupNodeMesh_EH_draw3D_occluders), -1);
 MACRO_FNC_INITVAR(GVAR(nm_setupNodeMesh_EH_draw3D_findPath), -1);
+MACRO_FNC_INITVAR(GVAR(nm_setupNodeMesh_EH_draw3D_nodeIDs), -1);
 
 #ifdef MACRO_DEBUG_NM_OCCLUDERS
 	GVAR(debug_drawData_nm_occluders) = [];
 #endif
 #ifdef MACRO_DEBUG_NM_PATH
 	GVAR(debug_drawData_nm_findPath) = [];
+#endif
+
+#ifdef MACRO_DEBUG_NM_NODE_IDS
+	GVAR(debug_drawData_nm_nodeIDs) = [];
 #endif
 
 // Include the nodemesh data files (yep, this looks ugly, but it works)
@@ -125,6 +132,14 @@ GVAR(nm_setupNodeMesh_EH) = addMissionEventHandler ["EachFrame", {
 
 				#ifndef MACRO_DEBUG_NM_NODES_INF
 		 			_node hideObject true;
+				#else
+					#ifdef MACRO_DEBUG_NM_NODE_IDS
+						GVAR(debug_drawData_nm_nodeIDs) pushBack [
+							_curNodeData # 0,
+							str _i,
+							[[0,0,1,1], [0,1,0,1]] select (_node getVariable [QGVAR(isKnot), false])
+						];
+					#endif
 				#endif
 
 			// It's a vehicle node
@@ -136,6 +151,14 @@ GVAR(nm_setupNodeMesh_EH) = addMissionEventHandler ["EachFrame", {
 
 				#ifndef MACRO_DEBUG_NM_NODES_VEH
  					_node hideObject true;
+				#else
+					#ifdef MACRO_DEBUG_NM_NODE_IDS
+						GVAR(debug_drawData_nm_nodeIDs) pushBack [
+							_curNodeData # 0,
+							str (_i - GVAR(nm_nodesInfCount)),
+							[[0,0,1,1], [0,1,0,1]] select (_node getVariable [QGVAR(isKnot), false])
+						];
+					#endif
 				#endif
 			};
 
@@ -341,6 +364,7 @@ GVAR(nm_setupNodeMesh_EH) = addMissionEventHandler ["EachFrame", {
 // Debug rendering
 removeMissionEventHandler ["Draw3D", GVAR(nm_setupNodeMesh_EH_draw3D_occluders)];
 removeMissionEventHandler ["Draw3D", GVAR(nm_setupNodeMesh_EH_draw3D_findPath)];
+removeMissionEventHandler ["Draw3D", GVAR(nm_setupNodeMesh_EH_draw3D_nodeIDs)];
 
 #ifdef MACRO_DEBUG_NM_OCCLUDERS
 	GVAR(nm_setupNodeMesh_EH_draw3D_occluders) = addMissionEventHandler ["Draw3D", {
@@ -349,6 +373,7 @@ removeMissionEventHandler ["Draw3D", GVAR(nm_setupNodeMesh_EH_draw3D_findPath)];
 
 		{
 			_x params ["_posStart", "_posEnd", "_colour"];
+			cameraEffectEnableHUD true;
 			drawLine3D [
 				_posStart,
 				_posStart vectorAdd [0,0,5],
@@ -376,11 +401,41 @@ removeMissionEventHandler ["Draw3D", GVAR(nm_setupNodeMesh_EH_draw3D_findPath)];
 		{
 			_x params ["_posStart", "_posEnd", "_colour"];
 
+			cameraEffectEnableHUD true;
 			drawLine3D [
 				ASLtoAGL _posStart,
 				ASLtoAGL _posEnd,
 				_colour
 			];
 		} foreach GVAR(debug_drawData_nm_findPath);
+	}];
+#endif
+
+#ifdef MACRO_DEBUG_NM_NODE_IDS
+	GVAR(nm_setupNodeMesh_EH_draw3D_nodeIDs) = addMissionEventHandler ["Draw3D", {
+
+		if (isGamePaused) exitWith {};
+
+		{
+			_x params ["_pos", "_nodeStr", "_colour"];
+
+			cameraEffectEnableHUD true;
+			drawIcon3D [
+				"",
+				_colour,
+				ASLtoAGL _pos,
+				0,
+				0,
+				0,
+				_nodeStr,
+				0,
+				0.035,
+				MACRO_FONT_UI_MEDIUM,
+				"center",
+				false,
+				0,
+				-0.01
+			];
+		} foreach GVAR(debug_drawData_nm_nodeIDs);
 	}];
 #endif

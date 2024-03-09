@@ -85,7 +85,7 @@ if (_segmentArray param [0, objNull] isEqualType objNull) then {
 
 	MACRO_FNC_SUMDANGERLEVEL(_segment);
 
-//  If there are multiple segments leading to the node (at most 2), we need to determine the best one
+//  If there are multiple segments leading to the node, we need to determine the best one
 } else {
 	private _costArray  = _nodeFrom getVariable [format [_varName_costArrayX, _nodeToID], []];
 	private _lowestCost = 2^24;

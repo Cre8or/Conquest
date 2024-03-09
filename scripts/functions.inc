@@ -109,7 +109,6 @@ class MACRO_PROJECT_PREFIX {
 		class nm_findPath {};
 		class nm_getBestSegmentCost {};
 		class nm_getRawCost {};
-		class nm_getSegmentCost {};
 		class nm_setupNode {};
 		class nm_setupNodeMesh {};
 		class nm_sys_dangerLevel {};
