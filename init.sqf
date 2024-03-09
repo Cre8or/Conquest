@@ -16,7 +16,6 @@ FUNC(debug_addActions) = {
 			call compile preprocessFileLineNumbers "dev\fn_recompileFuncs.sqf";
 
 			// Rerun the initialisation functions
-			call compile preprocessFileLineNumbers "scripts\gamemode\fn_gm_preInit.sqf";
 			call compile preprocessFileLineNumbers "scripts\gamemode\fn_gm_postInit.sqf";
 		};
 	}, nil, 10, false, false];

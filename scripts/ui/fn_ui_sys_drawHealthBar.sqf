@@ -47,7 +47,7 @@ GVAR(ui_sys_drawHealthBar_EH) = addMissionEventHandler ["EachFrame", {
 		private _ctrlText = _healthBar displayCtrl MACRO_IDC_HB_HEALTH_TEXT;
 
 		private _health = floor ((100 * (_player getVariable [QGVAR(health), 1]) min 999) max 1);
-		private _colour = ([SQUARE(MACRO_COLOUR_A100_RED), SQUARE(MACRO_COLOUR_A100_WHITE)] select (_health > 25));
+		private _colour = ([SQUARE(MACRO_COLOUR_A100_RED), SQUARE(MACRO_COLOUR_A100_WHITE)] select (_health > 50));
 
 		_ctrlText ctrlSetText str _health;
 		_ctrlIcon ctrlSetTextColor _colour;

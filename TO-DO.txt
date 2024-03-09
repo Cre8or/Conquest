@@ -1,4 +1,5 @@
 TO DO:
+	- Modify dangerLevel handling to be per-side
 	- Unify UI text sizes:
 		- Score feed
 		- Kill feed

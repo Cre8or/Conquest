@@ -382,7 +382,7 @@
 	#define MACRO_NM_COSTMULTIPLIER_OFFMESH_VEH                     3 // By how much the node cost is multiplied when travelling to/from points outside of the nodemesh (such as the origin/destination), for vehicles
 	#define MACRO_NM_MAXCOUNT_NODES                                 10 // How many start/end nodes we should consider at most
 	#define MACRO_NM_DANGERLEVEL_INF_DECREASERATE                   1 // By how much the danger level of all infantry node edges should decrease, per second
-	#define MACRO_NM_DANGERLEVEL_VEH_DECREASERATE                   2 // By how much the danger level of all vehicle node edges should decrease, per second
+	#define MACRO_NM_DANGERLEVEL_VEH_DECREASERATE                   0 // By how much the danger level of all vehicle node edges should decrease, per second
 	#define MACRO_NM_DANGERLEVEL_INF_GAIN                           100 // By how much an edge's danger level increases if an infantry unit dies on it
 	#define MACRO_NM_DANGERLEVEL_VEH_GAIN                           600 // By how much an edge's danger level increases if a vehicle is destroyed on it (does not account for the crew!)
 	#define MACRO_NM_DANGERLEVEL_INF_MAX                            1000 // The maximum cap for an infantry node edge's danger level
@@ -755,16 +755,16 @@
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	//#define MACRO_DEBUG_AI_COMMANDER
-	//#define MACRO_DEBUG_AI_COMMANDER_DISABLED
+	#define MACRO_DEBUG_AI_COMMANDER_DISABLED
 	//#define MACRO_DEBUG_AI_DRIVER
-	//#define MACRO_DEBUG_AI_MOVEPOS
+	#define MACRO_DEBUG_AI_MOVEPOS
 	//#define MACRO_DEBUG_AI_DODGEVEHICLES
 
 	#define MACRO_DEBUG_CA
 
-	//#define MACRO_DEBUG_NM_OCCLUDERS
+	#define MACRO_DEBUG_NM_OCCLUDERS
 	//#define MACRO_DEBUG_NM_NODES_INF
-	//#define MACRO_DEBUG_NM_NODES_VEH
+	#define MACRO_DEBUG_NM_NODES_VEH
 	//#define MACRO_DEBUG_NM_PATH
 
 	#define MACRO_DEBUG_GM_PRESLOT

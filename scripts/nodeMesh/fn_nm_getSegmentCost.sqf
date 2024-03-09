@@ -10,7 +10,9 @@
 	Arguments:
 		0:      <OBJECT>	The origin node
 		1:	<OBJECT>	The destination node
-		2:	<STRING>	The side's segments variable name
+		2:	<STRING>	The side's cost variable name
+		3:	<STRING>	The side's danger level variable name
+		4:	<ARRAY>		The segment nodes array (optional, default: [])
 	Returns:
 		0:	<NUMBER>	The summed travel cost between the two nodes
 
@@ -21,8 +23,9 @@
 params [
 	["_nodeFrom", objNull, [objNull]],
 	["_nodeTo", objNull, [objNull]],
-	["_varName_cost", "", [""]],
-	["_varName_segments", "", [""]]
+	["_varName_costX", "", [""]],
+	["_varName_dangerLevelX", "", [""]],
+	["_segment", [], [[]]]
 ];
 
 if (isNull _nodeFrom or {isNull _nodeTo}) exitWith {0};
@@ -35,21 +38,21 @@ private _nodeFromID = _nodeFrom getVariable [QGVAR(nodeID), -1];
 private _nodeToID   = _nodeTo getVariable [QGVAR(nodeID), -1];
 
 // Base cost
-private _cost = _nodeFrom getVariable [format [_varName_cost, _nodeToID], 0];
+private _cost = _nodeFrom getVariable [format [_varName_costX, _nodeToID], 0];
 
-// Add the danger level of every node on this segment
+// Add the danger level of every node on the provided segment
 private _nodePrev = _nodeFrom;
 private ["_nodeNext", "_nodeNextID"];
 {
 	_nodeNext   = _x;
 	_nodeNextID = _nodeNext getVariable [QGVAR(nodeID), -1];
 
-	_cost     = _cost + (_nodePrev getVariable [format [QGVAR(dangerLevel_%1), _nodeNextID], 0]);
+	_cost     = _cost + (_nodePrev getVariable [format [_varName_dangerLevelX, _nodeNextID], 0]);
 	_nodePrev = _nodeNext;
-} forEach (_nodeFrom getVariable [format [_varName_segments, _nodeToID], []]);
+} forEach _segment;
 
 // Also consider the last node (not part of the segment array)
-_cost = _cost + (_nodePrev getVariable [format [QGVAR(dangerLevel_%1), _nodeToID], 0]);
+_cost = _cost + (_nodePrev getVariable [format [_varName_dangerLevelX, _nodeToID], 0]);
 
 
 
