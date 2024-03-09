@@ -58,7 +58,7 @@ if (_shouldHalt) then {
 
 	// Detect when the vehicle is stuck
 	if (!_isStuck) then {
-		if (abs _speed < 3) then {
+		if (isTouchingGround _veh and {abs _speed < 3}) then {
 			private _stuckStartTime = _unit getVariable [QGVAR(ai_sys_driverControl_stuckStartTime), -1];
 
 			if (_stuckStartTime < 0) then {
@@ -190,7 +190,7 @@ if (_shouldHalt) then {
 	_distRemainingMul = (_lookAheadDist / _maxLookAheadDist) min 1;
 
 	_targetSpeed = 10 + MACRO_AI_DRIVER_MAXSPEED * (_avoidanceMul min _worstTurnMul min _distRemainingMul);
-	_targetSpeed = 0.001; // DEBUG
+	//_targetSpeed = 0.001; // DEBUG
 
 	private _routeAttractionForce = _vecVehRouteForward;
 	private _sumOfForces = _avoidanceForce vectorAdd _routeAlignForce vectorAdd _routeAttractionForce;

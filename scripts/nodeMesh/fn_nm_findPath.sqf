@@ -72,21 +72,23 @@ private _varName_costArrayX   = [format [QGVAR(distances_%1_%2), "%1", _side], f
 private _varName_knots        = format [QGVAR(knots_%1), _side];
 private _varName_usedBySide   = format [QGVAR(usedBy_%1), _side];
 private _varName_segmentsX    = format [QGVAR(segments_%1_%2), "%1", _side];
-//private _varName_dangerLevel = format [QGVAR(dangerLevel_%1_%2), "%1", _side]; // TODO: Implement per-side danger levels
+//private _varName_dangerLevel = format [QGVAR(dangerLevel_%1_%2), "%1", _side];
 private _varName_dangerLevelX = QGVAR(dangerLevel_%1); // TODO: Implement per-side danger levels
 
 // Set up some variables
 private _result = [];
 private _nodeQueue = [];
-private _namespace_costs        = createLocation ["NameVillage", [0,0,0], 0, 0];
-private _namespace_undiscovered = createLocation ["NameVillage", [0,0,0], 0, 0];
-private _namespace_unvisited    = createLocation ["NameVillage", [0,0,0], 0, 0];
-private _namespace_precedents   = createLocation ["NameVillage", [0,0,0], 0, 0];
-private _namespace_segmentIndex = createLocation ["NameVillage", [0,0,0], 0, 0];
-private _namespace_isStartNode  = createLocation ["NameVillage", [0,0,0], 0, 0];
-private _namespace_isEndNode    = createLocation ["NameVillage", [0,0,0], 0, 0];
-private _namespace_endNodes     = createLocation ["NameVillage", [0,0,0], 0, 0];
-private _namespace_endNodesCost = createLocation ["NameVillage", [0,0,0], 0, 0];
+private _namespace_costs          = createLocation ["NameVillage", [0,0,0], 0, 0];
+private _namespace_undiscovered   = createLocation ["NameVillage", [0,0,0], 0, 0];
+private _namespace_unvisited      = createLocation ["NameVillage", [0,0,0], 0, 0];
+private _namespace_precedents     = createLocation ["NameVillage", [0,0,0], 0, 0];
+private _namespace_segmentIndex   = createLocation ["NameVillage", [0,0,0], 0, 0];
+private _namespace_isStartNode    = createLocation ["NameVillage", [0,0,0], 0, 0];
+private _namespace_isEndNode      = createLocation ["NameVillage", [0,0,0], 0, 0];
+private _namespace_endNodes       = createLocation ["NameVillage", [0,0,0], 0, 0];
+private _namespace_endNodesCost   = createLocation ["NameVillage", [0,0,0], 0, 0];
+private _namespace_optFirstIndex  = createLocation ["NameVillage", [0,0,0], 0, 0]; // Keeps track of the first occurance of each entry in the results array
+private _namespace_optSkipToIndex = createLocation ["NameVillage", [0,0,0], 0, 0]; // Stores the results array indexes to which the optimisation pass may jump when looping over a repeated node
 private _maxCost = _const_maxCost;
 private _startNodesCount = 0;
 private _endNodesCount = 0;
@@ -109,10 +111,9 @@ scopeName QGVAR(findPath_main);
 
 
 
-
-// --------------------------------------------------------- STAGE 1 / 5 ---------------------------------------------------------
+// --------------------------------------------------- STAGE 1 / 6 ----------------------------------------------------
 // Determine the start and end nodes, and see if a direct connection is possible at short distances
-private ["_posX", "_nodeX", "_nodeStrX", "_cost", "_knotStrX"];
+private ["_posX", "_nodeX", "_nodeStrX", "_cost"];
 private _startOccluders = nearestObjects [_originAGL, [_occluderClass], _nodeSearchRadius * 1.5, true]; // Additional 50% of search radius to be extra sure
 private _endOccluders   = nearestObjects [_destinationAGL, [_occluderClass], _nodeSearchRadius * 1.5, true];
 
@@ -217,87 +218,16 @@ if (alive _startNode) then {
 	diag_log format ["End node cost (%1): %2", _nodeStrX, _cost];
 
 	// If this node is a segment node, fetch its 2 end knots and make them end nodes aswell.
-	// Later during the path search later, mainly knots will be considered during checks (so as to not check every
-	// individual node one by one). To ensure correct results, this node's end knots must store their lowest cost
-	// to the node itself, across any valid segment that might exist between the two.
+	// This way the next stage will be able to trace these knots back to the actual end node.
 	if !(_nodeX getVariable [QGVAR(isKnot), false]) then {
-		private ["_knotX", "_knotStrX", "_segmentArray", "_costX", "_prevCostX"];
-
-		// Check both knots
-		{
-			_knotX = _allNodes # _x;
-			_knotStrX = str _x;
-
-			// Determine the lowest cost across any segment from the knot to this node
-			_segmentArray = _knotX getVariable [_varName_segmentsX, []];
-
-			// Possible values inside the segment array are either:
-			// * nothing
-			// * 1 or more nodes
-			// * 1 or more arrays that contains 1 or more nodes
-			if (_segmentArray param [0, objNull] isEqualType objNull) then {
-				_costX = [_knotX, _nodeX, _varName_costX, _varName_dangerLevelX, _segmentArray] call FUNC(nm_getSegmentCost);
-			} else {
-				_costX = _const_maxCost;
-				{
-					_costX = _costX min ([_knotX, _nodeX, _varName_costX, _varName_dangerLevelX, _x] call FUNC(nm_getSegmentCost));
-
-					// DEBUG: Error checking
-					if !(_x isEqualType []) then {
-						diag_log ["[CONQUEST] (nm_findPath) ERROR: Segment array has invalid type (%1 -> %2): %3 (should be ARRAY)!", _knotStrX, _nodeStrX, typeName _x];
-					};
-				} forEach _segmentArray;
-			};
-
-			_costX     = _costX + _cost;
-			_prevCostX = _namespace_endNodesCost getVariable [_knotStrX, _const_maxCost];
-
-			if (_costX < _prevCostX) then {
-				_namespace_isEndNode setVariable [_knotStrX, true];
-				_namespace_endNodesCost setVariable [_knotStrX, _costX];
-				_namespace_endNodes setVariable [_knotStrX,
-					(_namespace_endNodes getVariable [_knotStrX, []]) + [_nodeX]
-				];
-				diag_log format ["End node via knot (%1 -> %2): %3 (%4)", _knotStrX, _nodeStrX, _costX, _cost];
-			};
-
-		} forEach (_nodeX getVariable [_varName_knots, []]);
-
-/*
-		private ["_knotX", "_segmentPosX", "_segmentNodeStrX", "_costX", "_prevCostX"];
 		{
 			_knotStrX = str _x;
+
 			_namespace_isEndNode setVariable [_knotStrX, true];
-			_namespace_endNodes setVariable [_knotStrX, (_namespace_endNodes getVariable [_knotStrX, []]) + [_nodeX]];
-
-			// Also make all nodes on the segment to this knot end nodes too, and calculate their cost.
-			// This prevents edge cases where the neighbouring knots are favoured over using a part of the segment
-			// in order to reach the candidate end nodes (causing loop-arounds).
-			_knotX = _allNodes # _x;
-			{
-				_segmentPosX = getPosWorld _x;
-
-				if !([_segmentPosX, _destination, _endOccluders, _occluderClass] call FUNC(nm_checkOcclusion)) then {
-					continue;
-				};
-
-				_costX = _cost + ([_x, _nodeX, _varName_costX, _varName_segmentsX] call FUNC(nm_getSegmentCost));
-
-				// If the segment's opposite knot already calculated a cost for this node (but in the opposite
-				// direction), we need to make sure that only the lowest cost is saved
-				_segmentNodeStrX = str (_x getVariable [QGVAR(nodeID), -1]);
-				_prevCostX       = _namespace_endNodesCost getVariable [_segmentNodeStrX, _const_maxCost];
-
-				if (_costX < _prevCostX) then {
-					_namespace_isEndNode setVariable [_segmentNodeStrX, true];
-					//_namespace_endNodesCost setVariable [_segmentNodeStrX, _costX];
-					//_namespace_precedents setVariable [_nodeStrX, _x];
-					diag_log format ["End node cost (%1 -> %2): %3 (%4)", _segmentNodeStrX, _nodeStrX, _costX, _cost];
-				};
-
-			} forEach (_knotX getVariable [format [_varName_segmentsX, _nodeStrX], []]);
+			_namespace_endNodes setVariable [_knotStrX,
+				(_namespace_endNodes getVariable [_knotStrX, []]) + [_nodeX]
+			];
 		} forEach (_nodeX getVariable [_varName_knots, []]);
-*/
 	};
 } forEach nearestObjects [_destinationAGL, [_nodeClass], _nodeSearchRadius];
 
@@ -317,13 +247,13 @@ diag_log format ["Candidates (end): %1", (allVariables _namespace_isEndNode) app
 
 
 
-// --------------------------------------------------------- STAGE 2 / 5 ---------------------------------------------------------
+// --------------------------------------------------- STAGE 2 / 6 ----------------------------------------------------
 // Find a path between the start and end nodes
-private ["_curKnot", "_curEntry", "_isKnot", "_curCost", "_curKnotStr", "_lastNode", "_lastNodeStr", "_segment", "_segmentIndex", "_oldCost", "_newCost", "_connectedNodesToCheck", "_segmentCost", "_segmentCostArray", "_costArray", "_segmentArray"];
+private ["_curKnot", "_curEntry", "_curCost", "_curKnotStr", "_segmentCost", "_lastNode", "_lastNodeStr", "_segment", "_segmentIndex", "_oldCost", "_newCost", "_connectedNodesToCheck"];
 
 while {true} do {
 
-	// Fetch the node with the lowest cost ( = first in the queue)
+	// Fetch the knot with the lowest cost ( = first in the queue)
 	if (_nodeQueue isEqualTo []) then {
 		_curKnot = objNull;
 	} else {
@@ -336,142 +266,83 @@ while {true} do {
 		breakTo QGVAR(findPath_main);
 	};
 
-	_isKnot     = _curKnot getVariable [QGVAR(isKnot), true];
 	_curCost    = _curEntry param [0, _const_maxCost];
 	_curKnotStr = str (_curKnot getVariable [QGVAR(nodeID), -1]);
 	_namespace_unvisited setVariable [_curKnotStr, false];
-	diag_log format ["Checking node %1 (cost: %2)", _curKnotStr, _curCost];
+	diag_log format ["Checking knot %1 (cost: %2)", _curKnotStr, _curCost];
 
-	// Only continue inspecting this node if its current cost is less than our max cost
+	// Abort early if this knot's cost exceeds the highest determined cost
 	if (_curCost >= _maxCost) then {
-		diag_log format ["Ending search - candidate is too expensive (max: %1)", _maxCost];
-		_nodeQueue = []; // Clear the queue, as any subsequent entries will be more expensive than this one
+		diag_log format ["Ending search - candidate knot is too expensive (max: %1)", _maxCost];
+		_nodeQueue = []; // Also clear the queue, as any subsequent entries will be even more expensive than this one
 		continue;
 	};
 
-	// If the current node leads to the destination, compare it to the previous end node
+	// If this knot leads to the destination, compare it to the current best end node
 	if (_namespace_isEndNode getVariable [_curKnotStr, false]) then {
-		diag_log format ["  Node %1 is an end node (cost: %2)", _curKnotStr, _curCost];
+		_newCost = (_namespace_endNodesCost getVariable [_curKnotStr, 0]) + _curCost;
+		diag_log format ["  Knot %1 leads to the end (cost: %2)", _curKnotStr, _newCost];
 
-		// If this node directly connects to the destination, fetch that cost
-		_newCost = _namespace_endNodesCost getVariable [_curKnotStr, -1];
-		if (_newCost >= 0) then {
-			_newCost = _newCost + _curCost;
+		// Let the knot's end nodes have the first go at being the best candidate
+		private _endNodes = _namespace_endNodes getVariable [_curKnotStr, []];
+		{
+			_nodeX       = _x;
+			_nodeStrX    = str (_nodeX getVariable [QGVAR(nodeID), -1]);
+			_segmentCost = [_curKnot, _nodeX, _varName_costX, _varName_segmentsX, _varName_dangerLevelX, _varName_costArrayX] call FUNC(nm_getBestSegmentCost);
+			_newCost     = (_segmentCost # 0) + (_namespace_endNodesCost getVariable [_nodeStrX, 0]) + _curCost;
 
 			// If this node has a lower cost to the destination than the previous maximum, set it as the new end node
 			if (_newCost < _maxCost) then {
-				diag_log format ["  Saving new end cost (%1 (direct): %2) - previous: %3", _curKnotStr, _newCost, _maxCost];
+				diag_log format ["    Knot %1's end node %2 is new best end node (%3 < %4)", _curKnotStr, _nodeStrX, _newCost, _maxCost];
 				_maxCost     = _newCost;
-				_bestEndNode = _curKnot;
-			} else {
-				diag_log format ["    Found end (%1 (direct): %2), but cost is higher than max: %3 - ignoring...", _curKnotStr, _newCost, _maxCost];
-			};
-		};
-		// TODO: Fix reading segments to the end node!
-/*
-		// If there are segment nodes that connect to the destination, handle them too
-		diag_log format ["  Checking knot %1's end nodes: %2", _curKnotStr, (_namespace_endNodes getVariable [_curKnotStr, []]) apply {_x getVariable [QGVAR(nodeID), -1]}];
-		{
-			_nodeX    = _x;
-			_nodeStrX = str (_nodeX getVariable [QGVAR(nodeID), -1]);
-			_newCost  = _curCost
-				+ ([_curKnot, _x, _varName_costX, _varName_dangerLevelX] call FUNC(nm_getSegmentCost));
-			 	+ (_namespace_endNodesCost getVariable [_nodeStrX, 0]);
-
-			// If this node has a lower cost to the destination than the previous maximum, set it as the new end node
-			if (_newCost < _maxCost) then {
-				diag_log format ["    Saving new end cost (%1: %2) - previous: %3", _nodeStrX, _newCost, _maxCost];
-				_maxCost = _newCost;
 				_bestEndNode = _nodeX;
+
 				_namespace_precedents setVariable [_nodeStrX, _curKnot];
+				_namespace_segmentIndex setVariable [format ["%1_%2", _curKnotStr, _nodeStrX], _segmentCost # 1];
 			} else {
-				diag_log format ["    Found end (%1: %2), but cost is higher than max: %3 - ignoring...", _nodeStrX, _newCost, _maxCost];
+				diag_log format ["    Knot %1's end node %2 costs more (%3 > %4), ignoring...", _curKnotStr, _nodeStrX, _newCost, _maxCost];
 			};
-		} forEach (_namespace_endNodes getVariable [_curKnotStr, []]);
-*/
+		} forEach _endNodes;
+
+		// Only if this knot has no end nodes (meaning it *is* the end node), consider it as a candidate.
+		// By doing things this way, we prevent edge cases where end nodes are discarded because the knot wants to
+		// be the best end node first. Damn you, knot! >:(
+		if (_endNodes isEqualTo [] and {_newCost < _maxCost}) then {
+			diag_log format ["    Knot %1 is new best end node (%2 < %3)", _curKnotStr, _newCost, _maxCost];
+			_maxCost     = _newCost;
+			_bestEndNode = _curKnot;
+		};
 	};
 
-	_connectedNodesToCheck = _curKnot getVariable [_varName_knots, []];
-	diag_log format ["  Neighbouring knots: %1", _connectedNodesToCheck];
-
-	// The next line might seem odd, considering we're only checking knots in this big loop. But we're [k]not. (heh.)
-	// The starting nodes can be segment nodes, and if this an end node is on the same segment, our logic will ignore the direct path
-	// between the two, and instead opt to first move to one of the neighbouring knots, before backtracking to the end node. Not ideal.
-	// To fix this, we add special behaviour for first nodes, instructing the loop to also check all segment nodes (just this once).
-	if (!_isKnot) then {
-		private _segmentNodes = (
-			((_curKnot getVariable [QGVAR(connections), []]) select {_namespace_unvisited getVariable [str _x, true]})
-			- (_curKnot getVariable [_varName_knots, []])
-		);
-
-		_connectedNodesToCheck = +_connectedNodesToCheck;
-		{
-			_connectedNodesToCheck pushBackUnique _x;
-		} forEach _segmentNodes;
-		diag_log format ["  Not a knot - appending unvisited segment nodes: %1", _segmentNodes];
-	};
+	diag_log format ["  Neighbouring knots: %1", _curKnot getVariable [_varName_knots, []]];
 
 	// Iterate through this node's neighbour knots
 	{
-		_knotStrX = str _x;
+		_nodeStrX = str _x;
 
 		// If this node hasn't been visited yet, process it
-		if (_namespace_unvisited getVariable [_knotStrX, true]) then {
+		if (_namespace_unvisited getVariable [_nodeStrX, true]) then {
+			_oldCost = _namespace_costs getVariable [_nodeStrX, _const_maxCost];
 
-			_segmentArray = _curKnot getVariable [format [_varName_segmentsX, _knotStrX], []];
-			_oldCost = _namespace_costs getVariable [_knotStrX, _const_maxCost];
-
-			// If this node can only be reached via one segment (determined by checking whether the segment array
-			// only holds nodes (or is empty)), we only need to consider that segment's nodes
-			if (_segmentArray param [0, objNull] isEqualType objNull) then {
-				_newCost = _curCost + ([_curKnot, _allNodes # _x, _varName_costX, _varName_dangerLevelX, _segmentArray] call FUNC(nm_getSegmentCost));
-
-			// Otherwise, we need to consider all segments leading to this node
-			} else {
-				// TODO: Refactor this branch to also use nm_getSegmentCost.
-				// May require modification of nm_getSegmentCost to handle the base cost (as it might be
-				// ambiguous when there are multiple segments leading to the target node).
-
-				_costArray = _curKnot getVariable [format [_varName_costArrayX, _knotStrX], []];
-				_segmentCostArray = [];
-
-				// Iterate through all segments
-				{
-					_segmentCost = _curCost + (_costArray # _forEachIndex);
-					_lastNode = _curKnot;
-
-					// Add the danger level of every node on this segment
-					{
-						_segmentCost = _segmentCost + (_lastNode getVariable [format [QGVAR(dangerLevel_%1), _x getVariable [QGVAR(nodeID), -1]], 0]);
-						_lastNode = _x;
-					} forEach _x;
-					_segmentCost = _segmentCost + (_lastNode getVariable [format [QGVAR(dangerLevel_%1), _knotStrX], 0]);
-
-					_segmentCostArray pushBack [_segmentCost, _forEachIndex];
-				} forEach _segmentArray;
-
-				// Sort all segments by order of increasing cost
-				_segmentCostArray sort true;
-
-				// Pick the segment with the lowest cost
-				_newCost = _segmentCostArray # 0 # 0;
-				_namespace_segmentIndex setVariable [format ["%1_%2", _curKnotStr, _knotStrX], _segmentCostArray # 0 # 1];
-			};
+			_nodeX       = _allNodes # _x;
+			_segmentCost = [_curKnot, _nodeX, _varName_costX, _varName_segmentsX, _varName_dangerLevelX, _varName_costArrayX] call FUNC(nm_getBestSegmentCost);
+			_newCost     = (_segmentCost # 0) + _curCost;
 
 			// If the new cost is lower, update the node's precedent
 			if (_newCost < _oldCost) then {
-				diag_log format ["  Saving new cost (%1 -> %2: %3) - previous (old): %4", _curKnotStr, _knotStrX, _newCost, _oldCost];
-				_namespace_costs setVariable [_knotStrX, _newCost];
-				_namespace_precedents setVariable [_knotStrX, _curKnot];
+				diag_log format ["  Saving new cost (%1 -> %2: %3) - previous (old): %4", _curKnotStr, _nodeStrX, _newCost, _oldCost];
+				_namespace_costs setVariable [_nodeStrX, _newCost];
+				_namespace_precedents setVariable [_nodeStrX, _curKnot];
+				_namespace_segmentIndex setVariable [format ["%1_%2", _curKnotStr, _nodeStrX], _segmentCost # 1];
 			};
 
 			// Add the new node to the queue
-			if (_namespace_undiscovered getVariable [_knotStrX, true]) then {
-				_namespace_undiscovered setVariable [_knotStrX, false];
-				_nodeQueue pushBack [_oldCost min _newCost, _allNodes # _x];
+			if (_namespace_undiscovered getVariable [_nodeStrX, true]) then {
+				_namespace_undiscovered setVariable [_nodeStrX, false];
+				_nodeQueue pushBack [_oldCost min _newCost, _nodeX];
 			};
 		};
-	} forEach _connectedNodesToCheck;
+	} forEach (_curKnot getVariable [_varName_knots, []]);
 
 	// Sort the (new) priority queue
 	_nodeQueue sort true;
@@ -501,7 +372,7 @@ while {alive _curKnot} do {
 
 	// Add the segment nodes between the two knots (if there are any)
 	if (_segmentIndex >= 0 or {!(_segment isEqualTo [])}) then {
-		diag_log format ["    Appending segment (%1 -> %2): %3", _curKnotStr, _lastNodeStr, _segment apply {_x getVariable [QGVAR(nodeID), -1]}];
+		diag_log format ["    Appending segment #%1 (%2 -> %3): %4", _segmentIndex, _curKnotStr, _lastNodeStr, _segment apply {_x getVariable [QGVAR(nodeID), -1]}];
 
 		// If there are multiple segments; we need to pick the right one
 		if (_segmentIndex >= 0) then {
@@ -525,7 +396,49 @@ diag_log format ["Preliminary path (%1): %2", _maxCost, _result apply {_x getVar
 
 
 
-// --------------------------------------------------------- STAGE 3 / 5 ---------------------------------------------------------
+// --------------------------------------------------- STAGE 3 / 6 ----------------------------------------------------
+// Cut out any loops in the results array (segments that fold back onto the same node).
+// This can happen when the start and end node are on the same segment. Usually, one of the knots of that segment ends
+// up in the result array, which is often unnecessary (since knots are the last nodes of a segment).
+private _shouldRebuildResult = false;
+private ["_prevIndex"];
+{
+	_nodeStrX  = str (_x getVariable [QGVAR(nodeID), -1]);
+	_prevIndex = _namespace_optFirstIndex getVariable [_nodeStrX, -1];
+
+	if (_prevIndex < 0) then {
+		_namespace_optFirstIndex setVariable [_nodeStrX, _forEachIndex];
+		continue;
+	};
+
+	// A repetition was found; link the first occurence to the current index
+	_shouldRebuildResult = true;
+	_namespace_optSkipToIndex setVariable [_nodeStrX, _forEachIndex];
+} forEach _result;
+
+// If at least one repetition was found, the result array needs to be rebuilt
+if (_shouldRebuildResult) then {
+	private _index     = 0;
+	private _indexLast = count _result - 1;
+	private _resultCopy = [];
+
+	while {_index <= _indexLast} do {
+		_nodeX    = _result # _index;
+		_nodeStrX = str (_nodeX getVariable [QGVAR(nodeID), -1]);
+
+		_resultCopy pushBack _nodeX;
+		_index = (_index max (_namespace_optSkipToIndex getVariable [_nodeStrX, 0])) + 1;
+	};
+
+	_result = _resultCopy;
+	diag_log format ["Removed redundant loops - new path: %1", _result apply {_x getVariable [QGVAR(nodeID), -1]}];
+};
+
+
+
+
+
+// --------------------------------------------------- STAGE 4 / 6 ----------------------------------------------------
 // Check if the head and tail of the path can be optimised
 private _indexLast = count _result - 1;
 private _newHeadIndex = 0;
@@ -633,7 +546,7 @@ diag_log format ["Found a path! (%1s) Cost: %2 - Nodes: %3", diag_tickTime - _ti
 
 
 
-// --------------------------------------------------------- STAGE 4 / 5 ---------------------------------------------------------
+// --------------------------------------------------- STAGE 5 / 6 ----------------------------------------------------
 // Cleanup: remove all temporary namespaces
 {
 	deleteLocation _x;
@@ -646,14 +559,16 @@ diag_log format ["Found a path! (%1s) Cost: %2 - Nodes: %3", diag_tickTime - _ti
 	_namespace_isStartNode,
 	_namespace_isEndNode,
 	_namespace_endNodes,
-	_namespace_endNodesCost
+	_namespace_endNodesCost,
+	_namespace_optFirstIndex,
+	_namespace_optSkipToIndex
 ];
 
 
 
 
 
-// --------------------------------------------------------- STAGE 5 / 5 ---------------------------------------------------------
+// --------------------------------------------------- STAGE 6 / 6 ----------------------------------------------------
 // Compile and return the resulting path (in format [positions, radii, nodes])
 #ifdef MACRO_DEBUG_NM_PATH
 	{

@@ -107,6 +107,7 @@ class MACRO_PROJECT_PREFIX {
 
 		class nm_checkOcclusion {};
 		class nm_findPath {};
+		class nm_getBestSegmentCost {};
 		class nm_getRawCost {};
 		class nm_getSegmentCost {};
 		class nm_setupNode {};

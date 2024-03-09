@@ -380,7 +380,7 @@
 	#define MACRO_NM_SEARCHRADIUS_NODES_VEH                         50 // Same as above, but for vehicle pathfinding
 	#define MACRO_NM_COSTMULTIPLIER_OFFMESH_INF                     1.5 // By how much the node cost is multiplied when travelling to/from points outside of the nodemesh (such as the origin/destination), for infantry
 	#define MACRO_NM_COSTMULTIPLIER_OFFMESH_VEH                     3 // By how much the node cost is multiplied when travelling to/from points outside of the nodemesh (such as the origin/destination), for vehicles
-	#define MACRO_NM_MAXCOUNT_NODES                                 10 // How many start/end nodes we should consider at most
+	#define MACRO_NM_MAXCOUNT_NODES                                 10 // How many start/end nodes may be considered in each findPath query (more may yield better results, but impacts performance)
 	#define MACRO_NM_DANGERLEVEL_INF_DECREASERATE                   1 // By how much the danger level of all infantry node edges should decrease, per second
 	#define MACRO_NM_DANGERLEVEL_VEH_DECREASERATE                   0 // By how much the danger level of all vehicle node edges should decrease, per second
 	#define MACRO_NM_DANGERLEVEL_INF_GAIN                           100 // By how much an edge's danger level increases if an infantry unit dies on it
