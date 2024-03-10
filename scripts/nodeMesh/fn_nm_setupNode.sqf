@@ -15,6 +15,7 @@
 
 #include "..\..\res\common\macros.inc"
 
+// No parameter validation, as this is an internal function
 params ["_node", "_curNodeData", "_nodeID", "_isVehNode"];
 
 
@@ -32,6 +33,7 @@ private ["_nodeX", "_allSegmentArrays", "_connectionDataX", "_allCostArrays", "_
 // Save the node's variables onto it
 _node setVariable [QGVAR(nodeID), _nodeID];
 _node setVariable [QGVAR(knots), _curNodeData # 1]; // 1
+
 {
 	_nodeX = _x # 0; // 3.0
 	_allSegmentArrays = [[], [], []];
@@ -44,8 +46,10 @@ _node setVariable [QGVAR(knots), _curNodeData # 1]; // 1
 		_allDistArrays = [[], [], []];
 
 		// Iterate over all connections to this node
-		{
-			_x params ["_costX", "_distX", ["_segmentX", []], ["_segmentFlag", 0]];
+		// Index starts at 1 because #0 designates the node to which the subsequent segments lead.
+		// This is intentional!
+		for "_i" from 1 to (count _x) - 1 do {
+			(_x # _i) params ["_costX", "_distX", ["_segmentX", []], ["_segmentFlag", 0]];
 
 			diag_log format ["[nm_setupNode] Parsing connection (%1): %2 / %3 / %4 / %5", _nodeID, _costX, _distX, _segmentX, _segmentFlag];
 
@@ -66,7 +70,7 @@ _node setVariable [QGVAR(knots), _curNodeData # 1]; // 1
 				{_x pushback _distX} forEach _allDistArrays;
 				{_x pushback _segmentX} forEach _allSegmentArrays;
 			};
-		} forEach _connectionDataX;
+		};
 
 		// Save the cost arrays onto this node
 		{

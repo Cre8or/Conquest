@@ -24,6 +24,9 @@
 
 #include "..\..\res\common\macros.inc"
 
+// No parameter validation, as this is an internal function
+params ["_nodeFrom", "_nodeTo", "_varName_costX", "_varName_segmentsX", "_varName_dangerLevelX", "_varName_costArrayX"];
+/*
 params [
 	["_nodeFrom", objNull, [objNull]],
 	["_nodeTo", objNull, [objNull]],
@@ -33,7 +36,8 @@ params [
 	["_varName_costArrayX", "", [""]]
 ];
 
-if (isNull _nodeFrom or {isNull _nodeTo}) exitWith {0};
+if (isNull _nodeFrom or {isNull _nodeTo}) exitWith {[0, -1]};
+*/
 
 
 
@@ -91,15 +95,18 @@ if (_segmentArray param [0, objNull] isEqualType objNull) then {
 	private _lowestCost = 2^24;
 	private "_segmentX";
 	{
+		//diag_log format ["[nm_getBestSegmentCost] Testing segment %1 -> %2 (%3): %4", _nodeFromID, _nodeToID, _forEachIndex, _x];
 		_segmentX = _x + [_nodeTo];
 		_cost = _costArray # _forEachIndex;
 
 		MACRO_FNC_SUMDANGERLEVEL(_segmentX);
 
 		if (_cost < _lowestCost) then {
+			//diag_log format ["  New best segment (%1 < %2) -> segment %3", _cost, _lowestCost, _forEachIndex];
 			_lowestCost = _cost;
 			_segmentID  = _forEachIndex;
 		};
+		_cost = _lowestCost;
 	} foreach _segmentArray;
 };
 

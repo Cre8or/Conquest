@@ -8,7 +8,7 @@ class EditorData
 	toggles=521;
 	class ItemIDProvider
 	{
-		nextID=5139;
+		nextID=5161;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=6810;
+		nextID=6833;
 	};
 	class Camera
 	{
-		pos[]={6179.4263,193.95186,11504.564};
-		dir[]={-0.069165833,-0.93609864,-0.34489259};
-		up[]={-0.18407071,0.35162872,-0.9178614};
-		aside[]={-0.98048347,1.2823148e-007,0.19662894};
+		pos[]={5934.0225,643.97058,10825.905};
+		dir[]={3.8576559e-006,-0.99331278,-0.11614408};
+		up[]={3.315126e-005,0.11578291,-0.9932816};
+		aside[]={-1.0000865,-1.7608251e-006,-3.5187993e-005};
 	};
 };
 binarizationWanted=0;
@@ -36021,7 +36021,7 @@ class Mission
 								};
 							};
 							id=2951;
-							atlOffset=96.5;
+							atlOffset=-0.0033416748;
 						};
 						class Item29
 						{
@@ -39031,9 +39031,10 @@ class Mission
 				{
 					dataType="Layer";
 					name="Nodemesh - VEHICLES";
+					state=2;
 					class Entities
 					{
-						items=378;
+						items=376;
 						class Item0
 						{
 							dataType="Object";
@@ -49019,7 +49020,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="344 (5)";
+								description="361 (5)";
 							};
 							id=5011;
 							type="Sign_Sphere200cm_F";
@@ -49091,7 +49092,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="345 (5)";
+								description="362 (5)";
 							};
 							id=5013;
 							type="Sign_Sphere200cm_F";
@@ -49127,7 +49128,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="347 (5)";
+								description="364 (5)";
 							};
 							id=5014;
 							type="Sign_Sphere200cm_F";
@@ -49162,7 +49163,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="349 (5)";
+								description="366 (5)";
 							};
 							id=5015;
 							type="Sign_Sphere200cm_F";
@@ -49197,7 +49198,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="346 (5)";
+								description="363 (5)";
 							};
 							id=5016;
 							type="Sign_Sphere200cm_F";
@@ -49233,7 +49234,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="348 (5)";
+								description="365 (5)";
 							};
 							id=5017;
 							type="Sign_Sphere200cm_F";
@@ -49587,7 +49588,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="318 (5)";
+								description="335 (5)";
 							};
 							id=5027;
 							type="Sign_Sphere200cm_F";
@@ -49615,8 +49616,8 @@ class Mission
 							dataType="Object";
 							class PositionInfo
 							{
-								position[]={5596.3218,66.785988,11294.334};
-								angles[]={6.2751846,0,6.2312322};
+								position[]={5613.0552,64.489029,11298.964};
+								angles[]={0.031988446,0,6.1151848};
 							};
 							side="Empty";
 							flags=4;
@@ -49627,7 +49628,6 @@ class Mission
 							};
 							id=5028;
 							type="Sign_Sphere200cm_F";
-							atlOffset=3.8146973e-005;
 							class CustomAttributes
 							{
 								class Attribute0
@@ -49639,7 +49639,7 @@ class Mission
 										class data
 										{
 											singleType="STRING";
-											value="#(argb,8,8,3)color(0,1,0,1,ca)";
+											value="#(argb,8,8,3)color(0,0.25,1,1,ca)";
 										};
 									};
 								};
@@ -49651,7 +49651,7 @@ class Mission
 							dataType="Object";
 							class PositionInfo
 							{
-								position[]={5634.3687,61.152431,11304.265};
+								position[]={5634.0723,61.180241,11304.561};
 								angles[]={0.062320013,0,6.1284328};
 							};
 							side="Empty";
@@ -49659,10 +49659,11 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="256 (4)";
+								description="318 (5)";
 							};
 							id=5029;
 							type="Sign_Sphere200cm_F";
+							atlOffset=4.196167e-005;
 							class CustomAttributes
 							{
 								class Attribute0
@@ -49674,7 +49675,7 @@ class Mission
 										class data
 										{
 											singleType="STRING";
-											value="#(argb,8,8,3)color(0,1,0,1,ca)";
+											value="#(argb,8,8,3)color(0,0.25,1,1,ca)";
 										};
 									};
 								};
@@ -49694,7 +49695,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="319 (5)";
+								description="336 (5)";
 							};
 							id=5031;
 							type="Sign_Sphere200cm_F";
@@ -49730,7 +49731,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="321 (5)";
+								description="338 (5)";
 							};
 							id=5032;
 							type="Sign_Sphere200cm_F";
@@ -49765,7 +49766,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="322 (5)";
+								description="339 (5)";
 							};
 							id=5033;
 							type="Sign_Sphere200cm_F";
@@ -49800,7 +49801,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="323 (5)";
+								description="340 (5)";
 							};
 							id=5034;
 							type="Sign_Sphere200cm_F";
@@ -49836,7 +49837,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="320 (5)";
+								description="337 (5)";
 							};
 							id=5035;
 							type="Sign_Sphere200cm_F";
@@ -49872,7 +49873,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="324 (5)";
+								description="341 (5)";
 							};
 							id=5036;
 							type="Sign_Sphere200cm_F";
@@ -49907,7 +49908,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="326 (5)";
+								description="343 (5)";
 							};
 							id=5037;
 							type="Sign_Sphere200cm_F";
@@ -49943,7 +49944,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="327 (5)";
+								description="344 (5)";
 							};
 							id=5038;
 							type="Sign_Sphere200cm_F";
@@ -49979,7 +49980,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="328 (5)";
+								description="345 (5)";
 							};
 							id=5039;
 							type="Sign_Sphere200cm_F";
@@ -50015,7 +50016,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="329 (5)";
+								description="346 (5)";
 							};
 							id=5040;
 							type="Sign_Sphere200cm_F";
@@ -50051,7 +50052,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="325 (5)";
+								description="342 (5)";
 							};
 							id=5041;
 							type="Sign_Sphere200cm_F";
@@ -50087,7 +50088,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="330 (5)";
+								description="347 (5)";
 							};
 							id=5042;
 							type="Sign_Sphere200cm_F";
@@ -50123,7 +50124,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="331 (5)";
+								description="348 (5)";
 							};
 							id=5043;
 							type="Sign_Sphere200cm_F";
@@ -50159,7 +50160,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="332 (5)";
+								description="349 (5)";
 							};
 							id=5044;
 							type="Sign_Sphere200cm_F";
@@ -50195,7 +50196,7 @@ class Mission
 							{
 								init="_radius = 5";
 								presenceCondition="false";
-								description="333 (5)";
+								description="350 (5)";
 							};
 							id=5045;
 							type="Sign_Sphere200cm_F";
@@ -50231,7 +50232,7 @@ class Mission
 							{
 								init="_radius = 7";
 								presenceCondition="false";
-								description="334 (5)";
+								description="351 (5)";
 							};
 							id=5046;
 							type="Sign_Sphere200cm_F";
@@ -50266,7 +50267,7 @@ class Mission
 							{
 								init="_radius = 5";
 								presenceCondition="false";
-								description="335 (5)";
+								description="352 (5)";
 							};
 							id=5047;
 							type="Sign_Sphere200cm_F";
@@ -50301,7 +50302,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="336 (5)";
+								description="353 (5)";
 							};
 							id=5048;
 							type="Sign_Sphere200cm_F";
@@ -50336,7 +50337,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="337 (5)";
+								description="354 (5)";
 							};
 							id=5049;
 							type="Sign_Sphere200cm_F";
@@ -50371,7 +50372,7 @@ class Mission
 							{
 								init="_radius = 3";
 								presenceCondition="false";
-								description="338 (5)";
+								description="355 (5)";
 							};
 							id=5050;
 							type="Sign_Sphere200cm_F";
@@ -50406,7 +50407,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="339 (5)";
+								description="356 (5)";
 							};
 							id=5051;
 							type="Sign_Sphere200cm_F";
@@ -50440,7 +50441,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="341 (5)";
+								description="358 (5)";
 							};
 							id=5052;
 							type="Sign_Sphere200cm_F";
@@ -50475,7 +50476,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="340 (5)";
+								description="357 (5)";
 							};
 							id=5053;
 							type="Sign_Sphere200cm_F";
@@ -50511,7 +50512,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="342 (5)";
+								description="359 (5)";
 							};
 							id=5054;
 							type="Sign_Sphere200cm_F";
@@ -50547,7 +50548,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="343 (5)";
+								description="360 (5)";
 							};
 							id=5055;
 							type="Sign_Sphere200cm_F";
@@ -51189,7 +51190,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="358 (5)";
+								description="375 (5)";
 							};
 							id=5076;
 							type="Sign_Sphere200cm_F";
@@ -51579,7 +51580,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="353 (5)";
+								description="370 (5)";
 							};
 							id=5087;
 							type="Sign_Sphere200cm_F";
@@ -51615,7 +51616,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="352 (5)";
+								description="369 (5)";
 							};
 							id=5088;
 							type="Sign_Sphere200cm_F";
@@ -51650,7 +51651,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="351 (5)";
+								description="368 (5)";
 							};
 							id=5089;
 							type="Sign_Sphere200cm_F";
@@ -51686,7 +51687,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="350 (5)";
+								description="367 (5)";
 							};
 							id=5090;
 							type="Sign_Sphere200cm_F";
@@ -51722,7 +51723,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="354 (5)";
+								description="371 (5)";
 							};
 							id=5091;
 							type="Sign_Sphere200cm_F";
@@ -51758,7 +51759,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="355 (5)";
+								description="372 (5)";
 							};
 							id=5092;
 							type="Sign_Sphere200cm_F";
@@ -51793,7 +51794,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="356 (5)";
+								description="373 (5)";
 							};
 							id=5093;
 							type="Sign_Sphere200cm_F";
@@ -51828,7 +51829,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="357 (5)";
+								description="374 (5)";
 							};
 							id=5105;
 							type="Sign_Sphere200cm_F";
@@ -51936,7 +51937,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="11 (5)";
+								description="332 (5)";
 							};
 							id=5119;
 							type="Sign_Sphere200cm_F";
@@ -51972,7 +51973,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="7 (5)";
+								description="326 (5)";
 							};
 							id=5120;
 							type="Sign_Sphere200cm_F";
@@ -52007,7 +52008,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="3 (5)";
+								description="330 (5)";
 							};
 							id=5121;
 							type="Sign_Sphere200cm_F";
@@ -52043,7 +52044,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="6 (5)";
+								description="327 (5)";
 							};
 							id=5122;
 							type="Sign_Sphere200cm_F";
@@ -52079,7 +52080,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="2 (5)";
+								description="331 (5)";
 							};
 							id=5123;
 							type="Sign_Sphere200cm_F";
@@ -52114,7 +52115,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="8 (5)";
+								description="325 (5)";
 							};
 							id=5125;
 							type="Sign_Sphere200cm_F";
@@ -52150,7 +52151,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="9 (5)";
+								description="324 (5)";
 							};
 							id=5126;
 							type="Sign_Sphere200cm_F";
@@ -52186,7 +52187,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="1 (5)";
+								description="333 (5)";
 							};
 							id=5127;
 							type="Sign_Sphere200cm_F";
@@ -52222,7 +52223,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="0 (5)";
+								description="334 (5)";
 							};
 							id=5128;
 							type="Sign_Sphere200cm_F";
@@ -52257,7 +52258,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="4 (5)";
+								description="329 (5)";
 							};
 							id=5129;
 							type="Sign_Sphere200cm_F";
@@ -52292,7 +52293,7 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="5 (5)";
+								description="328 (5)";
 							};
 							id=5130;
 							type="Sign_Sphere200cm_F";
@@ -52319,7 +52320,7 @@ class Mission
 							dataType="Object";
 							class PositionInfo
 							{
-								position[]={5777.145,38.648529,11360.91};
+								position[]={5777.3091,38.697742,11362.484};
 								angles[]={6.249599,0,6.2607903};
 							};
 							side="Empty";
@@ -52327,10 +52328,11 @@ class Mission
 							class Attributes
 							{
 								presenceCondition="false";
-								description="10 (5)";
+								description="323 (5)";
 							};
 							id=5132;
 							type="Sign_Sphere200cm_F";
+							atlOffset=3.8146973e-006;
 							class CustomAttributes
 							{
 								class Attribute0
@@ -52342,7 +52344,7 @@ class Mission
 										class data
 										{
 											singleType="STRING";
-											value="#(argb,8,8,3)color(0,1,0,1,ca)";
+											value="#(argb,8,8,3)color(0,0.25,1,1,ca)";
 										};
 									};
 								};
@@ -52354,18 +52356,19 @@ class Mission
 							dataType="Object";
 							class PositionInfo
 							{
-								position[]={6213.1079,19.557934,11391.25};
-								angles[]={0.11548356,1.9516304,0.004796607};
+								position[]={5671.104,53.769485,11323.748};
+								angles[]={0.069488183,0,6.1323404};
 							};
 							side="Empty";
 							flags=4;
 							class Attributes
 							{
 								presenceCondition="false";
-								description="0 (5)";
+								description="319 (5)";
 							};
-							id=5133;
+							id=5157;
 							type="Sign_Sphere200cm_F";
+							atlOffset=0.00016021729;
 							class CustomAttributes
 							{
 								class Attribute0
@@ -52377,7 +52380,7 @@ class Mission
 										class data
 										{
 											singleType="STRING";
-											value="#(argb,8,8,3)color(0,1,0,1,ca)";
+											value="#(argb,8,8,3)color(0,0.25,1,1,ca)";
 										};
 									};
 								};
@@ -52389,19 +52392,19 @@ class Mission
 							dataType="Object";
 							class PositionInfo
 							{
-								position[]={6183.438,18.612452,11397.635};
-								angles[]={0.06072529,1.9516304,0.049560208};
+								position[]={5704.8252,48.076244,11337.152};
+								angles[]={0.042374056,0,6.1495862};
 							};
 							side="Empty";
 							flags=4;
 							class Attributes
 							{
 								presenceCondition="false";
-								description="1 (5)";
+								description="320 (5)";
 							};
-							id=5134;
+							id=5158;
 							type="Sign_Sphere200cm_F";
-							atlOffset=0.0001411438;
+							atlOffset=3.8146973e-006;
 							class CustomAttributes
 							{
 								class Attribute0
@@ -52413,7 +52416,7 @@ class Mission
 										class data
 										{
 											singleType="STRING";
-											value="#(argb,8,8,3)color(0,1,0,1,ca)";
+											value="#(argb,8,8,3)color(0,0.25,1,1,ca)";
 										};
 									};
 								};
@@ -52425,19 +52428,19 @@ class Mission
 							dataType="Object";
 							class PositionInfo
 							{
-								position[]={6124.895,16.7026,11418.396};
-								angles[]={0.050356328,1.9516304,0.0039967569};
+								position[]={5740.9473,43.025013,11347.85};
+								angles[]={0.0055992967,0,6.145659};
 							};
 							side="Empty";
 							flags=4;
 							class Attributes
 							{
 								presenceCondition="false";
-								description="3 (5)";
+								description="321 (5)";
 							};
-							id=5135;
+							id=5159;
 							type="Sign_Sphere200cm_F";
-							atlOffset=0.0001411438;
+							atlOffset=2.6702881e-005;
 							class CustomAttributes
 							{
 								class Attribute0
@@ -52461,91 +52464,19 @@ class Mission
 							dataType="Object";
 							class PositionInfo
 							{
-								position[]={6126.0288,43.381874,11284.786};
-								angles[]={0.17033349,1.9516304,6.0310669};
+								position[]={5759.8633,40.094688,11360.396};
+								angles[]={-0,0,6.1906505};
 							};
 							side="Empty";
 							flags=4;
 							class Attributes
 							{
 								presenceCondition="false";
-								description="2 (5)";
+								description="322 (5)";
 							};
-							id=5136;
+							id=5160;
 							type="Sign_Sphere200cm_F";
-							atlOffset=0.00012969971;
-							class CustomAttributes
-							{
-								class Attribute0
-								{
-									property="ObjectTextureCustom0";
-									expression="_this setObjectTextureGlobal [0,_value]";
-									class Value
-									{
-										class data
-										{
-											singleType="STRING";
-											value="#(argb,8,8,3)color(0,0.25,1,1,ca)";
-										};
-									};
-								};
-								nAttributes=1;
-							};
-						};
-						class Item376
-						{
-							dataType="Object";
-							class PositionInfo
-							{
-								position[]={6096.5337,15.771591,11424.713};
-								angles[]={0.13202716,1.9516304,0.09966857};
-							};
-							side="Empty";
-							flags=4;
-							class Attributes
-							{
-								presenceCondition="false";
-								description="4 (5)";
-							};
-							id=5137;
-							type="Sign_Sphere200cm_F";
-							atlOffset=3.6239624e-005;
-							class CustomAttributes
-							{
-								class Attribute0
-								{
-									property="ObjectTextureCustom0";
-									expression="_this setObjectTextureGlobal [0,_value]";
-									class Value
-									{
-										class data
-										{
-											singleType="STRING";
-											value="#(argb,8,8,3)color(0,1,0,1,ca)";
-										};
-									};
-								};
-								nAttributes=1;
-							};
-						};
-						class Item377
-						{
-							dataType="Object";
-							class PositionInfo
-							{
-								position[]={6169.1333,4.5452161,11467.393};
-								angles[]={0.017598685,1.9516304,6.1692805};
-							};
-							side="Empty";
-							flags=4;
-							class Attributes
-							{
-								presenceCondition="false";
-								description="5 (5)";
-							};
-							id=5138;
-							type="Sign_Sphere200cm_F";
-							atlOffset=0.00012969971;
+							atlOffset=3.8146973e-006;
 							class CustomAttributes
 							{
 								class Attribute0
@@ -52566,11 +52497,11 @@ class Mission
 						};
 					};
 					id=1558;
-					atlOffset=-1.1193237;
+					atlOffset=0.47418594;
 				};
 			};
 			id=3646;
-			atlOffset=-41.778259;
+			atlOffset=-65.179008;
 		};
 		class Item25
 		{
@@ -54202,11 +54133,11 @@ class Mission
 	{
 		class LinkIDProvider
 		{
-			nextID=1357;
+			nextID=1356;
 		};
 		class Links
 		{
-			items=1357;
+			items=1356;
 			class Item0
 			{
 				linkID=0;
@@ -67670,8 +67601,8 @@ class Mission
 			class Item1346
 			{
 				linkID=1346;
-				item0=5120;
-				item1=5123;
+				item0=5122;
+				item1=5130;
 				class CustomData
 				{
 					type="Sync";
@@ -67680,7 +67611,7 @@ class Mission
 			class Item1347
 			{
 				linkID=1347;
-				item0=5122;
+				item0=5129;
 				item1=5130;
 				class CustomData
 				{
@@ -67691,7 +67622,7 @@ class Mission
 			{
 				linkID=1348;
 				item0=5129;
-				item1=5130;
+				item1=5121;
 				class CustomData
 				{
 					type="Sync";
@@ -67700,8 +67631,8 @@ class Mission
 			class Item1349
 			{
 				linkID=1349;
-				item0=5129;
-				item1=5121;
+				item0=5132;
+				item1=5126;
 				class CustomData
 				{
 					type="Sync";
@@ -67710,8 +67641,8 @@ class Mission
 			class Item1350
 			{
 				linkID=1350;
-				item0=5132;
-				item1=5126;
+				item0=5160;
+				item1=5132;
 				class CustomData
 				{
 					type="Sync";
@@ -67720,8 +67651,8 @@ class Mission
 			class Item1351
 			{
 				linkID=1351;
-				item0=5134;
-				item1=5136;
+				item0=5160;
+				item1=5159;
 				class CustomData
 				{
 					type="Sync";
@@ -67730,8 +67661,8 @@ class Mission
 			class Item1352
 			{
 				linkID=1352;
-				item0=5134;
-				item1=5133;
+				item0=5159;
+				item1=5158;
 				class CustomData
 				{
 					type="Sync";
@@ -67740,8 +67671,8 @@ class Mission
 			class Item1353
 			{
 				linkID=1353;
-				item0=5136;
-				item1=5135;
+				item0=5157;
+				item1=5158;
 				class CustomData
 				{
 					type="Sync";
@@ -67750,8 +67681,8 @@ class Mission
 			class Item1354
 			{
 				linkID=1354;
-				item0=5137;
-				item1=5135;
+				item0=5157;
+				item1=5029;
 				class CustomData
 				{
 					type="Sync";
@@ -67760,18 +67691,8 @@ class Mission
 			class Item1355
 			{
 				linkID=1355;
-				item0=5138;
-				item1=5134;
-				class CustomData
-				{
-					type="Sync";
-				};
-			};
-			class Item1356
-			{
-				linkID=1356;
-				item0=5138;
-				item1=5135;
+				item0=5028;
+				item1=5029;
 				class CustomData
 				{
 					type="Sync";
