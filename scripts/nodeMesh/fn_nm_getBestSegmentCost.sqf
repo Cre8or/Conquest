@@ -106,8 +106,9 @@ if (_segmentArray param [0, objNull] isEqualType objNull) then {
 			_lowestCost = _cost;
 			_segmentID  = _forEachIndex;
 		};
-		_cost = _lowestCost;
 	} foreach _segmentArray;
+
+	_cost = _lowestCost;
 };
 
 

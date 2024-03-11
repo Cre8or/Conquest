@@ -353,7 +353,7 @@ if (_sideIndex >= 0) then {
 			if (!alive _veh) then {
 				if (_respawnTime < 0) then {
 					_spawnData set [10, _time + _respawnDelay];
-					systemChat format ["[%1] vehicle destroyed: %2", _sector getVariable [QGVAR(letter), "???"], _class];
+					//systemChat format ["[%1] vehicle destroyed: %2", _sector getVariable [QGVAR(letter), "???"], _class];
 				};
 				continue;
 			};
@@ -386,7 +386,7 @@ if (_sideIndex >= 0) then {
 
 			if (_punishTime < 0) then {
 				_veh setVariable [QGVAR(punishTime), _time + MACRO_SECTOR_VEH_DELAYUNTILDAMAGE, false];
-				systemChat format ["[%1] vehicle is abandoned: %2", _sector getVariable [QGVAR(letter), "???"], _class];
+				//systemChat format ["[%1] vehicle is abandoned: %2", _sector getVariable [QGVAR(letter), "???"], _class];
 
 			// If the punish time has been exceeded, start damaging the vehicle
 			} else {
@@ -397,7 +397,7 @@ if (_sideIndex >= 0) then {
 						_damage = (_veh getHitPointDamage "HitEngine") + (0.05 * MACRO_SECTOR_TRIGGERINTERVAL);		// 0.05 damage per second
 
 						if (_damage >= 0.9) then {
-							systemChat format ["[%1] Destroying abandoned vehicle: %2", _sector getVariable [QGVAR(letter), "???"], _class];
+							//systemChat format ["[%1] Destroying abandoned vehicle: %2", _sector getVariable [QGVAR(letter), "???"], _class];
 							clearMagazineCargo _veh;
 							_veh setFuel 0;
 							_veh setVehicleAmmoDef 0;

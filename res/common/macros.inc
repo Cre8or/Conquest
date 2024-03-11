@@ -382,7 +382,7 @@
 	#define MACRO_NM_COSTMULTIPLIER_OFFMESH_VEH                     3 // By how much the node cost is multiplied when travelling to/from points outside of the nodemesh (such as the origin/destination), for vehicles
 	#define MACRO_NM_MAXCOUNT_NODES                                 10 // How many start/end nodes may be considered in each findPath query (more may yield better results, but impacts performance)
 	#define MACRO_NM_DANGERLEVEL_INF_DECREASERATE                   1 // By how much the danger level of all infantry node edges should decrease, per second
-	#define MACRO_NM_DANGERLEVEL_VEH_DECREASERATE                   0 // By how much the danger level of all vehicle node edges should decrease, per second
+	#define MACRO_NM_DANGERLEVEL_VEH_DECREASERATE                   2 // By how much the danger level of all vehicle node edges should decrease, per second
 	#define MACRO_NM_DANGERLEVEL_INF_GAIN                           100 // By how much an edge's danger level increases if an infantry unit dies on it
 	#define MACRO_NM_DANGERLEVEL_VEH_GAIN                           600 // By how much an edge's danger level increases if a vehicle is destroyed on it (does not account for the crew!)
 	#define MACRO_NM_DANGERLEVEL_INF_MAX                            1000 // The maximum cap for an infantry node edge's danger level
@@ -405,7 +405,7 @@
 	#define MACRO_TICKETS_DECISIVETHRESHOLD                         100 // If the round ends, and the winning side has at least this many tickets left, the end counts as a decisive victory/crushing defeat
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.12.533"
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.12.538"
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -755,7 +755,7 @@
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	//#define MACRO_DEBUG_AI_COMMANDER
-	#define MACRO_DEBUG_AI_COMMANDER_DISABLED
+	//#define MACRO_DEBUG_AI_COMMANDER_DISABLED
 	//#define MACRO_DEBUG_AI_DRIVER
 	//#define MACRO_DEBUG_AI_DRIVER_HALT
 	#define MACRO_DEBUG_AI_MOVEPOS
@@ -763,10 +763,10 @@
 
 	#define MACRO_DEBUG_CA
 
-	#define MACRO_DEBUG_NM_OCCLUDERS
-	//#define MACRO_DEBUG_NM_NODES_INF
-	#define MACRO_DEBUG_NM_NODES_VEH
-	#define MACRO_DEBUG_NM_NODE_IDS
-	//#define MACRO_DEBUG_NM_PATH
+	//#define MACRO_DEBUG_GM_PRESLOT
 
-	#define MACRO_DEBUG_GM_PRESLOT
+	//#define MACRO_DEBUG_NM_OCCLUDERS
+	//#define MACRO_DEBUG_NM_NODES_INF
+	//#define MACRO_DEBUG_NM_NODES_VEH
+	//#define MACRO_DEBUG_NM_NODE_IDS
+	//#define MACRO_DEBUG_NM_PATH

@@ -57,9 +57,10 @@ if (
 	if (alive _prevNode and {alive _curNode}) then {
 		private _prevNodeID = _prevNode getVariable [QGVAR(nodeID), -1];
 		private _curNodeID  = _curNode getVariable [QGVAR(nodeID), -1];
+		private _unitSide   = _unit getVariable [QGVAR(side), sideEmpty];
 
 		// Globally increase the danger level along this edge
-		[_prevNodeID, _curNodeID, _prevNode getVariable [QGVAR(isVehNode), false]] remoteExecCall [QFUNC(ai_increaseDangerLevel), 0, false];
+		[_prevNodeID, _curNodeID, _prevNode getVariable [QGVAR(isVehNode), false], _unitSide] remoteExecCall [QFUNC(ai_increaseDangerLevel), 0, false];
 	};
 };
 

@@ -10,6 +10,10 @@ private _c_maxAvoidanceDistSqr = MACRO_AI_DRIVER_AVOIDANCE_MAXDISTANCE ^ 2;
 
 
 
+#ifdef MACRO_DEBUG_AI_DRIVER_HALT
+	_shouldHalt = true;
+#endif
+
 // Edge case: prevent tracked vehicles from reversing uncontrollably
 if (_hasTracks and {!_shouldHalt}) then {
 	if (_speed < 0) then {
@@ -190,10 +194,6 @@ if (_shouldHalt) then {
 	_distRemainingMul = (_lookAheadDist / _maxLookAheadDist) min 1;
 
 	_targetSpeed = 10 + MACRO_AI_DRIVER_MAXSPEED * (_avoidanceMul min _worstTurnMul min _distRemainingMul);
-
-	#ifdef MACRO_DEBUG_AI_DRIVER_HALT
-		_targetSpeed = 0.001;
-	#endif
 
 	private _routeAttractionForce = _vecVehRouteForward;
 	private _sumOfForces = _avoidanceForce vectorAdd _routeAlignForce vectorAdd _routeAttractionForce;

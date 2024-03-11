@@ -51,8 +51,6 @@ _node setVariable [QGVAR(knots), _curNodeData # 1]; // 1
 		for "_i" from 1 to (count _x) - 1 do {
 			(_x # _i) params ["_costX", "_distX", ["_segmentX", []], ["_segmentFlag", 0]];
 
-			diag_log format ["[nm_setupNode] Parsing connection (%1): %2 / %3 / %4 / %5", _nodeID, _costX, _distX, _segmentX, _segmentFlag];
-
 			// If we have a segment flag, decompose it
 			if (_segmentFlag > 0) then {
 				{

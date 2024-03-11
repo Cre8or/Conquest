@@ -72,8 +72,7 @@ private _varName_costArrayX   = [format [QGVAR(distances_%1_%2), "%1", _side], f
 private _varName_knots        = format [QGVAR(knots_%1), _side];
 private _varName_usedBySide   = format [QGVAR(usedBy_%1), _side];
 private _varName_segmentsX    = format [QGVAR(segments_%1_%2), "%1", _side];
-//private _varName_dangerLevel = format [QGVAR(dangerLevel_%1_%2), "%1", _side];
-private _varName_dangerLevelX = QGVAR(dangerLevel_%1); // TODO: Implement per-side danger levels
+private _varName_dangerLevelX = format [QGVAR(dangerLevel_%1_%2), "%1", _side];
 
 // Set up some variables
 private _result = [];
@@ -256,7 +255,7 @@ diag_log format ["Candidates (end): %1", (allVariables _namespace_isEndNode) app
 
 // --------------------------------------------------- STAGE 2 / 6 ----------------------------------------------------
 // Find a path between the start and end nodes
-private ["_curKnot", "_curEntry", "_curCost", "_curKnotStr", "_segmentCost", "_lastNode", "_lastNodeStr", "_segment", "_segmentIndex", "_oldCost", "_newCost", "_connectedNodesToCheck"];
+private ["_curKnot", "_curEntry", "_curCost", "_curKnotStr", "_segmentCost", "_lastNode", "_lastNodeStr", "_segment", "_segmentIndex", "_oldCost", "_newCost", "_nodeIndex"];
 
 while {true} do {
 
@@ -334,26 +333,43 @@ while {true} do {
 	{
 		_nodeStrX = str _x;
 
-		// If this node hasn't been visited yet, process it
-		if (_namespace_unvisited getVariable [_nodeStrX, true]) then {
-			_oldCost = _namespace_costs getVariable [_nodeStrX, _const_maxCost];
+		// Only check this knot if it hasn't been visited yet
+		if !(_namespace_unvisited getVariable [_nodeStrX, true]) then {
+			diag_log format ["    Skipping neighbour %1 (already visited)", _x];
+			continue;
+		};
 
-			_nodeX       = _allNodes # _x;
-			_segmentCost = [_curKnot, _nodeX, _varName_costX, _varName_segmentsX, _varName_dangerLevelX, _varName_costArrayX] call FUNC(nm_getBestSegmentCost);
-			_newCost     = (_segmentCost # 0) + _curCost;
+		_oldCost = _namespace_costs getVariable [_nodeStrX, _const_maxCost];
 
-			// If the new cost is lower, update the node's precedent
+		_nodeX       = _allNodes # _x;
+		_segmentCost = [_curKnot, _nodeX, _varName_costX, _varName_segmentsX, _varName_dangerLevelX, _varName_costArrayX] call FUNC(nm_getBestSegmentCost);
+		_newCost     = (_segmentCost # 0) + _curCost;
+
+		// If the new cost is lower, update the node's precedent
+		if (_newCost < _oldCost) then {
+			diag_log format ["    Saving new cost (%1 -> %2: %3) - previous: %4", _curKnotStr, _nodeStrX, _newCost, _oldCost];
+			_namespace_costs setVariable [_nodeStrX, _newCost];
+			_namespace_precedents setVariable [_nodeStrX, _curKnot];
+			_namespace_segmentIndex setVariable [format ["%1_%2", _curKnotStr, _nodeStrX], _segmentCost # 1];
+		} else {
+			diag_log format ["    Neighbour knot %1 costs more (%2 > %3) - ignoring...", _x, _newCost, _oldCost];
+		};
+
+		// Add the new node to the queue
+		// Generally we only do this for nodes that are undiscovered, but if a lower cost is found to a previously
+		// disovered neighbour, we'll want to update its value in the queue (so it evaluated sooner).
+		if (_namespace_undiscovered getVariable [_nodeStrX, true]) then {
+			_namespace_undiscovered setVariable [_nodeStrX, false];
+			_nodeQueue pushBack [_newCost, _nodeX];
+			diag_log format ["    Adding neighbour knot %1 to the queue (cost: %2 / %3)", _x, _newCost, _oldCost];
+		} else {
 			if (_newCost < _oldCost) then {
-				diag_log format ["  Saving new cost (%1 -> %2: %3) - previous: %4", _curKnotStr, _nodeStrX, _newCost, _oldCost];
-				_namespace_costs setVariable [_nodeStrX, _newCost];
-				_namespace_precedents setVariable [_nodeStrX, _curKnot];
-				_namespace_segmentIndex setVariable [format ["%1_%2", _curKnotStr, _nodeStrX], _segmentCost # 1];
-			};
+				_nodeIndex = _nodeQueue findIf {_x # 1 == _nodeX};
 
-			// Add the new node to the queue
-			if (_namespace_undiscovered getVariable [_nodeStrX, true]) then {
-				_namespace_undiscovered setVariable [_nodeStrX, false];
-				_nodeQueue pushBack [_oldCost min _newCost, _nodeX];
+				if (_nodeIndex >= 0) then {
+					diag_log format ["    Updating queued neighbour knot %1's cost (%2) - previous: %3", _x, _newCost, _oldCost];
+					_nodeQueue set [_nodeIndex, [_newCost, _nodeX]];
+				};
 			};
 		};
 	} forEach (_curKnot getVariable [_varName_knots, []]);

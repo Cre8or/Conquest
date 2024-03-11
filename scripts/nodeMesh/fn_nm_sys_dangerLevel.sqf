@@ -21,7 +21,7 @@
 
 
 // Define some macros
-#define MACRO_MAX_EDGESPERFRAME 10 // How many node edges we should check per frame (not exact - read as: "at least this many")
+#define MACRO_MAX_EDGESPERFRAME 20 // How many node edges we should check per frame (not exact - read as: "at least this many")
 
 // Set up some variables
 MACRO_FNC_INITVAR(GVAR(EH_nm_sys_dangerLevel), -1);
@@ -42,10 +42,11 @@ GVAR(EH_nm_sys_dangerLevel) = addMissionEventHandler ["EachFrame", {
 
 	if (GVAR(missionState) == MACRO_ENUM_MISSION_LIVE) then {
 
-		private ["_node", "_decreaseRate", "_varnameStr"];
 		private _time = time;
+		private _allSides = GVAR(sides) select {_x != sideEmpty};
 		private _edgesChecked = 0;
 		private _continue = true;
+		private ["_node", "_decreaseRate", "_deltaTime", "_neighbours", "_neighbourX", "_varnameStr", "_dangerLevel"];
 
 		while {_continue} do {
 
@@ -63,26 +64,35 @@ GVAR(EH_nm_sys_dangerLevel) = addMissionEventHandler ["EachFrame", {
 
 			// Iterate over this node's neighbours
 			{
-				_varnameStr = format [QGVAR(dangerLevel_%1), _x getVariable [QGVAR(nodeID), -1]];
+				_neighbourX = _x;
 
 				// Decrease this edge's danger level
-				_node setVariable [_varnameStr,
-				 	((_node getVariable [_varnameStr, 0]) - _decreaseRate * _deltaTime) max 0,
-				false];
+				{
+					_varnameStr  = format [QGVAR(dangerLevel_%1_%2), _neighbourX getVariable [QGVAR(nodeID), -1], _x];
+					_dangerLevel = _node getVariable [_varnameStr, 0];
+
+					if (_dangerLevel > 0) then {
+						//diag_log format ["[dangerLevel] (%1) Edge %2 -> %3 at: %4", _time, _node getVariable [QGVAR(nodeID), -1], _neighbourX getVariable [QGVAR(nodeID), -1], _dangerLevel]
+						_node setVariable [_varnameStr, (_dangerLevel - _decreaseRate * _deltaTime) max 0, false];
+					};
+
+					_edgesChecked = _edgesChecked + 1;
+				} forEach _allSides;
 			} forEach _neighbours;
 
 			// Update the node's check time
 			_node setVariable [QGVAR(dangerLevel_prevTime), _time, false];
 
-			_edgesChecked = _edgesChecked + count _neighbours;
 			if (_edgesChecked >= MACRO_MAX_EDGESPERFRAME or {GVAR(nm_sys_dangerLevel_index) >= GVAR(nm_nodesTotalcount)}) then {
 				_continue = false;
-				GVAR(nm_sys_dangerLevel_index) = 0;
-			} else {
-				GVAR(nm_sys_dangerLevel_index) = GVAR(nm_sys_dangerLevel_index) + 1;
 			};
+			GVAR(nm_sys_dangerLevel_index) = GVAR(nm_sys_dangerLevel_index) + 1;
+		};
 
-			//hintSilent format ["INDEX: %1", GVAR(nm_sys_dangerLevel_index)];
+		// Restart at the beginning
+		if (GVAR(nm_sys_dangerLevel_index) >= GVAR(nm_nodesTotalcount)) then {
+			GVAR(nm_sys_dangerLevel_index) = 0;
+			//diag_log format ["[dangerLevel] (%1) Finished full loop - restarting", _time];
 		};
 	};
 }];
