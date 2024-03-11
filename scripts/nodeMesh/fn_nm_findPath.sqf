@@ -212,7 +212,7 @@ if (alive _startNode) then {
 	_nodeStrX = str (_nodeX getVariable [QGVAR(nodeID), -1]);
 	_namespace_isEndNode setVariable [_nodeStrX, true];
 	_namespace_endNodesCost setVariable [_nodeStrX, _cost];
-	diag_log format ["End node cost (%1): %2", _nodeStrX, _cost];
+	//diag_log format ["End node cost (%1): %2", _nodeStrX, _cost];
 
 	// If this node is a segment node, fetch its 2 end knots and make them end nodes aswell.
 	// This way the next stage will be able to trace these knots back to the actual end node.
@@ -242,13 +242,13 @@ if (_startNodesCount == 0 or {_endNodesCount == 0}) exitWith {
 	//systemChat "[fnc_nm_findPath] ERROR: Could not determine the start/end node!";
 	[[],[],[]];
 };
-
+/*
 diag_log "";
 diag_log format ["Candidates (start): %1", _nodeQueue apply {(_x # 1) getVariable [QGVAR(nodeID), -1]}];
 diag_log format ["Candidates (end): %1", (allVariables _namespace_isEndNode) apply {
 	[parseNumber _x, (_namespace_endNodes getVariable [_x, []]) apply {_x getVariable [QGVAR(nodeID), -1]}]
 }];
-
+*/
 
 
 
@@ -275,18 +275,18 @@ while {true} do {
 	_curCost    = _curEntry param [0, _const_maxCost];
 	_curKnotStr = str (_curKnot getVariable [QGVAR(nodeID), -1]);
 	_namespace_unvisited setVariable [_curKnotStr, false];
-	diag_log format ["Checking knot %1 (cost: %2)", _curKnotStr, _curCost];
+	//diag_log format ["Checking knot %1 (cost: %2)", _curKnotStr, _curCost];
 
 	// Abort early if this knot's cost exceeds the highest determined cost
 	if (_curCost >= _maxCost) then {
-		diag_log format ["Ending search - candidate knot is too expensive (max: %1)", _maxCost];
+		//diag_log format ["Ending search - candidate knot is too expensive (max: %1)", _maxCost];
 		_nodeQueue = []; // Also clear the queue, as any subsequent entries will be even more expensive than this one
 		continue;
 	};
 
 	// If this knot leads to the destination, compare it to the current best end node
 	if (_namespace_isEndNode getVariable [_curKnotStr, false]) then {
-		diag_log format ["  Knot %1 leads to the end", _curKnotStr];
+		//diag_log format ["  Knot %1 leads to the end", _curKnotStr];
 
 		// Let the knot's end nodes have the first go at being the best candidate
 		private _endNodes = _namespace_endNodes getVariable [_curKnotStr, []];
@@ -298,15 +298,15 @@ while {true} do {
 
 			// If this node has a lower cost to the destination than the previous maximum, set it as the new end node
 			if (_newCost < _maxCost) then {
-				diag_log format ["    Knot %1's end node %2 is new best end node (%3 < %4)", _curKnotStr, _nodeStrX, _newCost, _maxCost];
+				//diag_log format ["    Knot %1's end node %2 is new best end node (%3 < %4)", _curKnotStr, _nodeStrX, _newCost, _maxCost];
 				_maxCost     = _newCost;
 				_bestEndNode = _nodeX;
 
 				_namespace_precedents setVariable [_nodeStrX, _curKnot];
 				_namespace_segmentIndex setVariable [format ["%1_%2", _curKnotStr, _nodeStrX], _segmentCost # 1];
-			} else {
+/*			} else {
 				diag_log format ["    Knot %1's end node %2 costs more (%3 > %4), ignoring...", _curKnotStr, _nodeStrX, _newCost, _maxCost];
-			};
+*/			};
 		} forEach _endNodes;
 
 		// Only after checking the knot's end nodes (if it has any), we check the knot itself as a candidate.
@@ -319,15 +319,15 @@ while {true} do {
 		_newCost = (_namespace_endNodesCost getVariable [_curKnotStr, 0]) + _curCost;
 
 		if (_newCost < _maxCost) then {
-			diag_log format ["    Knot %1 is new best end node (%2 < %3)", _curKnotStr, _newCost, _maxCost];
+			//diag_log format ["    Knot %1 is new best end node (%2 < %3)", _curKnotStr, _newCost, _maxCost];
 			_maxCost     = _newCost;
 			_bestEndNode = _curKnot;
-		} else {
+/*		} else {
 			diag_log format ["    Knot %1 costs more (%2 > %3), ignoring...", _curKnotStr, _newCost, _maxCost];
-		};
+*/		};
 	};
 
-	diag_log format ["  Neighbouring knots: %1", _curKnot getVariable [_varName_knots, []]];
+	//diag_log format ["  Neighbouring knots: %1", _curKnot getVariable [_varName_knots, []]];
 
 	// Iterate through this node's neighbour knots
 	{
@@ -335,7 +335,7 @@ while {true} do {
 
 		// Only check this knot if it hasn't been visited yet
 		if !(_namespace_unvisited getVariable [_nodeStrX, true]) then {
-			diag_log format ["    Skipping neighbour %1 (already visited)", _x];
+			//diag_log format ["    Skipping neighbour %1 (already visited)", _x];
 			continue;
 		};
 
@@ -347,13 +347,13 @@ while {true} do {
 
 		// If the new cost is lower, update the node's precedent
 		if (_newCost < _oldCost) then {
-			diag_log format ["    Saving new cost (%1 -> %2: %3) - previous: %4", _curKnotStr, _nodeStrX, _newCost, _oldCost];
+			//diag_log format ["    Saving new cost (%1 -> %2: %3) - previous: %4", _curKnotStr, _nodeStrX, _newCost, _oldCost];
 			_namespace_costs setVariable [_nodeStrX, _newCost];
 			_namespace_precedents setVariable [_nodeStrX, _curKnot];
 			_namespace_segmentIndex setVariable [format ["%1_%2", _curKnotStr, _nodeStrX], _segmentCost # 1];
-		} else {
+/*		} else {
 			diag_log format ["    Neighbour knot %1 costs more (%2 > %3) - ignoring...", _x, _newCost, _oldCost];
-		};
+*/		};
 
 		// Add the new node to the queue
 		// Generally we only do this for nodes that are undiscovered, but if a lower cost is found to a previously
@@ -361,13 +361,13 @@ while {true} do {
 		if (_namespace_undiscovered getVariable [_nodeStrX, true]) then {
 			_namespace_undiscovered setVariable [_nodeStrX, false];
 			_nodeQueue pushBack [_newCost, _nodeX];
-			diag_log format ["    Adding neighbour knot %1 to the queue (cost: %2 / %3)", _x, _newCost, _oldCost];
+			//diag_log format ["    Adding neighbour knot %1 to the queue (cost: %2 / %3)", _x, _newCost, _oldCost];
 		} else {
 			if (_newCost < _oldCost) then {
 				_nodeIndex = _nodeQueue findIf {_x # 1 == _nodeX};
 
 				if (_nodeIndex >= 0) then {
-					diag_log format ["    Updating queued neighbour knot %1's cost (%2) - previous: %3", _x, _newCost, _oldCost];
+					//diag_log format ["    Updating queued neighbour knot %1's cost (%2) - previous: %3", _x, _newCost, _oldCost];
 					_nodeQueue set [_nodeIndex, [_newCost, _nodeX]];
 				};
 			};
@@ -380,8 +380,8 @@ while {true} do {
 
 // If we finished searching and failed to reach an end node, it means no path could be found
 if (isNull _bestEndNode) exitWith {
-	systemChat "ERROR: Couldn't find a path! Exiting...";
-	diag_log "ERROR: Couldn't find a path! Exiting...";
+	//systemChat "ERROR: Couldn't find a path! Exiting...";
+	//diag_log "ERROR: Couldn't find a path! Exiting...";
 	[[],[],[]]
 };
 
@@ -389,12 +389,11 @@ _lastNode = _bestEndNode;
 _curKnot  = _namespace_precedents getVariable [str (_bestEndNode getVariable [QGVAR(nodeID), -1]), objNull];
 _result pushBack _bestEndNode;
 
-diag_log format ["Reversing path (starting at %1)", _bestEndNode getVariable [QGVAR(nodeID), -1]];
-
+//diag_log format ["Reversing path (starting at %1)", _bestEndNode getVariable [QGVAR(nodeID), -1]];
 while {alive _curKnot} do {
 	_curKnotStr = str (_curKnot getVariable [QGVAR(nodeID), -1]);
 	_lastNodeStr = str (_lastNode getVariable [QGVAR(nodeID), -1]);
-	diag_log format ["  At node %1...", _curKnotStr];
+	//diag_log format ["  At node %1...", _curKnotStr];
 
 	// Fetch this node's segment and segment index
 	_segment = _curKnot getVariable [format [_varName_segmentsX, _lastNodeStr], []];
@@ -407,7 +406,7 @@ while {alive _curKnot} do {
 		if (_segmentIndex >= 0) then {
 			_segment = _segment # _segmentIndex;
 		};
-		diag_log format ["    Appending segment #%1 (%2 -> %3): %4", _segmentIndex, _curKnotStr, _lastNodeStr, _segment apply {_x getVariable [QGVAR(nodeID), -1]}];
+		//diag_log format ["    Appending segment #%1 (%2 -> %3): %4", _segmentIndex, _curKnotStr, _lastNodeStr, _segment apply {_x getVariable [QGVAR(nodeID), -1]}];
 
 		// Reverse the segment so the nodes are in the correct order, then append it to the results
 		_segment = +_segment;
@@ -420,7 +419,7 @@ while {alive _curKnot} do {
 	_curKnot = _namespace_precedents getVariable [_curKnotStr, objNull];
 };
 reverse _result;
-diag_log format ["Preliminary path (%1): %2", _maxCost, _result apply {_x getVariable [QGVAR(nodeID), -1]}];
+//diag_log format ["Preliminary path (%1): %2", _maxCost, _result apply {_x getVariable [QGVAR(nodeID), -1]}];
 
 
 
@@ -461,13 +460,13 @@ if (_shouldRebuildResult) then {
 	};
 
 	_result = _resultCopy;
-	diag_log format ["Removed redundant loops - new path: %1", _result apply {_x getVariable [QGVAR(nodeID), -1]}];
+	//diag_log format ["Removed redundant loops - new path: %1", _result apply {_x getVariable [QGVAR(nodeID), -1]}];
 };
 
 
 
 
-/*
+
 // --------------------------------------------------- STAGE 4 / 6 ----------------------------------------------------
 // Check if the head and tail of the path can be optimised
 private _indexLast = count _result - 1;
@@ -557,20 +556,17 @@ if (_newHeadIndex < _indexLast) then {
 
 if (_newHeadIndex > 0 or {_newTailIndex < _indexLast}) then {
 	_result = _result select [_newHeadIndex, _newTailIndex + 1 - _newHeadIndex];
-
+/*
 	if (_newHeadIndex > 0) then {
-		//systemchat format ["Optimised away %1 head node(s)", _newHeadIndex];
 		diag_log format ["  Optimised away %1 head node(s)", _newHeadIndex];
 	};
 
 	if (_newTailIndex < _indexLast) then {
-		//systemchat format ["Optimised away %1 tail node(s)", _indexLast - _newTailIndex];
 		diag_log format ["  Optimised away %1 tail node(s)", _indexLast - _newTailIndex];
 	};
-
-};
 */
-diag_log format ["Found a path! (%1 ms) Cost: %2 - Nodes: %3", (diag_tickTime - _timeStart) * 1000, _maxCost, _result apply {_x getVariable [QGVAR(nodeID), -1]}];
+};
+//diag_log format ["Found a path! (%1 ms) Cost: %2 - Nodes: %3", (diag_tickTime - _timeStart) * 1000, _maxCost, _result apply {_x getVariable [QGVAR(nodeID), -1]}];
 
 
 

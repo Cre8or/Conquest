@@ -87,8 +87,8 @@ if (!isMultiplayer and {_unit == player}) then {
 	private _newUnit = _grp createUnit [typeOf _unit, [0,0,0], [], 0, "CAN_COLLIDE"];
 
 	// Switch units and reassign the curator module
-	selectPlayer _newUnit;
 	unassignCurator GVAR(curatorModule);
+	selectPlayer _newUnit;
 	_newUnit assignCurator GVAR(curatorModule);
 	GVAR(curatorModule) addCuratorEditableObjects [[_newUnit], false];
 
