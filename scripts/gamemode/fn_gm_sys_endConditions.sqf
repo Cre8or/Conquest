@@ -25,7 +25,7 @@ if (!isServer) exitWith {};
 MACRO_FNC_INITVAR(GVAR(EH_sys_endConditions_eachFrame),-1);
 
 GVAR(sys_endConditions_nextTime) = -1;
-GVAR(sys_endConditions_validSidesCountPrev) = {_x > 0} count [GVAR(ticketsEast), GVAR(ticketsResistance), GVAR(ticketsWest)];
+GVAR(sys_endConditions_validSidesCountPrev) = ({_x > 0} count [GVAR(ticketsEast), GVAR(ticketsResistance), GVAR(ticketsWest)]) max 1;
 
 
 

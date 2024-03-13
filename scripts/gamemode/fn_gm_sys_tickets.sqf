@@ -42,9 +42,21 @@ GVAR(ticketsEast_last)       = -1;
 GVAR(ticketsResistance_last) = -1;
 GVAR(ticketsWest_last)       = -1;
 
+GVAR(ticketBleedEast)       = false;
+GVAR(ticketBleedResistance) = false;
+GVAR(ticketBleedWest)       = false;
+
 GVAR(ticketBleedEast_last)       = false;
 GVAR(ticketBleedResistance_last) = false;
 GVAR(ticketBleedWest_last)       = false;
+
+publicVariable QGVAR(ticketBleedEast);
+publicVariable QGVAR(ticketBleedResistance);
+publicVariable QGVAR(ticketBleedWest);
+
+
+
+
 
 // Define some macros
 #define MACRO_FNC_PERFORMTICKETBLEED(SIDE)															 \

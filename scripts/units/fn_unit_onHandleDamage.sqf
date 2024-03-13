@@ -2,7 +2,7 @@
 	Author:	 	Cre8or
 	Description:
 		[LA][GE]
-		Called whenever a local unit's "Killed" EH is executed.
+		Called whenever a local unit's "HandleDamage" EH is executed.
 		Handles the damage the unit receives from various sources, and filters out specific sources
 		(e.g. friendly vehicle impacts/physics damage).
 	Arguments:

@@ -9,23 +9,16 @@ diag_log "[CONQUEST] Server initialisation (stage 2) starting...";
 MACRO_FNC_INITVAR(GVAR(sides), []);
 MACRO_FNC_INITVAR(GVAR(allSectors), []);
 MACRO_FNC_INITVAR(GVAR(curatorModule), objNull);
-GVAR(allVehicles)   = [];
+GVAR(allVehicles) = [];
 
 GVAR(missionState) = MACRO_ENUM_MISSION_INIT;
 GVAR(safeStart)    = false;
 GVAR(ticketsEast)       = 0;
 GVAR(ticketsResistance) = 0;
 GVAR(ticketsWest)       = 0;
-GVAR(ticketBleedEast)       = false;
-GVAR(ticketBleedResistance) = false;
-GVAR(ticketBleedWest)       = false;
 
 // Define global server variables
-GVAR(sv_AIIdentities)        = [];
-GVAR(AIUnits)                = [];
-GVAR(AIInfGroups_east)       = [];
-GVAR(AIInfGroups_resistance) = [];
-GVAR(AIInfGroups_west)       = [];
+GVAR(AIUnits) = [];
 
 MACRO_FNC_INITVAR(GVAR(firstInit),true);
 
@@ -333,9 +326,6 @@ publicVariable QGVAR(safeStart);
 publicVariable QGVAR(ticketsEast);
 publicVariable QGVAR(ticketsResistance);
 publicVariable QGVAR(ticketsWest);
-publicVariable QGVAR(ticketBleedEast);
-publicVariable QGVAR(ticketBleedResistance);
-publicVariable QGVAR(ticketBleedWest);
 
 publicVariable QGVAR(respawn_east);
 publicVariable QGVAR(respawn_resistance);

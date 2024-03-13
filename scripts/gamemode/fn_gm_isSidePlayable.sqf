@@ -21,14 +21,19 @@ params [
 
 
 
-private _index = _side;
-if (_side isEqualType sideEmpty) then {
-	_index = GVAR(sides) find _side;
+// Special case: side expressed as an array index
+if (_side isEqualType 0) exitWith {
+	switch (_side) do {
+		case 0:		{GVAR(ticketsEast) > 0};
+		case 1:		{GVAR(ticketsResistance) > 0};
+		case 2:		{GVAR(ticketsWest) > 0};
+		default		{false};
+	};
 };
 
-switch (_index) do {
-	case 0:		{GVAR(ticketsEast) > 0};
-	case 1:		{GVAR(ticketsResistance) > 0};
-	case 2:		{GVAR(ticketsWest) > 0};
-	default		{false};
+switch (_side) do {
+	case east:		{GVAR(ticketsEast) > 0};
+	case resistance:	{GVAR(ticketsResistance) > 0};
+	case west:		{GVAR(ticketsWest) > 0};
+	default			{false};
 };
