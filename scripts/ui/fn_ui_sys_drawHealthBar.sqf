@@ -23,6 +23,10 @@ if (!hasInterface) exitWith {};
 // Set up some variables
 MACRO_FNC_INITVAR(GVAR(ui_sys_drawHealthBar_EH),-1);
 
+// Define some macros
+#define MACRO_CRITICAL_HEALTH 50
+#define MACRO_PULSE_DURATION 0.5
+
 
 
 
@@ -43,15 +47,29 @@ GVAR(ui_sys_drawHealthBar_EH) = addMissionEventHandler ["EachFrame", {
 			_healthBar = uiNamespace getVariable [QGVAR(RscHealthBar), displayNull];
 		};
 
-		private _ctrlIcon = _healthBar displayCtrl MACRO_IDC_HB_HEALTH_ICON;
-		private _ctrlText = _healthBar displayCtrl MACRO_IDC_HB_HEALTH_TEXT;
+		private _ctrlBackground = _healthBar displayCtrl MACRO_IDC_HB_HEALTH_BACKGROUND;
+		private _ctrlIcon       = _healthBar displayCtrl MACRO_IDC_HB_HEALTH_ICON;
+		private _ctrlText       = _healthBar displayCtrl MACRO_IDC_HB_HEALTH_TEXT;
 
 		private _health = floor ((100 * (_player getVariable [QGVAR(health), 1]) min 999) max 1);
-		private _colour = ([SQUARE(MACRO_COLOUR_A100_RED), SQUARE(MACRO_COLOUR_A100_WHITE)] select (_health > 50));
+		private ["_colourText", "_colourBackground"];
+
+		// Below critical health, pulse the health bar
+		if (_health < MACRO_CRITICAL_HEALTH) then {
+			private _inverted = ((time mod (2 * MACRO_PULSE_DURATION)) < MACRO_PULSE_DURATION);
+
+			_colourBackground = ([SQUARE(MACRO_COLOUR_INGAME_BACKGROUND), SQUARE(MACRO_COLOUR_A100_RED)] select _inverted);
+			_colourText       = ([SQUARE(MACRO_COLOUR_A100_RED), SQUARE(MACRO_COLOUR_A100_WHITE)] select _inverted);
+		} else {
+			_colourBackground = SQUARE(MACRO_COLOUR_INGAME_BACKGROUND);
+			_colourText       = SQUARE(MACRO_COLOUR_A100_WHITE);
+		};
 
 		_ctrlText ctrlSetText str _health;
-		_ctrlIcon ctrlSetTextColor _colour;
-		_ctrlText ctrlSetTextColor _colour;
+
+		_ctrlBackground ctrlSetBackgroundColor _colourBackground;
+		_ctrlIcon ctrlSetTextColor _colourText;
+		_ctrlText ctrlSetTextColor _colourText;
 
 	} else {
 

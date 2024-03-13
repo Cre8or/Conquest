@@ -57,8 +57,9 @@
 
 	// Health Bar
 	#define MACRO_IDC_HB_CTRLGRP                                    100
-	#define MACRO_IDC_HB_HEALTH_TEXT                                101
-	#define MACRO_IDC_HB_HEALTH_ICON                                102
+	#define MACRO_IDC_HB_HEALTH_BACKGROUND                          101
+	#define MACRO_IDC_HB_HEALTH_TEXT                                102
+	#define MACRO_IDC_HB_HEALTH_ICON                                103
 
 	// Hit Effect
 	#define MACRO_IDC_HFX_CTRLGRP                                   100
@@ -405,7 +406,7 @@
 	#define MACRO_TICKETS_DECISIVETHRESHOLD                         100 // If the round ends, and the winning side has at least this many tickets left, the end counts as a decisive victory/crushing defeat
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.12.546"
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.12.550"
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

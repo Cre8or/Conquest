@@ -52,19 +52,28 @@ GVAR(EH_ui_sys_drawMedicalEffects) = addMissionEventHandler ["EachFrame", {
 		private _ply            = player;
 		private _health         = ((_ply getVariable [QGVAR(health), 1]) min 1) max 0;
 		private _healthInvSqr   = (1 - _health) ^ 2;
-		private _hurtPerc       = (_time - GVAR(ui_med_lastDamageTime)) / 1 min 1;
-		private _hurtPercInv    = 1 - _hurtPerc;
-		private _hurtPercInvSqr = _hurtPercInv ^ 2;
+		private _healthPulse    = sin (_time * 80) ^ 2;
+		private _healthTotalMul = _healthInvSqr * (0.8 + _healthPulse * 0.2);
+
+		private _lastDamage       = (0.4 + GVAR(ui_med_lastDamageAmount) max 0) min 1.1;
+		private _hurtPerc         = (_time - GVAR(ui_med_lastDamageTime)) / (_lastDamage + 1) min 1;
+		private _hurtPercInv      = 1 - _hurtPerc;
+		private _hurtPercTotal    = 1 - (_hurtPercInv * _lastDamage);
+		private _hurtPercInvTotal = _hurtPercInv ^ 2 * _lastDamage;
+
+		private _imagePerc         = _hurtPerc * 3 min 1;
+		private _imagePercInv      = 1 - _imagePerc;
+		private _imagePercInvTotal = _hurtPercInv ^ 2 * _lastDamage;
 
 		// Health-dependent effect
 		GVAR(ui_med_colourFx_health) ppEffectAdjust [
-			1 - _healthInvSqr * 0.7,
+			1 - _healthTotalMul * 0.8,
 			1,
-			-_healthInvSqr * 0.1,
-			[1,0.0,0,0.025 * _healthInvSqr],
-			[1,0.9,0.85,1 - _healthInvSqr * 0.9],
+			-_healthTotalMul * 0.1,
+			[1,0.0,0,0.08 * _healthTotalMul],
+			[1,0.6,0.5,1 - _healthTotalMul * 0.8],
 			[0.5, 0.5, 0, 0],
-			[0.75, 0.75, 0, 0, 0, 0.25, 0.5]
+			[0.6, 0.6, 0, 0, 0, 0.1, 0.5]
 		];
 		GVAR(ui_med_colourFx_health) ppEffectCommit 0;
 
@@ -75,12 +84,12 @@ GVAR(EH_ui_sys_drawMedicalEffects) = addMissionEventHandler ["EachFrame", {
 			case MACRO_ENUM_DAMAGE_EXPLOSIVE: {
 				GVAR(ui_med_colourFx_hurt) ppEffectAdjust [
 					1,
-					1 + _hurtPercInvSqr * 0.5,
-					-_hurtPercInvSqr * 0.25,
-					[0.25 + random 0.05,0,0,_hurtPercInvSqr * 0.75],
-					[1,0.5,0.5,1 - _hurtPercInvSqr * 0.5],
+					1 + _hurtPercInvTotal * 0.5,
+					-_hurtPercInvTotal * 0.25,
+					[0.4,0,0,_hurtPercInvTotal * 0.95],
+					[1,0.6,0.5,1 - _hurtPercInvTotal * 0.6],
 					[0.299, 0.587, 0.114, 0],
-					[0.25 + _hurtPerc * 0.75, 0.25 + _hurtPerc * 0.75, 0, 0, 0, 0, 0.5]
+					[0.25 + _hurtPercTotal * 0.75, 0.25 + _hurtPercTotal * 0.75, 0, 0, 0, 0, 0.5]
 				];
 
 				// Damage source effect
@@ -104,7 +113,7 @@ GVAR(EH_ui_sys_drawMedicalEffects) = addMissionEventHandler ["EachFrame", {
 					private _ctrlImage = _hitEffect displayCtrl MACRO_IDC_HFX_HIT_EFFECT_IMAGE;
 					private _angle = _ply getRelDir GVAR(ui_med_lastDamageSourcePos);
 
-					_ctrlImage ctrlSetTextColor [1, 1, 1, _hurtPercInvSqr];
+					_ctrlImage ctrlSetTextColor [1, 1, 1, _imagePercInv];
 					_ctrlImage ctrlSetPosition [
 						MACRO_POS_HFX_WIDTH * (0.01 - random 0.02),
 						MACRO_POS_HFX_WIDTH * (0.01 - random 0.02),
@@ -127,10 +136,10 @@ GVAR(EH_ui_sys_drawMedicalEffects) = addMissionEventHandler ["EachFrame", {
 					1,
 					1,
 					0,
-					[0.1 + random 0.02,0,0,_hurtPercInvSqr * 0.9],
-					[2,1.75,1.75,1 - _hurtPercInvSqr * 0.5],
+					[0.1 + random 0.02,0,0,_hurtPercInvTotal * 0.9],
+					[2,1.75,1.75,1 - _hurtPercInvTotal * 0.5],
 					[0.299, 0.587, 0.114, 0],
-					[0.25 + _hurtPerc * 0.75, 0.25 + _hurtPerc * 0.75, 0, 0, 0, 0, 0.5]
+					[0.25 + _hurtPercTotal * 0.75, 0.25 + _hurtPercTotal * 0.75, 0, 0, 0, 0, 0.5]
 				];
 			};
 
@@ -138,7 +147,7 @@ GVAR(EH_ui_sys_drawMedicalEffects) = addMissionEventHandler ["EachFrame", {
 
 		GVAR(ui_med_colourFx_hurt) ppEffectCommit 0;
 
-		GVAR(ui_med_blurFx) ppEffectAdjust [_hurtPercInvSqr ^ 2];
+		GVAR(ui_med_blurFx) ppEffectAdjust [2 * _hurtPercInvTotal ^ 2];
 		GVAR(ui_med_blurFx) ppEffectCommit 0;
 
 	} else {

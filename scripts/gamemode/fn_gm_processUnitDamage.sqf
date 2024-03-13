@@ -221,4 +221,4 @@ if (_health > 0) then {
 // Clamp the health to 0
 _unit setVariable [QGVAR(health), _health max 0, true];
 
-[_unit, _damageEnum, _source] remoteExecCall [QFUNC(unit_processDamageEvent), _unit, false];
+[_unit, _damage, _damageEnum, _source] remoteExecCall [QFUNC(unit_processDamageEvent), _unit, false];

@@ -9,11 +9,10 @@ TO DO:
 		- End screen
 	- Fix spawn menu being inconsistent in MP
 	 	+ Sides with no tickets don't get greyed out
-		- Group lists don't seem to get refreshed after switching sides
-		+ (?) Sometimes spawn menus cannot be opened at all + chat spam (see screenshot)
+		- (?) Group lists don't seem to get refreshed after switching sides
+		+ Sometimes spawn menus cannot be opened at all + chat spam (see screenshot)
 	- Move macros/variables pertaining to a side's definition into single file (merge with loadouts file?)
-	- Investigate Joe's isssue with being able to spawn when no sectors are owned
-	- (Fix vehicle cook-off (blastcore addon settings))
+	- (Investigate Joe's isssue with being able to spawn when no sectors are owned)
 	- Add a custom scoreboard UI
 		- Display score, kills, deaths, revives
 		- Separate scoreboard by teams and squads
@@ -33,6 +32,9 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Modify player health visual feedback to be more prominent
+		- Flash health bar background (same colour as FF penalties)
+		- Slowly pulse vignette effect's intensity/colour?
 	- Modify dangerLevel handling to be per-side
 	- Refactor AI systems to run locally
 		+ Decouple nodemesh setup from mission state
