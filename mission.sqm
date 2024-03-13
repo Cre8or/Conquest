@@ -8,7 +8,7 @@ class EditorData
 	toggles=521;
 	class ItemIDProvider
 	{
-		nextID=5161;
+		nextID=5165;
 	};
 	class MarkerIDProvider
 	{
@@ -16,18 +16,18 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=6856;
+		nextID=6925;
 	};
 	class Camera
 	{
-		pos[]={5491.7139,738.74988,11001.508};
-		dir[]={0.44747117,-0.83718854,-0.31447837};
-		up[]={0.68496013,0.54690415,-0.48138228};
-		aside[]={-0.57499671,-5.7043508e-009,-0.81816232};
+		pos[]={5663.6763,224.02605,10727.218};
+		dir[]={0.88309544,-0.4670912,0.045386814};
+		up[]={0.46654707,0.88417155,0.023979548};
+		aside[]={0.051331859,7.241033e-008,-0.99872386};
 	};
 };
 binarizationWanted=0;
-sourceName="cre8or_cq64_gulf_of_malden";
+sourceName="Cre8or_CQ64_Gulf_Of_Malden";
 addons[]=
 {
 	"A3_Misc_F_Helpers",
@@ -1824,11 +1824,11 @@ class Mission
 								sizeB=15.5;
 								sizeC=20;
 								repeatable=1;
-								activationBy="WEST";
+								activationBy="WEST SEIZED";
 							};
 							id=30;
 							type="EmptyDetector";
-							atlOffset=1.5258789e-005;
+							atlOffset=7.6293945e-006;
 						};
 						class Item5
 						{
@@ -3047,7 +3047,7 @@ class Mission
 						{
 							dataType="Trigger";
 							position[]={6272.6709,112.48071,10731.602};
-							angle=3.8528807;
+							angle=3.8528841;
 							class Attributes
 							{
 								name="sector_D";
@@ -3057,7 +3057,7 @@ class Mission
 								sizeB=19.711;
 								sizeC=20;
 								repeatable=1;
-								activationBy="EAST";
+								activationBy="EAST SEIZED";
 								isRectangle=1;
 							};
 							id=29;
@@ -3532,7 +3532,7 @@ class Mission
 				{
 					dataType="Trigger";
 					position[]={5826.2158,105.93578,10799.777};
-					angle=4.0234375;
+					angle=4.023437;
 					class Attributes
 					{
 						name="sector_G";
@@ -3548,7 +3548,7 @@ class Mission
 					};
 					id=5112;
 					type="EmptyDetector";
-					atlOffset=-0.14499664;
+					atlOffset=-0.14498901;
 				};
 			};
 			id=39;

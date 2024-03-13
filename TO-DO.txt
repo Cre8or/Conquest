@@ -1,8 +1,7 @@
 TO DO:
-	- Modify dangerLevel handling to be per-side
 	- Unify UI text sizes:
-		- Score feed
-		- Kill feed
+		+ Score feed
+		+ Kill feed
 		+ Sector HUD
 		+ Health bar
 		+ Sector letters on maps
@@ -12,20 +11,6 @@ TO DO:
 	 	+ Sides with no tickets don't get greyed out
 		- Group lists don't seem to get refreshed after switching sides
 		+ (?) Sometimes spawn menus cannot be opened at all + chat spam (see screenshot)
-	- Refactor AI systems to run locally
-		+ Decouple nodemesh setup from mission state
-		+ Run nodemesh setup on the client
-		- Ensure dangerLevel is synchronised on all machines (when running locally)
-		+ Rewrite knowledgeManager as its own system
-		+ Rewrite veh_followPath as its own system
-		+ Investigate remaining scripts:
-			+ ai_commander
-			/ ai_knowledgeManager
-			+ ai_spawnManager
-			+ ai_unitControl
-			+ gm_corpseManager
-			+ unit_onKilled
-			+ veh_followPath
 	- Move macros/variables pertaining to a side's definition into single file (merge with loadouts file?)
 	- Investigate Joe's isssue with being able to spawn when no sectors are owned
 	- (Fix vehicle cook-off (blastcore addon settings))
@@ -48,6 +33,21 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Modify dangerLevel handling to be per-side
+	- Refactor AI systems to run locally
+		+ Decouple nodemesh setup from mission state
+		+ Run nodemesh setup on the client
+		+ Ensure dangerLevel is synchronised on all machines (when running locally)
+		+ Rewrite knowledgeManager as its own system
+		+ Rewrite veh_followPath as its own system
+		+ Investigate remaining scripts:
+			+ ai_commander
+			+ ai_knowledgeManager
+			+ ai_spawnManager
+			+ ai_unitControl
+			+ gm_corpseManager
+			+ unit_onKilled
+			+ veh_followPath
 	- Fix mission parameters being evaluated too early in MP (causing default values to be used)
 	- Investigate vehicles being counted as abandoned while enemies are inside of them
 	- Fix ticket bleed incorrectly counting capturable sectors in its calculation
