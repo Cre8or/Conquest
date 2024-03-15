@@ -24,7 +24,7 @@
 #define MACRO_MAX_EDGESPERFRAME 20 // How many node edges we should check per frame (not exact - read as: "at least this many")
 
 // Set up some variables
-MACRO_FNC_INITVAR(GVAR(EH_nm_sys_dangerLevel), -1);
+MACRO_FNC_INITVAR(GVAR(nm_sys_dangerLevel_EH), -1);
 
 GVAR(nm_sys_dangerLevel_index) = 0;
 
@@ -32,8 +32,8 @@ GVAR(nm_sys_dangerLevel_index) = 0;
 
 
 
-removeMissionEventHandler ["EachFrame", GVAR(EH_nm_sys_dangerLevel)];
-GVAR(EH_nm_sys_dangerLevel) = addMissionEventHandler ["EachFrame", {
+removeMissionEventHandler ["EachFrame", GVAR(nm_sys_dangerLevel_EH)];
+GVAR(nm_sys_dangerLevel_EH) = addMissionEventHandler ["EachFrame", {
 
 	if (isGamePaused) exitWith {};
 

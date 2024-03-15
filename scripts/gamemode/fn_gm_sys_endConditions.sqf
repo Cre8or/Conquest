@@ -22,29 +22,29 @@ if (!isServer) exitWith {};
 
 
 // Set up some variales
-MACRO_FNC_INITVAR(GVAR(EH_sys_endConditions_eachFrame),-1);
+MACRO_FNC_INITVAR(GVAR(gm_sys_endConditions_EH),-1);
 
-GVAR(sys_endConditions_nextTime) = -1;
-GVAR(sys_endConditions_validSidesCountPrev) = ({_x > 0} count [GVAR(ticketsEast), GVAR(ticketsResistance), GVAR(ticketsWest)]) max 1;
+GVAR(gm_sys_endConditions_nextTime)            = -1;
+GVAR(gm_sys_endConditions_validSidesCountPrev) = ({_x > 0} count [GVAR(ticketsEast), GVAR(ticketsResistance), GVAR(ticketsWest)]) max 1;
 
 
 
 
 
 // Monitor game end conditions
-removeMissionEventHandler ["EachFrame", GVAR(EH_sys_endConditions_eachFrame)];
-GVAR(EH_sys_endConditions_eachFrame) = addMissionEventHandler ["EachFrame", {
+removeMissionEventHandler ["EachFrame", GVAR(gm_sys_endConditions_EH)];
+GVAR(gm_sys_endConditions_EH) = addMissionEventHandler ["EachFrame", {
 
 	if (isGamePaused) exitWith {};
 
 	private _time = time;
-	if (GVAR(missionState) == MACRO_ENUM_MISSION_LIVE and {_time > GVAR(sys_endConditions_nextTime)}) then {
+	if (GVAR(missionState) == MACRO_ENUM_MISSION_LIVE and {_time > GVAR(gm_sys_endConditions_nextTime)}) then {
 
 		private _sideTickets     = [GVAR(ticketsEast), GVAR(ticketsResistance), GVAR(ticketsWest)];
 		private _validSidesCount = {_x > 0} count _sideTickets;
 
 		// Check if only one valid side remains
-		if (_validSidesCount < GVAR(sys_endConditions_validSidesCountPrev)) then {
+		if (_validSidesCount < GVAR(gm_sys_endConditions_validSidesCountPrev)) then {
 
 			switch (_validSidesCount) do {
 
@@ -89,9 +89,9 @@ GVAR(EH_sys_endConditions_eachFrame) = addMissionEventHandler ["EachFrame", {
 				};
 			};
 
-			GVAR(sys_endConditions_validSidesCountPrev) = _validSidesCount;
+			GVAR(gm_sys_endConditions_validSidesCountPrev) = _validSidesCount;
 		};
 
-		GVAR(sys_endConditions_nextTime) = _time + MACRO_GM_SYS_ENDCONDITIONS_INTERVAL;
+		GVAR(gm_sys_endConditions_nextTime) = _time + MACRO_GM_SYS_ENDCONDITIONS_INTERVAL;
 	};
 }];
