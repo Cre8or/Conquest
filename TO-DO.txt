@@ -32,6 +32,7 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Add a running score sum to the score feed
 	- Modify player health visual feedback to be more prominent
 		- Flash health bar background (same colour as FF penalties)
 		- Slowly pulse vignette effect's intensity/colour?

@@ -221,8 +221,8 @@
 	#define MACRO_POS_KF_ENTRY_MAXCOUNT                             8
 
 	#define MACRO_POS_SF_WIDTH                                      (0.33 * safeZoneW)
-	#define MACRO_POS_SF_X_OFFSET                                   (0.65 * MACRO_POS_SF_WIDTH)
-	#define MACRO_POS_SF_SCORE_WIDTH                                (0.15 * MACRO_POS_SF_WIDTH)
+	#define MACRO_POS_SF_X_OFFSET                                   (0.6 * MACRO_POS_SF_WIDTH)
+	#define MACRO_POS_SF_SCORE_WIDTH                                (0.1 * MACRO_POS_SF_WIDTH)
 	#define MACRO_POS_SF_ENTRY_HEIGHT                               0.05
 	#define MACRO_POS_SF_ENTRY_TEXTSIZE                             0.05
 	#define MACRO_POS_SF_ENTRY_MAXCOUNT                             6
@@ -356,6 +356,7 @@
 
 	// Score Feed
 	#define MACRO_UI_SCOREFEED_ENTRYLIFETIME                        5
+	#define MACRO_UI_SCOREFEED_SCORESUMLIFETIME                     10
 	#define MACRO_UI_SCOREFEED_ENTRYFADEDURATION                    1
 	#define MACRO_UI_SCOREFEED_ANIMDURATION                         0.25
 
@@ -406,7 +407,7 @@
 	#define MACRO_TICKETS_DECISIVETHRESHOLD                         100 // If the round ends, and the winning side has at least this many tickets left, the end counts as a decisive victory/crushing defeat
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.12.550"
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.12.555"
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

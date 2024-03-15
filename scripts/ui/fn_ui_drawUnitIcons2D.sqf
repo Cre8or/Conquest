@@ -27,6 +27,7 @@ private _player             = player;
 private _groupPly           = group _player;
 private _spottedTimeVarName = format [QGVAR(spottedTime_%1), GVAR(side)];
 private _iconUnit           = getMissionPath "\res\images\icon_unit.paa";
+private _mapAngle           = ctrlMapDir _ctrlMap;
 
 private _allUnits       = allUnits select {_x getVariable [QGVAR(isSpawned), false]};
 private _squadMates     = units _groupPly select {alive _x and {vehicle _x == _x} and {_x getVariable [QGVAR(isSpawned), false]}};
@@ -69,10 +70,7 @@ private ["_crew", "_commander", "_crewUnit"];
 // Set up some functions
 private ["_typeEnum", "_icon"];
 private _fnc_drawUnit = {
-	params [
-		["_unit", objNull],
-		["_colour", [0,0,0,0]]
-	];
+	params ["_unit", "_colour"];
 
 	_ctrlMap drawIcon [
 		_iconUnit,
@@ -80,7 +78,7 @@ private _fnc_drawUnit = {
 		getPosVisual _unit,
 		12,
 		12,
-		getDir _unit,
+		_mapAngle + getDir _unit,
 		//name _unit,
 		"",
 		2,
@@ -91,10 +89,7 @@ private _fnc_drawUnit = {
 };
 
 private _fnc_drawVehicle = {
-	params [
-		["_veh", objNull],
-		["_colour", [0,0,0,0]]
-	];
+	params ["_veh", "_colour"];
 
 	_typeEnum = [typeOf _veh] call FUNC(veh_getType);
 	_icon = [_typeEnum] call FUNC(ui_getVehTypeIcon);
@@ -105,7 +100,7 @@ private _fnc_drawVehicle = {
 		getPosVisual _veh,
 		24,
 		24,
-		getDir _veh,
+		_mapAngle + getDir _veh,
 		"",
 		1,
 		0.025,

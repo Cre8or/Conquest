@@ -23,6 +23,7 @@ if (!hasInterface) exitWith {};
 // Set up some variables
 MACRO_FNC_INITVAR(GVAR(EH_ui_sys_drawMedicalEffects), -1);
 MACRO_FNC_INITVAR(GVAR(ui_med_lastDamageTime), -9e9);
+MACRO_FNC_INITVAR(GVAR(ui_med_lastDamageAmount), -9e9);
 MACRO_FNC_INITVAR(GVAR(ui_med_lastDamageEnum), MACRO_ENUM_DAMAGE_UNKNOWN);
 MACRO_FNC_INITVAR(GVAR(ui_med_lastDamageSource), objNull);
 MACRO_FNC_INITVAR(GVAR(ui_med_lastDamageSourcePos), getPosWorld GVAR(ui_med_lastDamageSource));
@@ -86,7 +87,7 @@ GVAR(EH_ui_sys_drawMedicalEffects) = addMissionEventHandler ["EachFrame", {
 					1,
 					1 + _hurtPercInvTotal * 0.5,
 					-_hurtPercInvTotal * 0.25,
-					[0.4,0,0,_hurtPercInvTotal * 0.95],
+					[0.4,0,0,_hurtPercInvTotal * 0.75],
 					[1,0.6,0.5,1 - _hurtPercInvTotal * 0.6],
 					[0.299, 0.587, 0.114, 0],
 					[0.25 + _hurtPercTotal * 0.75, 0.25 + _hurtPercTotal * 0.75, 0, 0, 0, 0, 0.5]
@@ -144,10 +145,9 @@ GVAR(EH_ui_sys_drawMedicalEffects) = addMissionEventHandler ["EachFrame", {
 			};
 
 		};
-
 		GVAR(ui_med_colourFx_hurt) ppEffectCommit 0;
 
-		GVAR(ui_med_blurFx) ppEffectAdjust [2 * _hurtPercInvTotal ^ 2];
+		GVAR(ui_med_blurFx) ppEffectAdjust [0.01 * _hurtPercInvTotal ^ 2, 0.01 * _hurtPercInvTotal ^ 2, 0.0, 0.0];
 		GVAR(ui_med_blurFx) ppEffectCommit 0;
 
 	} else {

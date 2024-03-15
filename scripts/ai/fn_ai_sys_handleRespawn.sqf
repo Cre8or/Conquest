@@ -266,7 +266,7 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 
 				// If the unit is normally a squad leader, make him take control over the group (unless the leader is a player)
 				if (_unitIsLeader and {!_leaderIsPlayer}) then {
-					[_group, _unit] remoteExecCall ["selectLeader", _leader, false];
+					[_group, _unit] remoteExecCall ["selectLeader", _group, false];
 				};
 
 				// Apply the role loadout to the unit

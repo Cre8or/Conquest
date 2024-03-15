@@ -78,6 +78,10 @@ class GVAR(RscScoreFeed_Text) : GVAR(RscText) {
 	sizeEx = MACRO_POS_SF_ENTRY_TEXTSIZE;
 };
 
+class GVAR(RscScoreFeed_Text_Left) : GVAR(RscScoreFeed_Text) {
+	style = ST_LEFT;
+};
+
 class GVAR(RscKillFeed_Name_Killer) : GVAR(RscText) {
 	style = ST_LEFT;
 	sizeEx = MACRO_POS_KF_ENTRY_TEXTSIZE;
