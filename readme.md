@@ -32,7 +32,7 @@ This project can be divided into two components: the gamemode framework, and the
 
 ## License
 
-This project is released under the [Arma Public License Share Alike (APL-SA)](https://www.bohemia.net/communitylicenses/arma-public-license-share-alike) license.
+This project is released under the [Arma Public License Share Alike (APL-SA)](https://www.bohemia.net/community/licenses/arma-public-license-share-alike) license.
 
 ![APL-SA](https://www.bohemia.net/assets/img/licenses/APL-SA.png)
 
