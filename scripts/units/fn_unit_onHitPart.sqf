@@ -2,7 +2,7 @@
 	Author:	 	Cre8or
 	Description:
 		[GA][LE]
-		Called whenever a local unit's "HitPart" EH is executed.
+		Called whenever a unit's "HitPart" EH is executed.
 		Handles local hit detection (for hit markers) to the given unit.
 	Arguments:
 		(see https://community.bistudio.com/wiki/Arma_3:_Event_Handlers#HitPart)

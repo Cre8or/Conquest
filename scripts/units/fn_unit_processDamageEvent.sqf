@@ -9,6 +9,7 @@
 		Executed on the unit's owning machine, via server remoteExecCall.
 	Arguments:
 		0:	<OBJECT>	The unit that received damage
+		1:	<NUMBER>	The amount of damage received
 		1:	<NUMBER>	The kind of damage received
 		2:	<OBJECT>	The object that inflicted the damage (optional, default: objNull)
 	Returns:
@@ -20,6 +21,7 @@
 
 params [
 	["_unit", objNull, [objNull]],
+	["_damage", 0, [0]],
 	["_enum", MACRO_ENUM_DAMAGE_UNKNOWN, [MACRO_ENUM_DAMAGE_UNKNOWN]],
 	["_source", objNull, [objNull]]
 ];
@@ -41,6 +43,7 @@ private _ply = player;
 // If the damaged unit corresponds to the player, fetch a sound to play
 if (_unit == _ply) then {
 	GVAR(ui_med_lastDamageTime)      = time;
+	GVAR(ui_med_lastDamageAmount)    = _damage;
 	GVAR(ui_med_lastDamageEnum)      = _enum;
 	GVAR(ui_med_lastDamageSource)    = _source;
 	GVAR(ui_med_lastDamageSourcePos) = getPosWorld _source;
@@ -53,7 +56,7 @@ if (_unit == _ply) then {
 		case MACRO_ENUM_DAMAGE_BULLET;
 		case MACRO_ENUM_DAMAGE_EXPLOSIVE: {
 			_sound = format [QGVAR(BulletHit_%1), selectRandom [1, 1, 2, 3]];
-			_volume = 5;
+			_volume = 5 * (0.25 + _damage min 1);
 			_camShake = [[10, 0.3, 6], [1, 0.5, 10]];
 		};
 

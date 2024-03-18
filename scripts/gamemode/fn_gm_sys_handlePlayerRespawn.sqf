@@ -27,7 +27,11 @@ disableSerialization;
 
 
 // Set up some variales
-MACRO_FNC_INITVAR(GVAR(EH_sys_handlePlayerRespawn), -1);
+MACRO_FNC_INITVAR(GVAR(gm_sys_handlePlayerRespawn_EH), -1);
+
+MACRO_FNC_INITVAR(GVAR(respawn_east), objNull);
+MACRO_FNC_INITVAR(GVAR(respawn_resistance), objNull);
+MACRO_FNC_INITVAR(GVAR(respawn_west), objNull);
 
 GVAR(sys_handlePlayerRespawn_nextUpdate)     = 0;
 GVAR(sys_handlePlayerRespawn_isAlive)        = false;
@@ -43,8 +47,8 @@ GVAR(sys_handlePlayerRespawn_respawnTime)    = 0;
 
 
 // Handle player respawning
-removeMissionEventHandler ["EachFrame", GVAR(EH_sys_handlePlayerRespawn)];
-GVAR(EH_sys_handlePlayerRespawn) = addMissionEventHandler ["EachFrame", {
+removeMissionEventHandler ["EachFrame", GVAR(gm_sys_handlePlayerRespawn_EH)];
+GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 
 	if (isGamePaused) exitWith {};
 

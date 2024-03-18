@@ -23,14 +23,14 @@ if (!hasInterface) exitWith {};
 
 
 // Set up some variales
-MACRO_FNC_INITVAR(GVAR(EH_sys_updatePlayerVars_eachFrame),-1);
+MACRO_FNC_INITVAR(GVAR(gm_sys_updatePlayerVars_EH),-1);
 
 
 
 
 
-removeMissionEventHandler ["EachFrame", GVAR(EH_sys_updatePlayerVars_eachFrame)];
-GVAR(EH_sys_updatePlayerVars_eachFrame) = addMissionEventHandler ["EachFrame", {
+removeMissionEventHandler ["EachFrame", GVAR(gm_sys_updatePlayerVars_EH)];
+GVAR(gm_sys_updatePlayerVars_EH) = addMissionEventHandler ["EachFrame", {
 
 	if (isGamePaused) exitWith {};
 

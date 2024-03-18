@@ -56,6 +56,9 @@ if (hasInterface) then {
 	[false] call FUNC(ui_blackScreen);
 	[true] call FUNC(ui_disableUserInput);
 
+	// Stop any active radio messages
+	[MACRO_ENUM_RADIOMSG_INVALID, true] call FUNC(gm_playRadioMsg);
+
 	private _isTie = (_side == sideEmpty);
 	private _isWin = (!_isTie and {_side == GVAR(side)});
 

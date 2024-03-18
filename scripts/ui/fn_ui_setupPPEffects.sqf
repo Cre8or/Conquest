@@ -49,8 +49,8 @@ if (!isNil QGVAR(ui_med_colourFx_health)) then {ppEffectDestroy GVAR(ui_med_colo
 if (!isNil QGVAR(ui_med_blurFx))          then {ppEffectDestroy GVAR(ui_med_blurFx)};
 
 // Set up the new post-process effects
-GVAR(ui_sm_blurFx)           = ["DynamicBlur", 100] call _fnc_setupPPEffect;
+GVAR(ui_sm_blurFx)           = ["DynamicBlur", 400] call _fnc_setupPPEffect;
 GVAR(ui_ca_colourFx)         = ["ColorCorrections", 8000] call _fnc_setupPPEffect;
 GVAR(ui_med_colourFx_hurt)   = ["ColorCorrections", 8001] call _fnc_setupPPEffect;
 GVAR(ui_med_colourFx_health) = ["ColorCorrections", 8002] call _fnc_setupPPEffect;
-GVAR(ui_med_blurFx)          = ["DynamicBlur", 101] call _fnc_setupPPEffect;
+GVAR(ui_med_blurFx)          = ["RadialBlur", 100] call _fnc_setupPPEffect;

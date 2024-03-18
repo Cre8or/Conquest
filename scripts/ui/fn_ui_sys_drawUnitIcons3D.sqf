@@ -92,11 +92,7 @@ GVAR(ui_sys_drawUnitIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 		// Set up some functions
 		private ["_posX", "_dist", "_distMul", "_angle", "_nameX", "_crewCount", "_typeEnum", "_icon", "_visibility", "_isVisible"];
 		private _fnc_drawUnit = {
-			params [
-				["_unit", objNull],
-				["_colour", [0,0,0,0]],
-				["_checkVisibility", false, [false]]
-			];
+			params ["_unit", "_colour", "_checkVisibility"];
 
 			_posX = ATLtoASL unitAimPositionVisual _unit;
 			_dist = _posPly distanceSqr _posX;
@@ -143,12 +139,7 @@ GVAR(ui_sys_drawUnitIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 		};
 
 		private _fnc_drawVehicle = {
-			params [
-				["_veh", objNull],
-				["_unit", objNull],
-				["_colour", [0,0,0,0]],
-				["_showCrewCount", false]
-			];
+			params ["_veh", "_unit", "_colour", "_showCrewCount"];
 
 			_posX = ATLtoASL unitAimPositionVisual _veh;
 			_dist = _posPly distanceSqr _posX;

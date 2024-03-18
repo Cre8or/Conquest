@@ -119,14 +119,14 @@ for "_i" from 0 to GVAR(param_AI_maxCount) - 1 do {
 
 	// If the current faces array is empty, make a new copy
 	if (_sideFaces isEqualTo []) then {
-		_sideFaces = +(_allFaces # _sideIndex);
-		_facesCount = _maxFaceCounts # _sideIndex;
+		_sideFaces = +(_allFaces param [_sideIndex, []]);
+		_facesCount = _maxFaceCounts param [_sideIndex, 0];
 	};
 
 	// If the current speakers array is empty, make a new copy
 	if (_sideSpeakers isEqualTo []) then {
-		_sideSpeakers = +(_allSpeakers # _sideIndex);
-		_speakersCount = _maxSpeakersCount # _sideIndex;
+		_sideSpeakers = +(_allSpeakers param [_sideIndex, []]);
+		_speakersCount = _maxSpeakersCount param [_sideIndex, 0];
 	};
 
 	// Sanity check: if not all data is complete, skip this identity (otherwise a script error is raised)
@@ -178,3 +178,5 @@ GVAR(cl_AIIdentities) = GVAR(sv_AIIdentities) apply {[
 	_x # MACRO_ENUM_AIIDENTITY_ROLE
 ]};
 publicVariable QGVAR(cl_AIIdentities);
+
+diag_log format ["[CONQUEST] (SERVER) Generated %1 AI identities", count GVAR(sv_AIIdentities)];

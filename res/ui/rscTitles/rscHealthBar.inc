@@ -21,6 +21,7 @@ class GVAR(RscHealthBar) {
 			class controls {
 
 				class Background : GVAR(RscFrame) {
+					idc = MACRO_IDC_HB_HEALTH_BACKGROUND;
 					colorBackground[] = CURLY(MACRO_COLOUR_INGAME_BACKGROUND);
 					w = MACRO_POS_HB_WIDTH;
 					h = MACRO_POS_HB_HEIGHT;

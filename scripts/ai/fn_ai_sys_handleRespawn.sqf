@@ -27,10 +27,13 @@ if (!isServer) exitWith {};
 // Set up some variables
 MACRO_FNC_INITVAR(GVAR(EH_ai_sys_handleRespawn), -1);
 
-GVAR(ai_sys_handleRespawn_nextUpdate)   = -1;
-GVAR(ai_sys_handleRespawn_newSpawns)    = [];
-GVAR(ai_sys_handleRespawn_queue)        = [];
-GVAR(ai_sys_handleRespawn_respawnTimes) = [];
+GVAR(ai_sys_handleRespawn_nextUpdate)        = -1;
+GVAR(ai_sys_handleRespawn_newSpawns)         = [];
+GVAR(ai_sys_handleRespawn_queue)             = [];
+GVAR(ai_sys_handleRespawn_respawnTimes)      = []; // Interfaces with unit_onKilled
+GVAR(ai_sys_handleRespawn_groups_east)       = [];
+GVAR(ai_sys_handleRespawn_groups_resistance) = [];
+GVAR(ai_sys_handleRespawn_groups_west)       = [];
 
 
 
@@ -97,7 +100,7 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 
 				// If this unit isn't spawned, check why
 				if (!alive _unit and {_time > GVAR(ai_sys_handleRespawn_respawnTimes) param [_i, -1]}) then {
-					_identity  = GVAR(sv_AIIdentities) # _i;
+					_identity  = GVAR(sv_AIIdentities) param [_i, [sideEmpty]];
 					_sideIndex = _identity # MACRO_ENUM_AIIDENTITY_SIDEINDEX;
 
 					if ([_sideIndex] call FUNC(gm_isSidePlayable)) then {
@@ -132,9 +135,9 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 
 			// Fetch the group from the list
 			_sideGroups = switch (_unitSide) do {
-				case east:		{GVAR(AIInfGroups_east)};
-				case resistance:	{GVAR(AIInfGroups_resistance)};
-				case west:		{GVAR(AIInfGroups_west)};
+				case east:		{GVAR(ai_sys_handleRespawn_groups_east)};
+				case resistance:	{GVAR(ai_sys_handleRespawn_groups_resistance)};
+				case west:		{GVAR(ai_sys_handleRespawn_groups_west)};
 				default			{[]};
 			};
 			_group = _sideGroups param [_unitGroupIndex, grpNull];
@@ -263,7 +266,7 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 
 				// If the unit is normally a squad leader, make him take control over the group (unless the leader is a player)
 				if (_unitIsLeader and {!_leaderIsPlayer}) then {
-					[_group, _unit] remoteExecCall ["selectLeader", _leader, false];
+					[_group, _unit] remoteExecCall ["selectLeader", _group, false];
 				};
 
 				// Apply the role loadout to the unit

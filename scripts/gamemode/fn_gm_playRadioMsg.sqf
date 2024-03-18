@@ -16,7 +16,6 @@
 
 #include "..\..\res\macros\fnc_initVar.inc"
 
-// Fetch our params
 params [
 	["_messageEnum", MACRO_ENUM_RADIOMSG_INVALID, [MACRO_ENUM_RADIOMSG_INVALID]],
 	["_forced", false, [false]]
@@ -25,9 +24,10 @@ params [
 
 
 
+
 // Set up some variables
-MACRO_FNC_INITVAR(GVAR(radioMsg_dummy),objNull);
-MACRO_FNC_INITVAR(GVAR(radioMsg_curMessage),MACRO_ENUM_RADIOMSG_INVALID);
+MACRO_FNC_INITVAR(GVAR(radioMsg_dummy), objNull);
+MACRO_FNC_INITVAR(GVAR(radioMsg_curMessage), MACRO_ENUM_RADIOMSG_INVALID);
 
 
 
@@ -128,9 +128,13 @@ private _sound = switch (_messageEnum) do {
 
 
 // Play the sound
-if (_sound != "" and {_forced or {isNull GVAR(radioMsg_dummy)} or {GVAR(radioMsg_curMessage) < _messageEnum}}) then {
+if (_forced or {isNull GVAR(radioMsg_dummy)} or {GVAR(radioMsg_curMessage) < _messageEnum}) then {
+
 	deleteVehicle GVAR(radioMsg_dummy);
 
-	GVAR(radioMsg_dummy) = playSound [_sound, 2];
+	if (_sound != "") then {
+		GVAR(radioMsg_dummy) = playSound [_sound, 2];
+	};
+
 	GVAR(radioMsg_curMessage) = _messageEnum;
 };
