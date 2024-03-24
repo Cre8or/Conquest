@@ -1,6 +1,7 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
+		[LA][GE]
 		Applies a loadout onto a unit, based on the provided side and role.
 		Requires that the loadouts have already been compiled (see fn_lo_compileLoadouts).
 	Arguments:
@@ -16,10 +17,10 @@
 params [
 	["_unit", objNull, [objNull]],
 	["_side", sideEmpty, [sideEmpty]],
-	["_role", -1, [-1]]
+	["_role", MACRO_ENUM_ROLE_INVALID, [MACRO_ENUM_ROLE_INVALID]]
 ];
 
-if (!alive _unit) exitWith {};
+if (!alive _unit or {!local _unit}) exitWith {};
 
 
 

@@ -307,6 +307,9 @@
 	#define MACRO_ACT_SPOTTING_COSTPERUSE                           4 // How much it costs to use the spotting action. Divice the cooldown duration by this value to determine how often the action may be triggered (at once) before entering cooldown
 
 	#define MACRO_KEYBIND_TOGGLESPAWNMENU                           DIK_F1
+	#define MACRO_KEYBIND_HEAL                                      DIK_4
+	#define MACRO_KEYBIND_REARM                                     DIK_5
+	#define MACRO_KEYBIND_REPAIR                                    DIK_6
 
 	// AI Control
 	#define MACRO_AI_GROUP_CALLSIGNS                                ["Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel", "India", "Juliet", "Kilo", "Lima", "Mike", "November", "Oscar", "Papa", "Quebec", "Romeo", "Sierra", "Tango", "Uniform", "Victor", "Whiskey", "X-ray", "Yankee", "Zulu"]
@@ -407,7 +410,7 @@
 	#define MACRO_TICKETS_DECISIVETHRESHOLD                         100 // If the round ends, and the winning side has at least this many tickets left, the end counts as a decisive victory/crushing defeat
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.12.556"
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.13.562"
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -499,17 +502,35 @@
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
+//	ROLE ENUMS
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+
+	#define MACRO_ENUM_ROLE_INVALID                                 -1
+
+	#define MACRO_ENUM_ROLE_SPECOPS                                 0
+	#define MACRO_ENUM_ROLE_SNIPER                                  1
+	#define MACRO_ENUM_ROLE_ASSAULT                                 2
+	#define MACRO_ENUM_ROLE_SUPPORT                                 3
+	#define MACRO_ENUM_ROLE_ENGINEER                                4
+	#define MACRO_ENUM_ROLE_MEDIC                                   5
+	#define MACRO_ENUM_ROLE_ANTITANK                                6
+
+
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------
 //	LOADOUT ABILITIES ENUMS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
-	#define MACRO_ENUM_LOADOUT_ABILITY_INVALID                      0
+	#define MACRO_ENUM_LOADOUT_ABILITY_INVALID                      -1
 
-	// Functional abilities (enable scripted actions)
-	#define MACRO_ENUM_LOADOUT_ABILITY_REPAIRKIT                    1
-	#define MACRO_ENUM_LOADOUT_ABILITY_MEDIKIT                      2
-	#define MACRO_ENUM_LOADOUT_ABILITY_AMMOKIT                      3
+	// Role-based abilities
+	#define MACRO_ENUM_LOADOUT_ABILITY_RESUPPLY                     0
+	#define MACRO_ENUM_LOADOUT_ABILITY_REPAIR                       1
+	#define MACRO_ENUM_LOADOUT_ABILITY_HEAL                         2
 
-	// Gear-based abilities (exclusively for UI purposes)
+	// loadouts-based abilities
 	#define MACRO_ENUM_LOADOUT_ABILITY_BINOCULAR                    10
 	#define MACRO_ENUM_LOADOUT_ABILITY_NVGS                         11
 	#define MACRO_ENUM_LOADOUT_ABILITY_MINEDETECTOR                 12
@@ -537,24 +558,6 @@
 	#define MACRO_ENUM_AIIDENTITY_NAME                              5
 	#define MACRO_ENUM_AIIDENTITY_FACE                              6
 	#define MACRO_ENUM_AIIDENTITY_SPEAKER                           7
-
-
-
-
-
-// ------------------------------------------------------------------------------------------------------------------------------------------------
-//	ROLE ENUMS
-// ------------------------------------------------------------------------------------------------------------------------------------------------
-
-	#define MACRO_ENUM_ROLE_INVALID                                 -1
-
-	#define MACRO_ENUM_ROLE_SPECOPS                                 0
-	#define MACRO_ENUM_ROLE_SNIPER                                  1
-	#define MACRO_ENUM_ROLE_ASSAULT                                 2
-	#define MACRO_ENUM_ROLE_SUPPORT                                 3
-	#define MACRO_ENUM_ROLE_ENGINEER                                4
-	#define MACRO_ENUM_ROLE_MEDIC                                   5
-	#define MACRO_ENUM_ROLE_ANTITANK                                6
 
 
 
@@ -757,7 +760,7 @@
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	//#define MACRO_DEBUG_AI_COMMANDER
-	//#define MACRO_DEBUG_AI_COMMANDER_DISABLED
+	#define MACRO_DEBUG_AI_COMMANDER_DISABLED
 	//#define MACRO_DEBUG_AI_DRIVER
 	//#define MACRO_DEBUG_AI_DRIVER_HALT
 	//#define MACRO_DEBUG_AI_MOVEPOS

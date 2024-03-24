@@ -14,13 +14,13 @@
 // ----------------------------------------------------------------------------------------------------------------------------------
 //	AI SETTINGS
 // ----------------------------------------------------------------------------------------------------------------------------------
-	#define MACRO_AI_MAXCOUNT                                       64 // How many AI units can exist at most at any given time
+	#define MACRO_AI_MAXCOUNT                                       2 // How many AI units can exist at most at any given time
 	#define MACRO_AI_INCLUDEPLAYERS                                 false // Whether or not players are counted towards the AI limit
 	#define MACRO_AI_ALLOWVEHICLES                                  true // Whether or not the AI is allowed to use any vehicles at all. Only affects vehicles that would otherwise be allowed for AI use
 	#define MACRO_AI_PEACEFULMODE                                   false // Whether or not the AI is allowed to engage other units.
 	#define MACRO_AI_MAXUNITSPERGROUP                               6 // How many AI units are allowed to form up in a group
 
-	#define MACRO_AI_SPAWNWEIGHT_EAST                               1 // The weight towards spawning AI on the "east" (OPFOR) side
+	#define MACRO_AI_SPAWNWEIGHT_EAST                               0 // The weight towards spawning AI on the "east" (OPFOR) side
 	#define MACRO_AI_SPAWNWEIGHT_RESISTANCE                         0 // The weight towards spawning AI on the "resistance" (INDFOR) side
 	#define MACRO_AI_SPAWNWEIGHT_WEST                               1 // The weight towards spawning AI on the "west" (BLUFOR) side
 

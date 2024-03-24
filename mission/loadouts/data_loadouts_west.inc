@@ -49,8 +49,7 @@ USAGE:
 
 	[	// Support
 		MACRO_ENUM_ROLE_SUPPORT,
-		[["LMG_03_F","","acc_flashlight","",["200Rnd_556x45_Box_Tracer_Red_F",200],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",16],[],""],["U_B_CombatUniform_mcam_vest",[["ACE_elasticBandage",10],["ACE_morphine",5]]],["V_PlateCarrier1_rgr",[["200Rnd_556x45_Box_Tracer_Red_F",2,200],["HandGrenade",1,1],["16Rnd_9x21_red_Mag",2,16]]],["B_Kitbag_mcamo",[]],"H_HelmetB_sand","G_Combat",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
-		[MACRO_ENUM_LOADOUT_ABILITY_AMMOKIT]
+		[["LMG_03_F","","acc_flashlight","",["200Rnd_556x45_Box_Tracer_Red_F",200],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",16],[],""],["U_B_CombatUniform_mcam_vest",[["ACE_elasticBandage",10],["ACE_morphine",5]]],["V_PlateCarrier1_rgr",[["200Rnd_556x45_Box_Tracer_Red_F",2,200],["HandGrenade",1,1],["16Rnd_9x21_red_Mag",2,16]]],["B_Kitbag_mcamo",[]],"H_HelmetB_sand","G_Combat",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 	],
 
 
@@ -59,8 +58,7 @@ USAGE:
 
 	[	// Engineer
 		MACRO_ENUM_ROLE_ENGINEER,
-		[["SMG_02_F","","acc_flashlight","optic_Aco",["30Rnd_9x21_Mag_SMG_02_Tracer_Red",30],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",16],[],""],["U_B_CombatUniform_mcam",[["ACE_elasticBandage",10],["ACE_morphine",5],["ACE_DefusalKit",1],["MineDetector",1]]],["V_PlateCarrier2_rgr",[["16Rnd_9x21_red_Mag",2,16],["HandGrenade",1,1],["30Rnd_9x21_Mag_SMG_02_Tracer_Red",9,30]]],["B_AssaultPack_khk",[["SLAMDirectionalMine_Wire_Mag",3,1]]],"H_HelmetB_grass","G_Balaclava_TI_blk_F",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
-		[MACRO_ENUM_LOADOUT_ABILITY_REPAIRKIT]
+		[["SMG_02_F","","acc_flashlight","optic_Aco",["30Rnd_9x21_Mag_SMG_02_Tracer_Red",30],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",16],[],""],["U_B_CombatUniform_mcam",[["ACE_elasticBandage",10],["ACE_morphine",5],["ACE_DefusalKit",1],["MineDetector",1]]],["V_PlateCarrier2_rgr",[["16Rnd_9x21_red_Mag",2,16],["HandGrenade",1,1],["30Rnd_9x21_Mag_SMG_02_Tracer_Red",9,30]]],["B_AssaultPack_khk",[["SLAMDirectionalMine_Wire_Mag",3,1]]],"H_HelmetB_grass","G_Balaclava_TI_blk_F",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 	],
 
 
@@ -69,8 +67,7 @@ USAGE:
 
 	[	// Medic
 		MACRO_ENUM_ROLE_MEDIC,
-		[["arifle_SPAR_01_blk_F","","acc_flashlight","optic_Holosight_blk_F",["30Rnd_556x45_Stanag_Tracer_Red",30],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",16],[],""],["U_B_CombatUniform_mcam",[["ACE_elasticBandage",10],["ACE_morphine",5],["ACE_personalAidKit",2]]],["V_PlateCarrier1_rgr",[["16Rnd_9x21_red_Mag",2,16],["30Rnd_556x45_Stanag_Tracer_Red",7,30],["SmokeShell",2,1]]],["B_AssaultPack_mcamo",[["ACE_personalAidKit",16]]],"H_HelmetB_camo","G_Combat",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
-		[MACRO_ENUM_LOADOUT_ABILITY_MEDIKIT]
+		[["arifle_SPAR_01_blk_F","","acc_flashlight","optic_Holosight_blk_F",["30Rnd_556x45_Stanag_Tracer_Red",30],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",16],[],""],["U_B_CombatUniform_mcam",[["ACE_elasticBandage",10],["ACE_morphine",5],["ACE_personalAidKit",2]]],["V_PlateCarrier1_rgr",[["16Rnd_9x21_red_Mag",2,16],["30Rnd_556x45_Stanag_Tracer_Red",7,30],["SmokeShell",2,1]]],["B_AssaultPack_mcamo",[["ACE_personalAidKit",16]]],"H_HelmetB_camo","G_Combat",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 	],
 
 

@@ -1,12 +1,13 @@
 class MACRO_PROJECT_PREFIX {
 
-	class actions {
-		file = "scripts\actions";
-		// Abbreviation:	act
+	class keyBindings {
+		file = "scripts\keyBindings";
+		// Abbreviation:	kb
 
-		class act_registerKeybindings;
-		class act_toggleSpawnMenu {};
-		class act_spotTarget {};
+		class kb_healUnit {};
+		class kb_registerKeybindings;
+		class kb_toggleSpawnMenu {};
+		class kb_spotTarget {};
 	};
 
 	class ace_medical {

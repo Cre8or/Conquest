@@ -54,7 +54,7 @@ GVAR(cam_panorama) = "camera" camCreate [0,0,0];
 GVAR(cam_panorama) setPosWorld MACRO_MISSION_CAMERAPOSITION;
 GVAR(cam_panorama) setVectorDirAndUp [MACRO_MISSION_CAMERADIRECTION, [0,0,1]];
 
-call FUNC(act_registerKeybindings);
+call FUNC(kb_registerKeybindings);
 
 call FUNC(ca_handleCombatArea_player);
 

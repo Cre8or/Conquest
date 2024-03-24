@@ -1,6 +1,7 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
+		[LE]
 		Registers CBA keybindings to the custom gamemode actions.
 
 		Only executed on the client.
@@ -24,7 +25,7 @@
 	"Conquest",
 	QGVAR(spotTarget),
 	"Spot target",
-	{call FUNC(act_spotTarget)},
+	{call FUNC(kb_spotTarget)},
 	{false},
 	[41, [true, false, false]], // Shift + Tilda (hold)
 	false,
@@ -32,7 +33,7 @@
 	true
 ] call CBA_fnc_addKeybind;
 
-// Copy all keybindings from the original function over
+// Copy all keybindings from the original pointing function over
 if (!isNil "cba_keybinding_actions") then {
 	private _keybindKey  = format ["%1$%2", "Conquest", QGVAR(spotTarget)];
 	private _keybindData = cba_keybinding_actions getVariable [_keybindKey, []];
@@ -63,9 +64,22 @@ if (GVAR(hasMod_ace_finger)) then {
 	"Conquest",
 	QGVAR(toggleSpawnMenu),
 	"Open/close spawn menu",
-	{call FUNC(act_toggleSpawnMenu)},
+	{call FUNC(kb_toggleSpawnMenu)},
 	{false},
 	[MACRO_KEYBIND_TOGGLESPAWNMENU, [true, false, false]],
+	false,
+	0,
+	true
+] call CBA_fnc_addKeybind;
+
+// Healing
+[
+	"Conquest",
+	QGVAR(healUnit),
+	"Heal other unit",
+	{call FUNC(kb_healUnit)},
+	{false},
+	[MACRO_KEYBIND_HEAL, [false, false, false]],
 	false,
 	0,
 	true

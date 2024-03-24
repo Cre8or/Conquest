@@ -20,9 +20,9 @@ params [
 
 // Fetch and return the corresponding path
 switch (_ability) do {
-	case MACRO_ENUM_LOADOUT_ABILITY_REPAIRKIT:			{"res\images\abilities\ability_repairkit.paa"};
-	case MACRO_ENUM_LOADOUT_ABILITY_MEDIKIT:			{"res\images\abilities\ability_medikit.paa"};
-	case MACRO_ENUM_LOADOUT_ABILITY_AMMOKIT:			{"res\images\abilities\ability_ammokit.paa"};
+	case MACRO_ENUM_LOADOUT_ABILITY_REPAIR:				{"res\images\abilities\ability_repairkit.paa"};
+	case MACRO_ENUM_LOADOUT_ABILITY_HEAL:				{"res\images\abilities\ability_medikit.paa"};
+	case MACRO_ENUM_LOADOUT_ABILITY_RESUPPLY:			{"res\images\abilities\ability_ammokit.paa"};
 
 	case MACRO_ENUM_LOADOUT_ABILITY_BINOCULAR:			{"res\images\abilities\ability_binocular.paa"};
 	case MACRO_ENUM_LOADOUT_ABILITY_NVGS:				{"res\images\abilities\ability_nvgs.paa"};

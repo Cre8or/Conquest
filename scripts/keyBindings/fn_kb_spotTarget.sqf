@@ -1,6 +1,7 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
+		[GE]
 		Attempts to spot a target in the direction the player is looking.
 		If a target is successfully spotted, this function calls gm_spotTargetLocal globally. This will ensure
 		that every machine uses its local time for the spotting duration.

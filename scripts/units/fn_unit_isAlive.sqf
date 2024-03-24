@@ -8,6 +8,8 @@
 		in the spawn menu, or waiting to be respawned by the framework.
 	Arguments:
 		0:	<OBJECT>	The unit to be tested
+		1:	<BOOLEAN>	Whether unconsciousness should be considered as being alive (optional, default:
+					false)
 	Returns:
 			<BOOLEAN>	True if the unit is alive, otherwise false
 -------------------------------------------------------------------------------------------------------------------- */
@@ -15,26 +17,28 @@
 #include "..\..\res\common\macros.inc"
 
 params [
-	["_unit", objNull, [objNull]]
+	["_unit", objNull, [objNull]],
+	["_includeUnconscious", false, [false]]
 ];
 
 
 
 
 
-// Simple case for AI
-if (!isPlayer _unit) exitWith {alive _unit};
-
-// Advanced cases for players
+// Preliminary tests
 if (
 	!alive _unit
 	or {!(_unit getVariable [QGVAR(isSpawned), false])}
-	or {(_unit getVariable [QGVAR(health), 0] <= 0)}
-//	or {_unit getVariable [QGVAR(unconscious), false]}	// TODO: To be implemented once the custom medical system is done
 ) exitWith {false};
 
+// Check health and consciousness
+if (
+	_unit getVariable [QGVAR(health), 0] > 0
+	or {_includeUnconscious and {_unit getVariable [QGVAR(unconscious), false]}}
+) exitWith {true};
 
 
 
 
-true;
+
+false;

@@ -270,7 +270,7 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 				};
 
 				// Apply the role loadout to the unit
-				[_unit, _unitSide, _unitRole] call FUNC(lo_setRoleLoadout);
+				[_unit, _unitSide, _unitRole] remoteExecCall [QFUNC(lo_setRoleLoadout), _unit, false];
 
 				GVAR(curatorModule) addCuratorEditableObjects [[_unit], false];
 
