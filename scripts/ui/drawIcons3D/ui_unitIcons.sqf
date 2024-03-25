@@ -4,11 +4,11 @@ private _renderData_units = [];
 
 
 // Compile unit data into an array for rendering
-_renderData_units append (_squadMates apply {
-	_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), false, _freeLook]
-});
 _renderData_units append (_teamMates apply {
 	_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), false, false]
+});
+_renderData_units append (_squadMates apply {
+	_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), false, _freeLook]
 });
 _renderData_units append (_spottedEnemies apply {
 	_x + [SQUARE(MACRO_COLOUR_A100_ENEMY), true, false]

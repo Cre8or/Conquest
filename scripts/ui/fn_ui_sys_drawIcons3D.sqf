@@ -56,8 +56,8 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 	private _isMedic  = (GVAR(role) == MACRO_ENUM_ROLE_MEDIC); // Needed to include unconscious units in the aggregation
 
 	// Aggregate the units data
-	private _squadMates     = [];
 	private _teamMates      = [];
+	private _squadMates     = [];
 	private _spottedEnemies = [];
 	private ["_posX", "_distX", "_groupX"];
 	{

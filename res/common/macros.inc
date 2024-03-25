@@ -416,7 +416,7 @@
 	#define MACRO_TICKETS_DECISIVETHRESHOLD                         100 // If the round ends, and the winning side has at least this many tickets left, the end counts as a decisive victory/crushing defeat
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.13.569"
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.13.572"
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -766,7 +766,7 @@
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	//#define MACRO_DEBUG_AI_COMMANDER
-	#define MACRO_DEBUG_AI_COMMANDER_DISABLED
+	//#define MACRO_DEBUG_AI_COMMANDER_DISABLED
 	//#define MACRO_DEBUG_AI_DRIVER
 	//#define MACRO_DEBUG_AI_DRIVER_HALT
 	//#define MACRO_DEBUG_AI_MOVEPOS

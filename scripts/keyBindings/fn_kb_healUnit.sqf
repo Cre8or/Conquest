@@ -74,6 +74,13 @@ private ["_posX", "_angle"];
 _candidatesSorted sort true;
 private _target = (_candidatesSorted param [0, []]) param [1, objNull];
 
+// If no candidate is found, check if the player needs healing
+if (isNull _target) then {
+	if ([_player] call FUNC(unit_needsHealing)) then {
+		_target = player;
+	};
+};
+
 // Validate the target
 if (isNull _target) exitWith {true};
 
@@ -82,9 +89,12 @@ if (isNull _target) exitWith {true};
 
 
 //systemChat format ["(%1) Healing: %2", _time, name _target];
-
-_player playGesture "GestureEmpty";
-_player playGesture "GestureGoStandPistol"; // "GestureGoStand"
+if (_target != _player) then {
+	_player playGesture "GestureEmpty";
+	_player playGesture "GestureGoStandPistol"; // "GestureGoStand"
+} else {
+	_player action ["TakeWeapon", objNull, "Throw"];
+};
 
 // (DEBUG) Heal the unit
 private _health = _target getVariable [QGVAR(health), 0];

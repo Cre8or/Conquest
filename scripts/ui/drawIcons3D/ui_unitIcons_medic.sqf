@@ -11,23 +11,22 @@ private "_unitX";
 
 	if (_distX < _c_maxDistMedicSqr and {[_unitX] call FUNC(unit_needsHealing)}) then {
 		_renderData_units pushBack (
-			_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), _freeLook, _unitX getVariable [QGVAR(isUnconscious), false], _unitX getVariable [QGVAR(health), 0]]
+			_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), false, _unitX getVariable [QGVAR(isUnconscious), false], _unitX getVariable [QGVAR(health), 0]]
 		);
-		_squadMates deleteAt _forEachIndex;
+		_teamMates deleteAt _forEachIndex;
 	};
-} forEachReversed _squadMates;
+} forEachReversed _teamMates;
 {
 	_unitX = _x # 0;
 	_distX = _x # 2;
 
 	if (_distX < _c_maxDistMedicSqr and {[_unitX] call FUNC(unit_needsHealing)}) then {
 		_renderData_units pushBack (
-			_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), false, _unitX getVariable [QGVAR(isUnconscious), false], _unitX getVariable [QGVAR(health), 0]]
+			_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), _freeLook, _unitX getVariable [QGVAR(isUnconscious), false], _unitX getVariable [QGVAR(health), 0]]
 		);
-		_teamMates deleteAt _forEachIndex;
+		_squadMates deleteAt _forEachIndex;
 	};
-} forEachReversed _teamMates;
-
+} forEachReversed _squadMates;
 
 
 private ["_pos2D", "_nameX", "_colour", "_posXASL", "_angle", "_distMul"];
