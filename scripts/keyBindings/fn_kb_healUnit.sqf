@@ -28,11 +28,19 @@ MACRO_FNC_INITVAR(GVAR(kb_healUnit_cooldown), 0);
 
 private _time = time;
 
+// Define some macros
+#define MACRO_HEALUNIT_MAXDISTANCESQR 4
+#define MACRO_HEALUNIT_INTERVAL 1
+#define MACRO_HEALUNIT_AMOUNT 0.15
+
+
+
+
+
 // Enforce the cooldown
 if (_time < GVAR(kb_healUnit_cooldown)) exitWith {true};
 
-// Define some macros
-#define MACRO_HEALUNIT_MAXDISTANCESQR 4
+GVAR(kb_healUnit_cooldown) = _time + MACRO_HEALUNIT_INTERVAL;
 
 
 
@@ -42,9 +50,7 @@ if (_time < GVAR(kb_healUnit_cooldown)) exitWith {true};
 private _candidates = allUnits select {
 	_x distanceSqr _player <= MACRO_HEALUNIT_MAXDISTANCESQR
 	and {(_x getVariable [QGVAR(side), sideEmpty]) == GVAR(side)}
-	and {_x == vehicle _x} // Ignore units inside vehicles
-	and {(_x getVariable [QGVAR(health), 1]) < 1}
-	and {[_x, true] call FUNC(unit_isAlive)} // Include unconscious units in the test
+	and {[_x] call FUNC(unit_needsHealing)}
 };
 
 if (_candidates isEqualTo []) exitWith {true};
@@ -75,10 +81,14 @@ if (isNull _target) exitWith {true};
 
 
 
-systemChat format ["(%1) Healing: %2", _time, name _target];
+//systemChat format ["(%1) Healing: %2", _time, name _target];
 
 _player playGesture "GestureEmpty";
 _player playGesture "GestureGoStandPistol"; // "GestureGoStand"
+
+// (DEBUG) Heal the unit
+private _health = _target getVariable [QGVAR(health), 0];
+_target setVariable [QGVAR(health), _health + MACRO_HEALUNIT_AMOUNT min 1, true];
 
 
 

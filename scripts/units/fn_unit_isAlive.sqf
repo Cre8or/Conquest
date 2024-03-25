@@ -34,7 +34,7 @@ if (
 // Check health and consciousness
 if (
 	_unit getVariable [QGVAR(health), 0] > 0
-	or {_includeUnconscious and {_unit getVariable [QGVAR(unconscious), false]}}
+	or {_includeUnconscious and {_unit getVariable [QGVAR(isUnconscious), false]}}
 ) exitWith {true};
 
 

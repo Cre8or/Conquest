@@ -1,4 +1,17 @@
 TO DO:
+	- Implement healing ability to medics:
+		+ Allows healing injured squad/team mates
+		- Allows reviving unconscious squad/team mates
+		+ Plays a short gesture/animation during healing
+		- Healing oneself takes longer
+		+ Visually show injured/unconscious units as 3D icons
+	- Implement resupply ability to support:
+		- Similar animations/UI icons to medic healing, but for rearming
+		- Prevent players from looting bodies/opening their gear
+	- Add a repair ability to the engineer role
+		- Implement looping action logic
+		- Play a short unit gesture/animation
+		- Notify the crew they are being repaired (via UI element/sounds)?
 	- Unify UI text sizes:
 		+ Score feed
 		+ Kill feed
@@ -18,11 +31,6 @@ TO DO:
 		- Separate scoreboard by teams and squads
 		- Add a keybind to toggle the UI
 		- Force-show the UI during mission ending sequence
-	- Implement resupply system (prevent looting bodies/opening the gear)
-	- Add a repair ability to the engineer role
-		- Implement looping action logic
-		- Handle unit gestures
-		- Notify the crew they are being repaired (via a UI element)?
 	- (Fix curator module not being reassigned owners when another admin logs in)
 	- Rewrite the combat area drawing handler (see init_client.sqf)
 	- Rewrite safestart system (it's super ugly and weird)
@@ -32,6 +40,7 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Fix AI in player group dealing roadkill damage to player
 	- Add a running score sum to the score feed
 	- Modify player health visual feedback to be more prominent
 		- Flash health bar background (same colour as FF penalties)

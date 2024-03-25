@@ -253,8 +253,37 @@
 	#define MACRO_POS_SM_ROLE_PIP_BOTTOM_TEXTSIZE                   (0.02 * safeZoneW)
 	#define MACRO_POS_SM_DEPLOY_VEHICLEICON_HEIGHT                  0.04
 
-	// The maximum length of custom group callsigns, in characters
-	#define MACRO_UI_CALLSIGN_MAXIMUM_LENGTH                        20
+	#define MACRO_UI_HB_LOWHEALTH                                   0.5 // The threshold of health below which the health bar starts blinking
+
+	// Hit Markers
+	#define MACRO_UI_HITMARKERS_DURATION                            0.5
+
+	// Kill Feed
+	#define MACRO_UI_KILLFEED_ENTRYLIFETIME                         20
+	#define MACRO_UI_KILLFEED_ENTRYFADEDURATION                     3
+	#define MACRO_UI_KILLFEED_ANIMDURATION                          0.25
+
+	// Score Feed
+	#define MACRO_UI_SCOREFEED_ENTRYLIFETIME                        5
+	#define MACRO_UI_SCOREFEED_SCORESUMLIFETIME                     10
+	#define MACRO_UI_SCOREFEED_ENTRYFADEDURATION                    1
+	#define MACRO_UI_SCOREFEED_ANIMDURATION                         0.25
+
+	// Sector Names (Locations)
+	#define MACRO_UI_SECTORNAMES_SCALEMUL                           1.25 // Scales the size of the sector names (but not their letters) on the map. Higher numbers increase the size of the text
+	#define MACRO_UI_SECTORNAMES_FADEMUL                            20 // Scales how quickly the sector names fade out when zooming into the map. Larger numbers make the sector names fade quicker
+	#define MACRO_UI_SECTORFLAGS_SCALEMUL                           1.0 // Scales the size of the sector flag icons on the map. Higher numbers increase the size of the flag icons
+	#define MACRO_UI_SECTORFLAGS_SCALEOFFSET                        0.03 // When zooming in on the map, the sector flag icons will eventually increase to twice their normal size. This offset lets you choose at which zoom level this transition should happen. Larger numbers lean towards "zoomed out", smaller numbers towards "zoomed in" (logarithmic scale). Accepted range is 0 to 1
+
+	// Unit Icons
+	#define MACRO_UI_ICONS3D_MAXDISTANCE_INF                        300 // The maximum distance, in meters, at which infantry 3D icons are visible
+	#define MACRO_UI_ICONS3D_MAXDISTANCE_VEH                        1000 // The maximum distance, in meters, at which vehicle 3D icons are visible
+	#define MACRO_UI_ICONS3D_MAXDISTANCE_MEDIC                      80 // The maximum distance, in meters, at which medic-specific infantry icons (units in need of healing, and nearby medics) are visible
+
+	// Combat Area
+	#define MACRO_CA_CORNEROFFSET                                   50000 // How much the combat area should overextend (beyond the map corners), in meters
+
+	#define MACRO_UI_CALLSIGN_MAXIMUM_LENGTH                        20 // The maximum length of custom group callsigns, in characters
 
 	#define MACRO_UI_MAPFOCUS_PADDING_SM                            0.25
 	#define MACRO_UI_MAPFOCUS_PADDING_FULLSCREEN                    0.5
@@ -349,29 +378,6 @@
 	#define MACRO_GM_SYS_TICKETS_INTERVAL                           0.25 // Interval, in seconds, between two update cycles of the tickets system
 	#define MACRO_GM_SYS_ENDCONDITIONS_INTERVAL                     0.25 // Interval, in seconds, between two update cycles of the end conditions system
 
-	// Hit Markers
-	#define MACRO_UI_HITMARKERS_DURATION                            0.5
-
-	// Kill Feed
-	#define MACRO_UI_KILLFEED_ENTRYLIFETIME                         20
-	#define MACRO_UI_KILLFEED_ENTRYFADEDURATION                     3
-	#define MACRO_UI_KILLFEED_ANIMDURATION                          0.25
-
-	// Score Feed
-	#define MACRO_UI_SCOREFEED_ENTRYLIFETIME                        5
-	#define MACRO_UI_SCOREFEED_SCORESUMLIFETIME                     10
-	#define MACRO_UI_SCOREFEED_ENTRYFADEDURATION                    1
-	#define MACRO_UI_SCOREFEED_ANIMDURATION                         0.25
-
-	// UI Sector Names (Locations)
-	#define MACRO_UI_SECTORNAMES_SCALEMUL                           1.25 // Scales the size of the sector names (but not their letters) on the map. Higher numbers increase the size of the text
-	#define MACRO_UI_SECTORNAMES_FADEMUL                            20 // Scales how quickly the sector names fade out when zooming into the map. Larger numbers make the sector names fade quicker
-	#define MACRO_UI_SECTORFLAGS_SCALEMUL                           1.0 // Scales the size of the sector flag icons on the map. Higher numbers increase the size of the flag icons
-	#define MACRO_UI_SECTORFLAGS_SCALEOFFSET                        0.03 // When zooming in on the map, the sector flag icons will eventually increase to twice their normal size. This offset lets you choose at which zoom level this transition should happen. Larger numbers lean towards "zoomed out", smaller numbers towards "zoomed in" (logarithmic scale). Accepted range is 0 to 1
-
-	// Combat Area
-	#define MACRO_CA_CORNEROFFSET                                   50000 // How much the combat area should overextend (beyond the map corners), in meters
-
 	// Sectors
 	#define MACRO_SECTOR_TRIGGERINTERVAL                            0.5 // The interval between two trigger executions, in seconds
 	#define MACRO_SECTOR_SCOREINTERVAL                              0.1 // The level interval between two score events for capturing a sector, in percent (1 being 100%)
@@ -410,7 +416,7 @@
 	#define MACRO_TICKETS_DECISIVETHRESHOLD                         100 // If the round ends, and the winning side has at least this many tickets left, the end counts as a decisive victory/crushing defeat
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.13.562"
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.13.569"
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

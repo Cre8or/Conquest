@@ -68,11 +68,11 @@ call FUNC(ui_setupPPEffects); // Executes first, to initialise the handles
 call FUNC(ui_sys_hookMapCtrls);
 call FUNC(ui_sys_drawHealthBar);
 call FUNC(ui_sys_drawHitMarkers);
+call FUNC(ui_sys_drawIcons3D);
 call FUNC(ui_sys_drawKillFeed);
 call FUNC(ui_sys_drawMedicalEffects);
 call FUNC(ui_sys_drawSectorHUD);
 call FUNC(ui_sys_drawScoreFeed);
-call FUNC(ui_sys_drawUnitIcons3D);
 
 // Add unit EHs on all existing units.
 // This won't add the EHs to the player (as they haven't spawned yet), but that will be handled by gm_spawnPlayer.

@@ -64,8 +64,9 @@ _this call {
 	private _damageEnum = MACRO_ENUM_DAMAGE_UNKNOWN;
 	private _unitInVehicle = (_unit != vehicle _unit);
 
+
 	// World damage
-	if (isNull _instigator and {_ammoType == ""}) then {
+	if (isNull _instigator or {_ammoType == ""}) then {
 
 		_isPhysicsDamage = true;
 		private _time = time;
@@ -73,11 +74,24 @@ _this call {
 		// Filter physics damage inside vehicles
 		if (!_unitInVehicle and {_time > _unit getVariable [QGVAR(worldDamage_immuneTime), 0]}) then {
 
+			// If the source is a vehicle, fetch the driver
+			private _driver = _source;
+			if (_driver isKindOf "Man") then {
+				_source = vehicle _driver;
+			} else {
+				_driver = currentPilot _source;
+
+				// Fallback for vehicles other than aircraft
+				if (isNull _driver) then {
+					_driver = driver _source;
+				};
+			};
+
 			// If the source was a friendly, grant the unit a short immunity against physics damage (in case they're being tossed around as a ragdoll)
 			if (
-				!isNull _source
-				and {_source != _unit}
-				and {_source getVariable [QGVAR(side), sideEmpty] == _unit getVariable [QGVAR(side), sideEmpty]}
+				!isNull _driver
+				and {_driver != _unit}
+				and {_driver getVariable [QGVAR(side), sideEmpty] == _unit getVariable [QGVAR(side), sideEmpty]}
 			) then {
 				_unit setVariable [QGVAR(worldDamage_immuneTime), _time + MACRO_GM_UNIT_WORLDDAMAGE_IMMUNEDURATION, false];
 
@@ -87,10 +101,7 @@ _this call {
 
 				// Attribute the damage to the correct unit (e.g. the vehicle driver)
 				if (isNull _instigator) then {
-					_instigator = _source;
-				};
-				if (_source isKindOf "Man") then {
-					_source = vehicle _source;
+					_instigator = _driver;
 				};
 
 				// Fall-damage

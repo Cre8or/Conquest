@@ -158,17 +158,18 @@ class MACRO_PROJECT_PREFIX {
 		class ui_focusMap {};
 		class ui_focusMapOnArea {};
 		class ui_getAbilityIcon {};
+		class ui_getFillBarIcon {};
 		class ui_getVehTypeIcon {};
 		class ui_processScoreEvent {};
 		class ui_processKillFeedEvent {};
 		class ui_setupPPEffects {};
 		class ui_sys_drawHealthBar {};
 		class ui_sys_drawHitMarkers {};
+		class ui_sys_drawIcons3D {};
 		class ui_sys_drawKillFeed {};
 		class ui_sys_drawMedicalEffects {};
 		class ui_sys_drawScoreFeed {};
 		class ui_sys_drawSectorHUD {};
-		class ui_sys_drawUnitIcons3D {};
 		class ui_sys_hookMapCtrls {};
 	};
 
@@ -178,6 +179,7 @@ class MACRO_PROJECT_PREFIX {
 
 		class unit_getVehicleRole {};
 		class unit_isAlive {};
+		class unit_needsHealing {};
 		class unit_onFired {};
 		class unit_onHandleDamage {};
 		class unit_onInit {};
@@ -197,7 +199,6 @@ class MACRO_PROJECT_PREFIX {
 		class veh_getRoles {};
 		class veh_getType {};
 		class veh_getUnitByRole {};
-		//class veh_followPath {};
 		class veh_isClaimable {};
 		class veh_isOperable {};
 	};
