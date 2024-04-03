@@ -12,8 +12,9 @@ class MACRO_PROJECT_PREFIX {
 
 		class act_registerKeybindings;
 		class act_toggleSpawnMenu {};
-		class act_spotTarget {};	}
+		class act_spotTarget {};
 		class act_tryHealUnit {};
+	};
 
 	class ai {
 		file = "scripts\ai";

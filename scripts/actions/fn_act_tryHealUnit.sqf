@@ -103,6 +103,11 @@ if (_medic != _target) then {
 	_medic action ["TakeWeapon", objNull, "Throw"];
 };
 
+// Special behaviour for AI: face the patient
+if (!isPlayer _medic) then {
+	_medic doWatch _target;
+};
+
 // Inform the server about the successful healing action
 [_medic, _target] remoteExecCall [QFUNC(unit_onHealUnit), 2, false];
 

@@ -84,6 +84,7 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 			_unit setCombatBehaviour "AWARE";
 			_unit setSpeedMode "FULL";
 			_unit allowFleeing 0;
+			_unit doWatch objNull;
 
 			// Safestart
 			#include "unitControl\subSys_enforceSafeStart.sqf"
