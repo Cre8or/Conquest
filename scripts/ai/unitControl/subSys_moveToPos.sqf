@@ -37,7 +37,6 @@ if (
 		// However, if the route's current node is too far away from the vehicle, discard it and start
 		// a new search from scratch.
 		if (_isDriver and {speed _unitVeh > 15}) then {
-			_pathData           = _unit getVariable [QGVAR(ai_unitControl_moveToPos_pathData), []];
 			private _route      = _pathData param [0, []];
 			private _curNodePos = _route param [_unit getVariable [QGVAR(ai_unitControl_moveToPos_pathIndex), -1], _unitPos];
 
@@ -46,8 +45,8 @@ if (
 			};
 		};
 
-		//systemChat format ["(%1) %2: Calculating route: %3 (%4 / %5)", _time, _unit, _movePos apply {(round (_x * 10)) / 10}, _distDeltaMovePos, _distMovePos];
 		_pathData = [_unit, _movePos, _isInVehicle, !_isDriver, _curNodeID] call FUNC(nm_findPath);
+		//systemChat format ["(%1) %2: Calculating route: %3 (%4 / %5): %6 nodes", _time, _unit, _movePos apply {(round (_x * 10)) / 10}, _distDeltaMovePos, _distMovePos, count (_pathData # 0)];
 
 		// Reset the route data
 		_unit setVariable [QGVAR(ai_unitControl_moveToPos_movePos), _movePos, false];
@@ -82,12 +81,11 @@ if (!_isInVehicle) then {
 	private _continueLoop      = (_pathIndex <= _pathIndexLast);
 	private ["_routePos", "_completionRadiusSqr"];
 
+	_pathData params ["_pathRoute", "_pathRadii"];
+
 	// Check if we have a route to follow
 	while {_continueLoop} do {
-
-		_continueLoop = false; // Default behaviour: exit after one iteration
-		_pathData params ["_pathRoute", "_pathRadii"];
-
+		_continueLoop        = false; // Default behaviour: exit after one iteration
 		_routePos            = _pathRoute param [_pathIndex, []];
 		_completionRadiusSqr = _pathRadii param [_pathIndex, MACRO_NM_DEFAULTRADIUS_INF ^ 2];
 
@@ -109,7 +107,7 @@ if (!_isInVehicle) then {
 		// If outside of the completion radius, move towards the position
 		} else {
 			if (_time > _unit getVariable [QGVAR(ai_unitControl_moveToPos_nextMoveTime), 0]) then {
-				_newDestinationPos = ASLtoATL _routePos;
+				_newDestinationPos = ASLtoAGL _routePos;
 			};
 		};
 	};
@@ -121,6 +119,7 @@ if (!_isInVehicle) then {
 	if (_newDestinationPos isNotEqualTo []) then {
 		_unit doMove _newDestinationPos;
 		_unit moveTo _newDestinationPos;
+		//systemchat format ["(%1) %2 moving to %3 (%4 / %5)", _time, _unit, _newDestinationPos, _pathIndex, _pathIndexLast];
 
 		_unit setVariable [QGVAR(ai_unitControl_moveToPos_nextMoveTime), _time + MACRO_AI_DOMOVEINTERVAL, false];
 		_unit setVariable [QGVAR(ai_unitControl_planNextMovePos_destinationPos), _newDestinationPos, false];
@@ -145,7 +144,8 @@ if (!_isInVehicle) then {
 		private _debug_pathIndex     = _unit getVariable [QGVAR(ai_unitControl_moveToPos_pathIndex), 0];
 		private _debug_pathIndexLast = _unit getVariable [QGVAR(ai_unitControl_moveToPos_pathIndexLast), 0];
 		private _debug_pathData      = _unit getVariable [QGVAR(ai_unitControl_moveToPos_pathData), []];
-		_debug_pathData              = ([_unitPos] + ((_debug_pathData # 0) select [_debug_pathIndex, _debug_pathIndexLast + 1])) apply {ASLtoATL _x vectorAdd [0, 0, 0.5]};
+		_debug_pathData              = ([_unitPos] + ((_debug_pathData # 0) select [_debug_pathIndex, _debug_pathIndexLast + 1])) apply {ASLtoAGL _x vectorAdd [0, 0, 0.5]};
+
 		for "_i" from 0 to count _debug_pathData - 2 do {
 			_debug_route pushBack [
 				_debug_pathData # _i,

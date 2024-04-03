@@ -1,4 +1,4 @@
-// Define some variables
+// Set up some variables
 private _unitSafeStart = _unit getVariable [QGVAR(ai_unitControl_safeStart_isSafe), !_missionSafeStart];
 
 

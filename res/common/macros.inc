@@ -360,19 +360,16 @@
 	#define MACRO_AI_DRIVER_MOUNT_COOLDOWN                          120 // The cooldown duration for AI drivers between mount-up pauses (to prevent getting stuck in a pausing loop)
 	#define MACRO_AI_DRIVER_LOOKAHEAD_MAXITERATIONS                 10 // The amount of nodes, at most, that AI drivers will look ahead along their route to determine the target speed limit
 	#define MACRO_AI_DRIVER_LOOKAHEAD_MAXDIST                       100 // How far, in meters, AI drivers may look ahead into their route to anticipate sharp turns
-	#define MACRO_AI_DRIVER_LOOKAHEAD_IDEALDISTBETWEENNODES         40 // The ideal distance, in meters, between two path nodes that AI drivers will use as reference for their maxium allowed speed
 	#define MACRO_AI_DRIVER_MAXSPEED                                80 // The maximum speed, in km/h, that AI drivers are allowed to drive under ideal circumstances (straight path, long distances between nodes)
 	#define MACRO_AI_DRIVER_AVOIDANCE_MAXDISTANCE                   100 // The maximum distance, in meters, to another vehicle for AI drivers to consider it in its obstacle avoidance check
 	#define MACRO_AI_DRIVER_FORCEMUL_ROUTEALIGN                     0.6 // Multiplier for AI drivers' goal force to align with the intended route. This force increases the further away the vehicle strays from its intended route
-	//#define MACRO_AI_CLAIMVEHICLE_TIMEOUT                           10 // How long, in seconds, a vehicle claim by an AI remains active before it is discarded
-	//#define MACRO_AI_DELAYUNTILSTUCK                                10 // How long a unit must remain stationary for it to be considered as stuck, in seconds
-	//#define MACRO_AI_DELAYUNTILFORCERESPAWN                         30 // How long a unit must remain stationary for it to be force-respawned, in seconds (should be greater than MACRO_AI_DELAYUNTILSTUCK)
 	#define MACRO_AI_PATHFINDINTERVAL_VEH                           10000 // The maximum delay, in seconds, between recalculations of a vehicle's path
 	#define MACRO_AI_PATHFINDINTERVAL_INF                           30 // The maximum delay, in seconds, between recalculations of a vehicle's path
 	#define MACRO_AI_UNITCONTROL_INTERVAL                           0.5 // Interval, in seconds, between two update cycles of the AI unitControl system (each unit gets updated every this often)
 	#define MACRO_AI_DRIVERCONTROL_INTERVAL                         0.25 // Interval, in seconds, between two update cycles of the AI driverControl system (each vehicle driver gets updated every this often)
 	#define MACRO_AI_COMMANDER_INTERVAL                             0.25 // Interval, in seconds, between two update cycles of the AI commander system (per side; * 3 for a full cycle)
 	#define MACRO_AI_DOMOVEINTERVAL                                 5 // The interval, in seconds, between two doMove commands being issued to AI units (as they sometimes need to be rescheduled to move)
+	#define MACRO_AI_MEDICAL_MAXACTIONDISTANCE                      20 // The maximum distance, in meters, that AI units are willing to travel in order to perform medical actions on others, or to receive medical attention
 	#define MACRO_AI_COMMANDER_STRATEGICVALUE_DECREASEPERGROUP      4 // By how much a sector's current strategic value is divided, for each group ordered to it (per iteration of the commander system)
 	#define MACRO_AI_COMMANDER_SECTOR_MINLEVELOWNED                 0.8 // The minimum capturing level of owned sectors for them to be considered as candidates
 	#define MACRO_AI_COMMANDER_WAYPOINT_MINDISTANCE                 5 // Minimum distance, in meters, that a potential new waypoint must be from a group's current waypoint to be submitted
@@ -424,7 +421,7 @@
 	#define MACRO_UNIT_HEALTH_FALLDAMAGEHEIGHT                      3 // The height in meters beyond which units receive fall damage when jumping off of surfaces (assuming no initial velocity)
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.13.581"
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.13.585"
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -780,7 +777,7 @@
 	#define MACRO_DEBUG_AI_COMMANDER_DISABLED
 	//#define MACRO_DEBUG_AI_DRIVER
 	//#define MACRO_DEBUG_AI_DRIVER_HALT
-	//#define MACRO_DEBUG_AI_MOVEPOS
+	#define MACRO_DEBUG_AI_MOVEPOS
 	//#define MACRO_DEBUG_AI_DODGEVEHICLES
 
 	//#define MACRO_DEBUG_CA
