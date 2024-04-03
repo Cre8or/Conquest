@@ -26,8 +26,8 @@ if (!hasInterface or {!alive _player}) exitWith {true};
 
 
 // Set up some variables
-MACRO_FNC_INITVAR(GVAR(spotTarget_cost),-MACRO_ACT_SPOTTING_COOLDOWNDURATION);
-MACRO_FNC_INITVAR(GVAR(spotTarget_cooldown),false);
+MACRO_FNC_INITVAR(GVAR(spotTarget_cost), -MACRO_ACT_SPOTTING_COOLDOWNDURATION);
+MACRO_FNC_INITVAR(GVAR(spotTarget_cooldown), false);
 
 private _time = time;
 
@@ -45,7 +45,7 @@ if (_newCost > _time) exitWith {
 	GVAR(spotTarget_cost) = _time;
 	GVAR(spotTarget_cooldown) = true;
 
-	playSoundUI ["addItemFailed", 0.75, 1];
+	playSoundUI ["addItemFailed", 0.5, 1];
 	true;
 };
 
@@ -146,7 +146,7 @@ if (!isNull _target) then {
 	[_player] call FUNC(anim_gesturePoint);
 
 } else {
-	playSoundUI ["WeaponRestedOn", 2.5, 1];
+	playSoundUI ["WeaponRestedOn", 1.5, 1];
 };
 
 

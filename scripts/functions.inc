@@ -10,7 +10,7 @@ class MACRO_PROJECT_PREFIX {
 		file = "scripts\actions";
 		// Abbreviation:	act
 
-		class act_registerKeybindings;
+		class act_registerKeybindings {};
 		class act_toggleSpawnMenu {};
 		class act_spotTarget {};
 		class act_tryHealUnit {};

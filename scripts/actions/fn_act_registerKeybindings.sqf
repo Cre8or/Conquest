@@ -25,7 +25,7 @@
 	"Conquest",
 	QGVAR(spotTarget),
 	"Spot target",
-	{call FUNC(kb_spotTarget)},
+	{call FUNC(act_spotTarget)},
 	{false},
 	[41, [true, false, false]], // Shift + Tilda (hold)
 	false,
@@ -64,7 +64,7 @@ if (GVAR(hasMod_ace_finger)) then {
 	"Conquest",
 	QGVAR(toggleSpawnMenu),
 	"Open/close spawn menu",
-	{call FUNC(kb_toggleSpawnMenu)},
+	{call FUNC(act_toggleSpawnMenu)},
 	{false},
 	[MACRO_KEYBIND_TOGGLESPAWNMENU, [true, false, false]],
 	false,

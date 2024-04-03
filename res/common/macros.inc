@@ -421,7 +421,7 @@
 	#define MACRO_UNIT_HEALTH_FALLDAMAGEHEIGHT                      3 // The height in meters beyond which units receive fall damage when jumping off of surfaces (assuming no initial velocity)
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.13.585"
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.13.588"
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -774,10 +774,10 @@
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	//#define MACRO_DEBUG_AI_COMMANDER
-	#define MACRO_DEBUG_AI_COMMANDER_DISABLED
+	//#define MACRO_DEBUG_AI_COMMANDER_DISABLED
 	//#define MACRO_DEBUG_AI_DRIVER
 	//#define MACRO_DEBUG_AI_DRIVER_HALT
-	#define MACRO_DEBUG_AI_MOVEPOS
+	//#define MACRO_DEBUG_AI_MOVEPOS
 	//#define MACRO_DEBUG_AI_DODGEVEHICLES
 
 	//#define MACRO_DEBUG_CA
