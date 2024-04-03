@@ -39,6 +39,8 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 
 	if (dialog or {!([_player, true] call FUNC(unit_isAlive))}) exitWith {};
 
+	scopeName QGVAR(ui_sys_drawIcons3D);
+
 	// Set up some constants
 	private _c_maxDistSqr  = MACRO_UI_ICONS3D_MAXDISTANCE_INF ^ 2;
 	private _c_maxAngleSqr = (0.2 * getObjectFOV cameraOn) ^ 2; // Minimum angle within which unit names should be displayed
@@ -85,6 +87,8 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 
 
 	// Handle role-specific icon drawing
+	#include "drawIcons3D\ui_unitIcons_medic.sqf"
+
 	switch (GVAR(role)) do {
 
 		case MACRO_ENUM_ROLE_SUPPORT: {
@@ -93,10 +97,6 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 
 		case MACRO_ENUM_ROLE_ENGINEER: {
 			#include "drawIcons3D\ui_vehicleIcons_engineer.sqf"
-		};
-
-		case MACRO_ENUM_ROLE_MEDIC: {
-			#include "drawIcons3D\ui_unitIcons_medic.sqf"
 		};
 	};
 

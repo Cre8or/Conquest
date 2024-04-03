@@ -10,6 +10,10 @@ class GVAR(FriendlyKilled) : GVAR(Default) {
 	sound[] = {"@a3\3DEN\Data\Sound\CfgSound\notificationWarning.wss", db+5, 1};
 };
 
+class GVAR(SideDefeated) : GVAR(Default) {
+	sound[] = {"@a3\missions_f_beta\data\sounds\firing_drills\drill_finish.wss", db+5, 1};
+};
+
 class GVAR(TicketsLow_Siren) : GVAR(Default) {
 	sound[] = {"@a3\data_f_curator\sound\cfgsounds\air_raid", db+5, 1};
 };

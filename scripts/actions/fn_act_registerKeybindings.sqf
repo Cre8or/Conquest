@@ -76,11 +76,11 @@ if (GVAR(hasMod_ace_finger)) then {
 [
 	"Conquest",
 	QGVAR(healUnit),
-	"Heal other unit",
-	{call FUNC(kb_healUnit)},
+	"Heal unit/self",
+	{([cameraOn] call FUNC(act_tryHealUnit)) param [0, false]},
 	{false},
 	[MACRO_KEYBIND_HEAL, [false, false, false]],
-	false,
+	true,
 	0,
 	true
 ] call CBA_fnc_addKeybind;

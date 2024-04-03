@@ -1,8 +1,10 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
+		[S][GA][GE]
 		Adds score to the unit using the given enumeration (as justification).
-		If the object is a player, an event is broadcast to their machine for UI displaying.
+		If the concerned unit is a player (instead of an AI), an event is broadcast to their machine for UI
+		displaying.
 
 		Only executed by the server.
 	Arguments:
@@ -35,9 +37,20 @@ private _score = switch (_enum) do {
 	case MACRO_ENUM_SCORE_SECTOR_CAPTURING:		{MACRO_SCORE_SECTOR_CAPTURING};
 	case MACRO_ENUM_SCORE_SECTOR_CAPTURED:		{MACRO_SCORE_SECTOR_CAPTURED};
 
+	case MACRO_ENUM_SCORE_HEAL:			{
+		private _deltaHealth = [0, _arg] select (_arg isEqualType 0);
+
+		round (100 * _deltaHealth * MACRO_SCORE_HEAL);
+	};
+	case MACRO_ENUM_SCORE_REVIVE:			{MACRO_SCORE_REVIVE};
+
 	case MACRO_ENUM_SCORE_SUICIDE:			{MACRO_SCORE_SUICIDE};
 	case MACRO_ENUM_SCORE_SPOTASSIST:		{MACRO_SCORE_SPOTASSIST};
-	case MACRO_ENUM_SCORE_KILLASSIST:		{if (_arg isEqualType 0) then {_arg} else {0}};
+	case MACRO_ENUM_SCORE_KILLASSIST:		{
+		private _damage = [0, _arg] select (_arg isEqualType 0);
+
+		ceil (_damage * MACRO_SCORE_KILL_ENEMY);
+	};
 	case MACRO_ENUM_SCORE_KILL_ENEMY:		{MACRO_SCORE_KILL_ENEMY};
 	case MACRO_ENUM_SCORE_KILL_FRIENDLY:		{MACRO_SCORE_KILL_FRIENDLY};
 	case MACRO_ENUM_SCORE_HEADSHOT:			{MACRO_SCORE_HEADSHOT};
@@ -60,14 +73,18 @@ if (_score == 0) exitWith {};
 // Determine the additional arguments
 private _argOut = switch (_enum) do {
 
+	case MACRO_ENUM_SCORE_HEAL;
 	case MACRO_ENUM_SCORE_KILLASSIST: {_score};
 
+	case MACRO_ENUM_SCORE_REVIVE;
 	case MACRO_ENUM_SCORE_KILL_ENEMY;
 	case MACRO_ENUM_SCORE_KILL_FRIENDLY: {
 		[nil, _arg] select (_arg isEqualType objNull);
 	};
 
-	case MACRO_ENUM_SCORE_SIDEDEFEATED: {_arg};
+	case MACRO_ENUM_SCORE_SIDEDEFEATED: {
+		[nil, _arg] select (_arg isEqualType sideEmpty);
+	};
 
 	default {nil};	// Fallback
 };
@@ -80,3 +97,7 @@ private _argOut = switch (_enum) do {
 if (isPlayer _unit) then {
 	[_enum, _argOut] remoteExecCall [QFUNC(ui_processScoreEvent), _unit, false];
 };
+
+// Add to the total score
+private _totalScore = (_unit getVariable [QGVAR(score), 0]) + _score;
+_unit setVariable [QGVAR(score), _totalScore, true];

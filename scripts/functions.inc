@@ -1,20 +1,19 @@
 class MACRO_PROJECT_PREFIX {
 
-	class keyBindings {
-		file = "scripts\keyBindings";
-		// Abbreviation:	kb
-
-		class kb_healUnit {};
-		class kb_registerKeybindings;
-		class kb_toggleSpawnMenu {};
-		class kb_spotTarget {};
-	};
-
 	class ace_medical {
 		file = "scripts\ace\medical";
 
 		class ace_usePAK {};
 	};
+
+	class actions {
+		file = "scripts\actions";
+		// Abbreviation:	act
+
+		class act_registerKeybindings;
+		class act_toggleSpawnMenu {};
+		class act_spotTarget {};	}
+		class act_tryHealUnit {};
 
 	class ai {
 		file = "scripts\ai";
@@ -182,6 +181,7 @@ class MACRO_PROJECT_PREFIX {
 		class unit_needsHealing {};
 		class unit_onFired {};
 		class unit_onHandleDamage {};
+		class unit_onHealUnit {};
 		class unit_onInit {};
 		class unit_onHitPart {};
 		class unit_onKilled {};

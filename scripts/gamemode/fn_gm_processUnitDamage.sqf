@@ -135,7 +135,7 @@ if (_health > 0) then {
 		_assistDamage = _assistDamages # _forEachIndex;
 
 		if (_x != _instigator and {_time <= _assistTime}) then {
-			[_x, MACRO_ENUM_SCORE_KILLASSIST, ceil (_assistDamage * MACRO_SCORE_KILL_ENEMY)] call FUNC(gm_addScore);
+			[_x, MACRO_ENUM_SCORE_KILLASSIST, _assistDamage] call FUNC(gm_addScore);
 		};
 
 	} forEach (_unit getVariable [QGVAR(addHitDetection_assists), []]);

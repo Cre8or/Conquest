@@ -57,12 +57,15 @@ _this call {
 	if (!_isDirect and {_ammoType != ""} and {_hitPoint != ""}) exitWith {0};
 
 	// Don't handle damage if the unit is unconscious/dead
-	if !([_unit] call FUNC(unit_isAlive)) exitWith {0};
+	if !([_unit] call FUNC(unit_isAlive)) exitWith {
+		_unit getHitPointDamage _hitPoint;
+	};
 
 	private _newDamage = 0;
 	private _isPhysicsDamage = false;
 	private _damageEnum = MACRO_ENUM_DAMAGE_UNKNOWN;
 	private _unitInVehicle = (_unit != vehicle _unit);
+
 
 
 	// World damage
@@ -106,10 +109,10 @@ _this call {
 
 				// Fall-damage
 				if (isNull _source or {_source == _unit}) then {
-					private _maxSafeFallDist = 3; // in meters
 					private _fallVel = abs ((velocity vehicle _unit) # 2);
+					private _health  = 0.05 + 0.95 * (_unit getVariable [QGVAR(health), 1]); // Scale fall damage with unit health
 
-					_newDamage = MACRO_GM_UNIT_DAMAGEMUL_FALLDAMAGE * 0.05 * (0 max (_fallVel - sqrt (2 * 9.81 * _maxSafeFallDist))) ^ 2; // Lethal at around 6 meters
+					_newDamage = _health * MACRO_GM_UNIT_DAMAGEMUL_FALLDAMAGE * 0.07 * (0 max (_fallVel - sqrt (2 * 9.81 * MACRO_UNIT_HEALTH_FALLDAMAGEHEIGHT))) ^ 2; // Lethal at around 6 meters
 				} else {
 					// Sanity-check: vehicle collisions may only happen if the vehicle is within 20 meters of the unit (roughly)
 					if (_source distanceSqr _unit < 400) then {

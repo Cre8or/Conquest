@@ -253,6 +253,7 @@
 	#define MACRO_POS_SM_ROLE_PIP_BOTTOM_TEXTSIZE                   (0.02 * safeZoneW)
 	#define MACRO_POS_SM_DEPLOY_VEHICLEICON_HEIGHT                  0.04
 
+	// Health Bar
 	#define MACRO_UI_HB_LOWHEALTH                                   0.5 // The threshold of health below which the health bar starts blinking
 
 	// Hit Markers
@@ -335,6 +336,10 @@
 	#define MACRO_ACT_SPOTTING_COOLDOWNDURATION                     17 // How long the spotting action remains blocked for, in seconds, when in cooldown
 	#define MACRO_ACT_SPOTTING_COSTPERUSE                           4 // How much it costs to use the spotting action. Divice the cooldown duration by this value to determine how often the action may be triggered (at once) before entering cooldown
 
+	#define MACRO_ACT_HEALUNIT_MAXDISTANCESQR                       4 // The maximum distance, in meters squared, at which medics may heal patients
+	#define MACRO_ACT_HEALUNIT_AMOUNT                               0.15 // The amount of health that is added to patients upon healing, expressed as fraction of their maximum health
+	#define MACRO_ACT_HEALUNIT_COOLDOWN                             1 // The cooldown duration, in seconds, between two consecutive healing actions that medics must wait
+
 	#define MACRO_KEYBIND_TOGGLESPAWNMENU                           DIK_F1
 	#define MACRO_KEYBIND_HEAL                                      DIK_4
 	#define MACRO_KEYBIND_REARM                                     DIK_5
@@ -415,8 +420,11 @@
 	#define MACRO_TICKETS_WARNINGTHRESHOLD                          50 // When 2 out of 3 sides have fewer than this many tickets, a warning is broadcast to build up suspense (the mission will likely be over soon)
 	#define MACRO_TICKETS_DECISIVETHRESHOLD                         100 // If the round ends, and the winning side has at least this many tickets left, the end counts as a decisive victory/crushing defeat
 
+	// Health
+	#define MACRO_UNIT_HEALTH_FALLDAMAGEHEIGHT                      3 // The height in meters beyond which units receive fall damage when jumping off of surfaces (assuming no initial velocity)
+
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.13.572"
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.13.581"
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -425,7 +433,7 @@
 	#define MACRO_MISSION_FRAMEWORK_MP_MAXPLAYERS                   64
 
 	// Corpse/wreck removal
-	#define MACRO_CLEANUPDELAY_CORPSE                               60 // How long, in seconds, a unit corpse persists after death before being removed
+	#define MACRO_CLEANUPDELAY_CORPSE                               30 // How long, in seconds, a unit corpse persists after death before being removed
 	#define MACRO_CLEANUPDELAY_WRECK                                60 // How long, in seconds, a Vehicle wreck persists after destruction before being removed
 
 
@@ -460,11 +468,14 @@
 	#define MACRO_SCORE_SECTOR_CAPTURING                            20 // Triggered for every 10% of level change
 	#define MACRO_SCORE_SECTOR_CAPTURED                             300
 
+	#define MACRO_SCORE_HEAL                                        1 // Per health point healed
+	#define MACRO_SCORE_REVIVE                                      50
+
 	#define MACRO_SCORE_SUICIDE                                     -100
 	#define MACRO_SCORE_SPOTASSIST                                  25
 	#define MACRO_SCORE_KILL_ENEMY                                  100
 	#define MACRO_SCORE_KILL_FRIENDLY                               -250
-	#define MACRO_SCORE_HEADSHOT                                    50
+	#define MACRO_SCORE_HEADSHOT                                    25
 
 	#define MACRO_SCORE_DESTROYVEHICLE_ENEMY                        200
 	#define MACRO_SCORE_DESTROYVEHICLE_FRIENDLY                     -500
@@ -485,12 +496,12 @@
 	#define MACRO_ENUM_SCORE_SECTOR_CAPTURING                       1
 	#define MACRO_ENUM_SCORE_SECTOR_CAPTURED                        2
 
-/*	TODO: Add messages for the following macros
+	//TODO: Add messages for the following macros
 	#define MACRO_ENUM_SCORE_HEAL                                   10
 	#define MACRO_ENUM_SCORE_REVIVE                                 11
-	#define MACRO_ENUM_SCORE_REPAIR                                 12
-	#define MACRO_ENUM_SCORE_REARM                                  13
-*/
+	//#define MACRO_ENUM_SCORE_REPAIR                                 12
+	//#define MACRO_ENUM_SCORE_REARM                                  13
+
 	#define MACRO_ENUM_SCORE_SUICIDE                                20
 	#define MACRO_ENUM_SCORE_SPOTASSIST                             21
 	#define MACRO_ENUM_SCORE_KILLASSIST                             22
@@ -766,7 +777,7 @@
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	//#define MACRO_DEBUG_AI_COMMANDER
-	//#define MACRO_DEBUG_AI_COMMANDER_DISABLED
+	#define MACRO_DEBUG_AI_COMMANDER_DISABLED
 	//#define MACRO_DEBUG_AI_DRIVER
 	//#define MACRO_DEBUG_AI_DRIVER_HALT
 	//#define MACRO_DEBUG_AI_MOVEPOS
