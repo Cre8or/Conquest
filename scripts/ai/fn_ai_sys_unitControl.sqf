@@ -85,6 +85,7 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 			_unit setSpeedMode "FULL";
 			_unit allowFleeing 0;
 			_unit doWatch objNull;
+			_unit setUnitPos "AUTO";
 
 			// Safestart
 			#include "unitControl\subSys_enforceSafeStart.sqf"
@@ -156,6 +157,9 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 			_unitsAlive       = []; // All alive units on this side
 			_unitsInjured     = []; // Alive Units on this side who are injured
 			_unitsUnconscious = []; // Unconscious units on this side
+			_unitsSupport     = []; // All alive support units on this side
+			_unitsEngineer    = []; // All alive engineer units on this side
+			_unitsMedic       = []; // All alive medic units on this side
 
 			{
 				if (vehicle _x != _x) then {
@@ -170,12 +174,21 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 					if (_x getVariable [QGVAR(health), 1] < 1) then {
 						_unitsInjured pushBack _x;
 					};
+
+					switch (_x getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID]) do {
+						case MACRO_ENUM_ROLE_SUPPORT:  {_unitsSupport pushBack _x};
+						case MACRO_ENUM_ROLE_ENGINEER: {_unitsEngineer pushBack _x};
+						case MACRO_ENUM_ROLE_MEDIC:    {_unitsMedic pushBack _x};
+					};
 				};
 			} forEach _unitsX;
 
 			GVAR(ai_sys_unitControl_cache) set [format ["unitsAlive_%1", _sideX], _unitsAlive];
 			GVAR(ai_sys_unitControl_cache) set [format ["unitsInjured_%1", _sideX], _unitsInjured];
 			GVAR(ai_sys_unitControl_cache) set [format ["unitsUnconscious_%1", _sideX], _unitsUnconscious];
+			GVAR(ai_sys_unitControl_cache) set [format ["unitsSupport_%1", _sideX], _unitsSupport];
+			GVAR(ai_sys_unitControl_cache) set [format ["unitsEngineer_%1", _sideX], _unitsEngineer];
+			GVAR(ai_sys_unitControl_cache) set [format ["unitsMedic_%1", _sideX], _unitsMedic];
 
 		} forEach GVAR(sides);
 	};

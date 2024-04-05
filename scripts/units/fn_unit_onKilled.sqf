@@ -86,6 +86,9 @@ if (!isMultiplayer and {_unit == player}) then {
 	private _grp = createGroup GVAR(side);
 	private _newUnit = _grp createUnit [typeOf _unit, [0,0,0], [], 0, "CAN_COLLIDE"];
 
+	// Mark the corpse as belonging to the player (other systems have to deduce this information from the corpse)
+	_unit setVariable [QGVAR(cl_sp_isPlayer), true];
+
 	// Switch units and reassign the curator module
 	unassignCurator GVAR(curatorModule);
 	selectPlayer _newUnit;

@@ -70,7 +70,7 @@ _unit allowDamage (!_enabled);
 
 
 
-// AI only
+// AI specific
 if (!isPlayer _unit) then {
 
 	[true, MACRO_ENUM_AI_PRIO_BASESETTINGS, _unit, "AUTOCOMBAT", false] call FUNC(ai_toggleFeature);

@@ -84,6 +84,7 @@ GVAR(ui_sys_hookMapCtrls_EH) = addMissionEventHandler ["EachFrame", {
 	};
 
 	// Hook into all map panels (GPS and helicopter terrain avoidance)
+	// RscCustomInfoMiniMap / RscCustomInfoAirborneMiniMap
 	if (!GVAR(ui_sys_hookMapCtrls_hookedIGUIs)) then {
 		{
 			private _ctrlMap = _x displayCtrl 101;	// See a3/ui_f/config.cpp
@@ -103,7 +104,6 @@ GVAR(ui_sys_hookMapCtrls_EH) = addMissionEventHandler ["EachFrame", {
 			};
 		} forEach ((uiNamespace getVariable ["IGUI_Displays", []]) select {ctrlIDD _x == 311});	// See a3/ui_f/config.cpp
 	};
-
 
 
 

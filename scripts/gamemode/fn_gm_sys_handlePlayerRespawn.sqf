@@ -214,6 +214,10 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 						// Focus the main map
 						private _ctrlMap = (findDisplay 12) displayCtrl 51;
 						[_ctrlMap, MACRO_UI_MAPFOCUS_PADDING_FULLSCREEN] call FUNC(ui_focusMap);
+
+						// Enable the GPS by default
+						// TODO: Add configuration option to choose the side the GPS is shown on
+						setInfoPanel ["right", "MinimapDisplay"];
 					};
 
 					case MACRO_ENUM_RESPAWN_SPAWNED_UNFROZEN: {

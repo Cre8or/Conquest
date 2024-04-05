@@ -16,7 +16,7 @@
 // ----------------------------------------------------------------------------------------------------------------------------------
 	#define MACRO_AI_MAXCOUNT                                       32 // How many AI units can exist at most at any given time
 	#define MACRO_AI_INCLUDEPLAYERS                                 false // Whether or not players are counted towards the AI limit
-	#define MACRO_AI_ALLOWVEHICLES                                  false // Whether or not the AI is allowed to use any vehicles at all. Only affects vehicles that would otherwise be allowed for AI use
+	#define MACRO_AI_ALLOWVEHICLES                                  true // Whether or not the AI is allowed to use any vehicles at all. Only affects vehicles that would otherwise be allowed for AI use
 	#define MACRO_AI_PEACEFULMODE                                   false // Whether or not the AI is allowed to engage other units.
 	#define MACRO_AI_MAXUNITSPERGROUP                               6 // How many AI units are allowed to form up in a group
 

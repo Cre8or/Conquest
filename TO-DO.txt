@@ -20,9 +20,9 @@ TO DO:
 		+ Sector letters on maps
 		- Spawn menu
 		- End screen
-	- Fix spawn menu being inconsistent in MP
+	- Fix spawn menu inconsistencies
 	 	+ Sides with no tickets don't get greyed out
-		- (?) Group lists don't seem to get refreshed after switching sides
+		- Fix AI groups sometimes getting duplicated (with incorrect callsigns)
 		+ Sometimes spawn menus cannot be opened at all + chat spam (see screenshot)
 	- Move macros/variables pertaining to a side's definition into single file (merge with loadouts file?)
 	- (Investigate Joe's isssue with being able to spawn when no sectors are owned)
@@ -40,6 +40,9 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Enable player GPS by default upon spawning
+	- Teach AI units to seek medics when injured
+	- Teach AI medics how to heal other units
 	- Fix AI in player group dealing roadkill damage to player
 	- Add a running score sum to the score feed
 	- Modify player health visual feedback to be more prominent

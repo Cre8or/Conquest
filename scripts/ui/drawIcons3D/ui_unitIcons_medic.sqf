@@ -18,7 +18,7 @@ if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC) then {
 			_healthX = _unitX getVariable [QGVAR(health), 0];
 
 			_renderData_units pushBack (
-				_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), _freeLook or {_healthX < MACRO_UI_HB_LOWHEALTH}, _unitX getVariable [QGVAR(health), 0], !(_unitX getVariable [QGVAR(unconscious), false])]
+				_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), _freeLook or {_healthX < MACRO_UNIT_HEALTH_THRESHOLDLOW}, _unitX getVariable [QGVAR(health), 0], !(_unitX getVariable [QGVAR(unconscious), false])]
 			);
 			_teamMates deleteAt _forEachIndex;
 		};
@@ -31,7 +31,7 @@ if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC) then {
 			_healthX = _unitX getVariable [QGVAR(health), 0];
 
 			_renderData_units pushBack (
-				_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), _freeLook or {_healthX < MACRO_UI_HB_LOWHEALTH}, _healthX, !(_unitX getVariable [QGVAR(unconscious), false])]
+				_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), _freeLook or {_healthX < MACRO_UNIT_HEALTH_THRESHOLDLOW}, _healthX, !(_unitX getVariable [QGVAR(unconscious), false])]
 			);
 			_squadMates deleteAt _forEachIndex;
 		};
@@ -52,7 +52,7 @@ if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC) then {
 
 		if (_distX < _c_maxDistMedicSqr and {_unitX getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] == MACRO_ENUM_ROLE_MEDIC} and {[_unitX] call FUNC(unit_isAlive)}) then {
 			_renderData_units pushBack (
-				_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), _health < MACRO_UI_HB_LOWHEALTH or {_freeLook}, _health, false]
+				_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), _health < MACRO_UNIT_HEALTH_THRESHOLDLOW or {_freeLook}, _health, false]
 			);
 			_teamMates deleteAt _forEachIndex;
 		};
@@ -63,7 +63,7 @@ if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC) then {
 
 		if (_distX < _c_maxDistMedicSqr and {_unitX getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] == MACRO_ENUM_ROLE_MEDIC} and {[_unitX] call FUNC(unit_isAlive)}) then {
 			_renderData_units pushBack (
-				_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), _health < MACRO_UI_HB_LOWHEALTH or {_freeLook}, _health, false]
+				_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), _health < MACRO_UNIT_HEALTH_THRESHOLDLOW or {_freeLook}, _health, false]
 			);
 			_squadMates deleteAt _forEachIndex;
 		};
@@ -93,7 +93,7 @@ private ["_pos2D", "_nameX", "_colour", "_posXASL", "_angle", "_distMul"];
 
 	_nameX = name _unit;
 
-	if (_blink and {_health < MACRO_UI_HB_LOWHEALTH}) then {
+	if (_blink and {_health < MACRO_UNIT_HEALTH_THRESHOLDLOW}) then {
 		_colour = SQUARE(MACRO_COLOUR_A100_WHITE);
 	} else {
 		_colour = _colourFill;

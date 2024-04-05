@@ -53,7 +53,7 @@ GVAR(ui_sys_drawHealthBar_EH) = addMissionEventHandler ["EachFrame", {
 		private ["_colourText", "_colourBackground"];
 
 		// Below critical health, pulse the health bar
-		if (_health < MACRO_UI_HB_LOWHEALTH) then {
+		if (_health < MACRO_UNIT_HEALTH_THRESHOLDLOW) then {
 			private _inverted = ((time mod (2 * MACRO_BLINK_INTERVAL)) < MACRO_BLINK_INTERVAL);
 
 			_colourBackground = ([SQUARE(MACRO_COLOUR_INGAME_BACKGROUND), SQUARE(MACRO_COLOUR_A100_RED)] select _inverted);

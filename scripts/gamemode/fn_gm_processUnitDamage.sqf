@@ -46,12 +46,24 @@ private _health         = _unit getVariable [QGVAR(health), 1];
 private _sideUnit       = _unit getVariable [QGVAR(side), sideEmpty];
 private _sideInstigator = _instigator getVariable [QGVAR(side), sideEmpty];
 
-// Edge case: negative damage always kills the unit
+// Edge case 1: negative damage always kills the unit
 if (_damage < 0) then {
 	_damage = _health;
 	_health = 0;
 } else {
 	_health = _health - _damage;
+};
+
+// Edge case 2: in singleplayer, the player is immediately respawned upon dying, so the instigator
+// may point at their corpse. If this is the case, we reassign the instigator to the "new" player
+// unit.
+if (!isMultiplayer) then {
+	if (_source getVariable [QGVAR(cl_sp_isPlayer), false]) then {
+		_source = player;
+	};
+	if (_instigator getVariable [QGVAR(cl_sp_isPlayer), false]) then {
+		_instigator = player;
+	};
 };
 
 

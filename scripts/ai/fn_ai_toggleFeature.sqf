@@ -31,8 +31,7 @@ params [
 	"_desiredValue"
 ];
 
-// Enforce a vald iunit
-if (!local _unit or {!([_unit] call FUNC(unit_isAlive))}) exitWith {};
+if (!local _unit) exitWith {};
 
 // Enforce valid requests
 if (_priority < 0 or {_isRequest and {isNil "_desiredValue" or {!(_desiredValue isEqualType true)}}}) exitWith {};

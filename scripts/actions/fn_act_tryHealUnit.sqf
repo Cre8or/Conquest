@@ -21,14 +21,23 @@ params [
 	["_target", objNull, [objNull]]
 ];
 
-// Only local, alive medics may heal units, and only while on ground
-if (!local _medic or {!isTouchingGround _medic} or {_medic getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] != MACRO_ENUM_ROLE_MEDIC} or {!([_medic] call FUNC(unit_isAlive))}) exitWith {
+// Preconditions
+if (
+	!local _medic
+	or {!isTouchingGround _medic}
+	or {_medic getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] != MACRO_ENUM_ROLE_MEDIC}
+	or {[_medic] call FUNC(unit_isReloading)}
+	or {!([_medic] call FUNC(unit_isAlive))}
+) exitWith {
 	[false, objNull]
 };
 
 
 
 
+
+// Set up some constants
+private _c_maxActionDistSqr = MACRO_ACT_HEALUNIT_MAXDISTANCE ^ 2;
 
 // Set up some variables
 private _time     = time;
@@ -51,7 +60,7 @@ _medic setVariable [QGVAR(act_tryHealUnit_cooldown), _time + MACRO_ACT_HEALUNIT_
 private _medicSide  = _medic getVariable [QGVAR(side), sideEmpty];
 private _candidates = [[_target], allUnits] select (isNull _target);
 _candidates = _candidates select {
-	_x distanceSqr _medic <= MACRO_ACT_HEALUNIT_MAXDISTANCESQR
+	_x distanceSqr _medic <= _c_maxActionDistSqr
 	and {(_x getVariable [QGVAR(side), sideEmpty]) == _medicSide}
 	and {[_x] call FUNC(unit_needsHealing)}
 };

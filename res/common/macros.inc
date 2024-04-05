@@ -253,9 +253,6 @@
 	#define MACRO_POS_SM_ROLE_PIP_BOTTOM_TEXTSIZE                   (0.02 * safeZoneW)
 	#define MACRO_POS_SM_DEPLOY_VEHICLEICON_HEIGHT                  0.04
 
-	// Health Bar
-	#define MACRO_UI_HB_LOWHEALTH                                   0.5 // The threshold of health below which the health bar starts blinking
-
 	// Hit Markers
 	#define MACRO_UI_HITMARKERS_DURATION                            0.5
 
@@ -336,7 +333,7 @@
 	#define MACRO_ACT_SPOTTING_COOLDOWNDURATION                     17 // How long the spotting action remains blocked for, in seconds, when in cooldown
 	#define MACRO_ACT_SPOTTING_COSTPERUSE                           4 // How much it costs to use the spotting action. Divice the cooldown duration by this value to determine how often the action may be triggered (at once) before entering cooldown
 
-	#define MACRO_ACT_HEALUNIT_MAXDISTANCESQR                       4 // The maximum distance, in meters squared, at which medics may heal patients
+	#define MACRO_ACT_HEALUNIT_MAXDISTANCE                          2 // The distance, in meters, below which medics must be to their patients in order to heal them
 	#define MACRO_ACT_HEALUNIT_AMOUNT                               0.15 // The amount of health that is added to patients upon healing, expressed as fraction of their maximum health
 	#define MACRO_ACT_HEALUNIT_COOLDOWN                             1 // The cooldown duration, in seconds, between two consecutive healing actions that medics must wait
 
@@ -370,6 +367,7 @@
 	#define MACRO_AI_COMMANDER_INTERVAL                             0.25 // Interval, in seconds, between two update cycles of the AI commander system (per side; * 3 for a full cycle)
 	#define MACRO_AI_DOMOVEINTERVAL                                 5 // The interval, in seconds, between two doMove commands being issued to AI units (as they sometimes need to be rescheduled to move)
 	#define MACRO_AI_MEDICAL_MAXACTIONDISTANCE                      20 // The maximum distance, in meters, that AI units are willing to travel in order to perform medical actions on others, or to receive medical attention
+	#define MACRO_AI_MEDICAL_CHANGESTANCEDISTANCE                   8 // The distance to the patient, in meters, below which the unit will adjust its stance to that of the patient
 	#define MACRO_AI_COMMANDER_STRATEGICVALUE_DECREASEPERGROUP      4 // By how much a sector's current strategic value is divided, for each group ordered to it (per iteration of the commander system)
 	#define MACRO_AI_COMMANDER_SECTOR_MINLEVELOWNED                 0.8 // The minimum capturing level of owned sectors for them to be considered as candidates
 	#define MACRO_AI_COMMANDER_WAYPOINT_MINDISTANCE                 5 // Minimum distance, in meters, that a potential new waypoint must be from a group's current waypoint to be submitted
@@ -419,9 +417,10 @@
 
 	// Health
 	#define MACRO_UNIT_HEALTH_FALLDAMAGEHEIGHT                      3 // The height in meters beyond which units receive fall damage when jumping off of surfaces (assuming no initial velocity)
+	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.13.588"
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.14.596"
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -748,9 +747,12 @@
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	#define MACRO_ENUM_AI_PRIO_BASESETTINGS                          0
-	#define MACRO_ENUM_AI_PRIO_DODGEVEHICLE                          1
-	#define MACRO_ENUM_AI_PRIO_UNCONSCIOUS                           2
-	#define MACRO_ENUM_AI_PRIO_SAFESTART                             3
+
+	#define MACRO_ENUM_AI_PRIO_MEDICAL                               1
+	#define MACRO_ENUM_AI_PRIO_DODGEVEHICLE                          2
+
+	#define MACRO_ENUM_AI_PRIO_UNCONSCIOUS                           10
+	#define MACRO_ENUM_AI_PRIO_SAFESTART                             11
 
 
 

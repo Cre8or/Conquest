@@ -45,7 +45,7 @@ if (_newCost > _time) exitWith {
 	GVAR(spotTarget_cost) = _time;
 	GVAR(spotTarget_cooldown) = true;
 
-	playSoundUI ["addItemFailed", 0.5, 1];
+	playSoundUI ["addItemFailed", 0.5, 1, true];
 	true;
 };
 
@@ -141,12 +141,12 @@ if (
 if (!isNull _target) then {
 	[_player, _target] remoteExecCall [QFUNC(gm_spotTargetLocal), 0, false];
 
-	playSoundUI ["TacticalPing4", 1, 1];
+	playSoundUI ["TacticalPing4", 1, 1, true];
 
 	[_player] call FUNC(anim_gesturePoint);
 
 } else {
-	playSoundUI ["WeaponRestedOn", 1.5, 1];
+	playSoundUI ["WeaponRestedOn", 1.5, 1, true];
 };
 
 

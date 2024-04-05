@@ -179,6 +179,7 @@ class MACRO_PROJECT_PREFIX {
 
 		class unit_getVehicleRole {};
 		class unit_isAlive {};
+		class unit_isReloading {};
 		class unit_needsHealing {};
 		class unit_onFired {};
 		class unit_onHandleDamage {};

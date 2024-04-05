@@ -35,7 +35,10 @@ case "ui_init": {
 	GVAR(ui_sm_blurFx) ppEffectAdjust [2];
 	GVAR(ui_sm_blurFx) ppEffectCommit 0;
 
-	// Close all info panels (to prevent overlaying)
+	// Store the currently opened info panels so they can be reopened afterwards
+	GVAR(ui_sm_panelLeft)  = (infoPanel "left") param [1, ""];
+	GVAR(ui_sm_panelRight) = (infoPanel "right") param [1, ""];
+
 	setInfoPanel ["left", "EmptyDisplay"];
 	setInfoPanel ["right", "EmptyDisplay"];
 

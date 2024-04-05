@@ -74,13 +74,16 @@ call FUNC(ui_sys_drawMedicalEffects);
 call FUNC(ui_sys_drawSectorHUD);
 call FUNC(ui_sys_drawScoreFeed);
 
-// Add unit EHs on all existing units.
+// Add unit EHs on all existing units. Useful for JIP.
 // This won't add the EHs to the player (as they haven't spawned yet), but that will be handled by gm_spawnPlayer.
 {
 	if (_x getVariable [QGVAR(isSpawned), false]) then {
 		[_x] call FUNC(unit_onInit);
 	};
 } forEach allUnits;
+
+// Prevent AI squad mates from cluttering up the player with radio messages
+enableRadio false;
 
 
 
