@@ -39,14 +39,12 @@ case "ui_update_role": {
 
 		// Fill the loadout controls with actual data
 		{
-			// Fetch some data
 			_x params ["_IDC_frame", "_IDC_shadowPicture", "_IDC_weaponPicture"];
-			_roleIndex = _forEachIndex;
-			_loadout = missionNamespace getVariable [format [QGVAR(loadout_%1_%2), GVAR(side), _roleIndex], []];
-			_abilities = missionNamespace getVariable [format [QGVAR(abilities_%1_%2), GVAR(side), _roleIndex], []];
-			_abilities resize ((count _abilities) min 8);
+			_roleIndex     = _forEachIndex;
+			_loadout       = missionNamespace getVariable [format [QGVAR(loadout_%1_%2), GVAR(side), _roleIndex], []];
+			_abilities     = missionNamespace getVariable [format [QGVAR(abilities_%1_%2), GVAR(side), _roleIndex], []];
 			_weaponPrimary = missionNamespace getVariable [format [QGVAR(weaponIcon_%1_%2), GVAR(side), _roleIndex], ""];
-			_posFrame = ctrlPosition (_ctrlGrp controlsGroupCtrl _IDC_frame);
+			_posFrame      = ctrlPosition (_ctrlGrp controlsGroupCtrl _IDC_frame);
 
 			// Set the loadout's weapon icon
 			(_ctrlGrp controlsGroupCtrl _IDC_shadowPicture) ctrlSetText _weaponPrimary;
@@ -79,7 +77,8 @@ case "ui_update_role": {
 				// Save the newly created controls in our array
 				_ctrls pushBack _ctrlAbility_background;
 				_ctrls pushBack _ctrlAbility_icon;
-			} forEach _abilities;
+
+			} forEach (_abilities select [0, 8]); // Limit to 8 abilities to avoid clutter
 		} forEach [
 			[MACRO_IDC_SM_ROLE_SPECOPS_FRAME,	MACRO_IDC_SM_ROLE_SPECOPS_SHADOW_PICTURE,	MACRO_IDC_SM_ROLE_SPECOPS_WEAPON_PICTURE],
 			[MACRO_IDC_SM_ROLE_SNIPER_FRAME,	MACRO_IDC_SM_ROLE_SNIPER_SHADOW_PICTURE,	MACRO_IDC_SM_ROLE_SNIPER_WEAPON_PICTURE],

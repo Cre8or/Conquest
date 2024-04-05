@@ -1,6 +1,7 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
+		[GE]
 		Attempts to spot a target in the direction the player is looking.
 		If a target is successfully spotted, this function calls gm_spotTargetLocal globally. This will ensure
 		that every machine uses its local time for the spotting duration.
@@ -25,8 +26,8 @@ if (!hasInterface or {!alive _player}) exitWith {true};
 
 
 // Set up some variables
-MACRO_FNC_INITVAR(GVAR(spotTarget_cost),-MACRO_ACT_SPOTTING_COOLDOWNDURATION);
-MACRO_FNC_INITVAR(GVAR(spotTarget_cooldown),false);
+MACRO_FNC_INITVAR(GVAR(spotTarget_cost), -MACRO_ACT_SPOTTING_COOLDOWNDURATION);
+MACRO_FNC_INITVAR(GVAR(spotTarget_cooldown), false);
 
 private _time = time;
 
@@ -44,7 +45,7 @@ if (_newCost > _time) exitWith {
 	GVAR(spotTarget_cost) = _time;
 	GVAR(spotTarget_cooldown) = true;
 
-	playSound "addItemFailed";
+	playSoundUI ["addItemFailed", 0.5, 1, true];
 	true;
 };
 
@@ -140,12 +141,12 @@ if (
 if (!isNull _target) then {
 	[_player, _target] remoteExecCall [QFUNC(gm_spotTargetLocal), 0, false];
 
-	playSound "TacticalPing4";
+	playSoundUI ["TacticalPing4", 1, 1, true];
 
 	[_player] call FUNC(anim_gesturePoint);
 
 } else {
-	playSound "WeaponRestedOn";
+	playSoundUI ["WeaponRestedOn", 1.5, 1, true];
 };
 
 

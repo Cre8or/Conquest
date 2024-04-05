@@ -44,9 +44,9 @@ GVAR(ui_sys_hookMapCtrls_EH) = addMissionEventHandler ["EachFrame", {
 			} forEach (_ctrlMap getVariable [QGVAR(UI_EH_draw), []]);
 
 			_ctrlMap setVariable [QGVAR(UI_EH_draw), [
+				_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawUnitIcons2D)],
 				_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawSectorFlags)],
 				_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawSectorLocations)],
-				_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawUnitIcons2D)],
 				_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawCombatArea_map)]
 			]];
 
@@ -84,6 +84,7 @@ GVAR(ui_sys_hookMapCtrls_EH) = addMissionEventHandler ["EachFrame", {
 	};
 
 	// Hook into all map panels (GPS and helicopter terrain avoidance)
+	// RscCustomInfoMiniMap / RscCustomInfoAirborneMiniMap
 	if (!GVAR(ui_sys_hookMapCtrls_hookedIGUIs)) then {
 		{
 			private _ctrlMap = _x displayCtrl 101;	// See a3/ui_f/config.cpp
@@ -94,8 +95,8 @@ GVAR(ui_sys_hookMapCtrls_EH) = addMissionEventHandler ["EachFrame", {
 				} forEach (_ctrlMap getVariable [QGVAR(UI_EH_draw), []]);
 
 				_ctrlMap setVariable [QGVAR(UI_EH_draw), [
-					_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawSectorFlags)],
 					_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawUnitIcons2D)],
+					_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawSectorFlags)],
 					_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawCombatArea_gps)]
 				]];
 
@@ -103,7 +104,6 @@ GVAR(ui_sys_hookMapCtrls_EH) = addMissionEventHandler ["EachFrame", {
 			};
 		} forEach ((uiNamespace getVariable ["IGUI_Displays", []]) select {ctrlIDD _x == 311});	// See a3/ui_f/config.cpp
 	};
-
 
 
 

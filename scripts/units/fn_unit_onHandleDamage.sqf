@@ -57,15 +57,19 @@ _this call {
 	if (!_isDirect and {_ammoType != ""} and {_hitPoint != ""}) exitWith {0};
 
 	// Don't handle damage if the unit is unconscious/dead
-	if !([_unit] call FUNC(unit_isAlive)) exitWith {0};
+	if !([_unit] call FUNC(unit_isAlive)) exitWith {
+		_unit getHitPointDamage _hitPoint;
+	};
 
 	private _newDamage = 0;
 	private _isPhysicsDamage = false;
 	private _damageEnum = MACRO_ENUM_DAMAGE_UNKNOWN;
 	private _unitInVehicle = (_unit != vehicle _unit);
 
+
+
 	// World damage
-	if (isNull _instigator and {_ammoType == ""}) then {
+	if (isNull _instigator or {_ammoType == ""}) then {
 
 		_isPhysicsDamage = true;
 		private _time = time;
@@ -73,11 +77,24 @@ _this call {
 		// Filter physics damage inside vehicles
 		if (!_unitInVehicle and {_time > _unit getVariable [QGVAR(worldDamage_immuneTime), 0]}) then {
 
+			// If the source is a vehicle, fetch the driver
+			private _driver = _source;
+			if (_driver isKindOf "Man") then {
+				_source = vehicle _driver;
+			} else {
+				_driver = currentPilot _source;
+
+				// Fallback for vehicles other than aircraft
+				if (isNull _driver) then {
+					_driver = driver _source;
+				};
+			};
+
 			// If the source was a friendly, grant the unit a short immunity against physics damage (in case they're being tossed around as a ragdoll)
 			if (
-				!isNull _source
-				and {_source != _unit}
-				and {_source getVariable [QGVAR(side), sideEmpty] == _unit getVariable [QGVAR(side), sideEmpty]}
+				!isNull _driver
+				and {_driver != _unit}
+				and {_driver getVariable [QGVAR(side), sideEmpty] == _unit getVariable [QGVAR(side), sideEmpty]}
 			) then {
 				_unit setVariable [QGVAR(worldDamage_immuneTime), _time + MACRO_GM_UNIT_WORLDDAMAGE_IMMUNEDURATION, false];
 
@@ -87,18 +104,15 @@ _this call {
 
 				// Attribute the damage to the correct unit (e.g. the vehicle driver)
 				if (isNull _instigator) then {
-					_instigator = _source;
-				};
-				if (_source isKindOf "Man") then {
-					_source = vehicle _source;
+					_instigator = _driver;
 				};
 
 				// Fall-damage
 				if (isNull _source or {_source == _unit}) then {
-					private _maxSafeFallDist = 3; // in meters
 					private _fallVel = abs ((velocity vehicle _unit) # 2);
+					private _health  = 0.05 + 0.95 * (_unit getVariable [QGVAR(health), 1]); // Scale fall damage with unit health
 
-					_newDamage = MACRO_GM_UNIT_DAMAGEMUL_FALLDAMAGE * 0.05 * (0 max (_fallVel - sqrt (2 * 9.81 * _maxSafeFallDist))) ^ 2; // Lethal at around 6 meters
+					_newDamage = _health * MACRO_GM_UNIT_DAMAGEMUL_FALLDAMAGE * 0.07 * (0 max (_fallVel - sqrt (2 * 9.81 * MACRO_UNIT_HEALTH_FALLDAMAGEHEIGHT))) ^ 2; // Lethal at around 6 meters
 				} else {
 					// Sanity-check: vehicle collisions may only happen if the vehicle is within 20 meters of the unit (roughly)
 					if (_source distanceSqr _unit < 400) then {

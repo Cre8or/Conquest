@@ -28,6 +28,7 @@ MACRO_FNC_INITVAR(GVAR(ai_sys_unitControl_goalPosCache), []);
 
 GVAR(ai_sys_unitControl_nextUpdate) = 0;
 GVAR(ai_sys_unitControl_index)      = -1;
+GVAR(ai_sys_unitControl_cache)      = createHashMap;
 
 #ifdef MACRO_DEBUG_AI_MOVEPOS
 	GVAR(debug_ai_unitControl_planNextMovePos_data) = [];
@@ -51,7 +52,7 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 	private _missionSafeStart = (GVAR(missionState) != MACRO_ENUM_MISSION_LIVE);
 
 	// Update candidate units
-	private ["_unit", "_side", "_group", "_leader", "_isLeader", "_isLeaderPlayer", "_unitPos", "_unitVeh", "_isInVehicle", "_changedVehicle", "_isDriver", "_actionPos", "_moveType"];
+	private ["_unit", "_role", "_side", "_group", "_leader", "_isLeader", "_isLeaderPlayer", "_unitPos", "_unitVeh", "_isInVehicle", "_changedVehicle", "_isDriver", "_actionPos", "_moveType"];
 	for "_unitIndex" from GVAR(ai_sys_unitControl_index) to 0 step -1 do {
 
 		scopeName QGVAR(ai_sys_unitControl_loop);
@@ -67,6 +68,7 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 			local _unit
 			and {[_unit] call FUNC(unit_isAlive)}
 		) then {
+			_role           = _unit getVariable [QGVAR(role), sideEmpty];
 			_side           = _unit getVariable [QGVAR(side), sideEmpty];
 			_group          = group _unit;
 			_leader         = leader _group;
@@ -82,6 +84,8 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 			_unit setCombatBehaviour "AWARE";
 			_unit setSpeedMode "FULL";
 			_unit allowFleeing 0;
+			_unit doWatch objNull;
+			_unit setUnitPos "AUTO";
 
 			// Safestart
 			#include "unitControl\subSys_enforceSafeStart.sqf"
@@ -107,6 +111,9 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 				// Check if any nearby vehicles can be claimed
 				#include "unitControl\subSys_claimVehicle.sqf";
 
+				// Handle medical actions (healing other units / seeking medical attention)
+				#include "unitControl\subSys_handleMedical.sqf";
+
 				// ---- Goals ----
 				// Determine where the unit should be moving (waypoint, individual orders, etc)
 				#include "unitControl\subSys_planNextMovePos.sqf";
@@ -130,6 +137,60 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 	if (_time > GVAR(ai_sys_unitControl_nextUpdate) and {GVAR(ai_sys_unitControl_index) < 0}) then {
 		GVAR(ai_sys_unitControl_nextUpdate) = _time + MACRO_AI_UNITCONTROL_INTERVAL;
 		GVAR(ai_sys_unitControl_index)      = GVAR(param_ai_maxCount) - 1;
+
+		// Additionally, we may aggregate unit arrays for role-specific subsystems. These arrays don't need to
+		// be 100% up-to-date when they're referenced, and may in fact be expensive to compute for every unit.
+		// So instead, we compute them once per cycle, right here.
+		private _allUnits = allUnits select {
+			_x getVariable [QGVAR(canCaptureSectors), false]
+			and {[_x, true] call FUNC(unit_isAlive)} // Include unconscious units
+		};
+
+		private ["_sideX", "_unitsX", "_unitsAlive", "_unitsInjured", "_unitsUnconscious"];
+		{
+			if (_x == sideEmpty) then {
+				continue;
+			};
+
+			_sideX  = _x;
+			_unitsX = _allUnits select {_x getVariable [QGVAR(side), sideEmpty] == _sideX};
+			_unitsAlive       = []; // All alive units on this side
+			_unitsInjured     = []; // Alive Units on this side who are injured
+			_unitsUnconscious = []; // Unconscious units on this side
+			_unitsSupport     = []; // All alive support units on this side
+			_unitsEngineer    = []; // All alive engineer units on this side
+			_unitsMedic       = []; // All alive medic units on this side
+
+			{
+				if (vehicle _x != _x) then {
+					continue; // Ignore units inside vehicles
+				};
+
+				if (_x getVariable [QGVAR(isUnconscious), false]) then {
+					_unitsUnconscious pushBack _x;
+				} else {
+					_unitsAlive pushBack _x;
+
+					if (_x getVariable [QGVAR(health), 1] < 1) then {
+						_unitsInjured pushBack _x;
+					};
+
+					switch (_x getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID]) do {
+						case MACRO_ENUM_ROLE_SUPPORT:  {_unitsSupport pushBack _x};
+						case MACRO_ENUM_ROLE_ENGINEER: {_unitsEngineer pushBack _x};
+						case MACRO_ENUM_ROLE_MEDIC:    {_unitsMedic pushBack _x};
+					};
+				};
+			} forEach _unitsX;
+
+			GVAR(ai_sys_unitControl_cache) set [format ["unitsAlive_%1", _sideX], _unitsAlive];
+			GVAR(ai_sys_unitControl_cache) set [format ["unitsInjured_%1", _sideX], _unitsInjured];
+			GVAR(ai_sys_unitControl_cache) set [format ["unitsUnconscious_%1", _sideX], _unitsUnconscious];
+			GVAR(ai_sys_unitControl_cache) set [format ["unitsSupport_%1", _sideX], _unitsSupport];
+			GVAR(ai_sys_unitControl_cache) set [format ["unitsEngineer_%1", _sideX], _unitsEngineer];
+			GVAR(ai_sys_unitControl_cache) set [format ["unitsMedic_%1", _sideX], _unitsMedic];
+
+		} forEach GVAR(sides);
 	};
 }];
 

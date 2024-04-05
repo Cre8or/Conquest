@@ -92,7 +92,7 @@ if (_segmentArray param [0, objNull] isEqualType objNull) then {
 //  If there are multiple segments leading to the node, we need to determine the best one
 } else {
 	private _costArray  = _nodeFrom getVariable [format [_varName_costArrayX, _nodeToID], []];
-	private _lowestCost = 2^24;
+	private _lowestCost = 1e38;
 	private "_segmentX";
 	{
 		//diag_log format ["[nm_getBestSegmentCost] Testing segment %1 -> %2 (%3): %4", _nodeFromID, _nodeToID, _forEachIndex, _x];

@@ -36,7 +36,7 @@ private _configPath_ammo = (configFile >> "CfgAmmo");
 private _allThrowables = [];
 
 // Set up some variables
-private ["_side", "_role", "_loadout", "_abilities", "_weaponIcon", "_ammoTypeX", "_isExplosiveX"];
+private ["_side", "_role", "_loadout", "_abilities", "_weaponIcon", "_ammoTypeX", "_isExplosiveX", "_abilitiesLUT"];
 
 // Compile the list of throwable magazines
 {
@@ -65,6 +65,13 @@ if (west in GVAR(sides)) then {		_allLoadoutData set [2, _loadoutData_west]};
 		_role = _x # 0;
 		_loadout = _x # 1;
 		_abilities = _x param [2, []];
+
+		// Role-based abilities
+		switch (_role) do {
+			case MACRO_ENUM_ROLE_SUPPORT:  {_abilities pushBackUnique MACRO_ENUM_LOADOUT_ABILITY_RESUPPLY};
+			case MACRO_ENUM_ROLE_ENGINEER: {_abilities pushBackUnique MACRO_ENUM_LOADOUT_ABILITY_REPAIR};
+			case MACRO_ENUM_ROLE_MEDIC:    {_abilities pushBackUnique MACRO_ENUM_LOADOUT_ABILITY_HEAL};
+		};
 
 		// Only continue if the loadout is set
 		if !(_loadout isEqualTo []) then {
@@ -164,19 +171,19 @@ if (west in GVAR(sides)) then {		_allLoadoutData set [2, _loadoutData_west]};
 								};
 							};
 						};
-
+/*
 					// Otherwise, it's a tool
 					} else {
 						switch (true) do {
 
 							// It's a toolkit
 							case (_classX isKindOf ["ToolKit", _configPath_weapons]): {
-								_abilities pushBackUnique MACRO_ENUM_LOADOUT_ABILITY_REPAIRKIT;
+								_abilities pushBackUnique MACRO_ENUM_LOADOUT_ABILITY_REPAIR;
 							};
 
 							// It's a medikit
 							case (_classX isKindOf ["Medikit", _configPath_weapons]): {
-								_abilities pushBackUnique MACRO_ENUM_LOADOUT_ABILITY_MEDIKIT;
+								_abilities pushBackUnique MACRO_ENUM_LOADOUT_ABILITY_HEAL;
 							};
 
 							// It's a mine detector
@@ -184,6 +191,7 @@ if (west in GVAR(sides)) then {		_allLoadoutData set [2, _loadoutData_west]};
 								_abilities pushBackUnique MACRO_ENUM_LOADOUT_ABILITY_MINEDETECTOR;
 							};
 						};
+*/
 					};
 				};
 			} forEach (

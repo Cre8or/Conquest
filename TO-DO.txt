@@ -1,4 +1,17 @@
 TO DO:
+	- Implement healing ability to medics:
+		+ Allows healing injured squad/team mates
+		- Allows reviving unconscious squad/team mates
+		+ Plays a short gesture/animation during healing
+		- Healing oneself takes longer
+		+ Visually show injured/unconscious units as 3D icons
+	- Implement resupply ability to support:
+		- Similar animations/UI icons to medic healing, but for rearming
+		- Prevent players from looting bodies/opening their gear
+	- Add a repair ability to the engineer role
+		- Implement looping action logic
+		- Play a short unit gesture/animation
+		- Notify the crew they are being repaired (via UI element/sounds)?
 	- Unify UI text sizes:
 		+ Score feed
 		+ Kill feed
@@ -7,9 +20,9 @@ TO DO:
 		+ Sector letters on maps
 		- Spawn menu
 		- End screen
-	- Fix spawn menu being inconsistent in MP
+	- Fix spawn menu inconsistencies
 	 	+ Sides with no tickets don't get greyed out
-		- (?) Group lists don't seem to get refreshed after switching sides
+		- Fix AI groups sometimes getting duplicated (with incorrect callsigns)
 		+ Sometimes spawn menus cannot be opened at all + chat spam (see screenshot)
 	- Move macros/variables pertaining to a side's definition into single file (merge with loadouts file?)
 	- (Investigate Joe's isssue with being able to spawn when no sectors are owned)
@@ -18,11 +31,6 @@ TO DO:
 		- Separate scoreboard by teams and squads
 		- Add a keybind to toggle the UI
 		- Force-show the UI during mission ending sequence
-	- Implement resupply system (prevent looting bodies/opening the gear)
-	- Add a repair ability to the engineer role
-		- Implement looping action logic
-		- Handle unit gestures
-		- Notify the crew they are being repaired (via a UI element)?
 	- (Fix curator module not being reassigned owners when another admin logs in)
 	- Rewrite the combat area drawing handler (see init_client.sqf)
 	- Rewrite safestart system (it's super ugly and weird)
@@ -32,6 +40,10 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Enable player GPS by default upon spawning
+	- Teach AI units to seek medics when injured
+	- Teach AI medics how to heal other units
+	- Fix AI in player group dealing roadkill damage to player
 	- Add a running score sum to the score feed
 	- Modify player health visual feedback to be more prominent
 		- Flash health bar background (same colour as FF penalties)

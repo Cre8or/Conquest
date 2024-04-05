@@ -253,8 +253,35 @@
 	#define MACRO_POS_SM_ROLE_PIP_BOTTOM_TEXTSIZE                   (0.02 * safeZoneW)
 	#define MACRO_POS_SM_DEPLOY_VEHICLEICON_HEIGHT                  0.04
 
-	// The maximum length of custom group callsigns, in characters
-	#define MACRO_UI_CALLSIGN_MAXIMUM_LENGTH                        20
+	// Hit Markers
+	#define MACRO_UI_HITMARKERS_DURATION                            0.5
+
+	// Kill Feed
+	#define MACRO_UI_KILLFEED_ENTRYLIFETIME                         20
+	#define MACRO_UI_KILLFEED_ENTRYFADEDURATION                     3
+	#define MACRO_UI_KILLFEED_ANIMDURATION                          0.25
+
+	// Score Feed
+	#define MACRO_UI_SCOREFEED_ENTRYLIFETIME                        5
+	#define MACRO_UI_SCOREFEED_SCORESUMLIFETIME                     10
+	#define MACRO_UI_SCOREFEED_ENTRYFADEDURATION                    1
+	#define MACRO_UI_SCOREFEED_ANIMDURATION                         0.25
+
+	// Sector Names (Locations)
+	#define MACRO_UI_SECTORNAMES_SCALEMUL                           1.25 // Scales the size of the sector names (but not their letters) on the map. Higher numbers increase the size of the text
+	#define MACRO_UI_SECTORNAMES_FADEMUL                            20 // Scales how quickly the sector names fade out when zooming into the map. Larger numbers make the sector names fade quicker
+	#define MACRO_UI_SECTORFLAGS_SCALEMUL                           1.0 // Scales the size of the sector flag icons on the map. Higher numbers increase the size of the flag icons
+	#define MACRO_UI_SECTORFLAGS_SCALEOFFSET                        0.03 // When zooming in on the map, the sector flag icons will eventually increase to twice their normal size. This offset lets you choose at which zoom level this transition should happen. Larger numbers lean towards "zoomed out", smaller numbers towards "zoomed in" (logarithmic scale). Accepted range is 0 to 1
+
+	// Unit Icons
+	#define MACRO_UI_ICONS3D_MAXDISTANCE_INF                        300 // The maximum distance, in meters, at which infantry 3D icons are visible
+	#define MACRO_UI_ICONS3D_MAXDISTANCE_VEH                        1000 // The maximum distance, in meters, at which vehicle 3D icons are visible
+	#define MACRO_UI_ICONS3D_MAXDISTANCE_MEDIC                      80 // The maximum distance, in meters, at which medic-specific infantry icons (units in need of healing, and nearby medics) are visible
+
+	// Combat Area
+	#define MACRO_CA_CORNEROFFSET                                   50000 // How much the combat area should overextend (beyond the map corners), in meters
+
+	#define MACRO_UI_CALLSIGN_MAXIMUM_LENGTH                        20 // The maximum length of custom group callsigns, in characters
 
 	#define MACRO_UI_MAPFOCUS_PADDING_SM                            0.25
 	#define MACRO_UI_MAPFOCUS_PADDING_FULLSCREEN                    0.5
@@ -306,7 +333,14 @@
 	#define MACRO_ACT_SPOTTING_COOLDOWNDURATION                     17 // How long the spotting action remains blocked for, in seconds, when in cooldown
 	#define MACRO_ACT_SPOTTING_COSTPERUSE                           4 // How much it costs to use the spotting action. Divice the cooldown duration by this value to determine how often the action may be triggered (at once) before entering cooldown
 
+	#define MACRO_ACT_HEALUNIT_MAXDISTANCE                          2 // The distance, in meters, below which medics must be to their patients in order to heal them
+	#define MACRO_ACT_HEALUNIT_AMOUNT                               0.15 // The amount of health that is added to patients upon healing, expressed as fraction of their maximum health
+	#define MACRO_ACT_HEALUNIT_COOLDOWN                             1 // The cooldown duration, in seconds, between two consecutive healing actions that medics must wait
+
 	#define MACRO_KEYBIND_TOGGLESPAWNMENU                           DIK_F1
+	#define MACRO_KEYBIND_HEAL                                      DIK_4
+	#define MACRO_KEYBIND_REARM                                     DIK_5
+	#define MACRO_KEYBIND_REPAIR                                    DIK_6
 
 	// AI Control
 	#define MACRO_AI_GROUP_CALLSIGNS                                ["Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel", "India", "Juliet", "Kilo", "Lima", "Mike", "November", "Oscar", "Papa", "Quebec", "Romeo", "Sierra", "Tango", "Uniform", "Victor", "Whiskey", "X-ray", "Yankee", "Zulu"]
@@ -323,19 +357,17 @@
 	#define MACRO_AI_DRIVER_MOUNT_COOLDOWN                          120 // The cooldown duration for AI drivers between mount-up pauses (to prevent getting stuck in a pausing loop)
 	#define MACRO_AI_DRIVER_LOOKAHEAD_MAXITERATIONS                 10 // The amount of nodes, at most, that AI drivers will look ahead along their route to determine the target speed limit
 	#define MACRO_AI_DRIVER_LOOKAHEAD_MAXDIST                       100 // How far, in meters, AI drivers may look ahead into their route to anticipate sharp turns
-	#define MACRO_AI_DRIVER_LOOKAHEAD_IDEALDISTBETWEENNODES         40 // The ideal distance, in meters, between two path nodes that AI drivers will use as reference for their maxium allowed speed
 	#define MACRO_AI_DRIVER_MAXSPEED                                80 // The maximum speed, in km/h, that AI drivers are allowed to drive under ideal circumstances (straight path, long distances between nodes)
 	#define MACRO_AI_DRIVER_AVOIDANCE_MAXDISTANCE                   100 // The maximum distance, in meters, to another vehicle for AI drivers to consider it in its obstacle avoidance check
 	#define MACRO_AI_DRIVER_FORCEMUL_ROUTEALIGN                     0.6 // Multiplier for AI drivers' goal force to align with the intended route. This force increases the further away the vehicle strays from its intended route
-	//#define MACRO_AI_CLAIMVEHICLE_TIMEOUT                           10 // How long, in seconds, a vehicle claim by an AI remains active before it is discarded
-	//#define MACRO_AI_DELAYUNTILSTUCK                                10 // How long a unit must remain stationary for it to be considered as stuck, in seconds
-	//#define MACRO_AI_DELAYUNTILFORCERESPAWN                         30 // How long a unit must remain stationary for it to be force-respawned, in seconds (should be greater than MACRO_AI_DELAYUNTILSTUCK)
 	#define MACRO_AI_PATHFINDINTERVAL_VEH                           10000 // The maximum delay, in seconds, between recalculations of a vehicle's path
 	#define MACRO_AI_PATHFINDINTERVAL_INF                           30 // The maximum delay, in seconds, between recalculations of a vehicle's path
 	#define MACRO_AI_UNITCONTROL_INTERVAL                           0.5 // Interval, in seconds, between two update cycles of the AI unitControl system (each unit gets updated every this often)
 	#define MACRO_AI_DRIVERCONTROL_INTERVAL                         0.25 // Interval, in seconds, between two update cycles of the AI driverControl system (each vehicle driver gets updated every this often)
 	#define MACRO_AI_COMMANDER_INTERVAL                             0.25 // Interval, in seconds, between two update cycles of the AI commander system (per side; * 3 for a full cycle)
 	#define MACRO_AI_DOMOVEINTERVAL                                 5 // The interval, in seconds, between two doMove commands being issued to AI units (as they sometimes need to be rescheduled to move)
+	#define MACRO_AI_MEDICAL_MAXACTIONDISTANCE                      20 // The maximum distance, in meters, that AI units are willing to travel in order to perform medical actions on others, or to receive medical attention
+	#define MACRO_AI_MEDICAL_CHANGESTANCEDISTANCE                   8 // The distance to the patient, in meters, below which the unit will adjust its stance to that of the patient
 	#define MACRO_AI_COMMANDER_STRATEGICVALUE_DECREASEPERGROUP      4 // By how much a sector's current strategic value is divided, for each group ordered to it (per iteration of the commander system)
 	#define MACRO_AI_COMMANDER_SECTOR_MINLEVELOWNED                 0.8 // The minimum capturing level of owned sectors for them to be considered as candidates
 	#define MACRO_AI_COMMANDER_WAYPOINT_MINDISTANCE                 5 // Minimum distance, in meters, that a potential new waypoint must be from a group's current waypoint to be submitted
@@ -345,29 +377,6 @@
 	#define MACRO_GM_KILLASSISTDURATION                             10 // How long (in seconds), after damaging an enemy unit, it is possible to receive a kill assist for
 	#define MACRO_GM_SYS_TICKETS_INTERVAL                           0.25 // Interval, in seconds, between two update cycles of the tickets system
 	#define MACRO_GM_SYS_ENDCONDITIONS_INTERVAL                     0.25 // Interval, in seconds, between two update cycles of the end conditions system
-
-	// Hit Markers
-	#define MACRO_UI_HITMARKERS_DURATION                            0.5
-
-	// Kill Feed
-	#define MACRO_UI_KILLFEED_ENTRYLIFETIME                         20
-	#define MACRO_UI_KILLFEED_ENTRYFADEDURATION                     3
-	#define MACRO_UI_KILLFEED_ANIMDURATION                          0.25
-
-	// Score Feed
-	#define MACRO_UI_SCOREFEED_ENTRYLIFETIME                        5
-	#define MACRO_UI_SCOREFEED_SCORESUMLIFETIME                     10
-	#define MACRO_UI_SCOREFEED_ENTRYFADEDURATION                    1
-	#define MACRO_UI_SCOREFEED_ANIMDURATION                         0.25
-
-	// UI Sector Names (Locations)
-	#define MACRO_UI_SECTORNAMES_SCALEMUL                           1.25 // Scales the size of the sector names (but not their letters) on the map. Higher numbers increase the size of the text
-	#define MACRO_UI_SECTORNAMES_FADEMUL                            20 // Scales how quickly the sector names fade out when zooming into the map. Larger numbers make the sector names fade quicker
-	#define MACRO_UI_SECTORFLAGS_SCALEMUL                           1.0 // Scales the size of the sector flag icons on the map. Higher numbers increase the size of the flag icons
-	#define MACRO_UI_SECTORFLAGS_SCALEOFFSET                        0.03 // When zooming in on the map, the sector flag icons will eventually increase to twice their normal size. This offset lets you choose at which zoom level this transition should happen. Larger numbers lean towards "zoomed out", smaller numbers towards "zoomed in" (logarithmic scale). Accepted range is 0 to 1
-
-	// Combat Area
-	#define MACRO_CA_CORNEROFFSET                                   50000 // How much the combat area should overextend (beyond the map corners), in meters
 
 	// Sectors
 	#define MACRO_SECTOR_TRIGGERINTERVAL                            0.5 // The interval between two trigger executions, in seconds
@@ -406,8 +415,12 @@
 	#define MACRO_TICKETS_WARNINGTHRESHOLD                          50 // When 2 out of 3 sides have fewer than this many tickets, a warning is broadcast to build up suspense (the mission will likely be over soon)
 	#define MACRO_TICKETS_DECISIVETHRESHOLD                         100 // If the round ends, and the winning side has at least this many tickets left, the end counts as a decisive victory/crushing defeat
 
+	// Health
+	#define MACRO_UNIT_HEALTH_FALLDAMAGEHEIGHT                      3 // The height in meters beyond which units receive fall damage when jumping off of surfaces (assuming no initial velocity)
+	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health
+
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.12.556"
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.14.596"
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -416,7 +429,7 @@
 	#define MACRO_MISSION_FRAMEWORK_MP_MAXPLAYERS                   64
 
 	// Corpse/wreck removal
-	#define MACRO_CLEANUPDELAY_CORPSE                               60 // How long, in seconds, a unit corpse persists after death before being removed
+	#define MACRO_CLEANUPDELAY_CORPSE                               30 // How long, in seconds, a unit corpse persists after death before being removed
 	#define MACRO_CLEANUPDELAY_WRECK                                60 // How long, in seconds, a Vehicle wreck persists after destruction before being removed
 
 
@@ -451,11 +464,14 @@
 	#define MACRO_SCORE_SECTOR_CAPTURING                            20 // Triggered for every 10% of level change
 	#define MACRO_SCORE_SECTOR_CAPTURED                             300
 
+	#define MACRO_SCORE_HEAL                                        1 // Per health point healed
+	#define MACRO_SCORE_REVIVE                                      50
+
 	#define MACRO_SCORE_SUICIDE                                     -100
 	#define MACRO_SCORE_SPOTASSIST                                  25
 	#define MACRO_SCORE_KILL_ENEMY                                  100
 	#define MACRO_SCORE_KILL_FRIENDLY                               -250
-	#define MACRO_SCORE_HEADSHOT                                    50
+	#define MACRO_SCORE_HEADSHOT                                    25
 
 	#define MACRO_SCORE_DESTROYVEHICLE_ENEMY                        200
 	#define MACRO_SCORE_DESTROYVEHICLE_FRIENDLY                     -500
@@ -476,12 +492,12 @@
 	#define MACRO_ENUM_SCORE_SECTOR_CAPTURING                       1
 	#define MACRO_ENUM_SCORE_SECTOR_CAPTURED                        2
 
-/*	TODO: Add messages for the following macros
+	//TODO: Add messages for the following macros
 	#define MACRO_ENUM_SCORE_HEAL                                   10
 	#define MACRO_ENUM_SCORE_REVIVE                                 11
-	#define MACRO_ENUM_SCORE_REPAIR                                 12
-	#define MACRO_ENUM_SCORE_REARM                                  13
-*/
+	//#define MACRO_ENUM_SCORE_REPAIR                                 12
+	//#define MACRO_ENUM_SCORE_REARM                                  13
+
 	#define MACRO_ENUM_SCORE_SUICIDE                                20
 	#define MACRO_ENUM_SCORE_SPOTASSIST                             21
 	#define MACRO_ENUM_SCORE_KILLASSIST                             22
@@ -499,17 +515,35 @@
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
+//	ROLE ENUMS
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+
+	#define MACRO_ENUM_ROLE_INVALID                                 -1
+
+	#define MACRO_ENUM_ROLE_SPECOPS                                 0
+	#define MACRO_ENUM_ROLE_SNIPER                                  1
+	#define MACRO_ENUM_ROLE_ASSAULT                                 2
+	#define MACRO_ENUM_ROLE_SUPPORT                                 3
+	#define MACRO_ENUM_ROLE_ENGINEER                                4
+	#define MACRO_ENUM_ROLE_MEDIC                                   5
+	#define MACRO_ENUM_ROLE_ANTITANK                                6
+
+
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------
 //	LOADOUT ABILITIES ENUMS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
-	#define MACRO_ENUM_LOADOUT_ABILITY_INVALID                      0
+	#define MACRO_ENUM_LOADOUT_ABILITY_INVALID                      -1
 
-	// Functional abilities (enable scripted actions)
-	#define MACRO_ENUM_LOADOUT_ABILITY_REPAIRKIT                    1
-	#define MACRO_ENUM_LOADOUT_ABILITY_MEDIKIT                      2
-	#define MACRO_ENUM_LOADOUT_ABILITY_AMMOKIT                      3
+	// Role-based abilities
+	#define MACRO_ENUM_LOADOUT_ABILITY_RESUPPLY                     0
+	#define MACRO_ENUM_LOADOUT_ABILITY_REPAIR                       1
+	#define MACRO_ENUM_LOADOUT_ABILITY_HEAL                         2
 
-	// Gear-based abilities (exclusively for UI purposes)
+	// loadouts-based abilities
 	#define MACRO_ENUM_LOADOUT_ABILITY_BINOCULAR                    10
 	#define MACRO_ENUM_LOADOUT_ABILITY_NVGS                         11
 	#define MACRO_ENUM_LOADOUT_ABILITY_MINEDETECTOR                 12
@@ -537,24 +571,6 @@
 	#define MACRO_ENUM_AIIDENTITY_NAME                              5
 	#define MACRO_ENUM_AIIDENTITY_FACE                              6
 	#define MACRO_ENUM_AIIDENTITY_SPEAKER                           7
-
-
-
-
-
-// ------------------------------------------------------------------------------------------------------------------------------------------------
-//	ROLE ENUMS
-// ------------------------------------------------------------------------------------------------------------------------------------------------
-
-	#define MACRO_ENUM_ROLE_INVALID                                 -1
-
-	#define MACRO_ENUM_ROLE_SPECOPS                                 0
-	#define MACRO_ENUM_ROLE_SNIPER                                  1
-	#define MACRO_ENUM_ROLE_ASSAULT                                 2
-	#define MACRO_ENUM_ROLE_SUPPORT                                 3
-	#define MACRO_ENUM_ROLE_ENGINEER                                4
-	#define MACRO_ENUM_ROLE_MEDIC                                   5
-	#define MACRO_ENUM_ROLE_ANTITANK                                6
 
 
 
@@ -731,9 +747,12 @@
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	#define MACRO_ENUM_AI_PRIO_BASESETTINGS                          0
-	#define MACRO_ENUM_AI_PRIO_DODGEVEHICLE                          1
-	#define MACRO_ENUM_AI_PRIO_UNCONSCIOUS                           2
-	#define MACRO_ENUM_AI_PRIO_SAFESTART                             3
+
+	#define MACRO_ENUM_AI_PRIO_MEDICAL                               1
+	#define MACRO_ENUM_AI_PRIO_DODGEVEHICLE                          2
+
+	#define MACRO_ENUM_AI_PRIO_UNCONSCIOUS                           10
+	#define MACRO_ENUM_AI_PRIO_SAFESTART                             11
 
 
 

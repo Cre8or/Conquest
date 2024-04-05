@@ -70,6 +70,32 @@ switch (_enum) do {
 
 	// --------
 
+	case MACRO_ENUM_SCORE_HEAL: {
+		if (_arg isEqualType 0 and {_arg > 0}) then {
+			_eventData = [
+				_arg,
+				"HEALING"
+			];
+		};
+		_canStack = true;
+	};
+
+	case MACRO_ENUM_SCORE_REVIVE: {
+		if (_arg isEqualType objNull and {_arg isKindOf "Man"}) then {
+			_eventData = [
+				MACRO_SCORE_REVIVE,
+				"REVIVED",
+				name _arg,
+				[
+					SQUARE(MACRO_COLOUR_A100_FRIENDLY),
+					SQUARE(MACRO_COLOUR_A100_SQUAD)
+				] select (_arg in units group player)
+			];
+		};
+	};
+
+	// --------
+
 	case MACRO_ENUM_SCORE_SUICIDE: {
 		_eventData = [
 			MACRO_SCORE_SUICIDE,
@@ -160,6 +186,7 @@ switch (_enum) do {
 				SQUARE(MACRO_COLOUR_A100_ENEMY)
 			];
 		};
+		_sound = QGVAR(SideDefeated);
 	};
 };
 

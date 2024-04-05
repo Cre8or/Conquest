@@ -27,13 +27,14 @@ if (!isServer) exitWith {};
 // Set up some variables
 MACRO_FNC_INITVAR(GVAR(EH_ai_sys_handleRespawn), -1);
 
+MACRO_FNC_INITVAR(GVAR(ai_sys_handleRespawn_groups_east), []);
+MACRO_FNC_INITVAR(GVAR(ai_sys_handleRespawn_groups_resistance), []);
+MACRO_FNC_INITVAR(GVAR(ai_sys_handleRespawn_groups_west), []);
+
 GVAR(ai_sys_handleRespawn_nextUpdate)        = -1;
 GVAR(ai_sys_handleRespawn_newSpawns)         = [];
 GVAR(ai_sys_handleRespawn_queue)             = [];
 GVAR(ai_sys_handleRespawn_respawnTimes)      = []; // Interfaces with unit_onKilled
-GVAR(ai_sys_handleRespawn_groups_east)       = [];
-GVAR(ai_sys_handleRespawn_groups_resistance) = [];
-GVAR(ai_sys_handleRespawn_groups_west)       = [];
 
 
 
@@ -51,7 +52,7 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 
 		private ["_unit", "_identity"];
 		private ["_side", "_sideIndex"];
-		private ["_unitIndex", "_unitSide", "_sideGroups", "_group", "_groupIdentities", "_sector", "_spawnableSectors", "_leader", "_leaderIsPlayer", "_claimableVehicles", "_sectorX", "_groupWP", "_spawnableSectors_sorted", "_leaderPos", "_spawnPoint", "_unitClass"];
+		private ["_unitIndex", "_unitSide", "_sideGroups", "_group", "_groupID", "_sector", "_spawnableSectors", "_leader", "_leaderIsPlayer", "_claimableVehicles", "_sectorX", "_groupWP", "_spawnableSectors_sorted", "_leaderPos", "_spawnPoint", "_unitClass"];
 
 		// Check up on the recently spawned units that don't have an identity yet
 		for "_i" from count GVAR(ai_sys_handleRespawn_newSpawns) - 1 to 0 step -1 do {
@@ -149,7 +150,14 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 				_group setVariable [QGVAR(isValid), true, true];
 
 				// Set the group's callsign (based on the index)
-				_group setGroupId [MACRO_AI_GROUP_CALLSIGNS param [_unitGroupIndex, ""]];
+				_groupID = MACRO_AI_GROUP_CALLSIGNS param [_unitGroupIndex, ""];
+				_group setGroupId [_groupID];
+
+				// Error checking
+				if (groupId _group != _groupID) then {
+					diag_log format ["[CONQUEST] ERROR: AI Group ID %1 (%2) is already taken!", _groupID, _unitSide];
+					_group setGroupId [format ["ERR_GROUPID_%1_TAKEN___(%2)", _unitGroupIndex, diag_frameNo]];
+				};
 
 				// Save the AI identity IDs that will be present in this group
 				_group setVariable [QGVAR(group_AIIdentities),
@@ -270,7 +278,7 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 				};
 
 				// Apply the role loadout to the unit
-				[_unit, _unitSide, _unitRole] call FUNC(lo_setRoleLoadout);
+				[_unit, _unitSide, _unitRole] remoteExecCall [QFUNC(lo_setRoleLoadout), _unit, false];
 
 				GVAR(curatorModule) addCuratorEditableObjects [[_unit], false];
 

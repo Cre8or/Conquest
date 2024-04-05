@@ -9,6 +9,10 @@ case "ui_unload": {
 	GVAR(ui_sm_blurFx) ppEffectAdjust [0];
 	GVAR(ui_sm_blurFx) ppEffectCommit 0.1;
 
+	// Reopen the info panels
+	setInfoPanel ["left", GVAR(ui_sm_panelLeft)];
+	setInfoPanel ["right", GVAR(ui_sm_panelRight)];
+
 	// Show the HUD
 	showHUD [true, true, true, true, true, true, true, true, true, true];
 

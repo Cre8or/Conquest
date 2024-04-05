@@ -60,10 +60,13 @@ GVAR(EH_handleEntityDeath_entityKilled) = addMissionEventHandler ["EntityKilled"
 			] call FUNC(gm_processUnitDamage);
 		} forEach (crew _obj select {alive _x});
 
-		[
-			_killer,
-			[MACRO_ENUM_SCORE_DESTROYVEHICLE_ENEMY, MACRO_ENUM_SCORE_DESTROYVEHICLE_FRIENDLY] select (_sideObj == _sideKiller),
-			_obj
-		] call FUNC(gm_addScore);
+		// If the vehicle belongs to a side, hand out a score
+		if (_sideObj != sideEmpty) then {
+			[
+				_killer,
+				[MACRO_ENUM_SCORE_DESTROYVEHICLE_ENEMY, MACRO_ENUM_SCORE_DESTROYVEHICLE_FRIENDLY] select (_sideObj == _sideKiller),
+				_obj
+			] call FUNC(gm_addScore);
+		};
 	};
 }];

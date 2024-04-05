@@ -177,9 +177,11 @@ private _EH_eachFrame = addMissionEventHandler ["EachFrame", {
 
 
 		// Update the flag's texture and position on the pole to match the sector parameters
-		_texture    = "a3\data_f\flags\flag_white_co.paa";
-		_level      = 0;
-		_activation = (_sector get3DENAttribute "ActivationBy") # 0;
+		_textureEmpty = "a3\data_f\flags\flag_white_co.paa";
+		_textureIcon  = "a3\ui_f\data\GUI\Rsc\RscDisplayMultiplayerSetup\flag_bluefor_empty_ca.paa";
+		_texture      = _textureEmpty;
+		_level        = 0;
+		_activation   = (_sector get3DENAttribute "ActivationBy") # 0;
 		switch (_activation select [0, 4]) do {
 			case "EAST": {
 				_texture = MACRO_FLAG_TEXTURE_EAST;
@@ -195,6 +197,14 @@ private _EH_eachFrame = addMissionEventHandler ["EachFrame", {
 			};
 		};
 
+
+		// Validate the texture path
+		if (!fileExists _texture) then {
+			_texture = _textureEmpty;
+		} else {
+			_textureIcon = _texture;
+		};
+
 		_flag setFlagTexture _texture;
 		_flag setFlagAnimationPhase _level;
 
@@ -203,7 +213,7 @@ private _EH_eachFrame = addMissionEventHandler ["EachFrame", {
 		} else {
 			_isLocked = false;
 		};
-		GVAR(eden_drawData_sectors) pushBack [_sector, _texture, _letter, _isLocked];
+		GVAR(eden_drawData_sectors) pushBack [_sector, _textureIcon, _letter, _isLocked];
 
 	} forEach (all3DENEntities # 2);
 

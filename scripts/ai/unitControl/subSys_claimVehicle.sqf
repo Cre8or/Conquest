@@ -197,6 +197,7 @@ if (
 
 			// Custom action: move to the claimed vehicle
 			_actionPos = getPosWorld _claimedVeh;
+			_actionPos = _actionPos vectorAdd [1 - random 2, 1 - random 2, 0]; // Randomness to help the unit get close enough
 
 			// Mount up
 			if (_unitPos distanceSqr _actionPos < MACRO_AI_CLAIMVEHICLE_MAXDIST_MOUNT ^ 2) then {

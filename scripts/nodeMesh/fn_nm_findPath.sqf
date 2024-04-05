@@ -56,7 +56,7 @@ if (!alive _unit or {_destination isEqualTo []}) exitWith {
 
 // Set up some constants
 private _timeStart            = diag_tickTime; // DEBUG
-private _const_maxCost        = 2^24;
+private _const_maxCost        = 1e38;
 private _side                 = side group _unit;
 private _origin               = getPosWorld _unit;
 private _originAGL            = ASLtoAGL _origin;
@@ -131,7 +131,7 @@ if (
 		_completionRadius = _completionRadius ^ 2;
 	};
 
-	[[_destination], [_completionRadius], [objNull]];
+	[[_origin, _destination], [_completionRadius, _completionRadius], [objNull, objNull]];
 };
 
 // Find unoccluded start nodes

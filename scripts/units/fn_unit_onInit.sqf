@@ -41,7 +41,7 @@ _unit setVariable [QGVAR(EH_unit_onFired), _unit addEventHandler ["FiredMan", FU
 private _local = local _unit;
 _unit setVariable [QGVAR(canCaptureSectors), true, _local];
 _unit setVariable [QGVAR(health), 1, _local];
-_unit setVariable [QGVAR(isSpawned), true, _local]; // Interfaces with drawUnitIcons2D
+_unit setVariable [QGVAR(isSpawned), true, _local]; // Interfaces with drawUnitIcons2D and drawIcons3D
 
 
 
@@ -70,7 +70,7 @@ _unit allowDamage (!_enabled);
 
 
 
-// AI only
+// AI specific
 if (!isPlayer _unit) then {
 
 	[true, MACRO_ENUM_AI_PRIO_BASESETTINGS, _unit, "AUTOCOMBAT", false] call FUNC(ai_toggleFeature);
