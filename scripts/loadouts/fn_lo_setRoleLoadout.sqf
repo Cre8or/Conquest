@@ -31,3 +31,5 @@ _unit setUnitLoadout (missionNamespace getVariable [format [QGVAR(loadout_%1_%2)
 
 // Store the role on the entity for other components to check on
 _unit setVariable [QGVAR(role), _role, true];
+
+[_unit, true] call FUNC(unit_selectBestWeapon);

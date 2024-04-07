@@ -267,6 +267,10 @@
 	#define MACRO_UI_SCOREFEED_ENTRYFADEDURATION                    1
 	#define MACRO_UI_SCOREFEED_ANIMDURATION                         0.25
 
+	// GPS Info panels (minimap)
+	#define MACRO_UI_GPS_SCALE_INF                                  0.04 // Map scale of the GPS-type info panels when on foot (smaller values = more zoomed in)
+	#define MACRO_UI_GPS_SCALE_VEH                                  0.08 // Map scale of the GPS-type info panels when in a vehicle (smaller values = more zoomed in)
+
 	// Sector Names (Locations)
 	#define MACRO_UI_SECTORNAMES_SCALEMUL                           1.25 // Scales the size of the sector names (but not their letters) on the map. Higher numbers increase the size of the text
 	#define MACRO_UI_SECTORNAMES_FADEMUL                            20 // Scales how quickly the sector names fade out when zooming into the map. Larger numbers make the sector names fade quicker
@@ -368,6 +372,7 @@
 	#define MACRO_AI_DOMOVEINTERVAL                                 5 // The interval, in seconds, between two doMove commands being issued to AI units (as they sometimes need to be rescheduled to move)
 	#define MACRO_AI_MEDICAL_MAXACTIONDISTANCE                      20 // The maximum distance, in meters, that AI units are willing to travel in order to perform medical actions on others, or to receive medical attention
 	#define MACRO_AI_MEDICAL_CHANGESTANCEDISTANCE                   8 // The distance to the patient, in meters, below which the unit will adjust its stance to that of the patient
+	#define MACRO_AI_MEDICAL_PATIENT_STOPDURATIONPERHEAL            2 // For how long an AI unit remains stopped, in seconds, after being healed (prevents them from running away while being healed)
 	#define MACRO_AI_COMMANDER_STRATEGICVALUE_DECREASEPERGROUP      4 // By how much a sector's current strategic value is divided, for each group ordered to it (per iteration of the commander system)
 	#define MACRO_AI_COMMANDER_SECTOR_MINLEVELOWNED                 0.8 // The minimum capturing level of owned sectors for them to be considered as candidates
 	#define MACRO_AI_COMMANDER_WAYPOINT_MINDISTANCE                 5 // Minimum distance, in meters, that a potential new waypoint must be from a group's current waypoint to be submitted
@@ -421,7 +426,7 @@
 	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.14.599"
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.14.607" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

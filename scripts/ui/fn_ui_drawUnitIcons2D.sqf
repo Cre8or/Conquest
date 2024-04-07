@@ -3,6 +3,8 @@
 	Description:
 		[LE]
 		Handles the drawing of unit/vehicle icons on 2D controls, such as the main map.
+
+		Called internally via the control's "Draw" EH.
 	Arguments:
 		0:	<CONTROL>	The map control to draw on
 	Returns:
@@ -11,11 +13,8 @@
 
 #include "..\..\res\common\macros.inc"
 
-params [
-	["_ctrlMap", controlNull, [controlNull]]
-];
-
-if (isNull _ctrlMap) exitWith {};
+// No parameter validation, as this is an internal function
+params ["_ctrlMap"];
 
 
 

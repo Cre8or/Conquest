@@ -69,7 +69,7 @@ if (
 
 
 // Serverside AI respawn
-if (isServer) then {
+if (isServer and {!(_unit getVariable [QGVAR(isUnconscious), false])}) then {
 	private _unitIndex = _unit getVariable [QGVAR(unitIndex), -1];
 
 	if (_unitIndex >= 0 and {_unitIndex < GVAR(param_ai_maxCount)}) then {

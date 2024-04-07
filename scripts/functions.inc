@@ -160,6 +160,7 @@ class MACRO_PROJECT_PREFIX {
 		class ui_getAbilityIcon {};
 		class ui_getFillBarIcon {};
 		class ui_getVehTypeIcon {};
+		class ui_handleGPSScale {};
 		class ui_processScoreEvent {};
 		class ui_processKillFeedEvent {};
 		class ui_setupPPEffects {};
@@ -189,7 +190,9 @@ class MACRO_PROJECT_PREFIX {
 		class unit_onKilled {};
 		class unit_onReloaded {};
 		class unit_processDamageEvent {};
+		class unit_selectBestWeapon {};
 		class unit_setIdentityLocal {};
+		class unit_setUnconscious {};
 	};
 
 	class vehicles {

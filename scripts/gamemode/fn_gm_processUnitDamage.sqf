@@ -22,6 +22,7 @@
 -------------------------------------------------------------------------------------------------------------------- */
 
 #include "..\..\res\common\macros.inc"
+#include "..\..\mission\settings.inc"
 
 params [
 	["_unit", objNull, [objNull]],
@@ -98,6 +99,9 @@ if (_health > 0) then {
 		_unit setVariable [QGVAR(addHitDetection_assistTimes), _assistTimes, false];
 		_unit setVariable [QGVAR(addHitDetection_assistDamages), _assistDamages, false];
 	};
+
+	// Clamp the health to 0
+	_unit setVariable [QGVAR(health), _health max 0, true];
 
 // Unit is unconscious / dead
 } else {
@@ -204,33 +208,33 @@ if (_health > 0) then {
 	_unit setVariable [QGVAR(addHitDetection_assistTimes), nil, false];
 	_unit setVariable [QGVAR(addHitDetection_assistDamages), nil, false];
 
-	_unit setDamage 1;
-
-	private _reviveDuration = 0;
-	if (_isRevivable) then {
-		_reviveDuration = MACRO_GM_UNIT_REVIVEDURATION * (500 + _health * 100) / 500;	// High damage on death reduces the revive duration
-	};
-
 	// If the unit is inside a destroyed vehicle, they cannot be pulled out by medics, so we forcefully move them out instead
-	private _veh = vehicle _unit;
-	if (_veh != _unit and {!alive _veh}) then {
+	if (_unit != vehicle _unit) then {
 		[_unit] remoteExecCall ["moveOut", owner _unit, false];
 	};
 
-/*
 	// Handle revivability
+	private _reviveDuration = 0;
+	if (_isRevivable) then {
+		if (_damageEnum == MACRO_ENUM_DAMAGE_PHYSICS) then {
+			_reviveDuration = MACRO_GM_UNIT_REVIVEDURATION;
+		} else {
+			_reviveDuration = MACRO_GM_UNIT_REVIVEDURATION * (500 + _health * 100) / 500;	// High damage on death reduces the revive duration
+		};
+	};
+
 	if (_reviveDuration <= 0) then {
 		_unit setDamage 1;
 	} else {
+		[_unit, true, _reviveDuration] remoteExecCall [QFUNC(unit_setUnconscious), _unit, false];
 
-		_unit setVariable [QGVAR(reviveTime), _time + _reviveDuration, true];
+		// Interface with AI respawning
+		private _unitIndex = _unit getVariable [QGVAR(unitIndex), -1];
 
-		[_unit] remoteExecCall [QFUNC(unit_incapacitate), owner _unit, false];
+		if (_unitIndex >= 0 and {_unitIndex < GVAR(param_ai_maxCount)}) then {
+			GVAR(ai_sys_handleRespawn_respawnTimes) set [_unitIndex, time + MACRO_GM_UNIT_RESPAWNDELAY];
+		};
 	};
-*/
 };
-
-// Clamp the health to 0
-_unit setVariable [QGVAR(health), _health max 0, true];
 
 [_unit, _damage, _damageEnum, _source] remoteExecCall [QFUNC(unit_processDamageEvent), _unit, false];

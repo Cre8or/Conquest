@@ -105,7 +105,7 @@ if (isNull _target) then {
 
 
 //systemChat format ["(%1) %2 healing %3", _time, name _medic, name _target];
-if (_medic != _target) then {
+if (_medic != _target and {!(_target getVariable [QGVAR(isUnconscious), false])}) then {
 	_medic playGesture "GestureEmpty";
 	_medic playGesture "GestureGoStandPistol"; // "GestureGoStand"
 } else {
@@ -118,7 +118,7 @@ if (!isPlayer _medic) then {
 };
 
 // Inform the server about the successful healing action
-[_medic, _target] remoteExecCall [QFUNC(unit_onHealUnit), 2, false];
+[_medic, _target] remoteExecCall [QFUNC(unit_onHealUnit), _target, false];
 
 // Return the unit that was healed
 [true, _target];

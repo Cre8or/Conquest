@@ -40,7 +40,7 @@ GVAR(EH_ui_sys_drawMedicalEffects) = addMissionEventHandler ["EachFrame", {
 	private _player = player;
 	if (
 		GVAR(missionState) == MACRO_ENUM_MISSION_LIVE
-		and {[_player] call FUNC(unit_isAlive)}
+		and {[_player, true] call FUNC(unit_isAlive)}
 	) then {
 
 		if (!ppEffectEnabled GVAR(ui_med_colourFx_hurt)) then {

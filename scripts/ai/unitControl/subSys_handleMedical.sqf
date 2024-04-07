@@ -59,7 +59,10 @@ if (_actionPos isEqualTo []) then {
 		// If we found a patient, head to them and try to heal them
 		_actionPos = getPosWorld _patient;
 
-		if (_patientDistSqr < _c_changeStanceDistSqr and {stance _patient != "STAND"}) then {
+		if (
+			_patientDistSqr < _c_changeStanceDistSqr
+			and {_patient getVariable [QGVAR(isUnconscious), false] or {stance _patient != "STAND"}}
+		) then {
 			_unit setUnitPos "MIDDLE";
 		};
 
@@ -74,6 +77,12 @@ if (_actionPos isEqualTo []) then {
 
 		// If the unit is healthy enough, nothing needs to be done
 		if (_health >= MACRO_UNIT_HEALTH_THRESHOLDLOW) then {
+
+			// If the unit is in the middle of being healed, stop a little long
+			if (_health < 1 and {_time < _unit getVariable [QGVAR(ai_unitControl_handleMedical_stopTime), -1]}) then {
+				_shouldStop = true;
+			};
+
 			breakTo QGVAR(ai_sys_unitControl_loop_live);
 		};
 

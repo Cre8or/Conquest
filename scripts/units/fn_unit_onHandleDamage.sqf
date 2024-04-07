@@ -112,7 +112,8 @@ _this call {
 					private _fallVel = abs ((velocity vehicle _unit) # 2);
 					private _health  = 0.05 + 0.95 * (_unit getVariable [QGVAR(health), 1]); // Scale fall damage with unit health
 
-					_newDamage = _health * MACRO_GM_UNIT_DAMAGEMUL_FALLDAMAGE * 0.07 * (0 max (_fallVel - sqrt (2 * 9.81 * MACRO_UNIT_HEALTH_FALLDAMAGEHEIGHT))) ^ 2; // Lethal at around 6 meters
+					_instigator = _unit; // Force self-inflicted damage
+					_newDamage  = _health * MACRO_GM_UNIT_DAMAGEMUL_FALLDAMAGE * 0.07 * (0 max (_fallVel - sqrt (2 * 9.81 * MACRO_UNIT_HEALTH_FALLDAMAGEHEIGHT))) ^ 2; // Lethal at around 6 meters
 				} else {
 					// Sanity-check: vehicle collisions may only happen if the vehicle is within 20 meters of the unit (roughly)
 					if (_source distanceSqr _unit < 400) then {
