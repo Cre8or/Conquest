@@ -40,20 +40,27 @@ private _squadVehicles = [];
 private _teamVehicles  = [];
 private _enemyVehicles = [];
 
-private ["_crew", "_commander", "_crewUnit"];
+private ["_crew", "_driver", "_crewUnit", "_groupX", "_groupIndex"];
 {
-	_crew      = crew _x select {[_x] call FUNC(unit_isAlive)};
-	_commander = effectiveCommander _x;
-	_crewUnit  = [_commander, _crew # 0] select (_commander in _crew);
+	_crew     = crew _x select {[_x] call FUNC(unit_isAlive)};
+	_driver   = driver _x;
+	_crewUnit = [_driver, _crew param [0, objNull]] select (isNull _driver);
 
 	if (isNull _crewUnit) then {
 		_emptyVehicles pushBack _x;
 		continue;
 	};
 
-	if (_crewUnit getVariable [QGVAR(side), sideEmpty] == GVAR(side)) then {
+	_groupX = group _crewUnit;
+	if (side _groupX == GVAR(side)) then {
 
-		if (group _crewUnit == _groupPly) then {
+		// Edge case: AI drivers are in a separate group. Fetch the original one.
+		if (_groupX getVariable [QGVAR(isVehicleGroup), false]) then {
+			_groupIndex = _crewUnit getVariable [QGVAR(groupIndex), -1];
+			_groupX     = missionNamespace getVariable [format [QGVAR(AIGroup_%1_%2), GVAR(side), _groupIndex], _groupX];
+		};
+
+		if (_groupX == _groupPly) then {
 			_squadVehicles pushBack _x;
 		} else {
 			_teamVehicles pushBack _x;
@@ -79,12 +86,8 @@ private _fnc_drawUnit = {
 		12,
 		12,
 		_mapAngle + getDir _unit,
-		//name _unit,
 		"",
-		2,
-		0.025,
-		"TahomaB",
-		"right"
+		2
 	];
 };
 
@@ -102,12 +105,10 @@ private _fnc_drawVehicle = {
 		24,
 		_mapAngle + getDir _veh,
 		"",
-		1,
-		0.025,
-		"TahomaB",
-		"right"
+		1
 	];
 };
+
 
 
 
@@ -116,6 +117,7 @@ private _fnc_drawVehicle = {
 {
 	[_x, SQUARE(MACRO_COLOUR_A100_WHITE)] call _fnc_drawVehicle;
 } forEach _emptyVehicles;
+
 
 // Draw the units
 {
@@ -129,6 +131,7 @@ private _fnc_drawVehicle = {
 {
 	[_x, SQUARE(MACRO_COLOUR_A100_ENEMY)] call _fnc_drawUnit;
 } forEach _spottedEnemies;
+
 
 // Draw the vehicles
 {

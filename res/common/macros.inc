@@ -407,6 +407,7 @@
 	#define MACRO_SM_ROLEPREVIEW_BASEFOV                            0.1 // The default field of view of the role preview camera
 	#define MACRO_SM_ROLEPREVIEW_BASEDIRECTION                      315 // The default direction, in degrees, that the role preview unit should be facing
 	#define MACRO_SM_RESPAWN_OPENINTERVAL                           3 // When the player is respawning and closes the spawn menu, it is reopened after this many seconds (prevents the player from being unable to respawn after accidentally closing the menu)
+	#define MACRO_SM_MENU_UPDATEINTERVAL                            0.15 // Interval, in seconds, between periodic updates of the currently opened menu's contents (groups, units, vehicles, sectors, etc.)
 
 	// Tickets
 	#define MACRO_TICKETBLEED_SECTORRATIOTHRESHOLD                  0.6 // The threshold of a side's owned sectors ratio, below which the side receives ticket bleed. The side with the highest ratio determines the target value that each side's ratio is compared against. Uncaptured (neutral) sectors are not counted.
@@ -420,7 +421,7 @@
 	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.14.596"
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.14.599"
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

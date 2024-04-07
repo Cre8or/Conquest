@@ -1,26 +1,34 @@
 private _allVehicles         = GVAR(allVehicles) select {alive _x};
 private _renderData_vehicles = [];
-private ["_crew", "_commander", "_crewUnit"];
+private ["_crew", "_driver", "_crewUnit", "_groupX", "_groupIndex"];
 
 // Aggregate candidate vehicles and compile them into an array for rendering
 {
-	_crew      = crew _x select {[_x] call FUNC(unit_isAlive)};
-	_commander = effectiveCommander _x;
-	_crewUnit  = [_commander, _crew # 0] select (_commander in _crew);
+	if (_x == _vehPly) then {
+		continue;
+	};
+
+	_crew     = crew _x select {[_x] call FUNC(unit_isAlive)};
+	_driver   = driver _x;
+	_crewUnit = [_driver, _crew param [0, objNull]] select (isNull _driver);
 
 	if (isNull _crewUnit) then {
 		continue;
 	};
 
-	if (_crewUnit getVariable [QGVAR(side), sideEmpty] == GVAR(side)) then {
+	_groupX = group _crewUnit;
+	if (side _groupX == GVAR(side)) then {
 
-		if (_x != _vehPly) then {
+		// Edge case: AI drivers are in a separate group. Fetch the original one.
+		if (_groupX getVariable [QGVAR(isVehicleGroup), false]) then {
+			_groupIndex = _crewUnit getVariable [QGVAR(groupIndex), -1];
+			_groupX     = missionNamespace getVariable [format [QGVAR(AIGroup_%1_%2), GVAR(side), _groupIndex], _groupX];
+		};
 
-			if (group _crewUnit == _groupPly) then {
-				_renderData_vehicles pushBack [_x, _crewUnit, SQUARE(MACRO_COLOUR_A100_SQUAD), _freeLook, true];
-			} else {
-				_renderData_vehicles pushBack [_x, _crewUnit, SQUARE(MACRO_COLOUR_A100_FRIENDLY), false, true];
-			};
+		if (_groupX == _groupPly) then {
+			_renderData_vehicles pushBack [_x, _crewUnit, SQUARE(MACRO_COLOUR_A100_SQUAD), _freeLook, true];
+		} else {
+			_renderData_vehicles pushBack [_x, _crewUnit, SQUARE(MACRO_COLOUR_A100_FRIENDLY), false, true];
 		};
 	} else {
 		_crewUnit = _crew param [_crew findIf {_time < _x getVariable [_c_spottedTimeVarName, 0]}, objNull];

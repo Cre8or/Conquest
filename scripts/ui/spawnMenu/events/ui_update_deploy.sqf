@@ -233,7 +233,7 @@ case "ui_update_deploy": {
 
 		// Update the sector controls
 		private _groupPly = group player;
-		private ["_IDC", "_activeVehicles", "_ctrlButton", "_vehicleIconCtrls", "_vehX", "_driverX"];
+		private ["_IDC", "_activeVehicles", "_ctrlButton", "_vehicleIconCtrls", "_vehX", "_crew", "_driver", "_crewUnit", "_groupX", "_groupIndex"];
 		{
 			_isSelected = (GVAR(spawnSector) == _x);
 			_IDC = _forEachIndex + MACRO_IDC_SM_DEPLOY_SECTOR_START;
@@ -259,22 +259,35 @@ case "ui_update_deploy": {
 			// Update the sector's vehicle icons
 			{
 				_vehX = _activeVehicles param [_forEachIndex, objNull];
-
-				if (alive _vehX and {GVAR(side) == (_vehX getVariable [QGVAR(side), sideEmpty])}) then {
-					_driverX = driver _vehX;
-
-					if (lifestate _driverX isEqualTo "HEALTHY") then {
-						if (group _driverX == _groupPly) then {
-							_x ctrlSetTextColor SQUARE(MACRO_COLOUR_A100_SQUAD);
-						} else {
-							_x ctrlSetTextColor SQUARE(MACRO_COLOUR_A100_FRIENDLY);
-						};
-					} else {
-						_x ctrlSetTextColor SQUARE(MACRO_COLOUR_A100_WHITE);
-					};
-				} else {
+				if (!alive _vehX or {_vehX getVariable [QGVAR(side), sideEmpty] != GVAR(side)}) then {
 					_x ctrlSetTextColor SQUARE(MACRO_COLOUR_A100_GREY);
+					continue;
 				};
+
+
+				_crew     = crew _vehX select {[_x] call FUNC(unit_isAlive)};
+				_driver   = driver _vehX;
+				_crewUnit = [_driver, _crew param [0, objNull]] select (isNull _driver);
+
+				if (isNull _crewUnit) then {
+					_x ctrlSetTextColor SQUARE(MACRO_COLOUR_A100_WHITE);
+					continue;
+				};
+
+				_groupX = group _crewUnit;
+				if (side _groupX != GVAR(side)) then { // Unlikely, but possible (player forces themself into an enemy vehicle)
+					_x ctrlSetTextColor SQUARE(MACRO_COLOUR_A100_RED);
+					continue;
+				};
+
+				// Edge case: AI drivers are in a separate group. Fetch the original one.
+				if (_groupX getVariable [QGVAR(isVehicleGroup), false]) then {
+					_groupIndex = _crewUnit getVariable [QGVAR(groupIndex), -1];
+					_groupX     = missionNamespace getVariable [format [QGVAR(AIGroup_%1_%2), GVAR(side), _groupIndex], _groupX];
+				};
+
+				_x ctrlSetTextColor ([SQUARE(MACRO_COLOUR_A100_FRIENDLY), SQUARE(MACRO_COLOUR_A100_SQUAD)] select (_groupX == _groupPly));
+
 			} forEach _vehicleIconCtrls;
 		} forEach _sectors;
 	};
