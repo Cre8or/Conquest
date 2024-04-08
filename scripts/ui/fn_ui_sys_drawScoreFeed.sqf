@@ -13,6 +13,7 @@
 #include "..\..\res\common\macros.inc"
 
 #include "..\..\res\macros\fnc_initVar.inc"
+#include "..\..\res\macros\tween_rampDown.inc"
 
 if (!hasInterface) exitWith {};
 
@@ -64,7 +65,7 @@ GVAR(ui_sys_drawScoreFeed_EH) = addMissionEventHandler ["EachFrame", {
 	private _animOffset  = _UI getVariable [QGVAR(animOffset), 0];
 	private _scoreSum    = _UI getVariable [QGVAR(scoreSum), 0];
 	private _ctrlsSum    = _UI getVariable [QGVAR(ctrlsSum), []];
-	private _animPhase   = (((_animEndTime - _time) / MACRO_UI_SCOREFEED_ANIMDURATION) max 0) ^ 3;
+	private _animPhase   =  MACRO_TWEEN_RAMPDOWN(_time, _animEndTime, MACRO_UI_SCOREFEED_ANIMDURATION);
 	private _updateSum   = false;
 
 	// Special case: redrawing is requested

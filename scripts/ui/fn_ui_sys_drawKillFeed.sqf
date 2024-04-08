@@ -14,6 +14,7 @@
 #include "..\..\res\common\macros.inc"
 
 #include "..\..\res\macros\fnc_initVar.inc"
+#include "..\..\res\macros\tween_rampDown.inc"
 
 if (!hasInterface) exitWith {};
 
@@ -47,7 +48,7 @@ GVAR(ui_sys_drawKillFeed_EH) = addMissionEventHandler ["EachFrame", {
 	private _ctrlGrpMain = _UI displayCtrl MACRO_IDC_KF_CTRLGRP;
 	private _animEndTime = _UI getVariable [QGVAR(animEndTime), 0];
 	private _animOffset  = _UI getVariable [QGVAR(animOffset), 0];
-	private _animPhase   = (((_animEndTime - _time) / MACRO_UI_KILLFEED_ANIMDURATION) max 0) ^ 3;
+	private _animPhase   =  MACRO_TWEEN_RAMPDOWN(_time, _animEndTime, MACRO_UI_KILLFEED_ANIMDURATION);
 
 	private ["_ctrls", "_indexRev", "_nameKillerWidth", "_nameVictimWidth", "_weaponIconWidth", "_iconPosX", "_fade", "_col"];
 

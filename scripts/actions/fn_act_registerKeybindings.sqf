@@ -22,20 +22,20 @@
 
 // Target spotting
 [
-	"Conquest",
-	QGVAR(spotTarget),
+	MACRO_MISSION_FRAMEWORK_GAMEMODE,
+	QGVAR(kb_spotTarget),
 	"Spot target",
 	{call FUNC(act_spotTarget)},
 	{false},
 	[41, [true, false, false]], // Shift + Tilda (hold)
 	false,
 	0,
-	true
+	false
 ] call CBA_fnc_addKeybind;
 
 // Copy all keybindings from the original pointing function over
 if (!isNil "cba_keybinding_actions") then {
-	private _keybindKey  = format ["%1$%2", "Conquest", QGVAR(spotTarget)];
+	private _keybindKey  = format ["%1$%2", MACRO_MISSION_FRAMEWORK_GAMEMODE, QGVAR(spotTarget)];
 	private _keybindData = cba_keybinding_actions getVariable [_keybindKey, []];
 
 	if (_keybindData isNotEqualTo []) then {
@@ -61,29 +61,44 @@ if (GVAR(hasMod_ace_finger)) then {
 
 // Spawn menu
 [
-	"Conquest",
-	QGVAR(toggleSpawnMenu),
+	MACRO_MISSION_FRAMEWORK_GAMEMODE,
+	QGVAR(kb_toggleSpawnMenu),
 	"Open/close spawn menu",
 	{call FUNC(act_toggleSpawnMenu)},
 	{false},
 	[MACRO_KEYBIND_TOGGLESPAWNMENU, [true, false, false]],
 	false,
 	0,
-	true
+	false
 ] call CBA_fnc_addKeybind;
 
 // Healing
 [
-	"Conquest",
-	QGVAR(healUnit),
+	MACRO_MISSION_FRAMEWORK_GAMEMODE,
+	QGVAR(kb_healUnit),
 	"Heal unit/self",
-	{([cameraOn] call FUNC(act_tryHealUnit)) param [0, false]},
+	{([player] call FUNC(act_tryHealUnit)) param [0, false]},
 	{false},
 	[MACRO_KEYBIND_HEAL, [false, false, false]],
 	true,
 	0,
-	true
+	false
 ] call CBA_fnc_addKeybind;
+
+// Give up (unconscious HUD)
+GVAR(kb_act_pressed_giveUp) = false;
+[
+	MACRO_MISSION_FRAMEWORK_GAMEMODE,
+	QGVAR(kb_giveUp),
+	"Give up (unconscious)",
+	{GVAR(kb_act_pressed_giveUp) = true},
+	{GVAR(kb_act_pressed_giveUp) = false},
+	[MACRO_KEYBIND_GIVEUP, [false, false, false]],
+	false,
+	0,
+	false
+] call CBA_fnc_addKeybind;
+
 
 
 

@@ -52,7 +52,7 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 	private _missionSafeStart = (GVAR(missionState) != MACRO_ENUM_MISSION_LIVE);
 
 	// Update candidate units
-	private ["_unit", "_role", "_side", "_group", "_leader", "_isLeader", "_isLeaderPlayer", "_unitPos", "_unitVeh", "_isInVehicle", "_changedVehicle", "_isDriver", "_actionPos", "_moveType"];
+	private ["_unit", "_role", "_side", "_group", "_leader", "_isLeader", "_isLeaderPlayer", "_unitPos", "_unitVeh", "_isInVehicle", "_changedVehicle", "_isDriver", "_isUnconscious", "_actionPos", "_moveType"];
 	for "_unitIndex" from GVAR(ai_sys_unitControl_index) to 0 step -1 do {
 
 		scopeName QGVAR(ai_sys_unitControl_loop);
@@ -66,8 +66,10 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 
 		if (
 			local _unit
-			and {[_unit] call FUNC(unit_isAlive)}
+			and {[_unit, true] call FUNC(unit_isAlive)}
 		) then {
+			scopeName QGVAR(ai_sys_unitControl_loop_local);
+
 			_role           = _unit getVariable [QGVAR(role), sideEmpty];
 			_side           = _unit getVariable [QGVAR(side), sideEmpty];
 			_group          = group _unit;
@@ -79,6 +81,7 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 			_isInVehicle    = (_unit != _unitVeh);
 			_changedVehicle = (_isInVehicle != _unit getVariable [QGVAR(ai_sys_unitControl_isInVehicle), _isInVehicle]);
 			_isDriver       = (_isInVehicle and {_unit == driver _unitVeh});
+			_isUnconscious  = _unit getVariable [QGVAR(isUnconscious), false];
 
 			// Basic AI settings
 			_unit setCombatBehaviour "AWARE";
@@ -90,7 +93,17 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 			// Safestart
 			#include "unitControl\subSys_enforceSafeStart.sqf"
 
-			if (!_missionSafeStart) then {
+			if (_isUnconscious) then {
+
+				// Handle the unconscious state (give up when no medics are nearby)
+				#include "unitControl\subSys_unconsciousState.sqf";
+
+			} else {
+
+				// Past this point, the mission must be live
+				if (_missionSafeStart) then {
+					breakTo QGVAR(ai_sys_unitControl_loop_local);
+				};
 
 				// Define shared variables
 				_actionPos = [];

@@ -134,7 +134,7 @@ case "ui_button_click": {
 				and {GVAR(side) == GVAR(spawnSector) getVariable [QGVAR(side), sideEmpty]}
 			) then {
 				// Tell the respawn handler that the player is ready
-				GVAR(sys_handlePlayerRespawn_spawnRequested) = true;
+				GVAR(gm_sys_handlePlayerRespawn_spawnRequested) = true;
 
 				_spawnMenu closeDisplay 0;
 			} else {

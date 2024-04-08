@@ -22,7 +22,6 @@
 -------------------------------------------------------------------------------------------------------------------- */
 
 #include "..\..\res\common\macros.inc"
-#include "..\..\mission\settings.inc"
 
 params [
 	["_unit", objNull, [objNull]],
@@ -122,7 +121,12 @@ if (_health > 0) then {
 			};
 
 		} else {
-			[_unit, MACRO_ENUM_SCORE_SUICIDE] call FUNC(gm_addScore);
+			private _scoreEnum = (switch (_damageEnum) do {
+				case MACRO_ENUM_DAMAGE_COMBATAREA: {MACRO_ENUM_SCORE_DESERTING};
+				default                            {MACRO_ENUM_SCORE_SUICIDE};
+			});
+
+			[_unit, _scoreEnum] call FUNC(gm_addScore);
 		};
 	};
 
@@ -197,8 +201,12 @@ if (_health > 0) then {
 				_killData = [MACRO_ENUM_KF_ICON_ROADKILL, MACRO_ENUM_CLASSKIND_VEHICLE, typeOf _source];
 			} else {
 				_instigator = _unit;
-				_killData = [MACRO_ENUM_KF_ICON_NONE, MACRO_ENUM_CLASSKIND_VEHICLE, ""]; // Suicide from fall damage
+				_killData   = [MACRO_ENUM_KF_ICON_NONE, MACRO_ENUM_CLASSKIND_NONE, ""]; // Suicide from fall damage
 			};
+		};
+		case MACRO_ENUM_DAMAGE_COMBATAREA: {
+			_instigator = _unit;
+			_killData   = [MACRO_ENUM_KF_ICON_NONE, MACRO_ENUM_CLASSKIND_NONE, ""]; // Suicide from leaving the combat area
 		};
 	};
 	[_instigator, _unit, _killData] remoteExecCall [QFUNC(ui_processKillFeedEvent), 0, false];
@@ -217,9 +225,9 @@ if (_health > 0) then {
 	private _reviveDuration = 0;
 	if (_isRevivable) then {
 		if (_damageEnum == MACRO_ENUM_DAMAGE_PHYSICS) then {
-			_reviveDuration = MACRO_GM_UNIT_REVIVEDURATION;
+			_reviveDuration = GVAR(param_gm_unit_reviveDuration);
 		} else {
-			_reviveDuration = MACRO_GM_UNIT_REVIVEDURATION * (500 + _health * 100) / 500;	// High damage on death reduces the revive duration
+			_reviveDuration = GVAR(param_gm_unit_reviveDuration) / (_damage max 1); // High damage on death reduces the revive duration
 		};
 	};
 
@@ -232,7 +240,7 @@ if (_health > 0) then {
 		private _unitIndex = _unit getVariable [QGVAR(unitIndex), -1];
 
 		if (_unitIndex >= 0 and {_unitIndex < GVAR(param_ai_maxCount)}) then {
-			GVAR(ai_sys_handleRespawn_respawnTimes) set [_unitIndex, time + MACRO_GM_UNIT_RESPAWNDELAY];
+			GVAR(ai_sys_handleRespawn_respawnTimes) set [_unitIndex, time + GVAR(param_gm_unit_respawnDelay)];
 		};
 	};
 };

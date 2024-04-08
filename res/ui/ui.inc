@@ -3,6 +3,7 @@ class GVAR(RscFrame) : RscFrame {
 	style = ST_LEFT;
 	font = MACRO_FONT_UI_MEDIUM;
 	sizeEx = 0.02 * safeZoneW;
+	colorBackground[] = CURLY(MACRO_COLOUR_INGAME_BACKGROUND);
 };
 
 class GVAR(RscFrameFocused) : RscText {
@@ -104,40 +105,21 @@ class RscTitles {
                 duration = 999999;
         };
 
-	// Black Screen
 	#include "rscTitles\rscBlackScreen.inc"
-
-	// Combat Area
 	#include "rscTitles\rscCombatArea.inc"
-
-	// End Screen
 	#include "rscTitles\rscEndScreen.inc"
-
-	// Kill Feed
 	#include "rscTitles\rscKillFeed.inc"
-
-	// Score Feed
 	#include "rscTitles\rscScoreFeed.inc"
-
-	// Sector HUD
 	#include "rscTitles\rscSectorHUD.inc"
-
-	// Health Bar
 	#include "rscTitles\rscHealthBar.inc"
-
-	// Hit Effect
 	#include "rscTitles\rscHitEffect.inc"
-
-	// Spawn Status
 	#include "rscTitles\rscSpawnStatus.inc"
+	#include "rscTitles\rscUnconsciousHUD.inc"
 };
 
 
 
 
 
-// Spawn Menu
 #include "dialogs\rscSpawnMenu.inc"
-
-// User Input Blocker
 #include "dialogs\rscUserInputBlocker.inc"

@@ -84,8 +84,26 @@ class Param_GM_Unit_RespawnDelay {
 	default = MACRO_GM_UNIT_RESPAWNDELAY;
 };
 
+class Param_GM_Unit_ReviveDuration {
+	title = "Revive duration (in seconds):";
+	values[] = { 5, 10, 15, 20, 30, 45, 60, 90, 120, 180, 240, 300, 600 };
+	default = MACRO_GM_UNIT_REVIVEDURATION;
+};
+
 class Param_GM_Unit_SpawnProtectionDuration {
 	title = "Spawn protection duration (in seconds):";
 	values[] = { 0, 1, 2, 3, 4, 5 };
 	default = MACRO_GM_UNIT_SPAWNPROTECTIONDURATION;
+};
+
+class Param_GM_Sector_CaptureDuration {
+	title = "Sector capture duration (in seconds):";
+	values[] = { 5, 10, 15, 20, 25, 30, 45, 60, 90, 120 };
+	default = MACRO_GM_SECTOR_CAPTUREDURATION;
+};
+
+class Param_CA_DelayUntilDeath {
+	title = "Combat area delay until death (in seconds):";
+	values[] = { 3, 5, 10, 15, 20 };
+	default = MACRO_CA_DELAYUNTILDEATH;
 };

@@ -50,7 +50,7 @@ class MACRO_PROJECT_PREFIX {
 		class ca_getValidPos {};
 		class ca_isInCombatArea {};
 		class ca_setupCombatAreas {};
-		class ca_handleCombatArea_player {};
+		class ca_sys_playerCombatArea {};
 	};
 
 	class gamemode {

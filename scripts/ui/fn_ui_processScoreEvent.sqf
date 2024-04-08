@@ -103,6 +103,15 @@ switch (_enum) do {
 		];
 	};
 
+	case MACRO_ENUM_SCORE_DESERTING: {
+		_eventData = [
+			MACRO_SCORE_SUICIDE,
+			"DESERTED"
+		];
+	};
+
+	// --------
+
 	case MACRO_ENUM_SCORE_SPOTASSIST: {
 		_eventData = [
 			MACRO_SCORE_SPOTASSIST,
@@ -118,6 +127,8 @@ switch (_enum) do {
 			];
 		};
 	};
+
+	// --------
 
 	case MACRO_ENUM_SCORE_KILL_ENEMY: {
 		if (_arg isEqualType objNull and {_arg isKindOf "Man"}) then {

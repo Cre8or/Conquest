@@ -20,7 +20,7 @@ params ["_ctrlMap"];
 
 
 
-private _player    = focusOn;
+private _player    = player;
 private _inVehicle = (_player != vehicle _player);
 
 _ctrlMap ctrlMapAnimAdd [0, [MACRO_UI_GPS_SCALE_INF, MACRO_UI_GPS_SCALE_VEH] select _inVehicle, getPosWorld _player];

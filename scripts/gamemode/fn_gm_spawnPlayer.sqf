@@ -48,4 +48,5 @@ _player setPosWorld getPosWorld _spawnPoint;
 _player setDir getDir _spawnPoint;
 
 // Transition the respawn state
-GVAR(sys_handlePlayerRespawn_state) = MACRO_ENUM_RESPAWN_SPAWNED_FROZEN;
+GVAR(gm_sys_handlePlayerRespawn_state)   = MACRO_ENUM_RESPAWN_SPAWNED_FROZEN;
+GVAR(gm_sys_handlePlayerRespawn_bledOut) = false;

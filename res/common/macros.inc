@@ -190,6 +190,14 @@
 	#define MACRO_IDC_SS_CTRLGRP                                    100
 	#define MACRO_IDC_SS_STATUS_TEXT                                101
 
+	// Unconscious HUD
+	#define MACRO_IDC_UHUD_CTRLGRP                                  100
+	#define MACRO_IDC_UHUD_TEXT_COUNTDOWN                           101
+	#define MACRO_IDC_UHUD_TEXT_MEDIC_NONE                          102
+	#define MACRO_IDC_UHUD_TEXT_MEDIC_DISTANCE                      103
+	#define MACRO_IDC_UHUD_TEXT_MEDIC_NAME                          104
+	#define MACRO_IDC_UHUD_TEXT_GIVE_UP                             105
+
 	// User Input Blocker
 	#define MACRO_IDC_UIB_FOCUS_FRAME                               100
 
@@ -204,45 +212,59 @@
 	#define MACRO_POS_SPACER_X                                      3
 	#define MACRO_POS_SPACER_Y                                      3
 
-	#define MACRO_POS_CA_WIDTH                                      0.55
-	#define MACRO_POS_CA_HEIGHT                                     0.25
-	#define MACRO_POS_CA_WARNING_TEXTSIZE                           0.1
-	#define MACRO_POS_CA_MESSAGE_TEXTSIZE                           0.07
+	// Text sizes
+	#define MACRO_UI_TEXTSIZE_1                                     0.035
+	#define MACRO_UI_TEXTSIZE_2                                     0.05
+	#define MACRO_UI_TEXTSIZE_3                                     0.07
+	#define MACRO_UI_TEXTSIZE_4                                     0.1
+	#define MACRO_UI_TEXTSIZE_5                                     0.15
 
-	#define MACRO_POS_ES_TOP_TEXTSIZE                               0.15
-	#define MACRO_POS_ES_TICKETS_TEXTSIZE                           0.07
+	// Combat Area
+	#define MACRO_POS_CA_WIDTH                                      0.4
+	#define MACRO_POS_CA_HEIGHT                                     0.3
 
+	// End Screen
+	#define MACRO_POS_ES_TOP_TEXTSIZE                               MACRO_UI_TEXTSIZE_5
+	#define MACRO_POS_ES_TICKETS_TEXTSIZE                           MACRO_UI_TEXTSIZE_2
+
+	// Kill Feed
 	#define MACRO_POS_KF_Y                                          (0.25 * safeZoneH)
 	#define MACRO_POS_KF_WIDTH                                      (0.2 * safeZoneW)
 	#define MACRO_POS_KF_WEAPON_WIDTH                               (0.025 * safeZoneW)
 	#define MACRO_POS_KF_ICON_WIDTH                                 (0.015 * safeZoneW)
-	#define MACRO_POS_KF_ENTRY_HEIGHT                               0.05
-	#define MACRO_POS_KF_ENTRY_TEXTSIZE                             0.035
+	#define MACRO_POS_KF_ENTRY_HEIGHT                               MACRO_UI_TEXTSIZE_2
+	#define MACRO_POS_KF_ENTRY_TEXTSIZE                             MACRO_UI_TEXTSIZE_1
 	#define MACRO_POS_KF_ENTRY_MAXCOUNT                             8
 
+	// Score Feed
 	#define MACRO_POS_SF_WIDTH                                      (0.33 * safeZoneW)
 	#define MACRO_POS_SF_X_OFFSET                                   (0.6 * MACRO_POS_SF_WIDTH)
 	#define MACRO_POS_SF_SCORE_WIDTH                                (0.1 * MACRO_POS_SF_WIDTH)
-	#define MACRO_POS_SF_ENTRY_HEIGHT                               0.05
-	#define MACRO_POS_SF_ENTRY_TEXTSIZE                             0.05
+	#define MACRO_POS_SF_ENTRY_HEIGHT                               MACRO_UI_TEXTSIZE_2
+	#define MACRO_POS_SF_ENTRY_TEXTSIZE                             MACRO_UI_TEXTSIZE_2
 	#define MACRO_POS_SF_ENTRY_MAXCOUNT                             6
 
+	// Sector HUD
 	#define MACRO_POS_SHUD_HEIGHT                                   0.07
 	#define MACRO_POS_SHUD_FLAG_WIDTH                               ((3 / 2) * MACRO_POS_SHUD_HEIGHT)
 	#define MACRO_POS_SHUD_SIDE_WIDTH                               0.03
-	#define MACRO_POS_SHUD_TEXTSIZE                                 0.05
+	#define MACRO_POS_SHUD_TEXTSIZE                                 MACRO_UI_TEXTSIZE_2
 
-	#define MACRO_POS_SFLAG_TEXTSIZE                                0.07
+	// Sector Flag
+	#define MACRO_POS_SFLAG_TEXTSIZE                                MACRO_UI_TEXTSIZE_2
 
+	// Health bar
 	#define MACRO_POS_HB_WIDTH                                      0.1
-	#define MACRO_POS_HB_HEIGHT                                     0.05
+	#define MACRO_POS_HB_HEIGHT                                     MACRO_UI_TEXTSIZE_2
 	#define MACRO_POS_HB_ICON_WIDTH                                 0.04
 	#define MACRO_POS_HB_ICON_SPACER                                (pixelW * 3)
-	#define MACRO_POS_HB_TEXTSIZE                                   0.05
+	#define MACRO_POS_HB_TEXTSIZE                                   MACRO_UI_TEXTSIZE_2
 
+	// Hit Effects
 	#define MACRO_POS_HFX_WIDTH                                     (safeZoneW / 2)
 	#define MACRO_POS_HFX_HEIGHT                                    (safeZoneH / 2)
 
+	// Spawn Menu
 	#define MACRO_POS_SM_WIDTH                                      (safeZoneW * 0.9)
 	#define MACRO_POS_SM_HEIGHT                                     (safeZoneH * 0.9)
 	#define MACRO_POS_SM_MENU_HEIGHT                                (safeZoneH * 0.85)
@@ -252,6 +274,11 @@
 	#define MACRO_POS_SM_ROLE_PIP_TOP_TEXTSIZE                      (0.05 * safeZoneW)
 	#define MACRO_POS_SM_ROLE_PIP_BOTTOM_TEXTSIZE                   (0.02 * safeZoneW)
 	#define MACRO_POS_SM_DEPLOY_VEHICLEICON_HEIGHT                  0.04
+
+	// Unconscious HUD
+	#define MACRO_POS_UHUD_WIDTH                                    0.55
+	#define MACRO_POS_UHUD_HEIGHT                                   0.3
+	#define MACRO_POS_UHUD_MEDIC_TEXTSIZE                           MACRO_UI_TEXTSIZE_2
 
 	// Hit Markers
 	#define MACRO_UI_HITMARKERS_DURATION                            0.5
@@ -345,6 +372,11 @@
 	#define MACRO_KEYBIND_HEAL                                      DIK_4
 	#define MACRO_KEYBIND_REARM                                     DIK_5
 	#define MACRO_KEYBIND_REPAIR                                    DIK_6
+	#define MACRO_KEYBIND_GIVEUP                                    DIK_SPACE
+
+	// Combat Area
+	#define MACRO_CA_PLAYER_INTERVAL                                0.1 // The interval, in seconds, between two consecutive combat area checks for the player
+	#define MACRO_CA_WARNING_ANIMDURATION                           0.5 //  How long, in seconds, the warning UI animation transitions should last
 
 	// AI Control
 	#define MACRO_AI_GROUP_CALLSIGNS                                ["Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel", "India", "Juliet", "Kilo", "Lima", "Mike", "November", "Oscar", "Papa", "Quebec", "Romeo", "Sierra", "Tango", "Uniform", "Victor", "Whiskey", "X-ray", "Yankee", "Zulu"]
@@ -382,6 +414,7 @@
 	#define MACRO_GM_KILLASSISTDURATION                             10 // How long (in seconds), after damaging an enemy unit, it is possible to receive a kill assist for
 	#define MACRO_GM_SYS_TICKETS_INTERVAL                           0.25 // Interval, in seconds, between two update cycles of the tickets system
 	#define MACRO_GM_SYS_ENDCONDITIONS_INTERVAL                     0.25 // Interval, in seconds, between two update cycles of the end conditions system
+	#define MACRO_GM_SYS_HANDLEPLAYERRESPAWN_INTERVAL               0.05 // Interval, in seconds, between two update cycles of the player respawn system (Note: must be less than the MP respawn time!)
 
 	// Sectors
 	#define MACRO_SECTOR_TRIGGERINTERVAL                            0.5 // The interval between two trigger executions, in seconds
@@ -426,7 +459,7 @@
 	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.14.607" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.14.623" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -505,16 +538,19 @@
 	//#define MACRO_ENUM_SCORE_REARM                                  13
 
 	#define MACRO_ENUM_SCORE_SUICIDE                                20
-	#define MACRO_ENUM_SCORE_SPOTASSIST                             21
-	#define MACRO_ENUM_SCORE_KILLASSIST                             22
-	#define MACRO_ENUM_SCORE_KILL_ENEMY                             23
-	#define MACRO_ENUM_SCORE_KILL_FRIENDLY                          24
-	#define MACRO_ENUM_SCORE_HEADSHOT                               25
+	#define MACRO_ENUM_SCORE_DESERTING                              21
 
-	#define MACRO_ENUM_SCORE_DESTROYVEHICLE_ENEMY                   30
-	#define MACRO_ENUM_SCORE_DESTROYVEHICLE_FRIENDLY                31
+	#define MACRO_ENUM_SCORE_SPOTASSIST                             30
+	#define MACRO_ENUM_SCORE_KILLASSIST                             31
 
-	#define MACRO_ENUM_SCORE_SIDEDEFEATED                           40
+	#define MACRO_ENUM_SCORE_KILL_ENEMY                             40
+	#define MACRO_ENUM_SCORE_KILL_FRIENDLY                          41
+	#define MACRO_ENUM_SCORE_HEADSHOT                               42
+
+	#define MACRO_ENUM_SCORE_DESTROYVEHICLE_ENEMY                   50
+	#define MACRO_ENUM_SCORE_DESTROYVEHICLE_FRIENDLY                51
+
+	#define MACRO_ENUM_SCORE_SIDEDEFEATED                           60
 
 
 
@@ -697,6 +733,7 @@
 	#define MACRO_ENUM_RESPAWN_SPAWNED_FROZEN                       4
 	#define MACRO_ENUM_RESPAWN_SPAWNED_UNFROZEN                     5
 	#define MACRO_ENUM_RESPAWN_SPAWNED_UNPROTECTED                  6
+	#define MACRO_ENUM_RESPAWN_UNCONSCIOUS                          7
 
 
 
@@ -710,6 +747,7 @@
 	#define MACRO_ENUM_DAMAGE_BULLET                                1
 	#define MACRO_ENUM_DAMAGE_EXPLOSIVE                             2
 	#define MACRO_ENUM_DAMAGE_PHYSICS                               3
+	#define MACRO_ENUM_DAMAGE_COMBATAREA                            4
 
 
 
@@ -739,10 +777,11 @@
 //	CLASS KINDS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
-	#define MACRO_ENUM_CLASSKIND_VEHICLE                            0
-	#define MACRO_ENUM_CLASSKIND_WEAPON                             1
-	#define MACRO_ENUM_CLASSKIND_MAGAZINE                           2
-	#define MACRO_ENUM_CLASSKIND_AMMO                               3
+	#define MACRO_ENUM_CLASSKIND_NONE                               0
+	#define MACRO_ENUM_CLASSKIND_VEHICLE                            1
+	#define MACRO_ENUM_CLASSKIND_WEAPON                             2
+	#define MACRO_ENUM_CLASSKIND_MAGAZINE                           3
+	#define MACRO_ENUM_CLASSKIND_AMMO                               4
 
 
 

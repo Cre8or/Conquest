@@ -76,7 +76,7 @@ _ammoData = [
 
 // Disable spawn protection (only applicable for players)
 if (_unit == player) then {
-	GVAR(sys_handlePlayerRespawn_protectionTime) = 0;
+	GVAR(gm_sys_handlePlayerRespawn_protectionTime) = 0;
 };
 
 

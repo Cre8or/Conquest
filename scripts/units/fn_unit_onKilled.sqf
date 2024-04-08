@@ -12,12 +12,9 @@
 -------------------------------------------------------------------------------------------------------------------- */
 
 #include "..\..\res\common\macros.inc"
-#include "..\..\mission\settings.inc"
 
 // Passed by the engine
-params [
-	"_unit"
-];
+params ["_unit"];
 
 if (isNull _unit) exitWith {};
 
@@ -26,6 +23,9 @@ if (isNull _unit) exitWith {};
 
 
 // Set up some variables
+private _time          = time;
+private _isUnconscious = _unit getVariable [QGVAR(isUnconscious), false];
+
 _unit setVariable [QGVAR(isSpawned), false, false];
 
 // Clean up the unit's ammo data lookup table
@@ -69,12 +69,21 @@ if (
 
 
 // Serverside AI respawn
-if (isServer and {!(_unit getVariable [QGVAR(isUnconscious), false])}) then {
+if (isServer and {!_isUnconscious}) then {
 	private _unitIndex = _unit getVariable [QGVAR(unitIndex), -1];
 
 	if (_unitIndex >= 0 and {_unitIndex < GVAR(param_ai_maxCount)}) then {
-		GVAR(ai_sys_handleRespawn_respawnTimes) set [_unitIndex, time + MACRO_GM_UNIT_RESPAWNDELAY];
+		GVAR(ai_sys_handleRespawn_respawnTimes) set [_unitIndex, _time + GVAR(param_gm_unit_respawnDelay)];
 	};
+};
+
+
+
+
+
+// Player handling
+if (_unit == player and {!_isUnconscious}) then {
+	GVAR(gm_sys_handlePlayerRespawn_respawnTime) = _time + GVAR(param_gm_unit_respawnDelay);
 };
 
 
@@ -120,9 +129,6 @@ if (!isMultiplayer and {_unit == player}) then {
 		deleteGroup _grp;
 		true;
 	}];
-
-	// Force a respawn
-	GVAR(sys_handlePlayerRespawn_forceRespawn) = true;
 
 	// DEBUG
 	call FUNC(debug_addActions);

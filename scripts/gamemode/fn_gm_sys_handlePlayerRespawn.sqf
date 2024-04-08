@@ -13,14 +13,13 @@
 		(nothing)
 -------------------------------------------------------------------------------------------------------------------- */
 
+#include "\a3\editor_f\Data\Scripts\dikCodes.h"
+
 #include "..\..\res\common\macros.inc"
-#include "..\..\mission\settings.inc"
 
 #include "..\..\res\macros\fnc_initVar.inc"
 
 if (!hasInterface) exitWith {};
-
-disableSerialization;
 
 
 
@@ -33,15 +32,21 @@ MACRO_FNC_INITVAR(GVAR(respawn_east), objNull);
 MACRO_FNC_INITVAR(GVAR(respawn_resistance), objNull);
 MACRO_FNC_INITVAR(GVAR(respawn_west), objNull);
 
-GVAR(sys_handlePlayerRespawn_nextUpdate)     = 0;
-GVAR(sys_handlePlayerRespawn_isAlive)        = false;
-GVAR(sys_handlePlayerRespawn_nextShowMenu)   = 0;
-GVAR(sys_handlePlayerRespawn_spawnTimeOut)   = 0;
-GVAR(sys_handlePlayerRespawn_protectionTime) = 0;
-GVAR(sys_handlePlayerRespawn_forceRespawn)   = false; // External interface to force a respawn (currently only used for singleplayer respawn)
-GVAR(sys_handlePlayerRespawn_spawnRequested) = false; // Spawnmenu interface, set to true when the player presses the "SPAWN" button
-GVAR(sys_handlePlayerRespawn_state)          = MACRO_ENUM_RESPAWN_INIT;
-GVAR(sys_handlePlayerRespawn_respawnTime)    = 0;
+MACRO_FNC_INITVAR(GVAR(kb_act_pressed_giveUp), false);
+
+GVAR(gm_sys_handlePlayerRespawn_prevUpdate)     = time;
+GVAR(gm_sys_handlePlayerRespawn_nextUpdate)     = 0; // Interfaces with unit_setUnconscious
+GVAR(gm_sys_handlePlayerRespawn_prevAlive)      = false;
+GVAR(gm_sys_handlePlayerRespawn_prevPlayer)     = player;
+GVAR(gm_sys_handlePlayerRespawn_nextShowMenu)   = 0;
+GVAR(gm_sys_handlePlayerRespawn_spawnTimeOut)   = 0;
+GVAR(gm_sys_handlePlayerRespawn_bledOut)        = false;
+GVAR(gm_sys_handlePlayerRespawn_protectionTime) = 0; // Interfaces with unit_onFired
+//GVAR(gm_sys_handlePlayerRespawn_forceRespawn)   = false; // External interface to force a respawn (flags the player as dead for a single frame)
+GVAR(gm_sys_handlePlayerRespawn_spawnRequested) = false; // Spawnmenu interface, set to true when the player presses the "SPAWN" button
+GVAR(gm_sys_handlePlayerRespawn_state)          = MACRO_ENUM_RESPAWN_INIT; // Interfaces with gm_spawnPlayer
+GVAR(gm_sys_handlePlayerRespawn_respawnTime)    = 0; // Interfaces with unit_onKilled
+
 
 
 
@@ -52,17 +57,21 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 
 	if (isGamePaused) exitWith {};
 
-	private _spawnStatusUI = uiNamespace getVariable [QGVAR(RscSpawnStatus), displayNull];
+	private _spawnStatusUI  = uiNamespace getVariable [QGVAR(RscSpawnStatus), displayNull];
+	private _unconsciousHUD = uiNamespace getVariable [QGVAR(RscUnconsciousHUD), displayNull];
 	private _time = time;
 
 	if (GVAR(missionState) <= MACRO_ENUM_MISSION_LIVE and {_time > 0}) then {
 
 		private _player = player;
-		private _alive  = alive _player; // Don't use FUNC(unit_isAlive) here!
+		private _alive  = alive _player; // Don't use unit_isAlive here!
 
-		// Handle external respawn requests
-		if (GVAR(sys_handlePlayerRespawn_forceRespawn)) then {
-			GVAR(sys_handlePlayerRespawn_forceRespawn) = false;
+
+
+		// Single player work-around: respawning is performed by selecting a different player when
+		// the original palyer unit dies. We detect this here.
+		if (_player != GVAR(gm_sys_handlePlayerRespawn_prevPlayer)) then {
+			GVAR(gm_sys_handlePlayerRespawn_prevPlayer) = _player;
 
 			_player setVariable [QGVAR(isSpawned), false, true];
 			_alive = false;
@@ -70,11 +79,14 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 
 		// Detect deaths
 		if (_alive) then {
-			if (!GVAR(sys_handlePlayerRespawn_isAlive)) then {
-				GVAR(sys_handlePlayerRespawn_isAlive) = true;
+			if (!GVAR(gm_sys_handlePlayerRespawn_prevAlive)) then {
+
+				[_player, false] call FUNC(unit_setUnconscious);
 
 				// Ensure other machines don't consider this unit to be respawned (yet)
 				_player setVariable [QGVAR(isSpawned), false, true];
+
+				QGVAR(RscUnconsciousHUD) cutRsc ["Default", "PLAIN"];
 
 				[false, 0.5] call FUNC(ui_blackScreen);
 				QGVAR(RscSpawnStatus) cutRsc [QGVAR(RscSpawnStatus), "PLAIN"];
@@ -85,7 +97,7 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 				_player switchMove "amovpercmstpsnonwnondnon";
 				_player allowDamage false;
 
-				// NOTE: It is not possible to mix r2t cameras with "regular" ones.
+				// NOTE: It is not possible to mix r2t cameras with "regular" ones (using camCreate).
 				// Since the spawn menu might use the r2t camera (depending on which menu is open), we have
 				// to use a workaround by using switchCamera. This is not ideal, but gets the job done.
 				switchCamera GVAR(cam_panorama);
@@ -94,7 +106,7 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 			};
 
 			// Ensure the player is always attached to their respawn object while awaiting spawning
-			if (GVAR(sys_handlePlayerRespawn_state) <= MACRO_ENUM_RESPAWN_SPAWNREQUESTED) then {
+			if (GVAR(gm_sys_handlePlayerRespawn_state) <= MACRO_ENUM_RESPAWN_SPAWNREQUESTED) then {
 				private _respawnObject = (switch (GVAR(side)) do {
 					case east:       {GVAR(respawn_east)};
 					case resistance: {GVAR(respawn_resistance)};
@@ -108,31 +120,38 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 			};
 
 		} else {
-			if (GVAR(sys_handlePlayerRespawn_isAlive)) then {
-				GVAR(sys_handlePlayerRespawn_isAlive)     = false;
-				GVAR(sys_handlePlayerRespawn_respawnTime) = _time + GVAR(Param_GM_Unit_RespawnDelay);
+			if (GVAR(gm_sys_handlePlayerRespawn_prevAlive)) then {
+
+				if (!GVAR(gm_sys_handlePlayerRespawn_bledOut)) then {
+					GVAR(gm_sys_handlePlayerRespawn_respawnTime) = _time + GVAR(param_gm_unit_respawnDelay);
+				};
 
 				[true, 0.5] call FUNC(ui_blackScreen);
 
 				// Reset the state to the beginning
-				GVAR(sys_handlePlayerRespawn_state) = MACRO_ENUM_RESPAWN_INIT;
+				GVAR(gm_sys_handlePlayerRespawn_state) = MACRO_ENUM_RESPAWN_INIT;
 			};
 		};
 
-		if (_time > GVAR(sys_handlePlayerRespawn_nextUpdate)) then {
+		GVAR(gm_sys_handlePlayerRespawn_prevAlive) = _alive;
+
+
+
+		if (_time > GVAR(gm_sys_handlePlayerRespawn_nextUpdate)) then {
 
 			// Handle state transitions
 			private _continue = true;
 			while {_continue} do {
 
 				private _spawnMenu = uiNamespace getVariable [QGVAR(RscSpawnMenu), displayNull];
-				private _prevState = GVAR(sys_handlePlayerRespawn_state);
-				switch (GVAR(sys_handlePlayerRespawn_state)) do {
+				private _prevState = GVAR(gm_sys_handlePlayerRespawn_state);
+
+				switch (GVAR(gm_sys_handlePlayerRespawn_state)) do {
 
 					case MACRO_ENUM_RESPAWN_INIT: {
-						GVAR(sys_handlePlayerRespawn_spawnRequested) = false;
-						GVAR(sys_handlePlayerRespawn_nextShowMenu)   = _time + 1;
-						GVAR(sys_handlePlayerRespawn_state)          = MACRO_ENUM_RESPAWN_SELECTINGSECTOR;
+						GVAR(gm_sys_handlePlayerRespawn_spawnRequested) = false;
+						GVAR(gm_sys_handlePlayerRespawn_nextShowMenu)   = _time + 1;
+						GVAR(gm_sys_handlePlayerRespawn_state)          = MACRO_ENUM_RESPAWN_SELECTINGSECTOR;
 					};
 
 					case MACRO_ENUM_RESPAWN_SELECTINGSECTOR: {
@@ -143,15 +162,15 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 						};
 
 						// Wait for the player to select a sector
-						if (!GVAR(sys_handlePlayerRespawn_spawnRequested)) then {
+						if (!GVAR(gm_sys_handlePlayerRespawn_spawnRequested)) then {
 
 							if (!isNull _spawnMenu) then {
 
-								GVAR(sys_handlePlayerRespawn_nextShowMenu) = _time + MACRO_SM_RESPAWN_OPENINTERVAL;
+								GVAR(gm_sys_handlePlayerRespawn_nextShowMenu) = _time + MACRO_SM_RESPAWN_OPENINTERVAL;
 
 							} else {
 								// Don't open the spawn menu if the escape menu is open
-								if (isNull findDisplay 49 and {_time > GVAR(sys_handlePlayerRespawn_nextShowMenu)}) then {
+								if (isNull findDisplay 49 and {_time > GVAR(gm_sys_handlePlayerRespawn_nextShowMenu)}) then {
 
 									// Force-open the spawn mnenu's deploy screen
 									["ui_init"] call FUNC(ui_spawnMenu);
@@ -160,12 +179,12 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 										["ui_button_click", [MACRO_IDC_SM_DEPLOY_BUTTON]] call FUNC(ui_spawnMenu);
 									};
 
-									GVAR(sys_handlePlayerRespawn_nextShowMenu) = _time + MACRO_SM_RESPAWN_OPENINTERVAL;
+									GVAR(gm_sys_handlePlayerRespawn_nextShowMenu) = _time + MACRO_SM_RESPAWN_OPENINTERVAL;
 								};
 							};
 
 						} else {
-							GVAR(sys_handlePlayerRespawn_state) = MACRO_ENUM_RESPAWN_SECTORSELECTED;
+							GVAR(gm_sys_handlePlayerRespawn_state) = MACRO_ENUM_RESPAWN_SECTORSELECTED;
 						};
 					};
 
@@ -173,11 +192,11 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 
 						if (
 							_alive
-							and {_time > GVAR(sys_handlePlayerRespawn_respawnTime)}
+							and {_time > GVAR(gm_sys_handlePlayerRespawn_respawnTime)}
 							and {isNull _spawnMenu}
 						) then {
-							GVAR(sys_handlePlayerRespawn_spawnTimeOut) = _time + 3;
-							GVAR(sys_handlePlayerRespawn_state)        = MACRO_ENUM_RESPAWN_SPAWNREQUESTED;
+							GVAR(gm_sys_handlePlayerRespawn_spawnTimeOut) = _time + 3;
+							GVAR(gm_sys_handlePlayerRespawn_state)        = MACRO_ENUM_RESPAWN_SPAWNREQUESTED;
 
 							// Request to be spawned
 							[_player, GVAR(spawnSector)] remoteExecCall [QFUNC(gm_requestPlayerSpawn), 2, false];
@@ -188,19 +207,19 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 						// If the requested spawn sector is no longer spawnable, or if the server didn't respond
 						// to the spawn request (for whatever reason), go back a step
 						if (
-							_time > GVAR(sys_handlePlayerRespawn_spawnTimeOut)
+							_time > GVAR(gm_sys_handlePlayerRespawn_spawnTimeOut)
 							or {GVAR(side) != GVAR(spawnSector) getVariable [QGVAR(side), sideEmpty]}
 						) then {
-							GVAR(sys_handlePlayerRespawn_spawnRequested) = false;
-							GVAR(sys_handlePlayerRespawn_state)          = MACRO_ENUM_RESPAWN_SELECTINGSECTOR;
+							GVAR(gm_sys_handlePlayerRespawn_spawnRequested) = false;
+							GVAR(gm_sys_handlePlayerRespawn_state)          = MACRO_ENUM_RESPAWN_SELECTINGSECTOR;
 						};
 
 						// Transition to the next state is triggered by gm_spawnPlayer
 					};
 
 					case MACRO_ENUM_RESPAWN_SPAWNED_FROZEN: {
-						GVAR(sys_handlePlayerRespawn_protectionTime) = _time + GVAR(Param_GM_Unit_SpawnProtectionDuration);
-						GVAR(sys_handlePlayerRespawn_state)          = MACRO_ENUM_RESPAWN_SPAWNED_UNFROZEN;
+						GVAR(gm_sys_handlePlayerRespawn_protectionTime) = _time + GVAR(param_gm_unit_spawnProtectionDuration);
+						GVAR(gm_sys_handlePlayerRespawn_state)          = MACRO_ENUM_RESPAWN_SPAWNED_UNFROZEN;
 
 						switchCamera _player;
 
@@ -222,21 +241,140 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 
 					case MACRO_ENUM_RESPAWN_SPAWNED_UNFROZEN: {
 
-						if (_time > GVAR(sys_handlePlayerRespawn_protectionTime)) then {
-							GVAR(sys_handlePlayerRespawn_state) = MACRO_ENUM_RESPAWN_SPAWNED_UNPROTECTED;
+						if (_time > GVAR(gm_sys_handlePlayerRespawn_protectionTime)) then {
+							GVAR(gm_sys_handlePlayerRespawn_state) = MACRO_ENUM_RESPAWN_SPAWNED_UNPROTECTED;
 
 							//if (!GVAR(safeStart)) then {
 								_player allowDamage true;	// TODO: Reimplement safestart guard after safestart rewrite
 							//};
 						};
 					};
+
+					case MACRO_ENUM_RESPAWN_SPAWNED_UNPROTECTED: {
+
+						// Detect unconsciousness
+						if (_player getVariable [QGVAR(isUnconscious), false]) then {
+							GVAR(gm_sys_handlePlayerRespawn_state) = MACRO_ENUM_RESPAWN_UNCONSCIOUS;
+
+							// Open the unconscious HUD
+							QGVAR(RscUnconsciousHUD) cutRsc [QGVAR(RscUnconsciousHUD), "PLAIN"];
+							_unconsciousHUD = uiNamespace getVariable [QGVAR(RscUnconsciousHUD), displayNull];
+						};
+					};
+
+					case MACRO_ENUM_RESPAWN_UNCONSCIOUS: {
+
+						if (_player getVariable [QGVAR(isUnconscious), false]) then {
+
+							private _bleedoutTime = _player getVariable [QGVAR(bleedoutTime), -1];
+
+							if (_time > _bleedoutTime) then {
+								_player setDamage 1;
+
+								// Remember that the player bled out; this prevents the respawn timer from
+								// being reset once the system registers the player's death.
+								GVAR(gm_sys_handlePlayerRespawn_bledOut) = true;
+							};
+
+							// Check if the player is holding the give-up keybinding
+							if (GVAR(kb_act_pressed_giveUp)) then {
+								private _deltaTime = _time - GVAR(gm_sys_handlePlayerRespawn_prevUpdate);
+
+								_bleedoutTime = _bleedoutTime - _deltaTime * GVAR(param_gm_unit_reviveDuration);
+								_player setVariable [QGVAR(bleedoutTime), _bleedoutTime, false];
+
+								playSoundUI ["click", 1, 2, true];
+							};
+
+							// Find the nearest medic
+							private _c_maxDistMedicSqr = MACRO_UI_ICONS3D_MAXDISTANCE_MEDIC ^ 2;
+							private _medic             = objNull;
+							private _medicDistSqr      = _c_maxDistMedicSqr;
+							private ["_distSqrX"];
+
+							{
+								_distSqrX = _player distanceSqr _x;
+
+								if (_distSqrX < _medicDistSqr) then {
+									_medicDistSqr = _distSqrX;
+									_medic        = _x;
+								};
+							} forEach (allUnits select {
+								_x == vehicle _x
+								and {_x getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] == MACRO_ENUM_ROLE_MEDIC}
+								and {_x getVariable [QGVAR(side), sideEmpty] == GVAR(side)}
+								and {_x distanceSqr _player < _c_maxDistMedicSqr}
+								and {[_x] call FUNC(unit_isAlive)}
+								and {_x != _player}
+							});
+
+							// Handle the unconscious HUD
+							private _ctrlCountdown = _unconsciousHUD displayCtrl MACRO_IDC_UHUD_TEXT_COUNTDOWN;
+							private _ctrlMedicNone = _unconsciousHUD displayCtrl MACRO_IDC_UHUD_TEXT_MEDIC_NONE;
+							private _ctrlMedicDist = _unconsciousHUD displayCtrl MACRO_IDC_UHUD_TEXT_MEDIC_DISTANCE;
+							private _ctrlMedicName = _unconsciousHUD displayCtrl MACRO_IDC_UHUD_TEXT_MEDIC_NAME;
+							private _ctrlGiveUp    = _unconsciousHUD displayCtrl MACRO_IDC_UHUD_TEXT_GIVE_UP;
+
+							// Update the countdown
+							private _delay = ceil (_bleedoutTime - _time max 0);
+							_ctrlCountdown ctrlSetText str _delay;
+
+							// Display the nearest medic's distance and name
+							private _foundMedic = !isNull _medic;
+							_ctrlMedicNone ctrlShow !_foundMedic;
+							_ctrlMedicDist ctrlShow _foundMedic;
+							_ctrlMedicName ctrlShow _foundMedic;
+
+							if (_foundMedic) then {
+								private _medicDistStr = format ["Nearest medic (%1 m):", ceil sqrt _medicDistSqr];
+								private _medicNameStr = name _medic;
+
+								private _widthMedicDist = ("w" + _medicDistStr) getTextWidth [MACRO_FONT_UI_MEDIUM, MACRO_POS_UHUD_MEDIC_TEXTSIZE];
+								private _widthMedicName = ("w" + _medicNameStr) getTextWidth [MACRO_FONT_UI_MEDIUM, MACRO_POS_UHUD_MEDIC_TEXTSIZE];
+								private _offset         = (MACRO_POS_UHUD_WIDTH - _widthMedicDist - _widthMedicName) / 2;
+
+								_ctrlMedicDist ctrlSetPositionX _offset;
+								_ctrlMedicDist ctrlSetPositionW _widthMedicDist;
+								_ctrlMedicDist ctrlCommit 0;
+
+								_ctrlMedicName ctrlSetPositionX (_offset + _widthMedicDist);
+								_ctrlMedicName ctrlSetPositionW _widthMedicName;
+								_ctrlMedicName ctrlCommit 0;
+
+								_ctrlMedicDist ctrlSetText _medicDistStr;
+								_ctrlMedicName ctrlSetText _medicNameStr;
+
+								private _medicNameColour = [SQUARE(MACRO_COLOUR_A100_FRIENDLY), SQUARE(MACRO_COLOUR_A100_SQUAD)] select (group _medic == group _player);
+								_ctrlMedicName ctrlSetTextColor _medicNameColour;
+							};
+
+							// Show the keybinding to give up
+							private _keyBind = [MACRO_MISSION_FRAMEWORK_GAMEMODE, QGVAR(kb_giveUp)] call CBA_fnc_getKeybind;
+							private ["_keyBindStr"];
+
+							if (isNil "_keyBind" or {_keyBind isEqualTo []}) then {
+								_keyBindStr = "No Key Assigned";
+							} else {
+								_keyBindStr = (_keyBind param [5, [MACRO_KEYBIND_GIVEUP]]) call CBA_fnc_localizeKey;
+							};
+
+							_ctrlGiveUp ctrlSetText format ["Hold [%1] to give up", _keyBindStr];
+
+						// Detect revival
+						} else {
+							GVAR(gm_sys_handlePlayerRespawn_state) = MACRO_ENUM_RESPAWN_SPAWNED_UNPROTECTED;
+
+							QGVAR(RscUnconsciousHUD) cutRsc ["Default", "PLAIN"];
+						};
+					};
 				};
 
 				// Continue until no further state transitions are possible
-				_continue = (_prevState != GVAR(sys_handlePlayerRespawn_state));
+				_continue = (_prevState != GVAR(gm_sys_handlePlayerRespawn_state));
 			};
 
-			GVAR(sys_handlePlayerRespawn_nextUpdate) = _time + 0.25; // Must be less than the MP respawn time
+			GVAR(gm_sys_handlePlayerRespawn_nextUpdate) = _time + MACRO_GM_SYS_HANDLEPLAYERRESPAWN_INTERVAL;
+			GVAR(gm_sys_handlePlayerRespawn_prevUpdate) = _time;
 		};
 
 		// Update the spawn status UI
@@ -245,7 +383,7 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 			private _ctrlText = _spawnStatusUI displayCtrl MACRO_IDC_SS_STATUS_TEXT;
 			private _str = "";
 
-			switch (GVAR(sys_handlePlayerRespawn_state)) do {
+			switch (GVAR(gm_sys_handlePlayerRespawn_state)) do {
 				case MACRO_ENUM_RESPAWN_INIT;
 				case MACRO_ENUM_RESPAWN_SELECTINGSECTOR: {
 					if (GVAR(side) == sideEmpty) then {
@@ -259,7 +397,7 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 					};
 				};
 				case MACRO_ENUM_RESPAWN_SECTORSELECTED: {
-					_str = format ["Spawning in %1", abs (0 max ceil (GVAR(sys_handlePlayerRespawn_respawnTime) - _time))];
+					_str = format ["Spawning in %1", abs (0 max ceil (GVAR(gm_sys_handlePlayerRespawn_respawnTime) - _time))];
 				};
 				case MACRO_ENUM_RESPAWN_SPAWNREQUESTED: {
 					_str = "Spawning...";
@@ -271,9 +409,12 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 
 	} else {
 
-		// Close the status UI
 		if (!isNull _spawnStatusUI) then {
 			QGVAR(RscSpawnStatus) cutRsc ["Default", "PLAIN"];
+		};
+
+		if (!isNull _unconsciousHUD) then {
+			QGVAR(RscUnconsciousHUD) cutRsc ["Default", "PLAIN"];
 		};
 	};
 }];
