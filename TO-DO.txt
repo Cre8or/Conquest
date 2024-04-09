@@ -1,5 +1,4 @@
 TO DO:
-
 	- Implement resupply ability to support:
 		- Similar animations/UI icons to medic healing, but for rearming
 		- Prevent players from looting bodies/opening their gear
@@ -35,6 +34,7 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Modify AI commander to exclude sectors without spawnpoints if there are sectors with spawnpoints left to capture
 	- Allow unconscious players to give up (using custom CBA keybinding)
 	- Implement an unconscious HUD
 		+ Display nearest medic (distance + name)

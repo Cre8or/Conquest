@@ -3,7 +3,7 @@ class MACRO_PROJECT_PREFIX {
 	class ace_medical {
 		file = "scripts\ace\medical";
 
-		class ace_usePAK {};
+		//class ace_usePAK {};
 	};
 
 	class actions {

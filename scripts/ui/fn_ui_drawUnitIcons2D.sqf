@@ -20,18 +20,26 @@ params ["_ctrlMap"];
 
 
 
+// Define some macros
+#define MACRO_BLINK_INTERVAL 0.5
+
+// Set up some constants
+private _c_iconUnit            = getMissionPath "res\images\icon_unit.paa";
+private _c_iconUnitUnconscious = getMissionPath "res\images\icon_unit_unconscious.paa";
+private _c_iconHeal            = getMissionPath "res\images\abilities\ability_heal.paa";
+
 // Set up some variables
 private _time               = time;
 private _player             = player;
 private _groupPly           = group _player;
 private _spottedTimeVarName = format [QGVAR(spottedTime_%1), GVAR(side)];
-private _iconUnit           = getMissionPath "\res\images\icon_unit.paa";
 private _mapAngle           = ctrlMapDir _ctrlMap;
+private _blink              = ((_time mod (2 * MACRO_BLINK_INTERVAL)) < MACRO_BLINK_INTERVAL);
 
 private _allUnits       = allUnits select {_x getVariable [QGVAR(isSpawned), false]};
 private _squadMates     = units _groupPly select {alive _x and {vehicle _x == _x} and {_x getVariable [QGVAR(isSpawned), false]}};
 private _teamMates      = (_allUnits select {side group _x == GVAR(side) and {vehicle _x == _x}}) - _squadMates;
-private _spottedEnemies = _allUnits select {side group _x != GVAR(side) and {_time < _x getVariable [_spottedTimeVarName, 0]} and {vehicle _x == _x}};
+private _spottedEnemies = _allUnits select {side group _x != GVAR(side) and {_time < _x getVariable [_spottedTimeVarName, 0]} and {vehicle _x == _x} and {[_x] call FUNC(unit_isAlive)}};
 
 private _allVehicles   = GVAR(allVehicles) select {alive _x};
 private _emptyVehicles = [];
@@ -78,16 +86,44 @@ private ["_typeEnum", "_icon"];
 private _fnc_drawUnit = {
 	params ["_unit", "_colour"];
 
-	_ctrlMap drawIcon [
-		_iconUnit,
-		_colour,
-		getPosVisual _unit,
-		12,
-		12,
-		_mapAngle + getDir _unit,
-		"",
-		2
-	];
+	if (_unit getVariable [QGVAR(isUnconscious), false]) then {
+
+		if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC) then {
+			_ctrlMap drawIcon [
+				_c_iconHeal,
+				[_colour, SQUARE(MACRO_COLOUR_A100_WHITE)] select _blink,
+				getPosVisual _unit,
+				16,
+				16,
+				0,
+				"",
+				1
+			];
+		} else {
+			_ctrlMap drawIcon [
+				_c_iconUnitUnconscious,
+				_colour,
+				getPosVisual _unit,
+				12,
+				12,
+				0,
+				"",
+				2
+			];
+		};
+
+	} else {
+		_ctrlMap drawIcon [
+			_c_iconUnit,
+			_colour,
+			getPosVisual _unit,
+			12,
+			12,
+			_mapAngle + getDir _unit,
+			"",
+			2
+		];
+	};
 };
 
 private _fnc_drawVehicle = {

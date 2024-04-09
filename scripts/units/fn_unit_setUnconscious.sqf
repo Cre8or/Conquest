@@ -33,6 +33,7 @@ _unit setVariable [QGVAR(bleedoutTime), [-1, _time + _reviveDuration] select _ne
 
 // Handle the unit's state
 _unit setUnconscious _newState;
+_unit setCaptive _newState;
 _unit setVariable [QGVAR(isUnconscious), _newState, true];
 _unit setVariable [QGVAR(health), 0, true];
 

@@ -1,4 +1,10 @@
+// Set up some constants
+private _c_iconUnit            = "a3\ui_f\data\IGUI\RscIngameUI\RscHint\indent_gr.paa";
+private _c_iconUnitUnconscious = getMissionPath "res\images\icon_unit_unconscious.paa";
+
+// Set up some variables
 private _renderData_units = [];
+
 
 
 
@@ -18,7 +24,7 @@ _renderData_units append (_spottedEnemies apply {
 
 
 
-private ["_pos2D", "_posXASL", "_visibility", "_nameX", "_angle", "_distMul"];
+private ["_pos2D", "_posXASL", "_visibility", "_isUnconscious", "_nameX", "_angle", "_distMul"];
 {
 	_x params ["_unit", "_posX", "_dist", "_colour", "_checkVisibility", "_alwaysShown"];
 
@@ -43,7 +49,11 @@ private ["_pos2D", "_posXASL", "_visibility", "_nameX", "_angle", "_distMul"];
 		};
 	};
 
-	_nameX = name _unit;
+	_isUnconscious = _unit getVariable [QGVAR(isUnconscious), false];
+
+	if (!_isUnconscious) then {
+		_nameX = name _unit;
+	};
 
 	if (!_alwaysShown) then {
 		_angle = (_posPly vectorFromTo _posXASL) distanceSqr _dirPly;
@@ -56,20 +66,39 @@ private ["_pos2D", "_posXASL", "_visibility", "_nameX", "_angle", "_distMul"];
 		_colour set [3, _distMul];
 	};
 
-	drawIcon3D [
-		"a3\ui_f\data\IGUI\RscIngameUI\RscHint\indent_gr.paa",
-		_colour,
-		_posX,
-		0.6,
-		0.6,
-		0,
-		_nameX,
-		2,
-		0.03,
-		MACRO_FONT_UI_THIN, // TahomaB
-		"center",
-		true,
-		0,
-		-0.07 * _c_uiScale
-	];
+	if (_isUnconscious) then {
+		drawIcon3D [
+			_c_iconUnitUnconscious,
+			_colour,
+			_posX,
+			0.4,
+			0.4,
+			0,
+			"",
+			2,
+			0.03,
+			MACRO_FONT_UI_THIN, // TahomaB
+			"center",
+			true,
+			0,
+			-0.07 * _c_uiScale
+		];
+	} else {
+		drawIcon3D [
+			_c_iconUnit,
+			_colour,
+			_posX,
+			0.6,
+			0.6,
+			0,
+			_nameX,
+			2,
+			0.03,
+			MACRO_FONT_UI_THIN, // TahomaB
+			"center",
+			true,
+			0,
+			-0.07 * _c_uiScale
+		];
+	};
 } forEach _renderData_units;

@@ -175,7 +175,7 @@ GVAR(ai_sys_commander_EH) = addMissionEventHandler ["EachFrame", {
 			);
 
 			if (_canReceiveOrders) then {
-				_distBest  = 9e9;
+				_distBest  = 1e38;
 
 				// Pick the best candidate sector, factoring in strategic value, and how many other groups are already headed there
 				{
@@ -257,12 +257,37 @@ GVAR(ai_sys_commander_EH) = addMissionEventHandler ["EachFrame", {
 		// Pick the next side to be handled
 		GVAR(ai_sys_commander_side_index) = (GVAR(ai_sys_commander_side_index) + 1) mod 3; // Hardcoded; there can only be up to 3 sides in Conquest
 		GVAR(ai_sys_commander_side)       = GVAR(sides) # GVAR(ai_sys_commander_side_index);
-		GVAR(ai_sys_commander_sectors)    = GVAR(allSectors) select {
+
+		// Determine candidate sectors
+		private _capturableSectors = GVAR(allSectors) select {
 			!(_x getVariable [QGVAR(isLocked), false]) // Sector must not be locked
 			and {
-				GVAR(ai_sys_commander_side) != _x getVariable [QGVAR(side), sideEmpty] // Include sectors not owned by the group's side
-				or {(_x getVariable [QGVAR(level), 0]) < MACRO_AI_COMMANDER_SECTOR_MINLEVELOWNED}
+				GVAR(ai_sys_commander_side) != _x getVariable [QGVAR(side), sideEmpty] // Only include unowned sectors, aswell as...
+				or {(_x getVariable [QGVAR(level), 0]) < MACRO_AI_COMMANDER_SECTOR_MINLEVELOWNED} // ...owned sectors that are at risk of being lost
 			}
+		};
+
+		private _hasSpawnableSector = (GVAR(allSectors) findIf {
+			_x getVariable [QGVAR(side), sideEmpty] == GVAR(ai_sys_commander_side)
+			and {(_x getVariable [format [QGVAR(spawnPoints_%1), GVAR(ai_sys_commander_side)], []]) isNotEqualTo []}
+		}) >= 0;
+		private _capturableSectorsWithSpawnPoints = [];
+		{
+			if ((_x getVariable [format [QGVAR(spawnPoints_%1), GVAR(ai_sys_commander_side)], []]) isNotEqualTo []) then {
+				_capturableSectorsWithSpawnPoints pushBack _x;
+			};
+		} forEach _capturableSectors;
+
+		// Normally we let AI groups capture any and all unowned sectors that can be captured.
+		// The only exception to this rule is when the side has no spawnable sectors left (usually indicating
+		// that the side is about to lose). In that case, we specifically want to target sectors that the side
+		// can spawn on, to reduce the risk of defeat.
+		// This exception only matters if there are any suitable sectors to be captured, though. If not,
+		// revert to capturing any unowned sector, and hope for the best.
+		if (_hasSpawnableSector or {_capturableSectorsWithSpawnPoints isEqualTo []}) then {
+			GVAR(ai_sys_commander_sectors) = _capturableSectors;
+		} else {
+			GVAR(ai_sys_commander_sectors) = _capturableSectorsWithSpawnPoints;
 		};
 
 		// Compile the candidate sectors lookup table
