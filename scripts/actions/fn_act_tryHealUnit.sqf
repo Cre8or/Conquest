@@ -110,9 +110,8 @@ if (
 	and {!(_target getVariable [QGVAR(isUnconscious), false])}
 	and {stance _medic != "PRONE"}
 ) then {
+	_medic playActionNow "GestureEmpty";
 	_medic playActionNow "GestureGo";
-	//_medic playGesture "GestureEmpty";
-	_//medic playGesture "GestureGoStandPistol"; // "GestureGoStand"
 } else {
 	_medic action ["TakeWeapon", objNull, "Throw"];
 };
