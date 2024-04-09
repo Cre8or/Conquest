@@ -22,7 +22,7 @@ class Param_AI_IncludePlayers {
 };
 
 class Param_AI_AllowVehicles {
-	title = "AI can use vehicles:";
+	title = "Are AI allowed to use vehicles:";
 	values[] = { 0, 1 };
 	texts[] = { "No", "Yes" };
 	isBoolean = 1;

@@ -18,7 +18,7 @@ loadScreen = MACRO_MISSION_LOADING_BANNER;
 
 joinUnassigned = 0; // Auto-slot players
 disabledAI = 1;
-briefing = 0;
+//briefing = 0;
 debriefing = 0;
 saving = 0;
 allowFunctionsRecompile = __EVAL((isServer and !isDedicated) or is3DENMultiplayer or is3DENPreview);

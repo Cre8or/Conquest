@@ -105,9 +105,14 @@ if (isNull _target) then {
 
 
 //systemChat format ["(%1) %2 healing %3", _time, name _medic, name _target];
-if (_medic != _target and {!(_target getVariable [QGVAR(isUnconscious), false])}) then {
-	_medic playGesture "GestureEmpty";
-	_medic playGesture "GestureGoStandPistol"; // "GestureGoStand"
+if (
+	_medic != _target
+	and {!(_target getVariable [QGVAR(isUnconscious), false])}
+	and {stance _medic != "PRONE"}
+) then {
+	_medic playActionNow "GestureGo";
+	//_medic playGesture "GestureEmpty";
+	_//medic playGesture "GestureGoStandPistol"; // "GestureGoStand"
 } else {
 	_medic action ["TakeWeapon", objNull, "Throw"];
 };
