@@ -180,28 +180,34 @@ case "ui_update_role": {
 	private _groups = allGroups select {MACRO_COND_ISVALIDGROUP(_x)};
 
 	// List all groups
-	private ["_units"];
+	private ["_units", "_buffer", "_countTotal"];
 	{
-		_units = units _x;
+		_units      = units _x;
+		_countTotal = count (_x getVariable [QGVAR(group_AIIdentities), []]) + ({isPlayer _x} count _units);
 
-		if (_x == _playerGroup) then {
-			if (_isNamingGroup) then {
-				private _buffer = _spawnMenu getVariable [QGVAR(menuRole_textBuffer), ""];
-				_ctrlLB_groups lnbAddRow ["", [_buffer, groupId _x] select (_buffer isEqualTo ""), format ["%1 / %2", {alive _x} count _units, count (_x getVariable [QGVAR(group_AIIdentities), []]) + ({isPlayer _x} count _units)]];
-
-				if (_spawnMenu getVariable [QGVAR(menuRole_hasNameCollision), false]) then {
-					_ctrlLB_groups lnbSetColor [[_forEachIndex, 1], SQUARE(MACRO_COLOUR_A100_RED)];
-				} else {
-					_ctrlLB_groups lnbSetColor [[_forEachIndex, 1], SQUARE(MACRO_COLOUR_BUTTON_ACTIVE)];
-				};
-			} else {
-				_ctrlLB_groups lnbAddRow ["", groupId _x, format ["%1 / %2", {alive _x} count _units, count (_x getVariable [QGVAR(group_AIIdentities), []]) + ({isPlayer _x} count _units)]];
-			};
-
-			_ctrlLB_groups lnbSetPicture [[_forEachIndex, 0], "a3\ui_f\data\GUI\RscCommon\RscHTML\arrow_right_ca.paa"];
-		} else {
-			_ctrlLB_groups lnbAddRow ["", groupId _x, format ["%1 / %2", {alive _x} count _units, count (_x getVariable [QGVAR(group_AIIdentities), []]) + ({isPlayer _x} count _units)]];
+		// Other groups
+		if (_x != _playerGroup) then {
+			_ctrlLB_groups lnbAddRow ["", groupId _x, str _countTotal];
+			continue;
 		};
+
+		// Player's current group
+		if (_isNamingGroup) then {
+			_buffer = _spawnMenu getVariable [QGVAR(menuRole_textBuffer), ""];
+
+			_ctrlLB_groups lnbAddRow ["", [_buffer, groupId _x] select (_buffer isEqualTo ""), str _countTotal];
+
+			if (_spawnMenu getVariable [QGVAR(menuRole_hasNameCollision), false]) then {
+				_ctrlLB_groups lnbSetColor [[_forEachIndex, 1], SQUARE(MACRO_COLOUR_A100_RED)];
+			} else {
+				_ctrlLB_groups lnbSetColor [[_forEachIndex, 1], SQUARE(MACRO_COLOUR_BUTTON_ACTIVE)];
+			};
+		} else {
+			_ctrlLB_groups lnbAddRow ["", groupId _x, str _countTotal];
+		};
+
+		_ctrlLB_groups lnbSetPicture [[_forEachIndex, 0], "a3\ui_f\data\GUI\RscCommon\RscHTML\arrow_right_ca.paa"];
+
 	} forEach _groups;
 
 	// List all players in the selected group

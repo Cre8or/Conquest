@@ -44,7 +44,9 @@ private _score = switch (_enum) do {
 	};
 	case MACRO_ENUM_SCORE_REVIVE:			{MACRO_SCORE_REVIVE};
 
+	case MACRO_ENUM_SCORE_DESERTING;
 	case MACRO_ENUM_SCORE_SUICIDE:			{MACRO_SCORE_SUICIDE};
+
 	case MACRO_ENUM_SCORE_SPOTASSIST:		{MACRO_SCORE_SPOTASSIST};
 	case MACRO_ENUM_SCORE_KILLASSIST:		{
 		private _damage = [0, _arg] select (_arg isEqualType 0);

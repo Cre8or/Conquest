@@ -14,11 +14,11 @@
 // ----------------------------------------------------------------------------------------------------------------------------------
 //	AI SETTINGS
 // ----------------------------------------------------------------------------------------------------------------------------------
-	#define MACRO_AI_MAXCOUNT                                       32 // How many AI units can exist at most at any given time
+	#define MACRO_AI_MAXCOUNT                                       64 // How many AI units can exist at most at any given time
 	#define MACRO_AI_INCLUDEPLAYERS                                 false // Whether or not players are counted towards the AI limit
 	#define MACRO_AI_ALLOWVEHICLES                                  true // Whether or not the AI is allowed to use any vehicles at all. Only affects vehicles that would otherwise be allowed for AI use
 	#define MACRO_AI_PEACEFULMODE                                   false // Whether or not the AI is allowed to engage other units.
-	#define MACRO_AI_MAXUNITSPERGROUP                               6 // How many AI units are allowed to form up in a group
+	#define MACRO_AI_MAXUNITSPERGROUP                               4 // How many AI units are allowed to form up in a group
 
 	#define MACRO_AI_SPAWNWEIGHT_EAST                               1 // The weight towards spawning AI on the "east" (OPFOR) side
 	#define MACRO_AI_SPAWNWEIGHT_RESISTANCE                         0 // The weight towards spawning AI on the "resistance" (INDFOR) side
@@ -49,7 +49,7 @@
 	// Gamemode
 	#define MACRO_GM_STARTINGTICKETS                                200 // How many respawn tickets each side should start with
 	#define MACRO_GM_UNIT_RESPAWNDELAY                              15 // How long, in seconds, a unit must wait before being able to respawn
-	#define MACRO_GM_UNIT_REVIVEDURATION                            20 // How long, in seconds, a unit can be revived for after being incapacitated
+	#define MACRO_GM_UNIT_REVIVEDURATION                            30 // How long, in seconds, a unit can be revived for after being incapacitated
 	#define MACRO_GM_UNIT_SPAWNPROTECTIONDURATION                   2 // How long, in seconds, the spawn protection (invincibility) for freshly respawned units should last for
 	#define MACRO_GM_SAFESTARTDURATION                              10 // How long the safestart countdown should last, in seconds
 	#define MACRO_GM_SECTOR_CAPTUREDURATION                         30 // How long it takes to neutralise or to capture a sector, in seconds

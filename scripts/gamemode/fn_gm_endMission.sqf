@@ -85,6 +85,9 @@ if (hasInterface) then {
 	// Close the spawn menu, if it is still open
 	(uiNamespace getVariable [QGVAR(RscSpawnMenu), displayNull]) closeDisplay 0;
 
+	// Disable the combat area warning screen
+	QGVAR(RscCombatArea) cutRsc ["Default", "PLAIN"];
+
 	// Disable the score and kill feeds
 	QGVAR(RscScoreFeed) cutRsc ["Default", "PLAIN"];
 	QGVAR(RscKillFeed) cutRsc ["Default", "PLAIN"];

@@ -16,18 +16,18 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=7092;
+		nextID=7116;
 	};
 	class Camera
 	{
-		pos[]={5679.8052,270.94247,10500.259};
-		dir[]={0.3295424,-0.59662998,0.73173392};
-		up[]={0.24499795,0.80251646,0.54400682};
-		aside[]={0.91179931,0,-0.41063631};
+		pos[]={5622.3022,241.21243,10783.178};
+		dir[]={0.90849847,-0.40062955,-0.11887231};
+		up[]={0.39724573,0.9162392,-0.051977571};
+		aside[]={-0.12973905,7.6310243e-008,-0.99155194};
 	};
 };
 binarizationWanted=0;
-sourceName="cre8or_cq64_gulf_of_malden";
+sourceName="Cre8or_CQ64_Gulf_Of_Malden";
 addons[]=
 {
 	"A3_Misc_F_Helpers",
@@ -499,7 +499,7 @@ class ScenarioData
 	author="Cre8or";
 	respawnDialog=0;
 	respawn=3;
-	respawnDelay=3;
+	respawnDelay=2;
 };
 class CustomAttributes
 {

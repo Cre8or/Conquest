@@ -190,6 +190,14 @@
 	#define MACRO_IDC_SS_CTRLGRP                                    100
 	#define MACRO_IDC_SS_STATUS_TEXT                                101
 
+	// Unconscious HUD
+	#define MACRO_IDC_UHUD_CTRLGRP                                  100
+	#define MACRO_IDC_UHUD_TEXT_COUNTDOWN                           101
+	#define MACRO_IDC_UHUD_TEXT_MEDIC_NONE                          102
+	#define MACRO_IDC_UHUD_TEXT_MEDIC_DISTANCE                      103
+	#define MACRO_IDC_UHUD_TEXT_MEDIC_NAME                          104
+	#define MACRO_IDC_UHUD_TEXT_GIVE_UP                             105
+
 	// User Input Blocker
 	#define MACRO_IDC_UIB_FOCUS_FRAME                               100
 
@@ -204,45 +212,59 @@
 	#define MACRO_POS_SPACER_X                                      3
 	#define MACRO_POS_SPACER_Y                                      3
 
-	#define MACRO_POS_CA_WIDTH                                      0.55
-	#define MACRO_POS_CA_HEIGHT                                     0.25
-	#define MACRO_POS_CA_WARNING_TEXTSIZE                           0.1
-	#define MACRO_POS_CA_MESSAGE_TEXTSIZE                           0.07
+	// Text sizes
+	#define MACRO_UI_TEXTSIZE_1                                     0.035
+	#define MACRO_UI_TEXTSIZE_2                                     0.05
+	#define MACRO_UI_TEXTSIZE_3                                     0.07
+	#define MACRO_UI_TEXTSIZE_4                                     0.1
+	#define MACRO_UI_TEXTSIZE_5                                     0.15
 
-	#define MACRO_POS_ES_TOP_TEXTSIZE                               0.15
-	#define MACRO_POS_ES_TICKETS_TEXTSIZE                           0.07
+	// Combat Area
+	#define MACRO_POS_CA_WIDTH                                      0.4
+	#define MACRO_POS_CA_HEIGHT                                     0.3
 
+	// End Screen
+	#define MACRO_POS_ES_TOP_TEXTSIZE                               MACRO_UI_TEXTSIZE_5
+	#define MACRO_POS_ES_TICKETS_TEXTSIZE                           MACRO_UI_TEXTSIZE_2
+
+	// Kill Feed
 	#define MACRO_POS_KF_Y                                          (0.25 * safeZoneH)
 	#define MACRO_POS_KF_WIDTH                                      (0.2 * safeZoneW)
 	#define MACRO_POS_KF_WEAPON_WIDTH                               (0.025 * safeZoneW)
 	#define MACRO_POS_KF_ICON_WIDTH                                 (0.015 * safeZoneW)
-	#define MACRO_POS_KF_ENTRY_HEIGHT                               0.05
-	#define MACRO_POS_KF_ENTRY_TEXTSIZE                             0.035
+	#define MACRO_POS_KF_ENTRY_HEIGHT                               MACRO_UI_TEXTSIZE_2
+	#define MACRO_POS_KF_ENTRY_TEXTSIZE                             MACRO_UI_TEXTSIZE_1
 	#define MACRO_POS_KF_ENTRY_MAXCOUNT                             8
 
+	// Score Feed
 	#define MACRO_POS_SF_WIDTH                                      (0.33 * safeZoneW)
 	#define MACRO_POS_SF_X_OFFSET                                   (0.6 * MACRO_POS_SF_WIDTH)
 	#define MACRO_POS_SF_SCORE_WIDTH                                (0.1 * MACRO_POS_SF_WIDTH)
-	#define MACRO_POS_SF_ENTRY_HEIGHT                               0.05
-	#define MACRO_POS_SF_ENTRY_TEXTSIZE                             0.05
+	#define MACRO_POS_SF_ENTRY_HEIGHT                               MACRO_UI_TEXTSIZE_2
+	#define MACRO_POS_SF_ENTRY_TEXTSIZE                             MACRO_UI_TEXTSIZE_2
 	#define MACRO_POS_SF_ENTRY_MAXCOUNT                             6
 
+	// Sector HUD
 	#define MACRO_POS_SHUD_HEIGHT                                   0.07
 	#define MACRO_POS_SHUD_FLAG_WIDTH                               ((3 / 2) * MACRO_POS_SHUD_HEIGHT)
 	#define MACRO_POS_SHUD_SIDE_WIDTH                               0.03
-	#define MACRO_POS_SHUD_TEXTSIZE                                 0.05
+	#define MACRO_POS_SHUD_TEXTSIZE                                 MACRO_UI_TEXTSIZE_2
 
-	#define MACRO_POS_SFLAG_TEXTSIZE                                0.07
+	// Sector Flag
+	#define MACRO_POS_SFLAG_TEXTSIZE                                MACRO_UI_TEXTSIZE_2
 
+	// Health bar
 	#define MACRO_POS_HB_WIDTH                                      0.1
-	#define MACRO_POS_HB_HEIGHT                                     0.05
+	#define MACRO_POS_HB_HEIGHT                                     MACRO_UI_TEXTSIZE_2
 	#define MACRO_POS_HB_ICON_WIDTH                                 0.04
 	#define MACRO_POS_HB_ICON_SPACER                                (pixelW * 3)
-	#define MACRO_POS_HB_TEXTSIZE                                   0.05
+	#define MACRO_POS_HB_TEXTSIZE                                   MACRO_UI_TEXTSIZE_2
 
+	// Hit Effects
 	#define MACRO_POS_HFX_WIDTH                                     (safeZoneW / 2)
 	#define MACRO_POS_HFX_HEIGHT                                    (safeZoneH / 2)
 
+	// Spawn Menu
 	#define MACRO_POS_SM_WIDTH                                      (safeZoneW * 0.9)
 	#define MACRO_POS_SM_HEIGHT                                     (safeZoneH * 0.9)
 	#define MACRO_POS_SM_MENU_HEIGHT                                (safeZoneH * 0.85)
@@ -252,6 +274,11 @@
 	#define MACRO_POS_SM_ROLE_PIP_TOP_TEXTSIZE                      (0.05 * safeZoneW)
 	#define MACRO_POS_SM_ROLE_PIP_BOTTOM_TEXTSIZE                   (0.02 * safeZoneW)
 	#define MACRO_POS_SM_DEPLOY_VEHICLEICON_HEIGHT                  0.04
+
+	// Unconscious HUD
+	#define MACRO_POS_UHUD_WIDTH                                    0.55
+	#define MACRO_POS_UHUD_HEIGHT                                   0.3
+	#define MACRO_POS_UHUD_MEDIC_TEXTSIZE                           MACRO_UI_TEXTSIZE_2
 
 	// Hit Markers
 	#define MACRO_UI_HITMARKERS_DURATION                            0.5
@@ -266,6 +293,10 @@
 	#define MACRO_UI_SCOREFEED_SCORESUMLIFETIME                     10
 	#define MACRO_UI_SCOREFEED_ENTRYFADEDURATION                    1
 	#define MACRO_UI_SCOREFEED_ANIMDURATION                         0.25
+
+	// GPS Info panels (minimap)
+	#define MACRO_UI_GPS_SCALE_INF                                  0.04 // Map scale of the GPS-type info panels when on foot (smaller values = more zoomed in)
+	#define MACRO_UI_GPS_SCALE_VEH                                  0.08 // Map scale of the GPS-type info panels when in a vehicle (smaller values = more zoomed in)
 
 	// Sector Names (Locations)
 	#define MACRO_UI_SECTORNAMES_SCALEMUL                           1.25 // Scales the size of the sector names (but not their letters) on the map. Higher numbers increase the size of the text
@@ -341,6 +372,11 @@
 	#define MACRO_KEYBIND_HEAL                                      DIK_4
 	#define MACRO_KEYBIND_REARM                                     DIK_5
 	#define MACRO_KEYBIND_REPAIR                                    DIK_6
+	#define MACRO_KEYBIND_GIVEUP                                    DIK_SPACE
+
+	// Combat Area
+	#define MACRO_CA_PLAYER_INTERVAL                                0.1 // The interval, in seconds, between two consecutive combat area checks for the player
+	#define MACRO_CA_WARNING_ANIMDURATION                           0.5 //  How long, in seconds, the warning UI animation transitions should last
 
 	// AI Control
 	#define MACRO_AI_GROUP_CALLSIGNS                                ["Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel", "India", "Juliet", "Kilo", "Lima", "Mike", "November", "Oscar", "Papa", "Quebec", "Romeo", "Sierra", "Tango", "Uniform", "Victor", "Whiskey", "X-ray", "Yankee", "Zulu"]
@@ -368,6 +404,7 @@
 	#define MACRO_AI_DOMOVEINTERVAL                                 5 // The interval, in seconds, between two doMove commands being issued to AI units (as they sometimes need to be rescheduled to move)
 	#define MACRO_AI_MEDICAL_MAXACTIONDISTANCE                      20 // The maximum distance, in meters, that AI units are willing to travel in order to perform medical actions on others, or to receive medical attention
 	#define MACRO_AI_MEDICAL_CHANGESTANCEDISTANCE                   8 // The distance to the patient, in meters, below which the unit will adjust its stance to that of the patient
+	#define MACRO_AI_MEDICAL_PATIENT_STOPDURATIONPERHEAL            2 // For how long an AI unit remains stopped, in seconds, after being healed (prevents them from running away while being healed)
 	#define MACRO_AI_COMMANDER_STRATEGICVALUE_DECREASEPERGROUP      4 // By how much a sector's current strategic value is divided, for each group ordered to it (per iteration of the commander system)
 	#define MACRO_AI_COMMANDER_SECTOR_MINLEVELOWNED                 0.8 // The minimum capturing level of owned sectors for them to be considered as candidates
 	#define MACRO_AI_COMMANDER_WAYPOINT_MINDISTANCE                 5 // Minimum distance, in meters, that a potential new waypoint must be from a group's current waypoint to be submitted
@@ -377,6 +414,7 @@
 	#define MACRO_GM_KILLASSISTDURATION                             10 // How long (in seconds), after damaging an enemy unit, it is possible to receive a kill assist for
 	#define MACRO_GM_SYS_TICKETS_INTERVAL                           0.25 // Interval, in seconds, between two update cycles of the tickets system
 	#define MACRO_GM_SYS_ENDCONDITIONS_INTERVAL                     0.25 // Interval, in seconds, between two update cycles of the end conditions system
+	#define MACRO_GM_SYS_HANDLEPLAYERRESPAWN_INTERVAL               0.05 // Interval, in seconds, between two update cycles of the player respawn system (Note: must be less than the MP respawn time!)
 
 	// Sectors
 	#define MACRO_SECTOR_TRIGGERINTERVAL                            0.5 // The interval between two trigger executions, in seconds
@@ -407,6 +445,10 @@
 	#define MACRO_SM_ROLEPREVIEW_BASEFOV                            0.1 // The default field of view of the role preview camera
 	#define MACRO_SM_ROLEPREVIEW_BASEDIRECTION                      315 // The default direction, in degrees, that the role preview unit should be facing
 	#define MACRO_SM_RESPAWN_OPENINTERVAL                           3 // When the player is respawning and closes the spawn menu, it is reopened after this many seconds (prevents the player from being unable to respawn after accidentally closing the menu)
+	#define MACRO_SM_MENU_UPDATEINTERVAL                            0.15 // Interval, in seconds, between periodic updates of the currently opened menu's contents (groups, units, vehicles, sectors, etc.)
+
+	// Unconscious HUD
+	#define MACRO_UHUD_FADEIN_ANIMDURATION                          0.5 //  How long, in seconds, the unconscious HUD fade-in animation should last
 
 	// Tickets
 	#define MACRO_TICKETBLEED_SECTORRATIOTHRESHOLD                  0.6 // The threshold of a side's owned sectors ratio, below which the side receives ticket bleed. The side with the highest ratio determines the target value that each side's ratio is compared against. Uncaptured (neutral) sectors are not counted.
@@ -420,7 +462,7 @@
 	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.14.596"
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.14.636" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -499,16 +541,19 @@
 	//#define MACRO_ENUM_SCORE_REARM                                  13
 
 	#define MACRO_ENUM_SCORE_SUICIDE                                20
-	#define MACRO_ENUM_SCORE_SPOTASSIST                             21
-	#define MACRO_ENUM_SCORE_KILLASSIST                             22
-	#define MACRO_ENUM_SCORE_KILL_ENEMY                             23
-	#define MACRO_ENUM_SCORE_KILL_FRIENDLY                          24
-	#define MACRO_ENUM_SCORE_HEADSHOT                               25
+	#define MACRO_ENUM_SCORE_DESERTING                              21
 
-	#define MACRO_ENUM_SCORE_DESTROYVEHICLE_ENEMY                   30
-	#define MACRO_ENUM_SCORE_DESTROYVEHICLE_FRIENDLY                31
+	#define MACRO_ENUM_SCORE_SPOTASSIST                             30
+	#define MACRO_ENUM_SCORE_KILLASSIST                             31
 
-	#define MACRO_ENUM_SCORE_SIDEDEFEATED                           40
+	#define MACRO_ENUM_SCORE_KILL_ENEMY                             40
+	#define MACRO_ENUM_SCORE_KILL_FRIENDLY                          41
+	#define MACRO_ENUM_SCORE_HEADSHOT                               42
+
+	#define MACRO_ENUM_SCORE_DESTROYVEHICLE_ENEMY                   50
+	#define MACRO_ENUM_SCORE_DESTROYVEHICLE_FRIENDLY                51
+
+	#define MACRO_ENUM_SCORE_SIDEDEFEATED                           60
 
 
 
@@ -691,6 +736,7 @@
 	#define MACRO_ENUM_RESPAWN_SPAWNED_FROZEN                       4
 	#define MACRO_ENUM_RESPAWN_SPAWNED_UNFROZEN                     5
 	#define MACRO_ENUM_RESPAWN_SPAWNED_UNPROTECTED                  6
+	#define MACRO_ENUM_RESPAWN_UNCONSCIOUS                          7
 
 
 
@@ -704,6 +750,7 @@
 	#define MACRO_ENUM_DAMAGE_BULLET                                1
 	#define MACRO_ENUM_DAMAGE_EXPLOSIVE                             2
 	#define MACRO_ENUM_DAMAGE_PHYSICS                               3
+	#define MACRO_ENUM_DAMAGE_COMBATAREA                            4
 
 
 
@@ -733,10 +780,11 @@
 //	CLASS KINDS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
-	#define MACRO_ENUM_CLASSKIND_VEHICLE                            0
-	#define MACRO_ENUM_CLASSKIND_WEAPON                             1
-	#define MACRO_ENUM_CLASSKIND_MAGAZINE                           2
-	#define MACRO_ENUM_CLASSKIND_AMMO                               3
+	#define MACRO_ENUM_CLASSKIND_NONE                               0
+	#define MACRO_ENUM_CLASSKIND_VEHICLE                            1
+	#define MACRO_ENUM_CLASSKIND_WEAPON                             2
+	#define MACRO_ENUM_CLASSKIND_MAGAZINE                           3
+	#define MACRO_ENUM_CLASSKIND_AMMO                               4
 
 
 

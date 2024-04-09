@@ -271,6 +271,26 @@ private ["_spawnPoint", "_spawnData", "_typeData", "_vehSide", "_index", "_vehSp
 		// Save the sector's server variables
 		_sector setVariable [QGVAR(vehicleSpawns), _vehicleSpawns, false];
 		_sector setVariable [QGVAR(isInitialised), true, false];
+
+	} else {
+
+		// Sector is already initialised; reset the vehicle spawn times
+		_vehicleSpawns = _sector getVariable [QGVAR(vehicleSpawns), []];
+
+		{
+			_spawnData = _x;
+
+			{
+				_vehSpawn = _spawnData param [_forEachIndex, []];
+
+				if (_vehSpawn isEqualTo []) then {
+					continue;
+				};
+
+				_vehSpawn set [10, -1]; // Respawn time
+			} forEach GVAR(sides);
+
+		} forEach _vehicleSpawns;
 	};
 
 	// Set up the flag

@@ -184,7 +184,7 @@ case "ui_init": {
 			// Update the spawn button
 			["ui_update_spawn"] call FUNC(ui_spawnMenu);
 
-			_spawnMenu setVariable [QGVAR(nextUpdateTime), _time + 0.25];
+			_spawnMenu setVariable [QGVAR(nextUpdateTime), _time + MACRO_SM_MENU_UPDATEINTERVAL];
 		};
 
 		// Prevent the player from opening the map while the spawn menu is open

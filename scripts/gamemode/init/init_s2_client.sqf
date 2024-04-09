@@ -26,12 +26,12 @@ MACRO_FNC_INITVAR(GVAR(sides),[]);
 MACRO_FNC_INITVAR(GVAR(safeStart), false);
 MACRO_FNC_INITVAR(GVAR(missionState), MACRO_ENUM_MISSION_INIT);
 
-MACRO_FNC_INITVAR(GVAR(ticketsEast), MACRO_GM_STARTINGTICKETS);
-MACRO_FNC_INITVAR(GVAR(ticketsResistance), MACRO_GM_STARTINGTICKETS);
-MACRO_FNC_INITVAR(GVAR(ticketsWest), MACRO_GM_STARTINGTICKETS);
-MACRO_FNC_INITVAR(GVAR(ticketBleedEast), false);
+MACRO_FNC_INITVAR(GVAR(ticketsEast),       GVAR(param_gm_startingTickets));
+MACRO_FNC_INITVAR(GVAR(ticketsResistance), GVAR(param_gm_startingTickets));
+MACRO_FNC_INITVAR(GVAR(ticketsWest),       GVAR(param_gm_startingTickets));
+MACRO_FNC_INITVAR(GVAR(ticketBleedEast),       false);
 MACRO_FNC_INITVAR(GVAR(ticketBleedResistance), false);
-MACRO_FNC_INITVAR(GVAR(ticketBleedWest), false);
+MACRO_FNC_INITVAR(GVAR(ticketBleedWest),       false);
 
 MACRO_FNC_INITVAR(GVAR(cl_AIIdentities),[]);
 
@@ -56,7 +56,7 @@ GVAR(cam_panorama) setVectorDirAndUp [MACRO_MISSION_CAMERADIRECTION, [0,0,1]];
 
 call FUNC(act_registerKeybindings);
 
-call FUNC(ca_handleCombatArea_player);
+call FUNC(ca_sys_playerCombatArea);
 
 call FUNC(gm_sys_enforceFPVInCamera);
 call FUNC(gm_sys_updatePlayerVars);
@@ -190,16 +190,18 @@ if (!isNil QGVAR(ACE3_addedActionPAK)) then {
 #ifdef MACRO_DEBUG_GM_PRESLOT
 
 	// Select the first valid side and spawnable sector
-	GVAR(side) = GVAR(sides) param [GVAR(sides) findIf {_x != sideEmpty}, sideEmpty];
-	GVAR(role) = MACRO_ENUM_ROLE_ASSAULT;
+	private _sidesRev = +GVAR(sides);
+	reverse _sidesRev;
+	GVAR(side) = _sidesRev param [_sidesRev findIf {_x != sideEmpty}, sideEmpty];
+	GVAR(role) = MACRO_ENUM_ROLE_MEDIC;
 	GVAR(spawnSector) = GVAR(allSectors) param [GVAR(allSectors) findIf {
 		_x getVariable [QGVAR(side), sideEmpty] == GVAR(side)
 		and {_x getVariable [format [QGVAR(spawnPoints_%1), GVAR(side)], []] isNotEqualTo []}
 	}, objNull];
 
 	// Skip the spawn menu altogether
-	GVAR(sys_handlePlayerRespawn_spawnRequested) = true;
-	GVAR(sys_handlePlayerRespawn_state) = MACRO_ENUM_RESPAWN_SECTORSELECTED;
+	GVAR(gm_sys_handlePlayerRespawn_spawnRequested) = true;
+	GVAR(gm_sys_handlePlayerRespawn_state) = MACRO_ENUM_RESPAWN_SECTORSELECTED;
 #endif
 
 

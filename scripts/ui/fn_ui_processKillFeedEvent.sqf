@@ -62,7 +62,7 @@ if (_victim in _unitsPly) then {
 // Parse the kill data
 _killData params [
 	["_iconEnumArg", MACRO_ENUM_KF_ICON_NONE, [MACRO_ENUM_KF_ICON_NONE]],
-	["_classKind", MACRO_ENUM_CLASSKIND_VEHICLE, [MACRO_ENUM_CLASSKIND_VEHICLE]],
+	["_classKind", MACRO_ENUM_CLASSKIND_NONE, [MACRO_ENUM_CLASSKIND_NONE]],
 	["_iconClass", "", [""]]
 ];
 _iconEnum = _iconEnumArg;

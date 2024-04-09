@@ -144,7 +144,9 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 			_group = _sideGroups param [_unitGroupIndex, grpNull];
 
 			// If the group is null, create it
-			if (isNull _group) then {
+			if !(_group getVariable [QGVAR(isValid), false]) then {
+				deleteGroup _group;
+
 				_group = createGroup _unitSide;
 				_group deleteGroupWhenEmpty false;
 				_group setVariable [QGVAR(isValid), true, true];

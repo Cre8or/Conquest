@@ -37,7 +37,7 @@ GVAR(EH_handleEntityDeath_entityKilled) = addMissionEventHandler ["EntityKilled"
 		_killer = _instigator;
 	};
 
-	private _sideObj = _obj getVariable [QGVAR(side), sideEmpty];
+	private _sideObj    = _obj getVariable [QGVAR(side), sideEmpty];
 	private _sideKiller = _killer getVariable [QGVAR(side), sideEmpty];
 
 	// Only handle vehicles
@@ -52,7 +52,7 @@ GVAR(EH_handleEntityDeath_entityKilled) = addMissionEventHandler ["EntityKilled"
 				_x,
 				-1,
 				MACRO_ENUM_DAMAGE_EXPLOSIVE,
-				_x,
+				_obj,
 				_killer,
 				false,
 				"",

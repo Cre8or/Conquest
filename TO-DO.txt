@@ -1,10 +1,5 @@
 TO DO:
-	- Implement healing ability to medics:
-		+ Allows healing injured squad/team mates
-		- Allows reviving unconscious squad/team mates
-		+ Plays a short gesture/animation during healing
-		- Healing oneself takes longer
-		+ Visually show injured/unconscious units as 3D icons
+	- Fix unconscious units falling through the world upon bleeding out
 	- Implement resupply ability to support:
 		- Similar animations/UI icons to medic healing, but for rearming
 		- Prevent players from looting bodies/opening their gear
@@ -40,6 +35,18 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Modify AI commander to exclude sectors without spawnpoints if there are sectors with spawnpoints left to capture
+	- Allow unconscious players to give up (using custom CBA keybinding)
+	- Implement an unconscious HUD
+		+ Display nearest medic (distance + name)
+		+ Display remaining bleed-out timer as countdown
+		+ Display keybinding to give up (speeds up bleed-out timer)
+	- Implement healing ability to medics:
+		+ Allows healing injured squad/team mates
+		+ Allows reviving unconscious squad/team mates
+		+ Plays a short gesture/animation during healing
+		+ Healing oneself takes longer
+		+ Visually show injured/unconscious units as 3D icons
 	- Enable player GPS by default upon spawning
 	- Teach AI units to seek medics when injured
 	- Teach AI medics how to heal other units

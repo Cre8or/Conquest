@@ -97,7 +97,8 @@ GVAR(ui_sys_hookMapCtrls_EH) = addMissionEventHandler ["EachFrame", {
 				_ctrlMap setVariable [QGVAR(UI_EH_draw), [
 					_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawUnitIcons2D)],
 					_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawSectorFlags)],
-					_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawCombatArea_gps)]
+					_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawCombatArea_gps)],
+					_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_handleGPSScale)]
 				]];
 
 				GVAR(ui_sys_hookMapCtrls_hookedIGUIs) = true;

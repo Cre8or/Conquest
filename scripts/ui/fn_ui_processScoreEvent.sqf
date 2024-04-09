@@ -103,6 +103,15 @@ switch (_enum) do {
 		];
 	};
 
+	case MACRO_ENUM_SCORE_DESERTING: {
+		_eventData = [
+			MACRO_SCORE_SUICIDE,
+			"DESERTED"
+		];
+	};
+
+	// --------
+
 	case MACRO_ENUM_SCORE_SPOTASSIST: {
 		_eventData = [
 			MACRO_SCORE_SPOTASSIST,
@@ -118,6 +127,8 @@ switch (_enum) do {
 			];
 		};
 	};
+
+	// --------
 
 	case MACRO_ENUM_SCORE_KILL_ENEMY: {
 		if (_arg isEqualType objNull and {_arg isKindOf "Man"}) then {
@@ -206,7 +217,11 @@ if (_eventData isNotEqualTo []) then {
 			GVAR(ui_sys_drawScoreFeed_redrawLast) = true;
 			GVAR(ui_sys_drawScoreFeed_data) deleteAt _indexLast;
 
-			_eventData set [0, _lastEventData # 2 + _eventData # 0];	// Stack the score
+			// Try fetching the displayed score first, and fall back to the event's score if necessary
+			private _prevScoreDisplayed = _lastEventData param [6, _lastEventData param [2, 0]];
+
+			// Stack the score, while preserving the entry's original score
+			_eventData set [4, _prevScoreDisplayed + _eventData # 0];
 		};
 	};
 

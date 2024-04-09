@@ -3,7 +3,7 @@ class MACRO_PROJECT_PREFIX {
 	class ace_medical {
 		file = "scripts\ace\medical";
 
-		class ace_usePAK {};
+		//class ace_usePAK {};
 	};
 
 	class actions {
@@ -50,7 +50,7 @@ class MACRO_PROJECT_PREFIX {
 		class ca_getValidPos {};
 		class ca_isInCombatArea {};
 		class ca_setupCombatAreas {};
-		class ca_handleCombatArea_player {};
+		class ca_sys_playerCombatArea {};
 	};
 
 	class gamemode {
@@ -160,6 +160,7 @@ class MACRO_PROJECT_PREFIX {
 		class ui_getAbilityIcon {};
 		class ui_getFillBarIcon {};
 		class ui_getVehTypeIcon {};
+		class ui_handleGPSScale {};
 		class ui_processScoreEvent {};
 		class ui_processKillFeedEvent {};
 		class ui_setupPPEffects {};
@@ -189,7 +190,9 @@ class MACRO_PROJECT_PREFIX {
 		class unit_onKilled {};
 		class unit_onReloaded {};
 		class unit_processDamageEvent {};
+		class unit_selectBestWeapon {};
 		class unit_setIdentityLocal {};
+		class unit_setUnconscious {};
 	};
 
 	class vehicles {

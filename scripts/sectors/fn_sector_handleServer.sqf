@@ -13,9 +13,7 @@
 -------------------------------------------------------------------------------------------------------------------- */
 
 #include "..\..\res\common\macros.inc"
-#include "..\..\mission\settings.inc"
 
-// Fetch our params
 params ["_sector", ["_thisList", []]];
 
 
@@ -42,7 +40,7 @@ if (GVAR(missionState) == MACRO_ENUM_MISSION_LIVE and {!(_sector getVariable [QG
 	{
 		if (_x isKindOf "CAManBase") then {
 
-			if (_x getVariable [QGVAR(canCaptureSectors), false]) then {
+			if ([_x] call FUNC(unit_isAlive) and {_x getVariable [QGVAR(canCaptureSectors), false]}) then {
 				_units pushBack _x;
 			};
 
@@ -50,7 +48,7 @@ if (GVAR(missionState) == MACRO_ENUM_MISSION_LIVE and {!(_sector getVariable [QG
 			_vehicle = _x;
 
 			{
-				if (alive _x and {_x getVariable [QGVAR(canCaptureSectors), false]}) then {
+				if ([_x] call FUNC(unit_isAlive) and {_x getVariable [QGVAR(canCaptureSectors), false]}) then {
 					_units pushBack _x;
 				};
 			} forEach crew _vehicle;
@@ -104,7 +102,7 @@ if (GVAR(missionState) == MACRO_ENUM_MISSION_LIVE and {!(_sector getVariable [QG
 
 		// If the sector is currently unowned, increase the level
 		if (_side == sideEmpty and {_sideCapturing == sideEmpty or {_sideCapturing == _sideDominant}}) then {
-			_level = _level + _deltaTime / MACRO_GM_SECTOR_CAPTUREDURATION;
+			_level = _level + _deltaTime / GVAR(param_gm_sector_captureDuration);
 
 			// Add score to the capturing units
 			if (_level >= _levelNextScore) then {
@@ -150,7 +148,7 @@ if (GVAR(missionState) == MACRO_ENUM_MISSION_LIVE and {!(_sector getVariable [QG
 
 		// Otherwise, decrease it
 		} else {
-			_level = (_level -_deltaTime / MACRO_GM_SECTOR_CAPTUREDURATION) max 0;
+			_level = (_level -_deltaTime / GVAR(param_gm_sector_captureDuration)) max 0;
 
 			// Add score to the neutralising units
 			if (_level <= _levelNextScore) then {
@@ -203,7 +201,7 @@ if (GVAR(missionState) == MACRO_ENUM_MISSION_LIVE and {!(_sector getVariable [QG
 
 			// If the sector is still unowned, return to the neutral state
 			if (_side == sideEmpty) then {
-				_level = (_level - _deltaTime / MACRO_GM_SECTOR_CAPTUREDURATION) max 0;
+				_level = (_level - _deltaTime / GVAR(param_gm_sector_captureDuration)) max 0;
 
 				if (_level == 0) then {
 					_sideCapturing = sideEmpty;
@@ -211,7 +209,7 @@ if (GVAR(missionState) == MACRO_ENUM_MISSION_LIVE and {!(_sector getVariable [QG
 
 			// Otherwise, increase the level back to 100%
 			} else {
-				_level = (_level + _deltaTime / MACRO_GM_SECTOR_CAPTUREDURATION) min 1;
+				_level = (_level + _deltaTime / GVAR(param_gm_sector_captureDuration)) min 1;
 
 				// Reset the capturing side (if it's not empty yet)
 				if (_level >= 1) then {

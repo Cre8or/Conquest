@@ -55,7 +55,6 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 	private _dirPly   = (AGLtoASL positionCameraToWorld [0,0,1]) vectorDiff _posPly;
 	private _blink    = ((_time mod (2 * MACRO_BLINK_INTERVAL)) < MACRO_BLINK_INTERVAL);
 	private _freeLook = (inputAction "lookAround" > 0);
-	private _isMedic  = (GVAR(role) == MACRO_ENUM_ROLE_MEDIC); // Needed to include unconscious units in the aggregation
 
 	// Aggregate the units data
 	private _teamMates      = [];
@@ -80,7 +79,7 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 		};
 	} forEach (allUnits select {
 		_x == vehicle _x
-		and {[_x, _isMedic] call FUNC(unit_isAlive)}
+		and {[_x, true] call FUNC(unit_isAlive)}
 		and {_x != _player}
 	});
 

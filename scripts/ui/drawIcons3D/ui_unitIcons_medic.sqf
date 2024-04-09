@@ -7,7 +7,7 @@ private _renderData_units = [];
 private "_unitX";
 
 // As a medic, the player is shown nearby units who are in need of healing
-if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC) then {
+if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC and {!(_player getVariable [QGVAR(isUnconscious), false])}) then {
 	private "_healthX";
 
 	{
@@ -18,7 +18,7 @@ if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC) then {
 			_healthX = _unitX getVariable [QGVAR(health), 0];
 
 			_renderData_units pushBack (
-				_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), _freeLook or {_healthX < MACRO_UNIT_HEALTH_THRESHOLDLOW}, _unitX getVariable [QGVAR(health), 0], !(_unitX getVariable [QGVAR(unconscious), false])]
+				_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), _freeLook or {_healthX < MACRO_UNIT_HEALTH_THRESHOLDLOW}, _unitX getVariable [QGVAR(health), 0], !(_unitX getVariable [QGVAR(isUnconscious), false])]
 			);
 			_teamMates deleteAt _forEachIndex;
 		};
@@ -31,7 +31,7 @@ if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC) then {
 			_healthX = _unitX getVariable [QGVAR(health), 0];
 
 			_renderData_units pushBack (
-				_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), _freeLook or {_healthX < MACRO_UNIT_HEALTH_THRESHOLDLOW}, _healthX, !(_unitX getVariable [QGVAR(unconscious), false])]
+				_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), _freeLook or {_healthX < MACRO_UNIT_HEALTH_THRESHOLDLOW}, _healthX, !(_unitX getVariable [QGVAR(isUnconscious), false])]
 			);
 			_squadMates deleteAt _forEachIndex;
 		};

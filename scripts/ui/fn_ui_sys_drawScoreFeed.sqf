@@ -13,6 +13,7 @@
 #include "..\..\res\common\macros.inc"
 
 #include "..\..\res\macros\fnc_initVar.inc"
+#include "..\..\res\macros\tween_rampDown.inc"
 
 if (!hasInterface) exitWith {};
 
@@ -64,7 +65,7 @@ GVAR(ui_sys_drawScoreFeed_EH) = addMissionEventHandler ["EachFrame", {
 	private _animOffset  = _UI getVariable [QGVAR(animOffset), 0];
 	private _scoreSum    = _UI getVariable [QGVAR(scoreSum), 0];
 	private _ctrlsSum    = _UI getVariable [QGVAR(ctrlsSum), []];
-	private _animPhase   = (((_animEndTime - _time) / MACRO_UI_SCOREFEED_ANIMDURATION) max 0) ^ 3;
+	private _animPhase   =  MACRO_TWEEN_RAMPDOWN(_time, _animEndTime, MACRO_UI_SCOREFEED_ANIMDURATION);
 	private _updateSum   = false;
 
 	// Special case: redrawing is requested
@@ -80,7 +81,7 @@ GVAR(ui_sys_drawScoreFeed_EH) = addMissionEventHandler ["EachFrame", {
 	// Process the score feed entries
 	for "_index" from _indexLastData to 0 step -1 do {
 
-		(GVAR(ui_sys_drawScoreFeed_data) # _index) params ["_endTime", "", "_score", "_messageText", ["_messageArg", ""], ["_messageArgColour", SQUARE(MACRO_COLOUR_A100_WHITE)]];
+		(GVAR(ui_sys_drawScoreFeed_data) # _index) params ["_endTime", "", "_score", "_messageText", ["_messageArg", ""], ["_messageArgColour", SQUARE(MACRO_COLOUR_A100_WHITE)], ["_scoreDisplayed", 0]];
 		_ctrls = GVAR(ui_sys_drawScoreFeed_ctrls) param [_index, []];
 		_ctrls params ["_ctrlGrp", "_ctrlBackground", "_ctrlBackgroundScore", "_ctrlMessage", "_ctrlMessageArg", "_ctrlScore"];
 
@@ -102,12 +103,19 @@ GVAR(ui_sys_drawScoreFeed_EH) = addMissionEventHandler ["EachFrame", {
 					_animPhase   = 1;
 				};
 
+				// Displayed score can differ from the entry's score in cases where the score event can stack.
+				// We still need to differentiate between the "stacked" score and the event's base score, as the
+				// latter may get added to the running sum.
+				if (_scoreDisplayed == 0) then {
+					_scoreDisplayed = _score;
+				};
+
 				_UI setVariable [QGVAR(animEndTime), _animEndTime];
 				_UI setVariable [QGVAR(animOffset),  _animOffset];
 
 				_messageWidth = ("w" + _messageText) getTextWidth [MACRO_FONT_UI_MEDIUM, MACRO_POS_SF_ENTRY_TEXTSIZE];
 				_argWidth     = ("w" + _messageArg) getTextWidth [MACRO_FONT_UI_MEDIUM, MACRO_POS_SF_ENTRY_TEXTSIZE];
-				_scoreWidth   = ("w" + str _score) getTextWidth [MACRO_FONT_UI_MEDIUM, MACRO_POS_SF_ENTRY_TEXTSIZE];
+				_scoreWidth   = ("w" + str _scoreDisplayed) getTextWidth [MACRO_FONT_UI_MEDIUM, MACRO_POS_SF_ENTRY_TEXTSIZE];
 
 				_ctrlGrp = _UI ctrlCreate ["RscControlsGroupNoScrollbars", -1, _ctrlGrpMain];
 
@@ -124,7 +132,7 @@ GVAR(ui_sys_drawScoreFeed_EH) = addMissionEventHandler ["EachFrame", {
 				_ctrlBackground ctrlSetPixelPrecision 2;
 
 				// Score background (only for penalties)
-				if (_score < 0) then {
+				if (_scoreDisplayed < 0) then {
 					_ctrlBackgroundScore = _UI ctrlCreate [QGVAR(RscFrame), -1, _ctrlGrp];
 					_ctrlBackgroundScore ctrlSetPosition [
 						MACRO_POS_SF_X_OFFSET + MACRO_POS_SF_SCORE_WIDTH - _scoreWidth,
@@ -174,7 +182,7 @@ GVAR(ui_sys_drawScoreFeed_EH) = addMissionEventHandler ["EachFrame", {
 					MACRO_POS_SF_ENTRY_TEXTSIZE
 				];
 				_ctrlScore ctrlCommit 0;
-				_ctrlScore ctrlSetText str ceil _score;
+				_ctrlScore ctrlSetText str ceil _scoreDisplayed;
 
 				_ctrls = [_ctrlGrp, _ctrlBackground, _ctrlBackgroundScore, _ctrlMessage, _ctrlMessageArg, _ctrlScore];
 				GVAR(ui_sys_drawScoreFeed_ctrls) set [_index, _ctrls];
