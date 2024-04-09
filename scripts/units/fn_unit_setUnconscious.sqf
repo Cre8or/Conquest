@@ -35,9 +35,10 @@ _unit setVariable [QGVAR(bleedoutTime), [-1, _time + _reviveDuration] select _ne
 _unit setUnconscious _newState;
 _unit setCaptive _newState;
 _unit setVariable [QGVAR(isUnconscious), _newState, true];
-_unit setVariable [QGVAR(health), 0, true];
 
 if (_newState) then {
+	_unit setVariable [QGVAR(health), 0, true];
+
 	// Edge case 1: on the server, update the respawn time on AI units
 	if (isServer) then {
 		private _unitIndex = _unit getVariable [QGVAR(unitIndex), -1];

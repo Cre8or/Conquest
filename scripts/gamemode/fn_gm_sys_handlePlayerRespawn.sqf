@@ -18,6 +18,7 @@
 #include "..\..\res\common\macros.inc"
 
 #include "..\..\res\macros\fnc_initVar.inc"
+#include "..\..\res\macros\tween_rampDown.inc"
 
 if (!hasInterface) exitWith {};
 
@@ -34,18 +35,18 @@ MACRO_FNC_INITVAR(GVAR(respawn_west), objNull);
 
 MACRO_FNC_INITVAR(GVAR(kb_act_pressed_giveUp), false);
 
-GVAR(gm_sys_handlePlayerRespawn_prevUpdate)     = time;
-GVAR(gm_sys_handlePlayerRespawn_nextUpdate)     = 0; // Interfaces with unit_setUnconscious
-GVAR(gm_sys_handlePlayerRespawn_prevAlive)      = false;
-GVAR(gm_sys_handlePlayerRespawn_prevPlayer)     = player;
-GVAR(gm_sys_handlePlayerRespawn_nextShowMenu)   = 0;
-GVAR(gm_sys_handlePlayerRespawn_spawnTimeOut)   = 0;
-GVAR(gm_sys_handlePlayerRespawn_bledOut)        = false;
-GVAR(gm_sys_handlePlayerRespawn_protectionTime) = 0; // Interfaces with unit_onFired
-//GVAR(gm_sys_handlePlayerRespawn_forceRespawn)   = false; // External interface to force a respawn (flags the player as dead for a single frame)
-GVAR(gm_sys_handlePlayerRespawn_spawnRequested) = false; // Spawnmenu interface, set to true when the player presses the "SPAWN" button
-GVAR(gm_sys_handlePlayerRespawn_state)          = MACRO_ENUM_RESPAWN_INIT; // Interfaces with gm_spawnPlayer
-GVAR(gm_sys_handlePlayerRespawn_respawnTime)    = 0; // Interfaces with unit_onKilled
+GVAR(gm_sys_handlePlayerRespawn_prevUpdate)      = time;
+GVAR(gm_sys_handlePlayerRespawn_nextUpdate)      = 0; // Interfaces with unit_setUnconscious
+GVAR(gm_sys_handlePlayerRespawn_prevAlive)       = false;
+GVAR(gm_sys_handlePlayerRespawn_prevPlayer)      = player;
+GVAR(gm_sys_handlePlayerRespawn_nextShowMenu)    = 0;
+GVAR(gm_sys_handlePlayerRespawn_spawnTimeOut)    = 0;
+GVAR(gm_sys_handlePlayerRespawn_bledOut)         = false;
+GVAR(gm_sys_handlePlayerRespawn_protectionTime)  = 0; // Interfaces with unit_onFired
+GVAR(gm_sys_handlePlayerRespawn_spawnRequested)  = false; // Spawnmenu interface, set to true when the player presses the "SPAWN" button
+GVAR(gm_sys_handlePlayerRespawn_state)           = MACRO_ENUM_RESPAWN_INIT; // Interfaces with gm_spawnPlayer
+GVAR(gm_sys_handlePlayerRespawn_respawnTime)     = 0; // Interfaces with unit_onKilled
+GVAR(gm_sys_handlePlayerRespawn_unconsciousTime) = -1;
 
 
 
@@ -150,7 +151,7 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 
 					case MACRO_ENUM_RESPAWN_INIT: {
 						GVAR(gm_sys_handlePlayerRespawn_spawnRequested) = false;
-						GVAR(gm_sys_handlePlayerRespawn_nextShowMenu)   = _time + 1;
+						GVAR(gm_sys_handlePlayerRespawn_nextShowMenu)   = -1;
 						GVAR(gm_sys_handlePlayerRespawn_state)          = MACRO_ENUM_RESPAWN_SELECTINGSECTOR;
 					};
 
@@ -165,14 +166,21 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 						if (!GVAR(gm_sys_handlePlayerRespawn_spawnRequested)) then {
 
 							if (!isNull _spawnMenu) then {
-
 								GVAR(gm_sys_handlePlayerRespawn_nextShowMenu) = _time + MACRO_SM_RESPAWN_OPENINTERVAL;
 
 							} else {
-								// Don't open the spawn menu if the escape menu is open
-								if (isNull findDisplay 49 and {_time > GVAR(gm_sys_handlePlayerRespawn_nextShowMenu)}) then {
 
-									// Force-open the spawn mnenu's deploy screen
+								// Once the player has physically respawned, set the countdown for the spawn menu to open up
+								if (_alive and {GVAR(gm_sys_handlePlayerRespawn_nextShowMenu) < 0}) then {
+									GVAR(gm_sys_handlePlayerRespawn_nextShowMenu) = _time + 1;
+								};
+
+								// Don't open the spawn menu if the escape menu is open
+								if (
+									_alive
+									and {isNull findDisplay 49}
+									and {_time > GVAR(gm_sys_handlePlayerRespawn_nextShowMenu)}
+								) then {
 									["ui_init"] call FUNC(ui_spawnMenu);
 
 									if (GVAR(side) != sideEmpty) then {
@@ -265,6 +273,11 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 					case MACRO_ENUM_RESPAWN_UNCONSCIOUS: {
 
 						if (_player getVariable [QGVAR(isUnconscious), false]) then {
+
+							// Store the time when we entered this state (used for the UI fade-in animation)
+							if (GVAR(gm_sys_handlePlayerRespawn_unconsciousTime) < 0) then {
+								GVAR(gm_sys_handlePlayerRespawn_unconsciousTime) = _time;
+							};
 
 							private _bleedoutTime = _player getVariable [QGVAR(bleedoutTime), -1];
 
@@ -362,7 +375,8 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 
 						// Detect revival
 						} else {
-							GVAR(gm_sys_handlePlayerRespawn_state) = MACRO_ENUM_RESPAWN_SPAWNED_UNPROTECTED;
+							GVAR(gm_sys_handlePlayerRespawn_state)           = MACRO_ENUM_RESPAWN_SPAWNED_UNPROTECTED;
+							GVAR(gm_sys_handlePlayerRespawn_unconsciousTime) = -1;
 
 							QGVAR(RscUnconsciousHUD) cutRsc ["Default", "PLAIN"];
 						};
@@ -405,6 +419,20 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 			};
 
 			_ctrlText ctrlSetText _str;
+		};
+
+		// Handle the unconscious HUD's fade-in animation
+		if (!isNull _unconsciousHUD) then {
+			private _ctrlGrp = _unconsciousHUD displayCtrl MACRO_IDC_UHUD_CTRLGRP;
+
+			private _animEndTime = GVAR(gm_sys_handlePlayerRespawn_unconsciousTime) + MACRO_UHUD_FADEIN_ANIMDURATION;
+			private _animPhase   = 1 - MACRO_TWEEN_RAMPDOWN(_time, _animEndTime, MACRO_UHUD_FADEIN_ANIMDURATION);
+			private _ctrlPos     = ctrlPosition _ctrlGrp;
+
+			// Start centered, expand up and down
+			_ctrlGrp ctrlSetPositionY (safeZoneY + safezoneH / 2 - MACRO_POS_UHUD_HEIGHT * (0.5 + 0.5 * _animPhase));
+			_ctrlGrp ctrlSetPositionH (MACRO_POS_UHUD_HEIGHT * _animPhase);
+			_ctrlGrp ctrlCommit 0;
 		};
 
 	} else {

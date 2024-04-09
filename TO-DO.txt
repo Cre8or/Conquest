@@ -1,4 +1,5 @@
 TO DO:
+	- Fix unconscious units falling through the world upon bleeding out
 	- Implement resupply ability to support:
 		- Similar animations/UI icons to medic healing, but for rearming
 		- Prevent players from looting bodies/opening their gear

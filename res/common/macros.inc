@@ -447,6 +447,9 @@
 	#define MACRO_SM_RESPAWN_OPENINTERVAL                           3 // When the player is respawning and closes the spawn menu, it is reopened after this many seconds (prevents the player from being unable to respawn after accidentally closing the menu)
 	#define MACRO_SM_MENU_UPDATEINTERVAL                            0.15 // Interval, in seconds, between periodic updates of the currently opened menu's contents (groups, units, vehicles, sectors, etc.)
 
+	// Unconscious HUD
+	#define MACRO_UHUD_FADEIN_ANIMDURATION                          0.5 //  How long, in seconds, the unconscious HUD fade-in animation should last
+
 	// Tickets
 	#define MACRO_TICKETBLEED_SECTORRATIOTHRESHOLD                  0.6 // The threshold of a side's owned sectors ratio, below which the side receives ticket bleed. The side with the highest ratio determines the target value that each side's ratio is compared against. Uncaptured (neutral) sectors are not counted.
 	#define MACRO_TICKETBLEED_INTERVAL_SLOW                         20 // The interval, in seconds, in which slow ticket bleed occurs. Ticket bleed causes a penalty of one ticket to sides which own less than the speciifed ratio of all captured sectors.
@@ -459,7 +462,7 @@
 	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.14.632" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.14.636" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

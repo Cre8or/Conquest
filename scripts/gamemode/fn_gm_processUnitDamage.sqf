@@ -236,6 +236,10 @@ if (_health > 0) then {
 	} else {
 		[_unit, true, _reviveDuration] remoteExecCall [QFUNC(unit_setUnconscious), _unit, false];
 
+		// Set the health to 0 locally (on the server) to prevent sending out multiple remoteExecCalls if the unit
+		// is receiving a lot of damage
+		_unit setVariable [QGVAR(health), 0, false];
+
 		// Interface with AI respawning
 		private _unitIndex = _unit getVariable [QGVAR(unitIndex), -1];
 
