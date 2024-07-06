@@ -3,7 +3,7 @@ class MACRO_PROJECT_PREFIX {
 	class ace_medical {
 		file = "scripts\ace\medical";
 
-		//class ace_usePAK {};
+		//class itemCheck {};
 	};
 
 	class actions {
@@ -20,6 +20,7 @@ class MACRO_PROJECT_PREFIX {
 		file = "scripts\ai";
 		// Abbreviation:	ai
 
+		class ai_resetRespawnTime {};
 		class ai_forfeitVehicleClaim {};
 		class ai_generateIdentities {};
 		class ai_getFaces {};
@@ -41,6 +42,7 @@ class MACRO_PROJECT_PREFIX {
 
 		class anim_dodge {};
 		class anim_gesturePoint {};
+		class anim_unconscious {};
 	};
 
 	class combatArea {

@@ -68,13 +68,9 @@ if (
 
 
 
-// Serverside AI respawn
+// Serverside AI respawn time handling
 if (isServer and {!_isUnconscious}) then {
-	private _unitIndex = _unit getVariable [QGVAR(unitIndex), -1];
-
-	if (_unitIndex >= 0 and {_unitIndex < GVAR(param_ai_maxCount)}) then {
-		GVAR(ai_sys_handleRespawn_respawnTimes) set [_unitIndex, _time + GVAR(param_gm_unit_respawnDelay)];
-	};
+	[_unit] call FUNC(ai_resetRespawnTime);
 };
 
 

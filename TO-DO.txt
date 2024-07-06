@@ -3,12 +3,8 @@ TO DO:
 	- Fix kills/vehicle destruction sometimes awarding double the points that it should (including headshot damage)
 	- Fix squad names not being broadcast in multiplayer
 	- Fix loadouts sometimes not getting applied to AI units (same issue as gAI when locality changes?)
-	- Rework medical system to use clientside prediction where possible
-		- Currently there's massive delay when the player gets shot in MP
-		- Same with AI local to the player (e.g. in the same group)
 	- Revisit ACE pointing keybinding transfer (still just picking the first one, not all)
 	- Fix spotting animation not working (same issue as healing action)
-	- Fix unconscious units falling through the world upon bleeding out
 	- Implement resupply ability to support:
 		- Similar animations/UI icons to medic healing, but for rearming
 		- Prevent players from looting bodies/opening their gear
@@ -44,6 +40,10 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Rework medical system to use clientside prediction where possible
+		- Currently there's massive delay when the player gets shot in MP
+		- Same with AI local to the player (e.g. in the same group)
+	- Fix unconscious units falling through the world upon bleeding out
 	- Modify AI commander to exclude sectors without spawnpoints if there are sectors with spawnpoints left to capture
 	- Allow unconscious players to give up (using custom CBA keybinding)
 	- Implement an unconscious HUD

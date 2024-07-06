@@ -39,6 +39,9 @@ _unit setVariable [QGVAR(isUnconscious), _newState, true];
 if (_newState) then {
 	_unit setVariable [QGVAR(health), 0, true];
 
+	// Transition into an unconscious animation
+	[_unit] call FUNC(anim_unconscious);
+
 	// Edge case 1: on the server, update the respawn time on AI units
 	if (isServer) then {
 		private _unitIndex = _unit getVariable [QGVAR(unitIndex), -1];
@@ -62,4 +65,10 @@ if (_unit == player) then {
 
 	// Pre-emptively reset the give-up action (prevents sticky keys)
 	GVAR(kb_act_pressed_giveUp) = false;
+
+// Edge case 2: the unit is an AI, so we need to notify the server about its death time
+} else {
+	if (_newState) then {
+		[_unit] remoteExecCall [QFUNC(ai_resetRespawnTime), 2, false];
+	};
 };
