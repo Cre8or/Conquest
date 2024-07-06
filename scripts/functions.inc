@@ -53,8 +53,8 @@ class MACRO_PROJECT_PREFIX {
 		class ca_sys_playerCombatArea {};
 	};
 
-	class gamemode {
-		file = "scripts\gamemode";
+	class gameMode {
+		file = "scripts\gameMode";
 		// Abbreviation:	gm
 
 		class gm_addScore {};

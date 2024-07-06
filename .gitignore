@@ -1,2 +1,5 @@
 *.lnk
+*.sh
+*.desktop
+.directory
 dev
