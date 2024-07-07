@@ -20,7 +20,7 @@ if (_isDriver and {!_isOriginalGroupLeaderPlayer}) then {
 
 		if (!isNull _driverGroup) then {
 			_driverGroup setVariable [QGVAR(isVehicleGroup), true, true];
-			_driverGroup setGroupID [groupID _originalGroup + " Vic " + str (_unit getVariable [QGVAR(unitIndex), 0])];
+			_driverGroup setGroupIDGlobal [groupID _originalGroup + " Vic " + str (_unit getVariable [QGVAR(unitIndex), 0])];
 
 			[_unit] joinSilent _driverGroup;
 			_driverGroup selectLeader _unit;

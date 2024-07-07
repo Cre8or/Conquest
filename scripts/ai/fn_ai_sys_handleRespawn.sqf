@@ -154,12 +154,12 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 
 				// Set the group's callsign (based on the index)
 				_groupID = MACRO_AI_GROUP_CALLSIGNS param [_unitGroupIndex, ""];
-				_group setGroupId [_groupID];
+				_group setGroupIdGlobal [_groupID];
 
 				// Error checking
 				if (groupId _group != _groupID) then {
 					diag_log format ["[CONQUEST] ERROR: AI Group ID %1 (%2) is already taken!", _groupID, _unitSide];
-					_group setGroupId [format ["ERR_GROUPID_%1_TAKEN___(%2)", _unitGroupIndex, diag_frameNo]];
+					_group setGroupIdGlobal [format ["ERR_GROUPID_%1_TAKEN___(%2)", _unitGroupIndex, diag_frameNo]];
 				};
 
 				// Save the AI identity IDs that will be present in this group

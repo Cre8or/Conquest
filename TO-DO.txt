@@ -1,7 +1,6 @@
 TO DO:
 	- Make falling unconscious zoom out of the weapon scope
-	- Fix kills/vehicle destruction sometimes awarding double the points that it should (including headshot damage)
-	- Fix squad names not being broadcast in multiplayer
+	- Fix kills/vehicle destructio nsometimes awarding double the points that it should (including headshot damage)
 	- Fix loadouts sometimes not getting applied to AI units (same issue as gAI when locality changes?)
 	- Revisit ACE pointing keybinding transfer (still just picking the first one, not all)
 	- Fix spotting animation not working (same issue as healing action)
@@ -40,6 +39,7 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Fix squad names not being broadcast in multiplayer
 	- Rework medical system to use clientside prediction where possible
 		- Currently there's massive delay when the player gets shot in MP
 		- Same with AI local to the player (e.g. in the same group)
