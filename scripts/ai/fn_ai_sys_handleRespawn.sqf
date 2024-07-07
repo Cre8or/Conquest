@@ -89,12 +89,13 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 				_side = _x;
 
 				_AICounts pushBack (
-					({_x # 0 == _forEachIndex} count GVAR(sv_AIIdentities)) + (_AICounts param [_forEachIndex - 1, 0])
+					({_x # MACRO_ENUM_AIIDENTITY_SIDEINDEX == _forEachIndex} count GVAR(sv_AIIdentities)) + (_AICounts param [_forEachIndex - 1, 0])
 				);
 				_playerCounts pushBack (
 					{_x getVariable [QGVAR(side), sideEmpty] == _side} count allPlayers
 				);
 			} forEach GVAR(sides);
+			systemChat str _AICounts;
 
 			for "_i" from 0 to GVAR(param_AI_maxCount) - 1 do {
 				_unit = GVAR(AIUnits) param [_i, objNull];
@@ -107,7 +108,7 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 					if ([_sideIndex] call FUNC(gm_isSidePlayable)) then {
 
 						if (GVAR(param_AI_includePlayers)) then {
-							// Only add it to the queue if no players are blocking it, and if its side is still playable
+							// Only add the unit to the queue if no players are blocking it, and if its side is still playable
 							if (_i < _AICounts # _sideIndex - _playerCounts # _sideIndex) then {
 								GVAR(ai_sys_handleRespawn_queue) pushBack _i;
 							};
