@@ -23,6 +23,20 @@ debriefing = 0;
 saving = 0;
 allowFunctionsRecompile = __EVAL((isServer and !isDedicated) or is3DENMultiplayer or is3DENPreview);
 
+showHUD[] = {
+	1,	// Scripted HUD (same as showHUD command)
+	1,	// Vehicle and unit info
+	1,	// Vehicle radar
+	1,	// Vehicle compass
+	1,	// Tank direction indicator
+	1,	// Commanding menu
+	1,	// Group info bar
+	1,	// HUD weapon cursors
+	1,	// Vehicle display panels
+	0,	// "x killed by y" systemChat messages
+	1	// force show drawIcon3D icons
+};
+
 
 
 

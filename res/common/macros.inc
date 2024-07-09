@@ -463,7 +463,7 @@
 	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.14.645" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.14.657" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -833,7 +833,7 @@
 
 	//#define MACRO_DEBUG_CA
 
-	#define MACRO_DEBUG_GM_PRESLOT
+	//#define MACRO_DEBUG_GM_PRESLOT
 
 	//#define MACRO_DEBUG_NM_OCCLUDERS
 	//#define MACRO_DEBUG_NM_NODES_INF

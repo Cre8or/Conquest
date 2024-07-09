@@ -6,9 +6,8 @@
 		certain duration, unless they are revived in time by a friendly medic.
 	Arguments:
 		0:	<OBJECT>	The concerned unit
-		1:	<BOOLEAN>	True to set the unit unconscious, false to wake them up (optional, default:
-					true)
-		2:	<NUMBER>	The revive state duration (optional, default: MACRO_GM_UNIT_REVIVEDURATION)
+		1:	<BOOLEAN>	True to set the unit unconscious, false to wake them up (optional, default: true)
+		2:	<NUMBER>	The revive state duration (optional, default: -1)
 	Returns:
 		(nothing)
 -------------------------------------------------------------------------------------------------------------------- */
@@ -18,7 +17,7 @@
 params [
 	["_unit", objNull, [objNull]],
 	["_newState", true, [true]],
-	["_reviveDuration", MACRO_GM_UNIT_REVIVEDURATION, [-1]]
+	["_reviveDuration", -1, [-1]]
 ];
 
 if (!local _unit or {_newState == _unit getVariable [QGVAR(isUnconscious), false]}) exitWith {};
@@ -29,6 +28,10 @@ if (!local _unit or {_newState == _unit getVariable [QGVAR(isUnconscious), false
 
 // Remember the bleedout time
 private _time = time;
+if (_reviveDuration < 0) then {
+	_reviveDuration = MACRO_GM_UNIT_REVIVEDURATION;
+};
+
 _unit setVariable [QGVAR(bleedoutTime), [-1, _time + _reviveDuration] select _newState, false];
 
 // Handle the unit's state
@@ -43,20 +46,32 @@ if (_newState) then {
 	// Yank the unit out of their vehicle, if inside one
 	moveOut _unit;
 
-	// Transition into an unconscious animation
 	[_unit] call FUNC(anim_unconscious);
 
-	// Edge case 1: on the server, update the respawn time on AI units
-	if (isServer) then {
-		private _unitIndex = _unit getVariable [QGVAR(unitIndex), -1];
+	// Update the respawn time on AI units
+	[_unit] remoteExecCall [QFUNC(ai_resetRespawnTime), 2, false];
 
-		if (_unitIndex >= 0 and {_unitIndex < GVAR(param_ai_maxCount)}) then {
-			GVAR(ai_sys_handleRespawn_respawnTimes) set [_unitIndex, _time + GVAR(param_gm_unit_respawnDelay)];
-		};
-	};
+// Revived
+} else {
+	// Reset the unit's health to the lowest amount that can be given by a medic
+	_unit setVariable [QGVAR(health), MACRO_ACT_HEALUNIT_AMOUNT, true];
 
-	// Edge case 1: if the concerned unit is the player, force a respawn state transition check
-	if (_unit == player) then {
+	[_unit, true] call FUNC(unit_selectBestWeapon);
+};
+
+
+
+
+
+if (_unit == player) then {
+
+	//Handle unscoping, whether it's when going unconscious or when waking up
+	_unit switchCamera "INTERNAL";
+
+	GVAR(gm_sys_handlePlayerRespawn_bledOut) = false;
+
+	// Force a respawn state transition check (interface with gm_sys_handlePlayerRespawn)
+	if (_newState) then {
 		GVAR(gm_sys_handlePlayerRespawn_respawnTime) = _time + GVAR(param_gm_unit_respawnDelay);
 		GVAR(gm_sys_handlePlayerRespawn_nextUpdate)  = -1;
 
@@ -76,16 +91,5 @@ if (_newState) then {
 		if (!isNull _draggedObj) then {
 			[_unit, _draggedObj] call ace_dragging_fnc_dropObject;
 		};
-
-	// Edge case 2: the unit is an AI, so we need to notify the server about its death time
-	} else {
-		[_unit] remoteExecCall [QFUNC(ai_resetRespawnTime), 2, false];
-	};
-
-// Revived
-} else {
-	// Reset the unit's health to the lowest amount that can be given by a medic
-	_unit setVariable [QGVAR(health), MACRO_ACT_HEALUNIT_AMOUNT, true];
-
-	[_unit, true] call FUNC(unit_selectBestWeapon);
+	}
 };

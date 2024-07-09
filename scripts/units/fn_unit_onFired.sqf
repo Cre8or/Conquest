@@ -83,9 +83,9 @@ if (_unit == player) then {
 
 
 
-// If the cached weapon data does not match the computed data, broadcast it to the server
+// If the cached weapon data does not match the computed data, broadcast it
 if (_ammoData isNotEqualTo _ammoDataLUT) then {
-	_unit setVariable [format [QGVAR(ammoData_%1), _ammoType], _ammoData, [2, clientOwner]];
+	_unit setVariable [format [QGVAR(ammoData_%1), _ammoType], _ammoData, true];
 	_LUT setVariable [_ammoType, _ammoData];
 
 /*	// DEBUG

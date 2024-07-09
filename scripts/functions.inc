@@ -45,6 +45,12 @@ class MACRO_PROJECT_PREFIX {
 		class anim_unconscious {};
 	};
 
+	class cba {
+		file = "scripts\cba";
+
+		class cba_addKeybindExtended {};
+	};
+
 	class combatArea {
 		file = "scripts\combatArea";
 		// Abbreviation:	ca

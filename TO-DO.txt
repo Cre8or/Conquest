@@ -1,10 +1,6 @@
 TO DO:
-	- Fix bleeding out in multiplayer resetting the respawn time
-	- Investigate weapon kill icons not showing when players get killed by AI on a dedicated server
-	- Make falling unconscious zoom out of the weapon scope
 	- Fix kills/vehicle destruction sometimes awarding double the points that it should (including headshot damage)
 	- Fix loadouts sometimes not getting applied to AI units (same issue as gAI when locality changes?)
-	- Revisit ACE pointing keybinding transfer (still just picking the first one, not all)
 	- Fix spotting animation not working (same issue as healing action)
 	- Implement resupply ability to support:
 		- Similar animations/UI icons to medic healing, but for rearming
@@ -40,6 +36,10 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Revisit ACE pointing keybinding transfer (still just picking the first one, not all)
+	- Fix bleeding out in multiplayer resetting the respawn time
+	- Investigate weapon kill icons not showing when players get killed by AI on a dedicated server
+	- Make falling unconscious zoom out of the weapon scope
 	- Fix admins losing access to the curator module after respawning in multiplayer
 		- Check if new solution can combine the singleplayer workaround in unit_onKilled
 		- Fix curator module not being reassigned owners when another admin logs in
