@@ -95,7 +95,6 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 					{_x getVariable [QGVAR(side), sideEmpty] == _side} count allPlayers
 				);
 			} forEach GVAR(sides);
-			systemChat str _AICounts;
 
 			for "_i" from 0 to GVAR(param_AI_maxCount) - 1 do {
 				_unit = GVAR(AIUnits) param [_i, objNull];

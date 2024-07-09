@@ -72,7 +72,13 @@ if ([_unit] call FUNC(unit_isAlive) and {isAwake _unit}) then {
 			_anim select [0, 34] == "ace_medical_engine_uncon_anim_face"
 			or {_anim select [0, 11] == "unconscious"}
 		) then {
-			[_unit, GVAR(anim_unconscious_newAnim)] remoteExecCall ["switchMove", 0, false];
+
+			// Check if the unit is still unconscious, as a medic might already have revived them
+			// while they've been ragdolled. We don't want to lock them in an animation that they
+			// can't break out of!
+			if (_unit getVariable [QGVAR(isUnconscious), false]) then {
+				[_unit, GVAR(anim_unconscious_newAnim)] remoteExecCall ["switchMove", 0, false];
+			};
 
 			_unit removeEventHandler ["AnimStateChanged", _unit getVariable [QGVAR(anim_unconscious_EH), -1]];
 		};

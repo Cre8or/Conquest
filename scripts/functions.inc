@@ -77,6 +77,7 @@ class MACRO_PROJECT_PREFIX {
 		class gm_spotTargetLocal {};
 		class gm_sys_endConditions {};
 		class gm_sys_enforceFPVInCamera {};
+		class gm_sys_handleCurator {};
 		class gm_sys_handlePlayerRespawn {};
 		class gm_sys_monitorUnitDamage {};
 		class gm_sys_removeCorpses {};

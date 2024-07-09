@@ -1,6 +1,8 @@
 TO DO:
+	- Fix bleeding out in multiplayer resetting the respawn time
+	- Investigate weapon kill icons not showing when players get killed by AI on a dedicated server
 	- Make falling unconscious zoom out of the weapon scope
-	- Fix kills/vehicle destructio nsometimes awarding double the points that it should (including headshot damage)
+	- Fix kills/vehicle destruction sometimes awarding double the points that it should (including headshot damage)
 	- Fix loadouts sometimes not getting applied to AI units (same issue as gAI when locality changes?)
 	- Revisit ACE pointing keybinding transfer (still just picking the first one, not all)
 	- Fix spotting animation not working (same issue as healing action)
@@ -30,7 +32,6 @@ TO DO:
 		- Separate scoreboard by teams and squads
 		- Add a keybind to toggle the UI
 		- Force-show the UI during mission ending sequence
-	- (Fix curator module not being reassigned owners when another admin logs in)
 	- Rewrite the combat area drawing handler (see init_client.sqf)
 	- Rewrite safestart system (it's super ugly and weird)
 		- Freeze players in an animation that prevents them from moving (rotation is fine, though)
@@ -39,6 +40,11 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Fix admins losing access to the curator module after respawning in multiplayer
+		- Check if new solution can combine the singleplayer workaround in unit_onKilled
+		- Fix curator module not being reassigned owners when another admin logs in
+	- Fix AI drivers following nearby medics when injured
+	- Fix units getting stuck in unconscious animation when revived before unragdolling
 	- Fix squad names not being broadcast in multiplayer
 	- Rework medical system to use clientside prediction where possible
 		- Currently there's massive delay when the player gets shot in MP

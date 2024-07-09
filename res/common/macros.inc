@@ -415,6 +415,7 @@
 	#define MACRO_GM_SYS_TICKETS_INTERVAL                           0.25 // Interval, in seconds, between two update cycles of the tickets system
 	#define MACRO_GM_SYS_ENDCONDITIONS_INTERVAL                     0.25 // Interval, in seconds, between two update cycles of the end conditions system
 	#define MACRO_GM_SYS_HANDLEPLAYERRESPAWN_INTERVAL               0.05 // Interval, in seconds, between two update cycles of the player respawn system (Note: must be less than the MP respawn time!)
+	#define MACRO_GM_SYS_HANDLECURATOR_INTERVAL                     1 // Interval, in seconds, between two update cycles of the end curator handler system
 
 	// Sectors
 	#define MACRO_SECTOR_TRIGGERINTERVAL                            0.5 // The interval between two trigger executions, in seconds
@@ -832,7 +833,7 @@
 
 	//#define MACRO_DEBUG_CA
 
-	//#define MACRO_DEBUG_GM_PRESLOT
+	#define MACRO_DEBUG_GM_PRESLOT
 
 	//#define MACRO_DEBUG_NM_OCCLUDERS
 	//#define MACRO_DEBUG_NM_NODES_INF

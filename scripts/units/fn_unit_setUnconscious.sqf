@@ -36,8 +36,12 @@ _unit setUnconscious _newState;
 _unit setCaptive _newState;
 _unit setVariable [QGVAR(isUnconscious), _newState, true];
 
+// Unconscious
 if (_newState) then {
 	_unit setVariable [QGVAR(health), 0, true];
+
+	// Yank the unit out of their vehicle, if inside one
+	moveOut _unit;
 
 	// Transition into an unconscious animation
 	[_unit] call FUNC(anim_unconscious);
@@ -51,24 +55,37 @@ if (_newState) then {
 		};
 	};
 
+	// Edge case 1: if the concerned unit is the player, force a respawn state transition check
+	if (_unit == player) then {
+		GVAR(gm_sys_handlePlayerRespawn_respawnTime) = _time + GVAR(param_gm_unit_respawnDelay);
+		GVAR(gm_sys_handlePlayerRespawn_nextUpdate)  = -1;
+
+		// Pre-emptively reset the give-up action (prevents sticky keys)
+		GVAR(kb_act_pressed_giveUp) = false;
+
+		openMap [false, false];
+
+		// If the player was carrying an object via ACE, drop it
+		private _carriedObj = _unit getVariable ["ace_dragging_carriedObject", objNull];
+		if (!isNull _carriedObj) then {
+			[_unit, _carriedObj] call ace_dragging_fnc_dropObject_carry;
+		};
+
+		// Same thing, but with dragged objects (apparently these are separate things)
+		private _draggedObj = _unit getVariable ["ace_dragging_draggedObject", objNull];
+		if (!isNull _draggedObj) then {
+			[_unit, _draggedObj] call ace_dragging_fnc_dropObject;
+		};
+
+	// Edge case 2: the unit is an AI, so we need to notify the server about its death time
+	} else {
+		[_unit] remoteExecCall [QFUNC(ai_resetRespawnTime), 2, false];
+	};
+
+// Revived
 } else {
 	// Reset the unit's health to the lowest amount that can be given by a medic
 	_unit setVariable [QGVAR(health), MACRO_ACT_HEALUNIT_AMOUNT, true];
 
 	[_unit, true] call FUNC(unit_selectBestWeapon);
-};
-
-// Edge case 1: if the concerned unit is the player, force a respawn state transition check
-if (_unit == player) then {
-	GVAR(gm_sys_handlePlayerRespawn_respawnTime) = _time + GVAR(param_gm_unit_respawnDelay);
-	GVAR(gm_sys_handlePlayerRespawn_nextUpdate)  = -1;
-
-	// Pre-emptively reset the give-up action (prevents sticky keys)
-	GVAR(kb_act_pressed_giveUp) = false;
-
-// Edge case 2: the unit is an AI, so we need to notify the server about its death time
-} else {
-	if (_newState) then {
-		[_unit] remoteExecCall [QFUNC(ai_resetRespawnTime), 2, false];
-	};
 };

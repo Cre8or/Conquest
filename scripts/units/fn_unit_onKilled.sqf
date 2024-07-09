@@ -90,24 +90,10 @@ if (_unit == player and {!_isUnconscious}) then {
 if (!isMultiplayer and {_unit == player}) then {
 	private _grp = createGroup GVAR(side);
 	private _newUnit = _grp createUnit [typeOf _unit, [0,0,0], [], 0, "CAN_COLLIDE"];
+	selectPlayer _newUnit;
 
 	// Mark the corpse as belonging to the player (other systems have to deduce this information from the corpse)
 	_unit setVariable [QGVAR(cl_sp_isPlayer), true];
-
-	// Switch units and reassign the curator module
-	unassignCurator GVAR(curatorModule);
-	selectPlayer _newUnit;
-	_newUnit assignCurator GVAR(curatorModule);
-	GVAR(curatorModule) addCuratorEditableObjects [[_newUnit], false];
-
-	// Workaround for the curator module being unassigned when the corpse is removed (why does this happen?)
-	_unit addEventHandler ["Deleted", {
-		[] spawn {
-			uiSleep 0.5;
-			unassignCurator GVAR(curatorModule);
-			player assignCurator GVAR(curatorModule);
-		};
-	}];
 
 	GVAR(cl_sp_playerName)    = name _unit;
 	GVAR(cl_sp_playerFace)    = face _unit;
