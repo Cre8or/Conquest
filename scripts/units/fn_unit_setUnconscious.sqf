@@ -49,7 +49,9 @@ if (_newState) then {
 	[_unit] call FUNC(anim_unconscious);
 
 	// Update the respawn time on AI units
-	[_unit] remoteExecCall [QFUNC(ai_resetRespawnTime), 2, false];
+	if (!isPlayer _unit) then {
+		[_unit] remoteExecCall [QFUNC(ai_resetRespawnTime), 0, false];
+	};
 
 // Revived
 } else {

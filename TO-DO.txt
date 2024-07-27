@@ -1,5 +1,6 @@
 TO DO:
-	- Fix kills/vehicle destruction sometimes awarding double the points that it should (including headshot damage)
+	- Fix occasional double-kill registration for an individual unit
+		- Maybe why kills/vehicle destruction sometimes awards double the points that it should (including headshot damage)?
 	- Fix loadouts sometimes not getting applied to AI units (same issue as gAI when locality changes?)
 	- Fix spotting animation not working (same issue as healing action)
 	- Implement resupply ability to support:
@@ -17,10 +18,6 @@ TO DO:
 		+ Sector letters on maps
 		- Spawn menu
 		- End screen
-	- Fix spawn menu inconsistencies
-	 	+ Sides with no tickets don't get greyed out
-		- Fix AI groups sometimes getting duplicated (with incorrect callsigns)
-		+ Sometimes spawn menus cannot be opened at all + chat spam (see screenshot)
 	- Move macros/variables pertaining to a side's definition into single file (merge with loadouts file?)
 	- (Investigate Joe's isssue with being able to spawn when no sectors are owned)
 	- Add a custom scoreboard UI
@@ -36,6 +33,11 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Fix unconsciousState AI subsystem referencing serverside variables (causing AI to not respawn)
+	- Fix spawn menu inconsistencies
+	 	+ Sides with no tickets don't get greyed out
+		+ Fix AI groups sometimes getting duplicated (with incorrect callsigns)
+		+ Sometimes spawn menus cannot be opened at all + chat spam (see screenshot)
 	- Revisit ACE pointing keybinding transfer (still just picking the first one, not all)
 	- Fix bleeding out in multiplayer resetting the respawn time
 	- Investigate weapon kill icons not showing when players get killed by AI on a dedicated server

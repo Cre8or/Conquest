@@ -98,8 +98,8 @@ if (_health > 0) then {
 		_unit setVariable [QGVAR(addHitDetection_assistDamages), _assistDamages, false];
 	};
 
-	// Clamp the health to 0
-	_unit setVariable [QGVAR(health), _health max 0, true];
+	// Health can't be <= 0
+	_unit setVariable [QGVAR(health), _health, true];
 
 // Unit is unconscious / dead
 } else {

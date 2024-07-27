@@ -69,7 +69,7 @@ if (
 
 
 // Serverside AI respawn time handling
-if (isServer and {!_isUnconscious}) then {
+if (isServer and {!_isUnconscious} and {!isPlayer _unit}) then {
 	[_unit] call FUNC(ai_resetRespawnTime);
 };
 
