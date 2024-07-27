@@ -89,7 +89,7 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 				_side = _x;
 
 				_AICounts pushBack (
-					({_x # 0 == _forEachIndex} count GVAR(sv_AIIdentities)) + (_AICounts param [_forEachIndex - 1, 0])
+					({_x # MACRO_ENUM_AIIDENTITY_SIDEINDEX == _forEachIndex} count GVAR(sv_AIIdentities)) + (_AICounts param [_forEachIndex - 1, 0])
 				);
 				_playerCounts pushBack (
 					{_x getVariable [QGVAR(side), sideEmpty] == _side} count allPlayers
@@ -107,7 +107,7 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 					if ([_sideIndex] call FUNC(gm_isSidePlayable)) then {
 
 						if (GVAR(param_AI_includePlayers)) then {
-							// Only add it to the queue if no players are blocking it, and if its side is still playable
+							// Only add the unit to the queue if no players are blocking it, and if its side is still playable
 							if (_i < _AICounts # _sideIndex - _playerCounts # _sideIndex) then {
 								GVAR(ai_sys_handleRespawn_queue) pushBack _i;
 							};
@@ -153,12 +153,12 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 
 				// Set the group's callsign (based on the index)
 				_groupID = MACRO_AI_GROUP_CALLSIGNS param [_unitGroupIndex, ""];
-				_group setGroupId [_groupID];
+				_group setGroupIdGlobal [_groupID];
 
 				// Error checking
 				if (groupId _group != _groupID) then {
 					diag_log format ["[CONQUEST] ERROR: AI Group ID %1 (%2) is already taken!", _groupID, _unitSide];
-					_group setGroupId [format ["ERR_GROUPID_%1_TAKEN___(%2)", _unitGroupIndex, diag_frameNo]];
+					_group setGroupIdGlobal [format ["ERR_GROUPID_%1_TAKEN___(%2)", _unitGroupIndex, diag_frameNo]];
 				};
 
 				// Save the AI identity IDs that will be present in this group

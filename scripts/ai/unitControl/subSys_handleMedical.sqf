@@ -1,7 +1,7 @@
 private _shouldStop = false;
 
-// Only handle medical actions if not already doing something else
-if (_actionPos isEqualTo []) then {
+// Only handle medical actions if not already doing something else, including driving
+if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 
 	// Set up some constants
 	private _c_maxActionDistSqr    = MACRO_ACT_HEALUNIT_MAXDISTANCE ^ 2;

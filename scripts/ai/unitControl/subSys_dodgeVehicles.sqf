@@ -17,25 +17,33 @@ if (!_isInVehicle) then {
 
 	// Determine which objects the unit should dodge
 	{
+		if (_x isKindOf "ThingX" or {_x isKindOf "StaticWeapon"}) then {
+			continue;
+		};
+
 		_posX     = getPosWorld _x;
 		_distSqrX = _unitPos distanceSqr _posX;
 
-		if (_distSqrX < _dodgeDistSqr) then {
-			_velX       = velocity _x;
-			_velXMagSqr = 15 * (vectorMagnitude _velX) ^ 2; // Coefficients tuned for best responsiveness
+		if (_distSqrX > _dodgeDistSqr) then {
+			continue;
+		};
 
-			if (_velXMagSqr > _distSqrX) then {
-				_velX = (vectorNormalized _velX) vectorMultiply sqrt _distSqrX;
-			};
+		_velX       = velocity _x;
+		_velXMagSqr = 15 * (vectorMagnitude _velX) ^ 2; // Coefficients tuned for best responsiveness
 
-			if (_velXMagSqr > 1) then {
-				_distSqrX = 0 max (_unitPos distanceSqr (_posX vectorAdd _velX)) - sizeOf typeOf _x;
+		if (_velXMagSqr > _distSqrX) then {
+			_velX = (vectorNormalized _velX) vectorMultiply sqrt _distSqrX;
+		};
 
-				if (_distSqrX < _closestDangerDistSqr) then {
-					_objectToDodge        = _x;
-					_closestDangerDistSqr = _distSqrX;
-				};
-			};
+		if (_velXMagSqr < 1) then {
+			continue;
+		};
+
+		_distSqrX = 0 max (_unitPos distanceSqr (_posX vectorAdd _velX)) - sizeOf typeOf _x;
+
+		if (_distSqrX < _closestDangerDistSqr) then {
+			_objectToDodge        = _x;
+			_closestDangerDistSqr = _distSqrX;
 		};
 	} forEach vehicles;
 

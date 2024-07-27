@@ -21,43 +21,50 @@
 
 
 // Target spotting
-[
-	MACRO_MISSION_FRAMEWORK_GAMEMODE,
-	QGVAR(kb_spotTarget),
-	"Spot target",
-	{call FUNC(act_spotTarget)},
-	{false},
-	[41, [true, false, false]], // Shift + Tilda (hold)
-	false,
-	0,
-	false
-] call CBA_fnc_addKeybind;
+private _keyBinds = [
+	[41, [true, false, false]] // Shift + Tilde
+];
 
-// Copy all keybindings from the original pointing function over
-if (!isNil "cba_keybinding_actions") then {
-	private _keybindKey  = format ["%1$%2", MACRO_MISSION_FRAMEWORK_GAMEMODE, QGVAR(spotTarget)];
-	private _keybindData = cba_keybinding_actions getVariable [_keybindKey, []];
-
-	if (_keybindData isNotEqualTo []) then {
-		private _keybinds = (["ACE3 Common", "ace_finger_finger"] call CBA_fnc_getKeybind) param [8, []];
-
-		if (_keybinds isNotEqualTo []) then {
-			_keybindData set [2, _keybinds];
-			cba_keybinding_actions setVariable [_keybindKey, _keybindData];
-		};
-	};
-};
-
-// Discard ACE's original pointing function
+// Transfer all keybindings from the original ACE3 pointing function
 if (GVAR(hasMod_ace_finger)) then {
+	private _keyBindsACE = (["ACE3 Common", "ace_finger_finger"] call CBA_fnc_getKeybind) param [8, []];
+	_keyBinds = _keyBinds + _keyBindsACE;
+
+	[
+		MACRO_MISSION_FRAMEWORK_GAMEMODE,
+		QGVAR(kb_spotTarget),
+		"Spot target",
+		{call FUNC(act_spotTarget)},
+		"",
+		_keyBinds,
+		false,
+		0
+	] call FUNC(cba_addKeybindExtended);
+
+	// Discard ACE's original pointing function
 	[
 		"ACE3 Common",
 		"ace_finger_finger",
-		"",
-		{false},
+		"(Disabled in Conquest)",
+		{false}, // Must be false to overwrite
 		{false}
 	] call CBA_fnc_addKeybind;
+
+} else {
+	[
+		MACRO_MISSION_FRAMEWORK_GAMEMODE,
+		QGVAR(kb_spotTarget),
+		"Spot target",
+		{call FUNC(act_spotTarget)},
+		"",
+		_keyBinds # 0,
+		false,
+		0,
+		false
+	] call CBA_fnc_addKeybind;
 };
+
+
 
 // Spawn menu
 [
@@ -65,12 +72,14 @@ if (GVAR(hasMod_ace_finger)) then {
 	QGVAR(kb_toggleSpawnMenu),
 	"Open/close spawn menu",
 	{call FUNC(act_toggleSpawnMenu)},
-	{false},
+	"",
 	[MACRO_KEYBIND_TOGGLESPAWNMENU, [true, false, false]],
 	false,
 	0,
 	false
 ] call CBA_fnc_addKeybind;
+
+
 
 // Healing
 [
@@ -78,12 +87,14 @@ if (GVAR(hasMod_ace_finger)) then {
 	QGVAR(kb_healUnit),
 	"Heal unit/self",
 	{([player] call FUNC(act_tryHealUnit)) param [0, false]},
-	{false},
+	"",
 	[MACRO_KEYBIND_HEAL, [false, false, false]],
 	true,
 	0,
 	false
 ] call CBA_fnc_addKeybind;
+
+
 
 // Give up (unconscious HUD)
 GVAR(kb_act_pressed_giveUp) = false;

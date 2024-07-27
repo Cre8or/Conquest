@@ -85,7 +85,7 @@ GVAR(ca_sys_playerCombatArea_EH) = addMissionEventHandler ["EachFrame", {
 
 		// If the player is outside of the combat area for too long, kill them
 		if (!_newState and {_time > GVAR(ca_sys_playerCombatArea_punishTime)}) then {
-			[_player, -1, MACRO_ENUM_DAMAGE_COMBATAREA, _player, _player, false] remoteExecCall [QFUNC(gm_processUnitDamage), 2, false];
+			[_player, -1, MACRO_ENUM_DAMAGE_COMBATAREA, _player, _player, false] call FUNC(gm_processUnitDamage);
 		};
 
 		GVAR(ca_sys_playerCombatArea_nextUpdate) = _time + MACRO_CA_PLAYER_INTERVAL;

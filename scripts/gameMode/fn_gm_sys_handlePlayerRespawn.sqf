@@ -126,6 +126,7 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 				if (!GVAR(gm_sys_handlePlayerRespawn_bledOut)) then {
 					GVAR(gm_sys_handlePlayerRespawn_respawnTime) = _time + GVAR(param_gm_unit_respawnDelay);
 				};
+				GVAR(gm_sys_handlePlayerRespawn_bledOut) = false;
 
 				[true, 0.5] call FUNC(ui_blackScreen);
 

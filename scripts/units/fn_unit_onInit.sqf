@@ -70,9 +70,16 @@ _unit allowDamage (!_enabled);
 
 
 
-// AI specific
-if (!isPlayer _unit) then {
+// Player specific
+if (isPlayer _unit) then {
 
+	// In multiplayer, the player unit is preserved between respawns. As such, the cleanup time
+	// also persists, leading to erroneous behaviour when the player dies again.
+	// To fix this, pretend it's a fresh unit.
+	_unit setVariable [QGVAR(gm_sys_removeCorpses_removalTime), -1, false];
+
+// AI specific
+} else {
 	[true, MACRO_ENUM_AI_PRIO_BASESETTINGS, _unit, "AUTOCOMBAT", false] call FUNC(ai_toggleFeature);
 
 	// Reset the unit's movement time when firing (prevents it from being flagged as stuck)

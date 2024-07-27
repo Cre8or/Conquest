@@ -367,6 +367,8 @@ call FUNC(gm_sys_tickets);
 call FUNC(gm_sys_removeCorpses);
 
 call FUNC(gm_sys_endConditions);
+call FUNC(gm_sys_handleCurator);
+
 call FUNC(gm_handleEntityDeaths);
 
 // Start the safestart handler

@@ -3,7 +3,7 @@ class MACRO_PROJECT_PREFIX {
 	class ace_medical {
 		file = "scripts\ace\medical";
 
-		//class ace_usePAK {};
+		//class itemCheck {};
 	};
 
 	class actions {
@@ -20,6 +20,7 @@ class MACRO_PROJECT_PREFIX {
 		file = "scripts\ai";
 		// Abbreviation:	ai
 
+		class ai_resetRespawnTime {};
 		class ai_forfeitVehicleClaim {};
 		class ai_generateIdentities {};
 		class ai_getFaces {};
@@ -41,6 +42,13 @@ class MACRO_PROJECT_PREFIX {
 
 		class anim_dodge {};
 		class anim_gesturePoint {};
+		class anim_unconscious {};
+	};
+
+	class cba {
+		file = "scripts\cba";
+
+		class cba_addKeybindExtended {};
 	};
 
 	class combatArea {
@@ -53,8 +61,8 @@ class MACRO_PROJECT_PREFIX {
 		class ca_sys_playerCombatArea {};
 	};
 
-	class gamemode {
-		file = "scripts\gamemode";
+	class gameMode {
+		file = "scripts\gameMode";
 		// Abbreviation:	gm
 
 		class gm_addScore {};
@@ -75,6 +83,7 @@ class MACRO_PROJECT_PREFIX {
 		class gm_spotTargetLocal {};
 		class gm_sys_endConditions {};
 		class gm_sys_enforceFPVInCamera {};
+		class gm_sys_handleCurator {};
 		class gm_sys_handlePlayerRespawn {};
 		class gm_sys_monitorUnitDamage {};
 		class gm_sys_removeCorpses {};

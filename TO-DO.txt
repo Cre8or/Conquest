@@ -1,5 +1,8 @@
 TO DO:
-	- Fix unconscious units falling through the world upon bleeding out
+	- Fix occasional double-kill registration for an individual unit
+		- Maybe why kills/vehicle destruction sometimes awards double the points that it should (including headshot damage)?
+	- Fix loadouts sometimes not getting applied to AI units (same issue as gAI when locality changes?)
+	- Fix spotting animation not working (same issue as healing action)
 	- Implement resupply ability to support:
 		- Similar animations/UI icons to medic healing, but for rearming
 		- Prevent players from looting bodies/opening their gear
@@ -15,10 +18,6 @@ TO DO:
 		+ Sector letters on maps
 		- Spawn menu
 		- End screen
-	- Fix spawn menu inconsistencies
-	 	+ Sides with no tickets don't get greyed out
-		- Fix AI groups sometimes getting duplicated (with incorrect callsigns)
-		+ Sometimes spawn menus cannot be opened at all + chat spam (see screenshot)
 	- Move macros/variables pertaining to a side's definition into single file (merge with loadouts file?)
 	- (Investigate Joe's isssue with being able to spawn when no sectors are owned)
 	- Add a custom scoreboard UI
@@ -26,7 +25,6 @@ TO DO:
 		- Separate scoreboard by teams and squads
 		- Add a keybind to toggle the UI
 		- Force-show the UI during mission ending sequence
-	- (Fix curator module not being reassigned owners when another admin logs in)
 	- Rewrite the combat area drawing handler (see init_client.sqf)
 	- Rewrite safestart system (it's super ugly and weird)
 		- Freeze players in an animation that prevents them from moving (rotation is fine, though)
@@ -35,6 +33,25 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Fix unconsciousState AI subsystem referencing serverside variables (causing AI to not respawn)
+	- Fix spawn menu inconsistencies
+	 	+ Sides with no tickets don't get greyed out
+		+ Fix AI groups sometimes getting duplicated (with incorrect callsigns)
+		+ Sometimes spawn menus cannot be opened at all + chat spam (see screenshot)
+	- Revisit ACE pointing keybinding transfer (still just picking the first one, not all)
+	- Fix bleeding out in multiplayer resetting the respawn time
+	- Investigate weapon kill icons not showing when players get killed by AI on a dedicated server
+	- Make falling unconscious zoom out of the weapon scope
+	- Fix admins losing access to the curator module after respawning in multiplayer
+		- Check if new solution can combine the singleplayer workaround in unit_onKilled
+		- Fix curator module not being reassigned owners when another admin logs in
+	- Fix AI drivers following nearby medics when injured
+	- Fix units getting stuck in unconscious animation when revived before unragdolling
+	- Fix squad names not being broadcast in multiplayer
+	- Rework medical system to use clientside prediction where possible
+		- Currently there's massive delay when the player gets shot in MP
+		- Same with AI local to the player (e.g. in the same group)
+	- Fix unconscious units falling through the world upon bleeding out
 	- Modify AI commander to exclude sectors without spawnpoints if there are sectors with spawnpoints left to capture
 	- Allow unconscious players to give up (using custom CBA keybinding)
 	- Implement an unconscious HUD

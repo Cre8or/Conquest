@@ -1,13 +1,12 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
+		[LA][GE]
 		Processes the damage event on the given unit. If the unit drops below 0 health, this function will
 		handle additional steps, such as knocking the unit unconscious and adding score to the instigator.
 		Use negative damage values to forcefully kill a unit regardless of their health.
 		The unit's revive duration depends on the amount of damage dealt, and can be skipped completely (see
 		arguments below).
-
-		Only executed on the server via remote call.
 	Arguments:
 		0:	<OBJECT>	The unit which should receive damage
 		1:	<NUMBER>	The amount of damage to be dealt
@@ -34,7 +33,7 @@ params [
 	["_isHeadShot", false, [false]]
 ];
 
-if (!isServer or {_damage == 0} or {!([_unit] call FUNC(unit_isAlive))}) exitWith {};
+if (!local _unit or {_damage == 0} or {!([_unit] call FUNC(unit_isAlive))}) exitWith {};
 
 
 
@@ -99,8 +98,8 @@ if (_health > 0) then {
 		_unit setVariable [QGVAR(addHitDetection_assistDamages), _assistDamages, false];
 	};
 
-	// Clamp the health to 0
-	_unit setVariable [QGVAR(health), _health max 0, true];
+	// Health can't be <= 0
+	_unit setVariable [QGVAR(health), _health, true];
 
 // Unit is unconscious / dead
 } else {
@@ -113,11 +112,11 @@ if (_health > 0) then {
 				_instigator,
 				[MACRO_ENUM_SCORE_KILL_ENEMY, MACRO_ENUM_SCORE_KILL_FRIENDLY] select (_sideUnit == _sideInstigator),
 				_unit
-			] call FUNC(gm_addScore);
+			] remoteExecCall [QFUNC(gm_addScore), 2, false];
 
 			// Headshot bonus
 			if (_isHeadShot and {_sideUnit != _sideInstigator}) then {
-				[_instigator, MACRO_ENUM_SCORE_HEADSHOT] call FUNC(gm_addScore);
+				[_instigator, MACRO_ENUM_SCORE_HEADSHOT] remoteExecCall [QFUNC(gm_addScore), 2, false];
 			};
 
 		} else {
@@ -126,7 +125,7 @@ if (_health > 0) then {
 				default                            {MACRO_ENUM_SCORE_SUICIDE};
 			});
 
-			[_unit, _scoreEnum] call FUNC(gm_addScore);
+			[_unit, _scoreEnum] remoteExecCall [QFUNC(gm_addScore), 2, false];
 		};
 	};
 
@@ -139,7 +138,7 @@ if (_health > 0) then {
 				_spotter = _unit getVariable [format [QGVAR(spotter_%1), _x], objNull];
 
 				if (_spotter != _instigator) then {
-					[_spotter, MACRO_ENUM_SCORE_SPOTASSIST] call FUNC(gm_addScore);
+					[_spotter, MACRO_ENUM_SCORE_SPOTASSIST] remoteExecCall [QFUNC(gm_addScore), 2, false];
 				};
 			};
 		};
@@ -155,7 +154,7 @@ if (_health > 0) then {
 		_assistDamage = _assistDamages # _forEachIndex;
 
 		if (_x != _instigator and {_time <= _assistTime}) then {
-			[_x, MACRO_ENUM_SCORE_KILLASSIST, _assistDamage] call FUNC(gm_addScore);
+			[_x, MACRO_ENUM_SCORE_KILLASSIST, _assistDamage] remoteExecCall [QFUNC(gm_addScore), 2, false];
 		};
 
 	} forEach (_unit getVariable [QGVAR(addHitDetection_assists), []]);
@@ -218,7 +217,7 @@ if (_health > 0) then {
 
 	// If the unit is inside a destroyed vehicle, they cannot be pulled out by medics, so we forcefully move them out instead
 	if (_unit != vehicle _unit) then {
-		[_unit] remoteExecCall ["moveOut", owner _unit, false];
+		moveOut _unit
 	};
 
 	// Handle revivability
@@ -234,19 +233,8 @@ if (_health > 0) then {
 	if (_reviveDuration <= 0) then {
 		_unit setDamage 1;
 	} else {
-		[_unit, true, _reviveDuration] remoteExecCall [QFUNC(unit_setUnconscious), _unit, false];
-
-		// Set the health to 0 locally (on the server) to prevent sending out multiple remoteExecCalls if the unit
-		// is receiving a lot of damage
-		_unit setVariable [QGVAR(health), 0, false];
-
-		// Interface with AI respawning
-		private _unitIndex = _unit getVariable [QGVAR(unitIndex), -1];
-
-		if (_unitIndex >= 0 and {_unitIndex < GVAR(param_ai_maxCount)}) then {
-			GVAR(ai_sys_handleRespawn_respawnTimes) set [_unitIndex, time + GVAR(param_gm_unit_respawnDelay)];
-		};
+		[_unit, true, _reviveDuration] call FUNC(unit_setUnconscious);
 	};
 };
 
-[_unit, _damage, _damageEnum, _source] remoteExecCall [QFUNC(unit_processDamageEvent), _unit, false];
+[_unit, _damage, _damageEnum, _source] call FUNC(unit_processDamageEvent);

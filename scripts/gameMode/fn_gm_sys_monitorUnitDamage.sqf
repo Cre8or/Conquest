@@ -1,11 +1,16 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
-		Iterates over all local units and raises damage events (if any damage is detected) by remotely
-		executing gm_processUnitDamage on the server.
+		Iterates over all local units and raises damage events (if any damage is detected) by executing
+		gm_processUnitDamage on them.
 
-		Player damage detection is performed on the client (unit_onHandleDamage) and enforced on the server
-		(gm_processUnitDamage). This is due to the HandleDamage EH not firing on remote units.
+		Previously, damage processing was done exclusively on the server, but testing has shown that this introduces
+		significant delays in multiplayer. Instead we run things locally, which should be fine seeing as HandleDamage
+		exclusively runs on the local/owning machine anyway.
+
+		Damage detection is performed in this script (once per frame), as doing so from directly within the
+		HandleDamage EH might raise multiple damage events within a single frame (once for each affected hitpart).
+		We don't want that, as it would incur a performance penalty.
 
 		Only executed once by all machines upon initialisation.
 	Arguments:
@@ -38,6 +43,7 @@ GVAR(gm_sys_monitorUnitDamage_EH) = addMissionEventHandler ["EachFrame", {
 
 	if (!GVAR(gm_sys_monitorUnitDamage_update) or {GVAR(missionState) < MACRO_ENUM_MISSION_LIVE}) exitWith {};
 
+	// Look for injured local units, and if any are found, process their damage
 	private ["_storedDamage", "_isHeadShot", "_maxHitPoint"];
 	{
 		_storedDamage = _x getVariable [QGVAR(damage_stored), 0];
@@ -49,6 +55,7 @@ GVAR(gm_sys_monitorUnitDamage_EH) = addMissionEventHandler ["EachFrame", {
 		_isHeadShot  = false;
 		_maxHitPoint = _x getVariable [QGVAR(damage_storedHitPoint), ""];
 
+		// Headshot bonus
 		if (_maxHitPoint in ["hithead", "hitface"]) then {
 			_isHeadShot = true;
 			_storedDamage = _storedDamage * MACRO_GM_UNIT_DAMAGEMUL_HEADSHOT;
@@ -63,7 +70,7 @@ GVAR(gm_sys_monitorUnitDamage_EH) = addMissionEventHandler ["EachFrame", {
 			true,
 			_x getVariable [QGVAR(damage_ammoType), ""],
 			_isHeadShot
-		] remoteExecCall [QFUNC(gm_processUnitDamage), 2, false];
+		] call FUNC(gm_processUnitDamage);
 
 		// Reset the state
 		_x setVariable [QGVAR(damage_stored), 0, false];
