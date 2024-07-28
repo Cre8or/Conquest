@@ -43,6 +43,10 @@ _unit setVariable [QGVAR(canCaptureSectors), true, _local];
 _unit setVariable [QGVAR(health), 1, _local];
 _unit setVariable [QGVAR(isSpawned), true, _local]; // Interfaces with drawUnitIcons2D and drawIcons3D
 
+// Disable stamina
+if (_local) then {
+	_unit enableFatigue false;
+};
 
 
 

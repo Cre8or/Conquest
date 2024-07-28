@@ -79,7 +79,7 @@ private ["_pos2D", "_posXASL", "_visibility", "_isUnconscious", "_nameX", "_angl
 			0.03,
 			MACRO_FONT_UI_THIN, // TahomaB
 			"center",
-			true,
+			false,
 			0,
 			-0.07 * _c_uiScale
 		];
@@ -96,7 +96,7 @@ private ["_pos2D", "_posXASL", "_visibility", "_isUnconscious", "_nameX", "_angl
 			0.03,
 			MACRO_FONT_UI_THIN, // TahomaB
 			"center",
-			true,
+			false,
 			0,
 			-0.07 * _c_uiScale
 		];
