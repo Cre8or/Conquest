@@ -180,7 +180,9 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 				};
 
 				if (_x getVariable [QGVAR(isUnconscious), false]) then {
-					_unitsUnconscious pushBack _x;
+					if (_time > _x getVariable [QGVAR(ai_unitControl_handleMedical_reviveTime), -1]) then {
+						_unitsUnconscious pushBack _x;
+					}
 				} else {
 					_unitsAlive pushBack _x;
 

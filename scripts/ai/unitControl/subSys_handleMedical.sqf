@@ -16,15 +16,28 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 
 
 	if (_role == MACRO_ENUM_ROLE_MEDIC) then {
-
 		private _patient        = objNull;
 		private _patientDistSqr = 0;
+		private _selfHealTime   = _unit getVariable [QGVAR(ai_unitControl_handleMedical_selfHealTime), -1];
 
 		// Prioritise self-care
-		if ([_unit] call FUNC(unit_needsHealing)) then {
-			_patient = _unit;
+		if (_health < 1) then {
+
+			if (_selfHealTime < 0) then {
+				_selfHealTime = _time + MACRO_AI_MEDICAL_SELFHEALCOOLDOWN;
+				_unit setVariable [QGVAR(ai_unitControl_handleMedical_selfHealTime), _selfHealTime, false];
+			};
+			if (_time > _selfHealTime) then {
+				_patient = _unit;
+			};
 
 		} else {
+			if (_selfHealTime > 0) then {
+				_unit setVariable [QGVAR(ai_unitControl_handleMedical_selfHealTime), -1, false];
+			};
+		};
+
+		if (isNull _patient) then {
 			// Look for nearby injured units to heal, while priorising unconscious units over wounded ones
 			private _unitsInjured     = GVAR(ai_sys_unitControl_cache) getOrDefault [format ["unitsInjured_%1", _side], []];
 			private _unitsUnconscious = GVAR(ai_sys_unitControl_cache) getOrDefault [format ["unitsUnconscious_%1", _side], []];
@@ -44,7 +57,7 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 				{
 					_distSqrX = _unit distanceSqr _x;
 
-					if (_distSqrX < _patientDistSqr) then {
+					if (_distSqrX < _patientDistSqr and {_unit != _x} and {_x getVariable [QGVAR(health), 1] > 0}) then {
 						_patientDistSqr = _distSqrX;
 						_patient        = _x;
 					};
@@ -86,8 +99,8 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 			breakTo QGVAR(ai_sys_unitControl_loop_live);
 		};
 
-		private _medic         = objNull;
-		private _medicDistSqr  = _c_maxMedicalDistSqr;
+		private _medic        = objNull;
+		private _medicDistSqr = _c_maxMedicalDistSqr;
 		private ["_distSqrX"];
 
 		{

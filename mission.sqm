@@ -497,9 +497,6 @@ randomSeed=7845369;
 class ScenarioData
 {
 	author="Cre8or";
-	respawnDialog=0;
-	respawn=3;
-	respawnDelay=2;
 };
 class CustomAttributes
 {

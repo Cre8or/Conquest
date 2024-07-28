@@ -33,6 +33,7 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Fix AI medics spam-healing themselves on damage and immediately reviving unconscious units
 	- Fix unconsciousState AI subsystem referencing serverside variables (causing AI to not respawn)
 	- Fix spawn menu inconsistencies
 	 	+ Sides with no tickets don't get greyed out
