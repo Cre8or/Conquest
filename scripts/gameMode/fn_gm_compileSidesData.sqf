@@ -33,12 +33,12 @@ private ["_side", "_sideData", "_role", "_loadout", "_abilities", "_weaponIcon",
 		_allThrowables pushBackUnique _x;
 	} forEach getArray (_x >> "magazines");
 } forEach ("isClass _x" configClasses (_configPath_weapons >> "Throw"));
-private _allLoadoutData = ["", "", ""];
 
-// Determine which sides we need to consider
-if (east in GVAR(sides)) then       {_allLoadoutData set [0, "mission\sides\data_side_east.inc"]};
-if (resistance in GVAR(sides)) then {_allLoadoutData set [1, "mission\sides\data_side_resistance.inc"]};
-if (west in GVAR(sides)) then       {_allLoadoutData set [2, "mission\sides\data_side_west.inc"]};
+private _allFilePaths = [ // Same order as GVAR(sides)
+	"mission\sides\data_side_east.inc",
+	"mission\sides\data_side_resistance.inc",
+	"mission\sides\data_side_west.inc"
+];
 
 
 
@@ -60,6 +60,11 @@ if (west in GVAR(sides)) then       {_allLoadoutData set [2, "mission\sides\data
 		private _str = format ["[CONQUEST] ERROR: Side data file is missing or invalid! (%1)", _x];
 		systemChat _str;
 		diag_log _str;
+	};
+
+	// Ignore empty sides
+	if (_side == sideEmpty) then {
+		continue;
 	};
 
 	_sideData params [
@@ -215,7 +220,7 @@ if (west in GVAR(sides)) then       {_allLoadoutData set [2, "mission\sides\data
 		};
 	} forEach _sideLoadouts;
 
-} forEach _allLoadoutData;
+} forEach _allFilePaths;
 
 
 
