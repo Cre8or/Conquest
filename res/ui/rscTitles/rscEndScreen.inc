@@ -37,7 +37,7 @@ class GVAR(RscEndScreen) {
 				// Flag Picture, Left
 				class Flag_Picture_Left : GVAR(RscPictureNoAR) {
 					idc = MACRO_IDC_ES_FLAG_LEFT_PICTURE;
-					text = "a3\data_f\Flags\flag_white_co.paa";
+					text = MACRO_TEXTURE_FLAG_EMPTY;
 					x = 0;
 					y = 0.3;
 					w = 0.3;

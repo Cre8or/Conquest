@@ -2,11 +2,11 @@
 	Author:	 	Cre8or
 	Description:
 		Handles the execution of initialisation code across all machines. To ensure correct order of execution,
-		this function is divided into stages - some are shared, and some are server/client-specific. This
+		this function is divided into stages, which can either be shared, or server/client-specific. This
 		handles the edge case of locally hosted servers, while maintaining compatibility with traditional
 		multiplayer server/client separation.
 
-		Only executed once by all machines upon post-initialisation.
+		Only executed once by all machines upon initialisation.
 	Arguments:
 		(none)
 	Returns:
@@ -54,3 +54,12 @@ if (hasInterface) then {
 
 // Shared component (stage 3)
 #include "init\init_s3_shared.sqf"
+
+
+
+
+
+// Server component (stage 4)
+if (isServer) then {
+	#include "init\init_s4_server.sqf"
+};

@@ -144,7 +144,6 @@ private _EH_eachFrame = addMissionEventHandler ["EachFrame", {
 		// Enforce a valid naming scheme
 		if (count _name != 8) then {
 			systemChat format ["WARNING: ""%1"" is not a valid sector name!", _name];
-			//breakTo QGVAR(eden_eachFrame);
 			continue;
 		};
 		_letter = _name select [7, 1];
@@ -176,23 +175,45 @@ private _EH_eachFrame = addMissionEventHandler ["EachFrame", {
 
 
 
+
 		// Update the flag's texture and position on the pole to match the sector parameters
-		_textureEmpty = "a3\data_f\flags\flag_white_co.paa";
 		_textureIcon  = "a3\ui_f\data\GUI\Rsc\RscDisplayMultiplayerSetup\flag_bluefor_empty_ca.paa";
-		_texture      = _textureEmpty;
+		_texture      = MACRO_TEXTURE_FLAG_EMPTY;
 		_level        = 0;
 		_activation   = (_sector get3DENAttribute "ActivationBy") # 0;
 		switch (_activation select [0, 4]) do {
 			case "EAST": {
-				_texture = MACRO_FLAG_TEXTURE_EAST;
+				#if __has_include("mission\sides\data_side_east.inc")
+					_texture = (
+						#include "mission\sides\data_side_east.inc"
+					) param [2, MACRO_TEXTURE_FLAG_EMPTY];
+				#else
+					_texture = "a3\data_f\flags\flag_red_co.paa";
+					systemChat "[CONQUEST] ERROR: A critical file is missing! (mission\sides\data_side_east.inc)";
+				#endif
+
 				_level = 1;
 			};
 			case "GUER": {
-				_texture = MACRO_FLAG_TEXTURE_RESISTANCE;
+				#if __has_include("mission\sides\data_side_resistance.inc")
+					_texture = (
+						#include "mission\sides\data_side_resistance.inc"
+					) param [2, MACRO_TEXTURE_FLAG_EMPTY];
+				#else
+					_texture = "a3\data_f\flags\flag_green_co.paa";
+					systemChat "[CONQUEST] ERROR: A critical file is missing! (mission\sides\data_side_resistance.inc)";
+				#endif
 				_level = 1;
 			};
 			case "WEST": {
-				_texture = MACRO_FLAG_TEXTURE_WEST;
+				#if __has_include("mission\sides\data_side_west.inc")
+					_texture = (
+						#include "mission\sides\data_side_west.inc"
+					) param [2, MACRO_TEXTURE_FLAG_EMPTY];
+				#else
+					_texture = "a3\data_f\flags\flag_blue_co.paa";
+					systemChat "[CONQUEST] ERROR: A critical file is missing! (mission\sides\data_side_west.inc)";
+				#endif
 				_level = 1;
 			};
 		};
@@ -200,7 +221,7 @@ private _EH_eachFrame = addMissionEventHandler ["EachFrame", {
 
 		// Validate the texture path
 		if (!fileExists _texture) then {
-			_texture = _textureEmpty;
+			_texture = MACRO_TEXTURE_FLAG_EMPTY;
 		} else {
 			_textureIcon = _texture;
 		};

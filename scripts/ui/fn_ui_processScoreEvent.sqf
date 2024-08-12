@@ -189,11 +189,7 @@ switch (_enum) do {
 			_eventData = [
 				MACRO_SCORE_SIDEDEFEATED,
 				"DEFEATED",
-				[
-					MACRO_SIDE_NAME_EAST,
-					MACRO_SIDE_NAME_RESISTANCE,
-					MACRO_SIDE_NAME_WEST
-				] param [GVAR(sides) find _arg, "ENEMY FACTION"],
+				[_arg] call FUNC(gm_getSideName),
 				SQUARE(MACRO_COLOUR_A100_ENEMY)
 			];
 		};

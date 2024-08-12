@@ -1,8 +1,8 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
-		Compiles the mission's role loadouts (and their abilities) and stores them onto the mission namespace
-		for later use.
+		Parses the mission's sides data and sets shared global variables, such as the sides name, flag, loadouts
+		and abilities.
 
 		Only executed once by all machines upon initialisation.
 	Arguments:
@@ -18,17 +18,6 @@
 
 
 
-// Include the loadout data files
-private _loadoutData_east =
-	#include "..\..\mission\loadouts\data_loadouts_east.inc"
-;
-private _loadoutData_resistance =
-	#include "..\..\mission\loadouts\data_loadouts_resistance.inc"
-;
-private _loadoutData_west =
-	#include "..\..\mission\loadouts\data_loadouts_west.inc"
-;
-
 // Set up some constants
 private _configPath_weapons = (configFile >> "CfgWeapons");
 private _configPath_magazines = (configFile >> "CfgMagazines");
@@ -36,7 +25,7 @@ private _configPath_ammo = (configFile >> "CfgAmmo");
 private _allThrowables = [];
 
 // Set up some variables
-private ["_side", "_role", "_loadout", "_abilities", "_weaponIcon", "_ammoTypeX", "_isExplosiveX", "_abilitiesLUT"];
+private ["_side", "_sideData", "_role", "_loadout", "_abilities", "_weaponIcon", "_ammoTypeX", "_isExplosiveX", "_abilitiesLUT"];
 
 // Compile the list of throwable magazines
 {
@@ -44,12 +33,12 @@ private ["_side", "_role", "_loadout", "_abilities", "_weaponIcon", "_ammoTypeX"
 		_allThrowables pushBackUnique _x;
 	} forEach getArray (_x >> "magazines");
 } forEach ("isClass _x" configClasses (_configPath_weapons >> "Throw"));
-private _allLoadoutData = [[], [], []];
+private _allLoadoutData = ["", "", ""];
 
 // Determine which sides we need to consider
-if (east in GVAR(sides)) then {		_allLoadoutData set [0, _loadoutData_east]};
-if (resistance in GVAR(sides)) then {	_allLoadoutData set [1, _loadoutData_resistance]};
-if (west in GVAR(sides)) then {		_allLoadoutData set [2, _loadoutData_west]};
+if (east in GVAR(sides)) then       {_allLoadoutData set [0, "mission\sides\data_side_east.inc"]};
+if (resistance in GVAR(sides)) then {_allLoadoutData set [1, "mission\sides\data_side_resistance.inc"]};
+if (west in GVAR(sides)) then       {_allLoadoutData set [2, "mission\sides\data_side_west.inc"]};
 
 
 
@@ -59,35 +48,75 @@ if (west in GVAR(sides)) then {		_allLoadoutData set [2, _loadoutData_west]};
 {
 	_side = GVAR(sides) # _forEachIndex;
 
+	// Ensure the side data file is valid
+	_sideData = nil;
+	if (_x != "" and {fileExists _x}) then {
+		_sideData = call compile preprocessFileLineNumbers _x;
+	};
+
+	if (isNil "_sideData" or {!(_sideData isEqualType [])}) then {
+		_sideData = [];
+
+		private _str = format ["[CONQUEST] ERROR: Side data file is missing or invalid! (%1)", _x];
+		systemChat _str;
+		diag_log _str;
+	};
+
+	_sideData params [
+		["_sideNameShort", "N/A", [""]],
+		["_sideNameLong", "Unknown", [""]],
+		["_sideFlag", MACRO_TEXTURE_FLAG_EMPTY, [""]],
+		["_sideAIFaces", ["white"], ["", []]],
+		["_sideAIVoices", ["english_us"], ["", []]],
+		["_sideLoadouts", [], [[]]]
+	];
+
+	// Validate the parameters
+	if (_sideAIVoices isEqualType "") then {
+		_sideAIVoices = [_sideAIVoices];
+	};
+	if (_sideAIFaces isEqualType "") then {
+		_sideAIFaces = [_sideAIFaces];
+	};
+
+	// Expose the common side data as global variables
+	missionNamespace setVariable [format [QGVAR(shortName_%1), _side], _sideNameShort, false];
+	missionNamespace setVariable [format [QGVAR(longName_%1), _side], _sideNameLong, false];
+	missionNamespace setVariable [format [QGVAR(flagTexture_%1), _side], _sideFlag, false];
+	missionNamespace setVariable [format [QGVAR(aiFaces_%1), _side], _sideAIFaces, false];
+	missionNamespace setVariable [format [QGVAR(aiVoices_%1), _side], _sideAIVoices, false];
+
+
+
 	// Iterate over this side's loadouts
 	{
 		// Fetch the current role and loadout
-		_role = _x # 0;
-		_loadout = _x # 1;
-		_abilities = _x param [2, []];
+		_role      = _x param [0, MACRO_ENUM_ROLE_INVALID];
+		_loadout   = _x param [1, []];
+		_abilities = [];
 
 		// Role-based abilities
 		switch (_role) do {
-			case MACRO_ENUM_ROLE_SUPPORT:  {_abilities pushBackUnique MACRO_ENUM_LOADOUT_ABILITY_RESUPPLY};
-			case MACRO_ENUM_ROLE_ENGINEER: {_abilities pushBackUnique MACRO_ENUM_LOADOUT_ABILITY_REPAIR};
-			case MACRO_ENUM_ROLE_MEDIC:    {_abilities pushBackUnique MACRO_ENUM_LOADOUT_ABILITY_HEAL};
+			case MACRO_ENUM_ROLE_SUPPORT:  {_abilities pushBack MACRO_ENUM_LOADOUT_ABILITY_RESUPPLY};
+			case MACRO_ENUM_ROLE_ENGINEER: {_abilities pushBack MACRO_ENUM_LOADOUT_ABILITY_REPAIR};
+			case MACRO_ENUM_ROLE_MEDIC:    {_abilities pushBack MACRO_ENUM_LOADOUT_ABILITY_HEAL};
+			case MACRO_ENUM_ROLE_INVALID:  {continue};
 		};
 
 		// Only continue if the loadout is set
 		if !(_loadout isEqualTo []) then {
-
 			_weaponIcon = "";
 
 			// Fetch the loadout's components
 			_loadout params [
 				["_weaponPrimaryArray", []],
 				["_weaponSecondaryArray", []],
-				"",				// weaponHandgun
+				"", // weaponHandgun
 				["_uniformArray", []],
 				["_vestArray", []],
 				["_backpackArray", []],
-				"",				// headgear
-				"",				// goggles
+				"", // headgear
+				"", // goggles
 				["_binocularArray", []],
 				["_itemsArray", []]
 			];
@@ -171,27 +200,6 @@ if (west in GVAR(sides)) then {		_allLoadoutData set [2, _loadoutData_west]};
 								};
 							};
 						};
-/*
-					// Otherwise, it's a tool
-					} else {
-						switch (true) do {
-
-							// It's a toolkit
-							case (_classX isKindOf ["ToolKit", _configPath_weapons]): {
-								_abilities pushBackUnique MACRO_ENUM_LOADOUT_ABILITY_REPAIR;
-							};
-
-							// It's a medikit
-							case (_classX isKindOf ["Medikit", _configPath_weapons]): {
-								_abilities pushBackUnique MACRO_ENUM_LOADOUT_ABILITY_HEAL;
-							};
-
-							// It's a mine detector
-							case (_classX isKindOf ["MineDetector", _configPath_weapons]): {
-								_abilities pushBackUnique MACRO_ENUM_LOADOUT_ABILITY_MINEDETECTOR;
-							};
-						};
-*/
 					};
 				};
 			} forEach (
@@ -200,10 +208,17 @@ if (west in GVAR(sides)) then {		_allLoadoutData set [2, _loadoutData_west]};
 				+ (_backpackArray param [1, []])
 			);
 
-			// Save the loadout, abilities and weapon icon data onto the mission namespace
+			// Save the loadout, abilities and weapon icon data as global variables
 			missionNamespace setVariable [format [QGVAR(loadout_%1_%2), _side, _role], _loadout, false];
 			missionNamespace setVariable [format [QGVAR(abilities_%1_%2), _side, _role], _abilities, false];
 			missionNamespace setVariable [format [QGVAR(weaponIcon_%1_%2), _side, _role], _weaponIcon, false];
 		};
-	} forEach _x;
+	} forEach _sideLoadouts;
+
 } forEach _allLoadoutData;
+
+
+
+
+
+diag_log "[CONQUEST] (SHARED) Compiled sides data";

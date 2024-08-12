@@ -38,7 +38,7 @@ class GVAR(RscSectorHUD) {
 
 				class Sector_Flag : GVAR(RscPictureNoAR) {
 					idc = MACRO_IDC_SHUD_FLAG_PICTURE;
-					text = "a3\data_f\Flags\flag_white_co.paa";
+					text = MACRO_TEXTURE_FLAG_EMPTY;
 					x = MACRO_POS_SHUD_SIDE_WIDTH;
 					w = MACRO_POS_SHUD_FLAG_WIDTH;
 					h = MACRO_POS_SHUD_HEIGHT;

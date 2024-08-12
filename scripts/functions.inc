@@ -67,6 +67,7 @@ class MACRO_PROJECT_PREFIX {
 
 		class gm_addScore {};
 		class gm_compileParams {};
+		class gm_compileSidesData {};
 		class gm_endMission {};
 		class gm_getFlagTexture {};
 		class gm_getSideName {};
@@ -95,7 +96,6 @@ class MACRO_PROJECT_PREFIX {
 		file = "scripts\loadouts";
 		// Abbreviation:	lo
 
-		class lo_compileLoadouts {};
 		class lo_setRoleLoadout {};
 	};
 

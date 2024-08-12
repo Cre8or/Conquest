@@ -320,6 +320,8 @@
 	#define MACRO_FONT_UI_THIN                                     "PuristaLight"
 	#define MACRO_FONT_UI_MEDIUM                                   "PuristaMedium"
 
+	#define MACRO_TEXTURE_FLAG_EMPTY                               "a3\data_f\flags\flag_white_co.paa"
+
 
 
 
@@ -465,7 +467,7 @@
 	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.14.669" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.15.714" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
