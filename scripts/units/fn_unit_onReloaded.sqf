@@ -27,8 +27,16 @@ if (!local _unit or {!([_unit] call FUNC(unit_isAlive))}) exitWith {};
 
 
 
-// Only refill primary weapon and handgun ammo
-if (_weapon == primaryWeapon _unit or {_weapon == handgunWeapon _unit}) then {
+// Interface with lo_getOverallAmmo, forcing all machines to recompute the cache
+_unit setVariable [QGVAR(overallAmmo_isValid), false, true];
+systemChat format ["(%1) reloaded", name _unit];
+
+
+
+
+
+// AI: Only refill primary weapon and handgun ammo
+if (!isPlayer _unit and {_weapon == primaryWeapon _unit or {_weapon == handgunWeapon _unit}}) then {
 
         // Figure out the magazine classname
         private _magClass = _oldMagazine param [0, ""];
@@ -36,6 +44,6 @@ if (_weapon == primaryWeapon _unit or {_weapon == handgunWeapon _unit}) then {
                 _magClass = _newMagazine param [0, ""];
         };
 
-        // Add a new magazine to the unit
+		// Infinite ammo, babyyyyy
         _unit addMagazine _magClass;
 };

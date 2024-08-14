@@ -25,7 +25,7 @@ private _configPath_ammo = (configFile >> "CfgAmmo");
 private _allThrowables = [];
 
 // Set up some variables
-private ["_side", "_sideData", "_role", "_loadout", "_abilities", "_weaponIcon", "_ammoTypeX", "_isExplosiveX", "_abilitiesLUT"];
+private ["_sideData", "_role", "_loadout", "_abilities", "_allMagazines", "_magazinesCache", "_weaponIcon","_magazinePrimary", "_magazinePrimaryAlt", "_magazineSecondary", "_magazineHandgun", "_ammoTypeX", "_isExplosiveX"];
 
 // Compile the list of throwable magazines
 {
@@ -34,24 +34,24 @@ private ["_side", "_sideData", "_role", "_loadout", "_abilities", "_weaponIcon",
 	} forEach getArray (_x >> "magazines");
 } forEach ("isClass _x" configClasses (_configPath_weapons >> "Throw"));
 
-private _allFilePaths = [ // Same order as GVAR(sides)
-	"mission\sides\data_side_east.inc",
-	"mission\sides\data_side_resistance.inc",
-	"mission\sides\data_side_west.inc"
+private _allSides = [ // Fixed order by framework convention
+	[east,       "mission\sides\data_side_east.inc"],
+	[resistance, "mission\sides\data_side_resistance.inc"],
+	[west,       "mission\sides\data_side_west.inc"]
 ];
 
 
 
 
 
-// Iterate over all sides' loadout arrays
+// Parse all sides' data files
 {
-	_side = GVAR(sides) # _forEachIndex;
+	_x params ["_side", "_filePath"];
 
-	// Ensure the side data file is valid
+	// Validate the file path
 	_sideData = nil;
-	if (_x != "" and {fileExists _x}) then {
-		_sideData = call compile preprocessFileLineNumbers _x;
+	if (fileExists _filePath) then {
+		_sideData = call compile preprocessFileLineNumbers _filePath;
 	};
 
 	if (isNil "_sideData" or {!(_sideData isEqualType [])}) then {
@@ -60,11 +60,6 @@ private _allFilePaths = [ // Same order as GVAR(sides)
 		private _str = format ["[CONQUEST] ERROR: Side data file is missing or invalid! (%1)", _x];
 		systemChat _str;
 		diag_log _str;
-	};
-
-	// Ignore empty sides
-	if (_side == sideEmpty) then {
-		continue;
 	};
 
 	_sideData params [
@@ -95,7 +90,6 @@ private _allFilePaths = [ // Same order as GVAR(sides)
 
 	// Iterate over this side's loadouts
 	{
-		// Fetch the current role and loadout
 		_role      = _x param [0, MACRO_ENUM_ROLE_INVALID];
 		_loadout   = _x param [1, []];
 		_abilities = [];
@@ -105,18 +99,18 @@ private _allFilePaths = [ // Same order as GVAR(sides)
 			case MACRO_ENUM_ROLE_SUPPORT:  {_abilities pushBack MACRO_ENUM_LOADOUT_ABILITY_RESUPPLY};
 			case MACRO_ENUM_ROLE_ENGINEER: {_abilities pushBack MACRO_ENUM_LOADOUT_ABILITY_REPAIR};
 			case MACRO_ENUM_ROLE_MEDIC:    {_abilities pushBack MACRO_ENUM_LOADOUT_ABILITY_HEAL};
-			case MACRO_ENUM_ROLE_INVALID:  {continue};
 		};
 
 		// Only continue if the loadout is set
 		if !(_loadout isEqualTo []) then {
-			_weaponIcon = "";
+			_allMagazines   = [];
+			_magazinesCache = createHashMap;
+			_weaponIcon     = "";
 
-			// Fetch the loadout's components
 			_loadout params [
 				["_weaponPrimaryArray", []],
 				["_weaponSecondaryArray", []],
-				"", // weaponHandgun
+				["_weaponHandgunArray", []],
 				["_uniformArray", []],
 				["_vestArray", []],
 				["_backpackArray", []],
@@ -128,13 +122,37 @@ private _allFilePaths = [ // Same order as GVAR(sides)
 
 			// Check for a primary weapon
 			if !(_weaponPrimaryArray isEqualTo []) then {
-				_weaponIcon = getText (_configPath_weapons >> _weaponPrimaryArray param [0, ""] >> "picture");
+				_weaponIcon         = getText (_configPath_weapons >> _weaponPrimaryArray param [0, ""] >> "picture");
+				_magazinePrimary    = _weaponPrimaryArray param [4, []];
+				_magazinePrimaryAlt = _weaponPrimaryArray param [5, []];
+
+				if !(_magazinePrimary isEqualTo []) then {
+					_allMagazines pushBack [_magazinePrimary param [0, ""], 1];
+				};
+				if !(_magazinePrimaryAlt isEqualTo []) then {
+					_allMagazines pushBack [_magazinePrimaryAlt param [0, ""], 1];
+				};
 			};
 
 			// Check for a launcher
 			if !(_weaponSecondaryArray isEqualTo []) then {
+				_magazineSecondary = _weaponSecondaryArray param [4, []];
+
+				if !(_magazineSecondary isEqualTo []) then {
+					_allMagazines pushBack [_magazineSecondary param [0, ""], 1];
+				};
+
 				if !(getArray (_configPath_weapons >> _weaponSecondaryArray # 0 >> "magazines") isEqualTo []) then {
 					_abilities pushBack MACRO_ENUM_LOADOUT_ABILITY_ANTITANK;
+				};
+			};
+
+			// Check for a handgun
+			if !(_weaponHandgunArray isEqualTo []) then {
+				_magazineHandgun = _weaponHandgunArray param [4, []];
+
+				if !(_magazineHandgun isEqualTo []) then {
+					_allMagazines pushBack [_magazineHandgun param [0, ""], 1];
 				};
 			};
 
@@ -148,7 +166,7 @@ private _allFilePaths = [ // Same order as GVAR(sides)
 				_abilities pushBack MACRO_ENUM_LOADOUT_ABILITY_NVGS;
 			};
 
-			// Iterate over all items contained inside the loadout's uniform/vest/backpack
+			// Iterate over all remaining items inside the loadout's uniform/vest/backpack
 			{
 				_x params ["_classX", "_amountX", ["_ammoCountX", -1]];
 
@@ -159,8 +177,9 @@ private _allFilePaths = [ // Same order as GVAR(sides)
 				// Otherwise, it's probably a magazine or a tool
 				} else {
 
-					// If the ammo count is greater or equal to 0, it's a magazine
+					// If the ammo count is greater than 0, it's a magazine
 					if (_ammoCountX > 0) then {
+						_allMagazines pushBack [_classX, _amountX];
 
 						_ammoTypeX = getText (_configPath_magazines >> _classX >> "ammo");
 						_isExplosiveX = (getNumber (_configPath_ammo >> _ammoTypeX >> "explosive") > 0);
@@ -213,14 +232,32 @@ private _allFilePaths = [ // Same order as GVAR(sides)
 				+ (_backpackArray param [1, []])
 			);
 
+			// Determine the overall counts for every magazine classname (deduplicating the array)
+			{
+				_x params ["_magazineX", "_countX"];
+				_magazineX = toLower _magazineX;
+				_countX    = _countX + (_magazinesCache getOrDefault [_magazineX, 0]);
+
+				_magazinesCache set [_magazineX, _countX];
+			} forEach _allMagazines;
+
+			// Add the total ammo count of every magazine classname
+			{
+				_magazinesCache set [_x, [
+					1 max getNumber (_configPath_magazines >> _x >> "count"), // Ammo per magazine
+					_y // Total magazines count
+				]];
+			} forEach _magazinesCache;
+
 			// Save the loadout, abilities and weapon icon data as global variables
 			missionNamespace setVariable [format [QGVAR(loadout_%1_%2), _side, _role], _loadout, false];
 			missionNamespace setVariable [format [QGVAR(abilities_%1_%2), _side, _role], _abilities, false];
 			missionNamespace setVariable [format [QGVAR(weaponIcon_%1_%2), _side, _role], _weaponIcon, false];
+			missionNamespace setVariable [format [QGVAR(magazinesCache_%1_%2), _side, _role], _magazinesCache, false];
 		};
 	} forEach _sideLoadouts;
 
-} forEach _allFilePaths;
+} forEach _allSides;
 
 
 

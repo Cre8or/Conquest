@@ -24,10 +24,11 @@ params [
 // Preconditions
 if (
 	!local _medic
-	or {!isTouchingGround _medic}
+	or {vehicle _support != _support}
 	or {_medic getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] != MACRO_ENUM_ROLE_MEDIC}
 	or {[_medic] call FUNC(unit_isReloading)}
 	or {!([_medic] call FUNC(unit_isAlive))}
+	or {!isTouchingGround _medic}
 ) exitWith {
 	[false, objNull]
 };
@@ -61,8 +62,13 @@ private _medicSide  = _medic getVariable [QGVAR(side), sideEmpty];
 private _candidates = [[_target], allUnits] select (isNull _target);
 _candidates = _candidates select {
 	_x distanceSqr _medic <= _c_maxActionDistSqr
+	and {_x == vehicle _x}
+	and {_x getVariable [QGVAR(isSpawned), false]}
 	and {(_x getVariable [QGVAR(side), sideEmpty]) == _medicSide}
-	and {[_x] call FUNC(unit_needsHealing)}
+	and {
+		_x getVariable [QGVAR(health), 1] < 1
+		or {_x getVariable [QGVAR(isUnconscious), false]}
+	}
 };
 
 if (_candidates isEqualTo []) exitWith {[false, objNull]};
@@ -90,10 +96,12 @@ if (isNull _target) then {
 	_target = (_candidatesSorted param [0, []]) param [1, objNull];
 
 	// If no candidate is found, check if the medic needs healing
-	if (isNull _target) then {
-		if ([_medic] call FUNC(unit_needsHealing)) then {
-			_target = _medic;
-		};
+	if (
+		isNull _target
+		and {_medic == vehicle _medic}
+		and {_medic getVariable [QGVAR(health), 1] < 1}
+	) then {
+		_target = _medic;
 	};
 
 	// Validate the target

@@ -14,6 +14,7 @@ class MACRO_PROJECT_PREFIX {
 		class act_toggleSpawnMenu {};
 		class act_spotTarget {};
 		class act_tryHealUnit {};
+		class act_tryResupplyUnit {};
 	};
 
 	class ai {
@@ -96,6 +97,9 @@ class MACRO_PROJECT_PREFIX {
 		file = "scripts\loadouts";
 		// Abbreviation:	lo
 
+		class lo_updateOverallAmmo {};
+		class lo_addOverallAmmo {};
+		class lo_getOverallAmmo {};
 		class lo_setRoleLoadout {};
 	};
 
@@ -190,7 +194,6 @@ class MACRO_PROJECT_PREFIX {
 		class unit_getVehicleRole {};
 		class unit_isAlive {};
 		class unit_isReloading {};
-		class unit_needsHealing {};
 		class unit_onFired {};
 		class unit_onHandleDamage {};
 		class unit_onHealUnit {};
@@ -198,6 +201,7 @@ class MACRO_PROJECT_PREFIX {
 		class unit_onHitPart {};
 		class unit_onKilled {};
 		class unit_onReloaded {};
+		class unit_onResupplyUnit {};
 		class unit_processDamageEvent {};
 		class unit_selectBestWeapon {};
 		class unit_setIdentityLocal {};

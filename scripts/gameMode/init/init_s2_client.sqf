@@ -193,7 +193,7 @@ if (!isNil QGVAR(ACE3_addedActionPAK)) then {
 	private _sidesRev = +GVAR(sides);
 	reverse _sidesRev;
 	GVAR(side) = _sidesRev param [_sidesRev findIf {_x != sideEmpty}, sideEmpty];
-	GVAR(role) = MACRO_ENUM_ROLE_MEDIC;
+	GVAR(role) = MACRO_ENUM_ROLE_SUPPORT;
 	GVAR(spawnSector) = GVAR(allSectors) param [GVAR(allSectors) findIf {
 		_x getVariable [QGVAR(side), sideEmpty] == GVAR(side)
 		and {_x getVariable [format [QGVAR(spawnPoints_%1), GVAR(side)], []] isNotEqualTo []}

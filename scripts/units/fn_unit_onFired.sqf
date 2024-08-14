@@ -17,7 +17,7 @@
 params [
 	"_unit",
 	"_weapon",
-	"",
+	"_muzzle",
 	"",
 	"_ammoType",
 	"_magazine",
@@ -77,6 +77,27 @@ _ammoData = [
 // Disable spawn protection (only applicable for players)
 if (_unit == player) then {
 	GVAR(gm_sys_handlePlayerRespawn_protectionTime) = 0;
+};
+
+
+
+
+
+// Interface with lo_getOverallAmmo
+private _curWeapon = currentWeapon _unit;
+if (_weapon == _curWeapon) then {
+
+	// To prevent network saturation, only invalidate the cache on the last bullet of the magazine.
+	private _curAmmo = _unit ammo _muzzle;
+	if (_curAmmo <= 0) then {
+		_unit setVariable [QGVAR(overallAmmo_isValid), false, true];
+	};
+} else {
+	// For thrown weapons, the "Reloaded" does not trigger on the last grenade.
+	// As such, we only need to react to the very last grenade to invalidate the ammo cache.
+	if (_weapon == "Throw" and {!(_magazine in magazines _unit)}) then {
+		_unit setVariable [QGVAR(overallAmmo_isValid), false, true];
+	};
 };
 
 

@@ -366,15 +366,19 @@
 	#define MACRO_ACT_SPOTTING_COOLDOWNDURATION                     17 // How long the spotting action remains blocked for, in seconds, when in cooldown
 	#define MACRO_ACT_SPOTTING_COSTPERUSE                           4 // How much it costs to use the spotting action. Divice the cooldown duration by this value to determine how often the action may be triggered (at once) before entering cooldown
 
+	#define MACRO_ACT_RESUPPLYUNIT_MAXDISTANCE                      2 // The distance, in meters, below which support units must be to friendly units in order to resupply them
+	#define MACRO_ACT_RESUPPLYUNIT_AMOUNT                           0.15 // The amount of ammunition that is added to friendly units upon resupplying, expressed as fraction of their loadout's maximum ammunition
+	#define MACRO_ACT_RESUPPLYUNIT_COOLDOWN                         1 // The cooldown duration, in seconds, between consecutive resupply actions
+
 	#define MACRO_ACT_HEALUNIT_MAXDISTANCE                          2 // The distance, in meters, below which medics must be to their patients in order to heal them
 	#define MACRO_ACT_HEALUNIT_AMOUNT                               0.15 // The amount of health that is added to patients upon healing, expressed as fraction of their maximum health
-	#define MACRO_ACT_HEALUNIT_COOLDOWN                             1 // The cooldown duration, in seconds, between two consecutive healing actions that medics must wait
+	#define MACRO_ACT_HEALUNIT_COOLDOWN                             1 // The cooldown duration, in seconds, between consecutive healing actions
 
 	#define MACRO_KEYBIND_TOGGLESPAWNMENU                           DIK_F1
-	#define MACRO_KEYBIND_HEAL                                      DIK_4
-	#define MACRO_KEYBIND_REARM                                     DIK_5
-	#define MACRO_KEYBIND_REPAIR                                    DIK_6
 	#define MACRO_KEYBIND_GIVEUP                                    DIK_SPACE
+	#define MACRO_KEYBIND_RESUPPLY                                  DIK_4
+	#define MACRO_KEYBIND_REPAIR                                    DIK_4
+	#define MACRO_KEYBIND_HEAL                                      DIK_4
 
 	// Combat Area
 	#define MACRO_CA_PLAYER_INTERVAL                                0.1 // The interval, in seconds, between two consecutive combat area checks for the player
@@ -404,9 +408,9 @@
 	#define MACRO_AI_DRIVERCONTROL_INTERVAL                         0.25 // Interval, in seconds, between two update cycles of the AI driverControl system (each vehicle driver gets updated every this often)
 	#define MACRO_AI_COMMANDER_INTERVAL                             0.25 // Interval, in seconds, between two update cycles of the AI commander system (per side; * 3 for a full cycle)
 	#define MACRO_AI_DOMOVEINTERVAL                                 5 // The interval, in seconds, between two doMove commands being issued to AI units (as they sometimes need to be rescheduled to move)
-	#define MACRO_AI_MEDICAL_MAXACTIONDISTANCE                      20 // The maximum distance, in meters, that AI units are willing to travel in order to perform medical actions on others, or to receive medical attention
-	#define MACRO_AI_MEDICAL_CHANGESTANCEDISTANCE                   8 // The distance to the patient, in meters, below which the unit will adjust its stance to that of the patient
-	#define MACRO_AI_MEDICAL_PATIENT_STOPDURATIONPERHEAL            2 // For how long an AI unit remains stopped, in seconds, after being healed (prevents them from running away while being healed)
+	#define MACRO_AI_ROLEACTION_MAXDISTANCE_UNIT                    20 // The maximum distance, in meters, below which AI units will consider performing role-specific actions on nearby friendly units (and, for the recipients, to seek out the action-providing units)
+	#define MACRO_AI_ROLEACTION_CHANGESTANCEDISTANCE                8 // The distance to the recipient, in meters, below which units performing role-specific actions will adjust their stance to that of the recipient
+	#define MACRO_AI_ROLEACTION_RECIPIENT_STOPDURATION              2 // For how long an AI unit remains stopped, in seconds, after being healed or resupplied (prevents them from running away while still being healed/resupplied)
 	#define MACRO_AI_MEDICAL_SELFHEALCOOLDOWN                       3 // The duration, in seconds, that a medic must wait after being injured before being allowed to heal itself (to combat heal-spamming)
 	#define MACRO_AI_MEDICAL_INITIALREVIVEDELAY                     2 // The initial delay, in seconds, after a unit has gone unconscious before AI medics are allowed to revive them (to combat revive-spamming)
 	#define MACRO_AI_COMMANDER_STRATEGICVALUE_DECREASEPERGROUP      4 // By how much a sector's current strategic value is divided, for each group ordered to it (per iteration of the commander system)
@@ -464,10 +468,10 @@
 
 	// Health
 	#define MACRO_UNIT_HEALTH_FALLDAMAGEHEIGHT                      3 // The height in meters beyond which units receive fall damage when jumping off of surfaces (assuming no initial velocity)
-	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health
+	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health. Below this threshold, AI units will seek out nearby medics.
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.15.715" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.15.727" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -542,8 +546,8 @@
 	//TODO: Add messages for the following macros
 	#define MACRO_ENUM_SCORE_HEAL                                   10
 	#define MACRO_ENUM_SCORE_REVIVE                                 11
-	//#define MACRO_ENUM_SCORE_REPAIR                                 12
-	//#define MACRO_ENUM_SCORE_REARM                                  13
+	#define MACRO_ENUM_SCORE_REPAIR                                 12
+	#define MACRO_ENUM_SCORE_RESUPPLY                               13
 
 	#define MACRO_ENUM_SCORE_SUICIDE                                20
 	#define MACRO_ENUM_SCORE_DESERTING                              21
@@ -801,11 +805,14 @@
 
 	#define MACRO_ENUM_AI_PRIO_BASESETTINGS                          0
 
-	#define MACRO_ENUM_AI_PRIO_MEDICAL                               1
-	#define MACRO_ENUM_AI_PRIO_DODGEVEHICLE                          2
+	#define MACRO_ENUM_AI_PRIO_RESUPPLY                              1
+	#define MACRO_ENUM_AI_PRIO_REPAIR                                2
+	#define MACRO_ENUM_AI_PRIO_MEDICAL                               3
 
-	#define MACRO_ENUM_AI_PRIO_UNCONSCIOUS                           10
-	#define MACRO_ENUM_AI_PRIO_SAFESTART                             11
+	#define MACRO_ENUM_AI_PRIO_DODGEVEHICLE                          10
+
+	#define MACRO_ENUM_AI_PRIO_UNCONSCIOUS                           20
+	#define MACRO_ENUM_AI_PRIO_SAFESTART                             21
 
 
 

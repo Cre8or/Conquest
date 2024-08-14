@@ -3,6 +3,7 @@
 	Description:
 		[LA][GE]
 		Callback function for when a medic has healed (or revived) a local unit.
+		Handles the actual reviving/healing of the patient.
 
 		Revival of unconscious units requires the local machine's confirmation, as the bleedout timer is handled
 		locally too (and time is a difficult thing to synchronise in multiplayer).
@@ -56,4 +57,4 @@ if (_patient getVariable [QGVAR(isUnconscious), false]) then {
 };
 
 // Interface with ai_sys_unitControl to make the unit stay put while being healed
-_patient setVariable [QGVAR(ai_unitControl_handleMedical_stopTime), _time + MACRO_AI_MEDICAL_PATIENT_STOPDURATIONPERHEAL, false];
+_patient setVariable [QGVAR(ai_unitControl_handleMedical_stopTime), _time + MACRO_AI_ROLEACTION_RECIPIENT_STOPDURATION, false];

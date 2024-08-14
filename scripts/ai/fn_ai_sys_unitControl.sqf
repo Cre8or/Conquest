@@ -124,6 +124,9 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 				// Check if any nearby vehicles can be claimed
 				#include "unitControl\subSys_claimVehicle.sqf";
 
+				// Handle support actions (resupplying units / seeking support units)
+				#include "unitControl\subSys_handleResupply.sqf";
+
 				// Handle medical actions (healing other units / seeking medical attention)
 				#include "unitControl\subSys_handleMedical.sqf";
 

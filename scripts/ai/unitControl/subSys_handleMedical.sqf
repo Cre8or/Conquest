@@ -5,8 +5,8 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 
 	// Set up some constants
 	private _c_maxActionDistSqr    = MACRO_ACT_HEALUNIT_MAXDISTANCE ^ 2;
-	private _c_maxMedicalDistSqr   = MACRO_AI_MEDICAL_MAXACTIONDISTANCE ^ 2;
-	private _c_changeStanceDistSqr = MACRO_AI_MEDICAL_CHANGESTANCEDISTANCE ^ 2;
+	private _c_maxMedicalDistSqr   = MACRO_AI_ROLEACTION_MAXDISTANCE_UNIT ^ 2;
+	private _c_changeStanceDistSqr = MACRO_AI_ROLEACTION_CHANGESTANCEDISTANCE ^ 2;
 
 	// Set up some variables
 	private _health = _unit getVariable [QGVAR(health), 1];

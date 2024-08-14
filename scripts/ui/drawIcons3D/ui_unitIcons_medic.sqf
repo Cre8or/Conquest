@@ -14,7 +14,13 @@ if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC and {!(_player getVariable [QGVAR(isUnco
 		_unitX = _x # 0;
 		_distX = _x # 2;
 
-		if (_distX < _c_maxDistMedicSqr and {[_unitX] call FUNC(unit_needsHealing)}) then {
+		if (
+			_distX < _c_maxDistMedicSqr
+			and {
+				_unitX getVariable [QGVAR(health), 1] < 1
+				or {_unitX getVariable [QGVAR(isUnconscious), false]}
+			}
+		) then {
 			_healthX = _unitX getVariable [QGVAR(health), 0];
 
 			_renderData_units pushBack (
@@ -27,7 +33,12 @@ if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC and {!(_player getVariable [QGVAR(isUnco
 		_unitX = _x # 0;
 		_distX = _x # 2;
 
-		if (_distX < _c_maxDistMedicSqr and {[_unitX] call FUNC(unit_needsHealing)}) then {
+		if (
+			_distX < _c_maxDistMedicSqr
+			and {
+				_unitX getVariable [QGVAR(health), 1] < 1
+				or {_unitX getVariable [QGVAR(isUnconscious), false]}
+			}		) then {
 			_healthX = _unitX getVariable [QGVAR(health), 0];
 
 			_renderData_units pushBack (
@@ -40,11 +51,10 @@ if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC and {!(_player getVariable [QGVAR(isUnco
 // As a non-medic, the player is shown nearby medics when low on health
 } else {
 
-	if !([_player] call FUNC(unit_needsHealing)) then {
+	private _health = _player getVariable [QGVAR(health), -1];
+	if (_health >= 1) then {
 		breakTo QGVAR(ui_sys_drawIcons3D);
 	};
-
-	private _health = _player getVariable [QGVAR(health), -1];
 
 	{
 		_unitX = _x # 0;

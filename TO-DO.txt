@@ -6,6 +6,9 @@ TO DO:
 	- Implement resupply ability to support:
 		- Similar animations/UI icons to medic healing, but for rearming
 		- Prevent players from looting bodies/opening their gear
+		- Add score to the resupplying unit
+		- Resupply the recipient as a fraction of their overall ammunition
+		- Calculate and cache ammo count in getOverallAmmo, and invalidate the cache via onInit, onReloaded, setRoleLoadout
 	- Add a repair ability to the engineer role
 		- Implement looping action logic
 		- Play a short unit gesture/animation
