@@ -24,7 +24,7 @@ params [
 // Preconditions
 if (
 	!local _medic
-	or {vehicle _support != _support}
+	or {vehicle _medic != _medic}
 	or {_medic getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] != MACRO_ENUM_ROLE_MEDIC}
 	or {[_medic] call FUNC(unit_isReloading)}
 	or {!([_medic] call FUNC(unit_isAlive))}

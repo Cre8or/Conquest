@@ -305,9 +305,9 @@
 	#define MACRO_UI_SECTORFLAGS_SCALEOFFSET                        0.03 // When zooming in on the map, the sector flag icons will eventually increase to twice their normal size. This offset lets you choose at which zoom level this transition should happen. Larger numbers lean towards "zoomed out", smaller numbers towards "zoomed in" (logarithmic scale). Accepted range is 0 to 1
 
 	// Unit Icons
-	#define MACRO_UI_ICONS3D_MAXDISTANCE_INF                        300 // The maximum distance, in meters, at which infantry 3D icons are visible
-	#define MACRO_UI_ICONS3D_MAXDISTANCE_VEH                        1000 // The maximum distance, in meters, at which vehicle 3D icons are visible
 	#define MACRO_UI_ICONS3D_MAXDISTANCE_MEDIC                      80 // The maximum distance, in meters, at which medic-specific infantry icons (units in need of healing, and nearby medics) are visible
+	#define MACRO_UI_ICONS3D_MAXDISTANCE_INF                        500 // The maximum distance, in meters, at which infantry 3D icons are visible
+	#define MACRO_UI_ICONS3D_MAXDISTANCE_VEH                        1500 // The maximum distance, in meters, at which vehicle 3D icons are visible
 
 	// Combat Area
 	#define MACRO_CA_CORNEROFFSET                                   50000 // How much the combat area should overextend (beyond the map corners), in meters
@@ -363,8 +363,8 @@
 	// Actions
 	#define MACRO_ACT_SPOTTING_MINVISIBILITY                        0.5 // The minimum threshold that visibility checks must exceed for a target to be considered spottable (return value of checkVisibility)
 	#define MACRO_ACT_SPOTTING_DURATION                             6 // How long, in seconds, a hostile unit/vehicle is visible for when spotted
-	#define MACRO_ACT_SPOTTING_COOLDOWNDURATION                     17 // How long the spotting action remains blocked for, in seconds, when in cooldown
-	#define MACRO_ACT_SPOTTING_COSTPERUSE                           4 // How much it costs to use the spotting action. Divice the cooldown duration by this value to determine how often the action may be triggered (at once) before entering cooldown
+	#define MACRO_ACT_SPOTTING_COOLDOWNDURATION                     15 // How long the spotting action remains blocked for, in seconds, when in cooldown
+	#define MACRO_ACT_SPOTTING_COSTPERUSE                           2 // How much it costs to use the spotting action. Divice the cooldown duration by this value to determine how often the action may be triggered (at once) before entering cooldown
 
 	#define MACRO_ACT_RESUPPLYUNIT_MAXDISTANCE                      2 // The distance, in meters, below which support units must be to friendly units in order to resupply them
 	#define MACRO_ACT_RESUPPLYUNIT_AMOUNT                           0.15 // The amount of ammunition that is added to friendly units upon resupplying, expressed as fraction of their loadout's maximum ammunition
@@ -470,8 +470,12 @@
 	#define MACRO_UNIT_HEALTH_FALLDAMAGEHEIGHT                      3 // The height in meters beyond which units receive fall damage when jumping off of surfaces (assuming no initial velocity)
 	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health. Below this threshold, AI units will seek out nearby medics.
 
+	// Ammo
+	#define MACRO_UNIT_AMMO_THRESHOLDLOW                            0.5 // The threshold of overall ammo below which a unit is considered to be at low ammo. Below this threshold, AI units will seek out nearby support units.
+	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
+
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.15.727" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.15.731" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

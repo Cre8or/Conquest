@@ -1,4 +1,7 @@
 TO DO:
+	- Add a custom headshot sound (satisfaction factor)
+	- Fix spawn menu camera not being used on JIP (camera is following the player, who gets teleported when switching sides)
+	- Fix R2T camera not showing on JIP
 	- Fix occasional double-kill registration for an individual unit
 		- Maybe why kills/vehicle destruction sometimes awards double the points that it should (including headshot damage)?
 	- Fix loadouts sometimes not getting applied to AI units (same issue as gAI when locality changes?)
