@@ -61,9 +61,9 @@ case "ui_init": {
 		and {GVAR(role) != MACRO_ENUM_ROLE_INVALID}
 	) then {
 		switch (GVAR(ui_sm_prevMenu)) do {
-			case MACRO_IDC_SM_ROLE_FRAME: 	{["ui_button_click", [MACRO_IDC_SM_ROLE_BUTTON]] call FUNC(ui_spawnMenu)};
-			case MACRO_IDC_SM_DEPLOY_FRAME:	{["ui_button_click", [MACRO_IDC_SM_DEPLOY_BUTTON]] call FUNC(ui_spawnMenu)};
-			default				{["ui_button_click", [MACRO_IDC_SM_SIDE_BUTTON]] call FUNC(ui_spawnMenu)};
+			case MACRO_IDC_SM_ROLE_FRAME:   {["ui_button_click", [MACRO_IDC_SM_ROLE_BUTTON]] call FUNC(ui_spawnMenu)};
+			case MACRO_IDC_SM_DEPLOY_FRAME: {["ui_button_click", [MACRO_IDC_SM_DEPLOY_BUTTON]] call FUNC(ui_spawnMenu)};
+			default                         {["ui_button_click", [MACRO_IDC_SM_SIDE_BUTTON]] call FUNC(ui_spawnMenu)};
 		};
 	} else {
 		// Default to the side menu, forcing the player to pick a side

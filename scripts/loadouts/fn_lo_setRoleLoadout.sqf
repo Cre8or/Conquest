@@ -39,7 +39,8 @@ _unit setUnitLoadout _loadout;
 // Store the role on the entity for other components to check on
 _unit setVariable [QGVAR(role), _role, true];
 
-// Invalidate the ammo cache (forces all machines to recompute it locally)
-_unit setVariable [QGVAR(overallAmmo_isValid), false, true];
+// (Re)initialise the ammo cache
+_unit setVariable [QGVAR(overallAmmo_cache), 1, true];
+_unit setVariable [QGVAR(overallAmmo_isValid), true, true];
 
 [_unit, true] call FUNC(unit_selectBestWeapon);

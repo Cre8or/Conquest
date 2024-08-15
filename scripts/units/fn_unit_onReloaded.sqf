@@ -21,20 +21,21 @@ params [
 	"_oldMagazine"
 ];
 
-if (!local _unit or {!([_unit] call FUNC(unit_isAlive))}) exitWith {};
+if (!local _unit) exitWith {};
 
 
 
 
 
-// Interface with lo_getOverallAmmo, forcing all machines to recompute the cache
-_unit setVariable [QGVAR(overallAmmo_isValid), false, true];
-systemChat format ["(%1) reloaded", name _unit];
+// Interface with lo_getOverallAmmo
+_unit setVariable [QGVAR(overallAmmo_isValid), false, false];
+[_unit] call FUNC(lo_updateOverallAmmo);
+//systemChat format ["(%1) reloaded", name _unit];
 
 
 
 
-
+/*
 // AI: Only refill primary weapon and handgun ammo
 if (!isPlayer _unit and {_weapon == primaryWeapon _unit or {_weapon == handgunWeapon _unit}}) then {
 
@@ -47,3 +48,4 @@ if (!isPlayer _unit and {_weapon == primaryWeapon _unit or {_weapon == handgunWe
 		// Infinite ammo, babyyyyy
         _unit addMagazine _magClass;
 };
+*/

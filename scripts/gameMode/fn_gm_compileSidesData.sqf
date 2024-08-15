@@ -97,7 +97,7 @@ private _allSides = [ // Fixed order by framework convention
 		// Role-based abilities
 		switch (_role) do {
 			case MACRO_ENUM_ROLE_SUPPORT:  {_abilities pushBack MACRO_ENUM_LOADOUT_ABILITY_RESUPPLY};
-			case MACRO_ENUM_ROLE_ENGINEER: {_abilities pushBack MACRO_ENUM_LOADOUT_ABILITY_REPAIR};
+			//case MACRO_ENUM_ROLE_ENGINEER: {_abilities pushBack MACRO_ENUM_LOADOUT_ABILITY_REPAIR};
 			case MACRO_ENUM_ROLE_MEDIC:    {_abilities pushBack MACRO_ENUM_LOADOUT_ABILITY_HEAL};
 		};
 

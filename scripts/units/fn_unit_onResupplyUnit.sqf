@@ -25,17 +25,19 @@ if (isNull _support or {!local _recipient}) exitWith {};
 
 
 // Set up some variables
-private _time = time;
-private _ammo = [_recipient] call FUNC(lo_getOverallAmmo);
+private _time             = time;
+private _oldAmmo          = [_recipient] call FUNC(lo_getOverallAmmo);
+private _resupplyCooldown = _recipient getVariable [QGVAR(resupplyCooldown), 0];
 
-if (_ammo >= 1) exitWith {};
+if (_oldAmmo >= 1 and {_time < _resupplyCooldown}) exitWith {};
 
 
 
 
 
 // Resupply the recipient
-private _diff = MACRO_ACT_RESUPPLYUNIT_AMOUNT min (1 - _ammo);
+private _newAmmo = (_oldAmmo + MACRO_ACT_RESUPPLYUNIT_AMOUNT) min 1;
+private _diff    = _newAmmo - _oldAmmo;
 
 [_recipient, _diff] call FUNC(lo_addOverallAmmo);
 
@@ -46,3 +48,8 @@ if (_support != _recipient) then {
 
 // Interface with ai_sys_unitControl to make the unit stay put while being resupplied
 _recipient setVariable [QGVAR(ai_unitControl_handleResupply_stopTime), _time + MACRO_AI_ROLEACTION_RECIPIENT_STOPDURATION, false];
+
+// Enforce a resupply cooldown (to prevent abuse)
+if (_newAmmo >= 1) then {
+	[_recipient] remoteExecCall [QFUNC(unit_setResupplyCooldown), 0, false];
+};

@@ -65,6 +65,7 @@ _candidates = _candidates select {
 	and {_x == vehicle _x}
 	and {_x getVariable [QGVAR(isSpawned), false]}
 	and {(_x getVariable [QGVAR(side), sideEmpty]) == _supportSide}
+	and {_time > _x getVariable [QGVAR(resupplyCooldown), 0]}
 	and {[_x] call FUNC(lo_getOverallAmmo) < 1}
 };
 
@@ -96,6 +97,7 @@ if (isNull _recipient) then {
 	if (
 		isNull _recipient
 		and {_support == vehicle _support}
+		and {_time > _support getVariable [QGVAR(resupplyCooldown), 0]}
 		and {[_support] call FUNC(lo_getOverallAmmo) < 1}
 	) then {
 		_recipient = _support;
@@ -109,7 +111,6 @@ if (isNull _recipient) then {
 
 
 
-systemChat format ["(%1) %2 resupplying %3", _time, name _support, name _recipient];
 if (
 	_support != _recipient
 	and {stance _support != "PRONE"}

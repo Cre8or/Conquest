@@ -205,6 +205,7 @@ class MACRO_PROJECT_PREFIX {
 		class unit_processDamageEvent {};
 		class unit_selectBestWeapon {};
 		class unit_setIdentityLocal {};
+		class unit_setResupplyCooldown {};
 		class unit_setUnconscious {};
 	};
 

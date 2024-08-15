@@ -1,7 +1,7 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
-		[LA]
+		[GA]
 		Returns the unit's overall ammo, expressed as a fraction of its starting ammo (as per the unit's loadout).
 		The returned value is in range [0, 1].
 		For the sake of performance, the overall ammo count is cached. This result is invalidated once the unit depletes
@@ -18,15 +18,14 @@ params [
 	["_unit", objNull, [objNull]]
 ];
 
-if (!local _unit) exitWith {0};
 
 
 
 
-
-// Check if the unit's ammo is cached, and if it isn't, update it
-if !(_unit getVariable [QGVAR(overallAmmo_isValid), true]) then {
+// Check if the local unit's ammo is cached, and if it isn't, update it
+if (local _unit and {!(_unit getVariable [QGVAR(overallAmmo_isValid), true])}) then {
 	[_unit] call FUNC(lo_updateOverallAmmo);
 };
 
-_unit getVariable [QGVAR(overallAmmo_cache), 1];
+// If no value is set (yet), assume the unit has full ammo (-> fresh respawn/JIP)
+_unit getVariable [QGVAR(overallAmmo), 1];

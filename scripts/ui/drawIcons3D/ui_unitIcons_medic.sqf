@@ -1,8 +1,8 @@
-private _c_maxDistMedicSqr = MACRO_UI_ICONS3D_MAXDISTANCE_MEDIC ^ 2;
+private _c_maxDistMedicSqr = MACRO_UI_ICONS3D_MAXDISTANCE_ROLEACTION ^ 2;
 private _c_iconHeal        = getMissionPath "res\images\abilities\ability_heal.paa";
 
 // Strip specific units from the existing arrays, so we can render them separately while leaving the remaining ones
-// for the role-agnostic renderer
+// for the role-agnostic render method
 private _renderData_units = [];
 private "_unitX";
 
@@ -11,36 +11,29 @@ if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC and {!(_player getVariable [QGVAR(isUnco
 	private "_healthX";
 
 	{
-		_unitX = _x # 0;
-		_distX = _x # 2;
+		_unitX   = _x # 0;
+		_distX   = _x # 2;
+		_healthX = _unitX getVariable [QGVAR(health), 0];
 
 		if (
 			_distX < _c_maxDistMedicSqr
-			and {
-				_unitX getVariable [QGVAR(health), 1] < 1
-				or {_unitX getVariable [QGVAR(isUnconscious), false]}
-			}
+			and {_healthX < 1 or {_unitX getVariable [QGVAR(isUnconscious), false]}}
 		) then {
-			_healthX = _unitX getVariable [QGVAR(health), 0];
-
 			_renderData_units pushBack (
-				_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), _freeLook or {_healthX < MACRO_UNIT_HEALTH_THRESHOLDLOW}, _unitX getVariable [QGVAR(health), 0], !(_unitX getVariable [QGVAR(isUnconscious), false])]
+				_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), _freeLook or {_healthX < MACRO_UNIT_HEALTH_THRESHOLDLOW}, _healthX, !(_unitX getVariable [QGVAR(isUnconscious), false])]
 			);
 			_teamMates deleteAt _forEachIndex;
 		};
 	} forEachReversed _teamMates;
 	{
-		_unitX = _x # 0;
-		_distX = _x # 2;
+		_unitX   = _x # 0;
+		_distX   = _x # 2;
+		_healthX = _unitX getVariable [QGVAR(health), 0];
 
 		if (
 			_distX < _c_maxDistMedicSqr
-			and {
-				_unitX getVariable [QGVAR(health), 1] < 1
-				or {_unitX getVariable [QGVAR(isUnconscious), false]}
-			}		) then {
-			_healthX = _unitX getVariable [QGVAR(health), 0];
-
+			and {_healthX < 1 or {_unitX getVariable [QGVAR(isUnconscious), false]}}
+		) then {
 			_renderData_units pushBack (
 				_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), _freeLook or {_healthX < MACRO_UNIT_HEALTH_THRESHOLDLOW}, _healthX, !(_unitX getVariable [QGVAR(isUnconscious), false])]
 			);

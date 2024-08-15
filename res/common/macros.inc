@@ -305,9 +305,9 @@
 	#define MACRO_UI_SECTORFLAGS_SCALEOFFSET                        0.03 // When zooming in on the map, the sector flag icons will eventually increase to twice their normal size. This offset lets you choose at which zoom level this transition should happen. Larger numbers lean towards "zoomed out", smaller numbers towards "zoomed in" (logarithmic scale). Accepted range is 0 to 1
 
 	// Unit Icons
-	#define MACRO_UI_ICONS3D_MAXDISTANCE_MEDIC                      80 // The maximum distance, in meters, at which medic-specific infantry icons (units in need of healing, and nearby medics) are visible
 	#define MACRO_UI_ICONS3D_MAXDISTANCE_INF                        500 // The maximum distance, in meters, at which infantry 3D icons are visible
 	#define MACRO_UI_ICONS3D_MAXDISTANCE_VEH                        1500 // The maximum distance, in meters, at which vehicle 3D icons are visible
+	#define MACRO_UI_ICONS3D_MAXDISTANCE_ROLEACTION                 80 // The maximum distance, in meters, at which role-specific infantry icons (healing/resupplying/repairing) are visible
 
 	// Combat Area
 	#define MACRO_CA_CORNEROFFSET                                   50000 // How much the combat area should overextend (beyond the map corners), in meters
@@ -367,7 +367,7 @@
 	#define MACRO_ACT_SPOTTING_COSTPERUSE                           2 // How much it costs to use the spotting action. Divice the cooldown duration by this value to determine how often the action may be triggered (at once) before entering cooldown
 
 	#define MACRO_ACT_RESUPPLYUNIT_MAXDISTANCE                      2 // The distance, in meters, below which support units must be to friendly units in order to resupply them
-	#define MACRO_ACT_RESUPPLYUNIT_AMOUNT                           0.15 // The amount of ammunition that is added to friendly units upon resupplying, expressed as fraction of their loadout's maximum ammunition
+	#define MACRO_ACT_RESUPPLYUNIT_AMOUNT                           0.1 // The amount of ammunition that is added to friendly units upon resupplying, expressed as fraction of their loadout's maximum ammunition
 	#define MACRO_ACT_RESUPPLYUNIT_COOLDOWN                         1 // The cooldown duration, in seconds, between consecutive resupply actions
 
 	#define MACRO_ACT_HEALUNIT_MAXDISTANCE                          2 // The distance, in meters, below which medics must be to their patients in order to heal them
@@ -475,7 +475,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.15.731" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.15.740" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

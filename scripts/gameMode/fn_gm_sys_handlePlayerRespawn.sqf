@@ -301,7 +301,7 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 							};
 
 							// Find the nearest medic
-							private _c_maxDistMedicSqr = MACRO_UI_ICONS3D_MAXDISTANCE_MEDIC ^ 2;
+							private _c_maxDistMedicSqr = MACRO_UI_ICONS3D_MAXDISTANCE_ROLEACTION ^ 2;
 							private _medic             = objNull;
 							private _medicDistSqr      = _c_maxDistMedicSqr;
 							private ["_distSqrX"];

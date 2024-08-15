@@ -90,13 +90,15 @@ if (_weapon == _curWeapon) then {
 	// To prevent network saturation, only invalidate the cache on the last bullet of the magazine.
 	private _curAmmo = _unit ammo _muzzle;
 	if (_curAmmo <= 0) then {
-		_unit setVariable [QGVAR(overallAmmo_isValid), false, true];
+		_unit setVariable [QGVAR(overallAmmo_isValid), false, false];
+		[_unit] call FUNC(lo_updateOverallAmmo);
 	};
 } else {
 	// For thrown weapons, the "Reloaded" does not trigger on the last grenade.
 	// As such, we only need to react to the very last grenade to invalidate the ammo cache.
 	if (_weapon == "Throw" and {!(_magazine in magazines _unit)}) then {
-		_unit setVariable [QGVAR(overallAmmo_isValid), false, true];
+		_unit setVariable [QGVAR(overallAmmo_isValid), false, false];
+		[_unit] call FUNC(lo_updateOverallAmmo);
 	};
 };
 
