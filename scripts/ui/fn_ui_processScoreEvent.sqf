@@ -70,6 +70,18 @@ switch (_enum) do {
 
 	// --------
 
+	case MACRO_ENUM_SCORE_RESUPPLY: {
+		if (_arg isEqualType 0 and {_arg > 0}) then {
+			_eventData = [
+				_arg,
+				"RESUPPLYING"
+			];
+		};
+		_canStack = true;
+	};
+
+	// --------
+
 	case MACRO_ENUM_SCORE_HEAL: {
 		if (_arg isEqualType 0 and {_arg > 0}) then {
 			_eventData = [

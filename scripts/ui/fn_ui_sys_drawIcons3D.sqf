@@ -86,18 +86,11 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 
 
 	// Handle role-specific icon drawing
+	#include "drawIcons3D\ui_unitIcons_support.sqf"
+
 	#include "drawIcons3D\ui_unitIcons_medic.sqf"
 
-	switch (GVAR(role)) do {
-
-		case MACRO_ENUM_ROLE_SUPPORT: {
-			#include "drawIcons3D\ui_unitIcons_support.sqf"
-		};
-
-		case MACRO_ENUM_ROLE_ENGINEER: {
-			#include "drawIcons3D\ui_vehicleIcons_engineer.sqf"
-		};
-	};
+	#include "drawIcons3D\ui_vehicleIcons_engineer.sqf"
 
 
 

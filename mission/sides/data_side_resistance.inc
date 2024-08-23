@@ -66,7 +66,7 @@ USAGE:
 
 		[	// Assault
 			MACRO_ENUM_ROLE_ASSAULT,
-			[["arifle_MX_GL_Black_F","","acc_flashlight","optic_Aco",["30Rnd_65x39_caseless_black_mag_Tracer",30],["1Rnd_HE_Grenade_shell",1],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam",[]],["V_PlateCarrier1_rgr",[["30Rnd_65x39_caseless_black_mag_Tracer",7,30],["16Rnd_9x21_red_Mag",2,17],["1Rnd_HE_Grenade_shell",2,1]]],[],"H_HelmetSpecB","",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["arifle_MX_GL_Black_F","","acc_flashlight","optic_Aco",["30Rnd_65x39_caseless_black_mag_Tracer",30],["1Rnd_HE_Grenade_shell",1],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam",[]],["V_PlateCarrier1_rgr",[["30Rnd_65x39_caseless_black_mag_Tracer",7,30],["16Rnd_9x21_red_Mag",2,17],["1Rnd_HE_Grenade_shell",4,1]]],[],"H_HelmetSpecB","",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 

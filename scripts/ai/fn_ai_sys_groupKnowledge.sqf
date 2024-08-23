@@ -20,7 +20,7 @@
 
 
 // Define some macros
-#define MACRO_SYS_GROUPKNOWLEDGE_INTERVAL 8
+#define MACRO_SYS_GROUPKNOWLEDGE_INTERVAL 5
 #define MACRO_AI_MINKNOWLEDGE             0.1
 
 // Set up some variables

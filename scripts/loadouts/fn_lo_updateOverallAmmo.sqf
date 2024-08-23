@@ -89,4 +89,4 @@ _unit setVariable [QGVAR(overallAmmo), _overallAmmo, true];
 _unit setVariable [QGVAR(overallAmmo_isValid), true, false];
 _unit setVariable [QGVAR(overallAmmo_queue), _missingAmmoQueue, false];
 
-systemChat format ["%1 overallAmmo: %2%3", name _unit, floor (_overallAmmo * 100), "%"];
+//systemChat format ["%1 overallAmmo: %2%3", name _unit, floor (_overallAmmo * 100), "%"];

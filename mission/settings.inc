@@ -45,7 +45,7 @@
 
 	// Damage balancing
 	#define MACRO_GM_UNIT_DAMAGEMUL_HEADSHOT                        3 // Multiplier for the damage dealt by headshots
-	#define MACRO_GM_UNIT_DAMAGEMUL_BULLET                          1 // Multiplier for the damage units receive from that bullet hits
+	#define MACRO_GM_UNIT_DAMAGEMUL_BULLET                          1.5 // Multiplier for the damage units receive from that bullet hits
 	#define MACRO_GM_UNIT_DAMAGEMUL_EXPLOSIVE                       1 // Multiplier for the damage units receive from explosions
 	#define MACRO_GM_UNIT_DAMAGEMUL_FALLDAMAGE                      1 // Multiplier for the damage units receive from falling
 	#define MACRO_GM_UNIT_DAMAGEMUL_ROADKILL                        1 // Multiplier for the damage units receive when getting hit/run over by vehicles

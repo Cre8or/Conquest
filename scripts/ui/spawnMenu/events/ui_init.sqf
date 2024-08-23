@@ -13,6 +13,7 @@ case "ui_init": {
 	MACRO_FNC_INITVAR(GVAR(rt_role_wall),objNull);
 	MACRO_FNC_INITVAR(GVAR(rt_role_unit),objNull);
 	MACRO_FNC_INITVAR(GVAR(rt_role_light),objNull);
+	MACRO_FNC_INITVAR(GVAR(ui_sm_role), MACRO_ENUM_ROLE_INVALID);
 	MACRO_FNC_INITVAR(GVAR(ui_sm_prevMenu), 0);
 	MACRO_FNC_INITVAR(GVAR(ui_sm_EH_eachFrame), 0);
 

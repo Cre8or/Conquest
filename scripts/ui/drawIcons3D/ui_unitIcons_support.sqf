@@ -4,11 +4,10 @@ private _c_iconResupply      = getMissionPath "res\images\abilities\ability_resu
 // Strip specific units from the existing arrays, so we can render them separately while leaving the remaining ones
 // for the role-agnostic render method
 private _renderData_units = [];
-private "_unitX";
 
 // As a support, the player is shown nearby units who are in need of resupplying
-if (GVAR(role) == MACRO_ENUM_ROLE_SUPPORT and {!(_player getVariable [QGVAR(isUnconscious), false])}) then {
-	private "_ammoX";
+if (GVAR(role) == MACRO_ENUM_ROLE_SUPPORT) then {
+	private ["_unitX", "_distX", "_ammoX"];
 
 	{
 		_unitX = _x # 0;
@@ -49,8 +48,9 @@ if (GVAR(role) == MACRO_ENUM_ROLE_SUPPORT and {!(_player getVariable [QGVAR(isUn
 
 // As a non-support, the player is shown nearby support units when low on ammo
 } else {
-
 	private _ammo = [_player] call FUNC(lo_getOverallAmmo);
+	private ["_unitX", "_distX"];
+
 	if (_ammo >= 1) then {
 		breakTo QGVAR(ui_sys_drawIcons3D);
 	};
@@ -77,7 +77,6 @@ if (GVAR(role) == MACRO_ENUM_ROLE_SUPPORT and {!(_player getVariable [QGVAR(isUn
 			_squadMates deleteAt _forEachIndex;
 		};
 	} forEachReversed _squadMates;
-
 };
 
 

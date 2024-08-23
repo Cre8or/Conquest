@@ -25,14 +25,14 @@ case "ui_button_click": {
 	};
 
 	// Set up some variables
-	private _player = player;
+	private _player   = player;
 	private _groupPly = group _player;
-	private _alive = [_player] call FUNC(unit_isAlive);
-	private _curMenu = _spawnMenu getVariable [QGVAR(currentMenu), 0];		// We use the menu buttons' frame IDCs to identify the menu - 0 is the control group, but this shouldn't interfere with anything
-	private _newMenu = _curMenu;
-	private _newSide = GVAR(side);
-	private _newRole = GVAR(role);
+	private _alive    = [_player, true] call FUNC(unit_isAlive);
+	private _curMenu  = _spawnMenu getVariable [QGVAR(currentMenu), 0];// We use the menu buttons' frame IDCs to identify the menu - 0 is the control group, but this shouldn't interfere with anything
+	private _newMenu  = _curMenu;
+	private _newSide  = GVAR(side);
 	private _newSpawn = GVAR(spawnSector);
+	private _newRole  = GVAR(ui_sm_role);
 	private _clickedOnRolePreview = false;
 
 
@@ -43,27 +43,27 @@ case "ui_button_click": {
 	switch (_IDC) do {
 
 		// Menus
-		case MACRO_IDC_SM_SIDE_BUTTON:				{_newMenu = MACRO_IDC_SM_SIDE_FRAME};
-		case MACRO_IDC_SM_ROLE_BUTTON:				{_newMenu = MACRO_IDC_SM_ROLE_FRAME};
-		case MACRO_IDC_SM_DEPLOY_BUTTON:			{_newMenu = MACRO_IDC_SM_DEPLOY_FRAME};
+		case MACRO_IDC_SM_SIDE_BUTTON:   {_newMenu = MACRO_IDC_SM_SIDE_FRAME};
+		case MACRO_IDC_SM_ROLE_BUTTON:   {_newMenu = MACRO_IDC_SM_ROLE_FRAME};
+		case MACRO_IDC_SM_DEPLOY_BUTTON: {_newMenu = MACRO_IDC_SM_DEPLOY_FRAME};
 
 		// Side menu
-		case MACRO_IDC_SM_SIDE_JOIN_LEFT_BUTTON:		{_newSide = east};
-		case MACRO_IDC_SM_SIDE_JOIN_MIDDLE_BUTTON:		{_newSide = resistance};
-		case MACRO_IDC_SM_SIDE_JOIN_RIGHT_BUTTON:		{_newSide = west};
+		case MACRO_IDC_SM_SIDE_JOIN_LEFT_BUTTON:   {_newSide = east};
+		case MACRO_IDC_SM_SIDE_JOIN_MIDDLE_BUTTON: {_newSide = resistance};
+		case MACRO_IDC_SM_SIDE_JOIN_RIGHT_BUTTON:  {_newSide = west};
 
 		// Role Preview Frame
-		//case MACRO_IDC_SM_ROLE_PREVIEW_FRAME:			{_clickedOnRolePreview = (_button == 1)};	// Only consider right clicks
-		case MACRO_IDC_SM_ROLE_PREVIEW_FRAME:			{_clickedOnRolePreview = true};			// Consider all clicks
+		//case MACRO_IDC_SM_ROLE_PREVIEW_FRAME: {_clickedOnRolePreview = (_button == 1)}; // Only consider right clicks
+		case MACRO_IDC_SM_ROLE_PREVIEW_FRAME:   {_clickedOnRolePreview = true};	 // Consider all clicks
 
 		// Roles
-		case MACRO_IDC_SM_ROLE_SPECOPS_BUTTON:			{_newRole = MACRO_ENUM_ROLE_SPECOPS};
-		case MACRO_IDC_SM_ROLE_SNIPER_BUTTON:			{_newRole = MACRO_ENUM_ROLE_SNIPER};
-		case MACRO_IDC_SM_ROLE_ASSAULT_BUTTON:			{_newRole = MACRO_ENUM_ROLE_ASSAULT};
-		case MACRO_IDC_SM_ROLE_SUPPORT_BUTTON:			{_newRole = MACRO_ENUM_ROLE_SUPPORT};
-		case MACRO_IDC_SM_ROLE_ENGINEER_BUTTON:			{_newRole = MACRO_ENUM_ROLE_ENGINEER};
-		case MACRO_IDC_SM_ROLE_MEDIC_BUTTON:			{_newRole = MACRO_ENUM_ROLE_MEDIC};
-		case MACRO_IDC_SM_ROLE_ANTITANK_BUTTON:			{_newRole = MACRO_ENUM_ROLE_ANTITANK};
+		case MACRO_IDC_SM_ROLE_SPECOPS_BUTTON:  {_newRole = MACRO_ENUM_ROLE_SPECOPS};
+		case MACRO_IDC_SM_ROLE_SNIPER_BUTTON:   {_newRole = MACRO_ENUM_ROLE_SNIPER};
+		case MACRO_IDC_SM_ROLE_ASSAULT_BUTTON:  {_newRole = MACRO_ENUM_ROLE_ASSAULT};
+		case MACRO_IDC_SM_ROLE_SUPPORT_BUTTON:  {_newRole = MACRO_ENUM_ROLE_SUPPORT};
+		case MACRO_IDC_SM_ROLE_ENGINEER_BUTTON: {_newRole = MACRO_ENUM_ROLE_ENGINEER};
+		case MACRO_IDC_SM_ROLE_MEDIC_BUTTON:    {_newRole = MACRO_ENUM_ROLE_MEDIC};
+		case MACRO_IDC_SM_ROLE_ANTITANK_BUTTON: {_newRole = MACRO_ENUM_ROLE_ANTITANK};
 
 		// Groups
 		case MACRO_IDC_SM_GROUP_JOIN_BUTTON: {
@@ -261,8 +261,12 @@ case "ui_button_click": {
 	};
 
 	// Check if the player selected a new role
-	if (_newRole != GVAR(role)) then {
-		GVAR(role) = _newRole;
+	if (_newRole != GVAR(ui_sm_role)) then {
+
+		GVAR(ui_sm_role) = _newRole;
+		if (!_alive) then {
+			GVAR(role) = GVAR(ui_sm_role);
+		};
 
 		// Update the selected role
 		["ui_update_role", [true]] call FUNC(ui_spawnMenu);

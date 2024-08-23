@@ -14,7 +14,6 @@ case "ui_key_down": {
 
 
 
-
 	// If the player is currently naming their new group...
 	if (_isNamingGroup) then {
 		_spawnMenu_return = false;
@@ -55,6 +54,11 @@ case "ui_key_down": {
 
 
 	} else {
+
+		// If the enter key was pressed, simulate clicking the "Spawn" button
+		if (_key == 28 or {_key == 156}) then {
+			["ui_button_click", MACRO_IDC_SM_SPAWN_BUTTON] call FUNC(ui_spawnMenu);
+		};
 
 		// If the night vision key was pressed...
 		if (inputAction "nightvision" > 0 and {_key in actionKeys "nightvision"}) then {

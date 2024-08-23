@@ -36,18 +36,16 @@ if (_oldAmmo >= 1 and {_time < _resupplyCooldown}) exitWith {};
 
 
 // Resupply the recipient
-private _newAmmo = (_oldAmmo + MACRO_ACT_RESUPPLYUNIT_AMOUNT) min 1;
-private _diff    = _newAmmo - _oldAmmo;
-
-[_recipient, _diff] call FUNC(lo_addOverallAmmo);
+private _ammoAdded = [_recipient, MACRO_ACT_RESUPPLYUNIT_AMOUNT] call FUNC(lo_addOverallAmmo);
+private _newAmmo   = _oldAmmo + _ammoAdded;
 
 // Reward the support unit for resupplying
 if (_support != _recipient) then {
-	[_support, MACRO_ENUM_SCORE_RESUPPLY, _diff] remoteExecCall [QFUNC(gm_addScore), 2, false];
+	[_support, MACRO_ENUM_SCORE_RESUPPLY, _ammoAdded] remoteExecCall [QFUNC(gm_addScore), 2, false];
 };
 
 // Interface with ai_sys_unitControl to make the unit stay put while being resupplied
-_recipient setVariable [QGVAR(ai_unitControl_handleResupply_stopTime), _time + MACRO_AI_ROLEACTION_RECIPIENT_STOPDURATION, false];
+_recipient setVariable [QGVAR(ai_unitControl_handleResupply_stopTime), _time + MACRO_ACT_RESUPPLYUNIT_COOLDOWN + MACRO_AI_ROLEACTION_RECIPIENT_STOPDURATION, false];
 
 // Enforce a resupply cooldown (to prevent abuse)
 if (_newAmmo >= 1) then {

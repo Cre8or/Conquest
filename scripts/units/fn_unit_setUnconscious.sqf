@@ -58,6 +58,9 @@ if (_newState) then {
 	// Reset the unit's health to the lowest amount that can be given by a medic
 	_unit setVariable [QGVAR(health), MACRO_ACT_HEALUNIT_AMOUNT, true];
 
+	// Interface with ai_sys_unitControl to make the unit stay put while being healed
+	_unit setVariable [QGVAR(ai_unitControl_handleMedical_stopTime), _time + MACRO_AI_ROLEACTION_RECIPIENT_STOPDURATION, false];
+
 	[_unit, true] call FUNC(unit_selectBestWeapon);
 };
 

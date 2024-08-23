@@ -17,10 +17,11 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 
 	if (_role == MACRO_ENUM_ROLE_MEDIC) then {
 		private _patient        = objNull;
-		private _patientDistSqr = 0;
+		private _patientDistSqr = _c_maxMedicalDistSqr;
 		private _selfHealTime   = _unit getVariable [QGVAR(ai_unitControl_handleMedical_selfHealTime), -1];
+		private ["_distSqrX"];
 
-		// Prioritise self-care
+		// Prioritise self-care (a live medic is a good medic)
 		if (_health < 1) then {
 
 			if (_selfHealTime < 0) then {
@@ -37,12 +38,9 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 			};
 		};
 
+		// If the medic is healthy, prioritise reviving unconscious units
 		if (isNull _patient) then {
-			// Look for nearby injured units to heal, while priorising unconscious units over wounded ones
-			private _unitsInjured     = GVAR(ai_sys_unitControl_cache) getOrDefault [format ["unitsInjured_%1", _side], []];
 			private _unitsUnconscious = GVAR(ai_sys_unitControl_cache) getOrDefault [format ["unitsUnconscious_%1", _side], []];
-			_patientDistSqr           = _c_maxMedicalDistSqr;
-			private ["_distSqrX"];
 
 			{
 				_distSqrX = _x distanceSqr _unit;
@@ -52,26 +50,46 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 					_patient        = _x;
 				};
 			} forEach _unitsUnconscious;
-
-			if (isNull _patient) then {
-				{
-					_distSqrX = _unit distanceSqr _x;
-
-					if (_distSqrX < _patientDistSqr and {_unit != _x} and {_x getVariable [QGVAR(health), 1] > 0}) then {
-						_patientDistSqr = _distSqrX;
-						_patient        = _x;
-					};
-				} forEach _unitsInjured;
-			};
 		};
 
+		// If no units are unconscious, prioritise healing units who are low on health
+		if (isNull _patient) then {
+			private _unitsLowHealth = GVAR(ai_sys_unitControl_cache) getOrDefault [format ["unitsLowHealth_%1", _side], []];
+
+			{
+				_distSqrX = _unit distanceSqr _x;
+
+				if (_distSqrX < _patientDistSqr) then {
+					_patientDistSqr = _distSqrX;
+					_patient        = _x;
+				};
+			} forEach _unitsLowHealth;
+		};
+
+		// If no units are low on health, heal nearby units that aren't fully healed
+		if (isNull _patient) then {
+			private _unitsNearHealthy = GVAR(ai_sys_unitControl_cache) getOrDefault [format ["unitsNearHealthy_%1", _side], []];
+			_patientDistSqr           = _c_maxActionDistSqr;
+
+			{
+				_distSqrX = _unit distanceSqr _x;
+
+				if (_distSqrX < _patientDistSqr) then {
+					_patientDistSqr = _distSqrX;
+					_patient        = _x;
+				};
+			} forEach _unitsNearHealthy;
+		};
+
+		// If still nobody needs healing, exit the subsystem
 		if (isNull _patient) then {
 			breakTo QGVAR(ai_sys_unitControl_loop_live);
 		};
 
-		// If we found a patient, head to them and try to heal them
+		// Head to the patient
 		_actionPos = getPosWorld _patient;
 
+		// Match their stance
 		if (
 			_patientDistSqr < _c_changeStanceDistSqr
 			and {_patient getVariable [QGVAR(isUnconscious), false] or {stance _patient != "STAND"}}
@@ -88,19 +106,20 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 
 	} else {
 
-		// If the unit is healthy enough, nothing needs to be done
-		if (_health >= MACRO_UNIT_HEALTH_THRESHOLDLOW) then {
+		// If the unit is in the middle of being healed, stay put
+		if (_time < _unit getVariable [QGVAR(ai_unitControl_handleMedical_stopTime), -1]) then {
+			_shouldStop = true;
+			breakTo QGVAR(ai_sys_unitControl_loop_live);
+		};
 
-			// If the unit is in the middle of being healed, stop a little long
-			if (_health < 1 and {_time < _unit getVariable [QGVAR(ai_unitControl_handleMedical_stopTime), -1]}) then {
-				_shouldStop = true;
-			};
-
+		// Only look for a medic when low on health
+		if (_health > MACRO_UNIT_HEALTH_THRESHOLDLOW) then {
 			breakTo QGVAR(ai_sys_unitControl_loop_live);
 		};
 
 		private _medic        = objNull;
 		private _medicDistSqr = _c_maxMedicalDistSqr;
+		private _unitsMedic   = GVAR(ai_sys_unitControl_cache) getOrDefault [format ["unitsMedic_%1", _side], []];
 		private ["_distSqrX"];
 
 		{
@@ -110,13 +129,14 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 				_medicDistSqr = _distSqrX;
 				_medic        = _x;
 			};
-		} forEach (GVAR(ai_sys_unitControl_cache) getOrDefault [format ["unitsMedic_%1", _side], []]);
+		} forEach _unitsMedic;
 
+		// If there is no medic in the vicinity, exit the subsystem
 		if (isNull _medic) then {
 			breakTo QGVAR(ai_sys_unitControl_loop_live);
 		};
 
-		// If we found a nearby medic, head towards them
+		// Head to the medic
 		_actionPos = getPosWorld _medic;
 
 		if (_medicDistSqr < _c_changeStanceDistSqr and {stance _medic != "STAND"}) then {
@@ -137,3 +157,7 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 
 // Handle stopping
 [_shouldStop, MACRO_ENUM_AI_PRIO_MEDICAL, _unit, ["PATH"], false] call FUNC(ai_toggleFeature);
+
+if (_shouldStop) then {
+	_unit setUnitPos "MIDDLE";
+};

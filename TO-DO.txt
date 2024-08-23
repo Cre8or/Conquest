@@ -6,10 +6,11 @@ TO DO:
 		- Maybe why kills/vehicle destruction sometimes awards double the points that it should (including headshot damage)?
 	- Fix loadouts sometimes not getting applied to AI units (same issue as gAI when locality changes?)
 	- Fix spotting animation not working (same issue as healing action)
+	- Add automatic magazine repacking on reload
 	- Implement resupply ability to support:
 		+ Similar animations/UI icons to medic healing, but for rearming
 		- Prevent players from looting bodies/opening their gear
-		- Add score to the resupplying unit
+		+ Add score to the resupplying unit
 		+ Resupply the recipient as a fraction of their overall ammunition
 		+ Calculate and cache ammo count in getOverallAmmo, and invalidate the cache via onInit, onReloaded, setRoleLoadout
 	- Add a repair ability to the engineer role
@@ -39,6 +40,7 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Fix being able to change role GVAR by selecting a new role in the spawnmenu post-spawn
 	- Fix AI medics spam-healing themselves on damage and immediately reviving unconscious units
 	- Fix unconsciousState AI subsystem referencing serverside variables (causing AI to not respawn)
 	- Fix spawn menu inconsistencies

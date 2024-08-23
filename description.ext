@@ -25,7 +25,7 @@ respawnDialog=0;
 respawn=3;
 respawnDelay=2;
 allowFunctionsRecompile = __EVAL((isServer and !isDedicated) or is3DENMultiplayer or is3DENPreview);
-
+/*
 showHUD[] = {
 	1,	// Scripted HUD (same as showHUD command)
 	1,	// Vehicle and unit info
@@ -39,7 +39,7 @@ showHUD[] = {
 	0,	// "x killed by y" systemChat messages
 	1	// force show drawIcon3D icons
 };
-
+*/
 
 
 

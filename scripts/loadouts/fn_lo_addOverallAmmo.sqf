@@ -3,11 +3,16 @@
 	Description:
 		[LA][GE]
 		Resupplies the unit with respect to the specified amount and the unit loadout's default ammunition count.
+
+		NOTE: Because of how loadouts work, sometimes it is not possible to add exactly the specified amount of ammo.
+		Sometimes it can be more, or less than the intended amount. In places where this matters (e.g. score handling),
+		it is advised to use the return value (rather than the passed argument), as it represents the real amount of
+		ammo that was added.
 	Arguments:
 		0:	<OBJECT>	The unit in question
 		1:	<NUMBER>	How much ammo to add, in range [0, 1] (optional, default: MACRO_ACT_RESUPPLYUNIT_AMOUNT)
 	Returns:
-		(nothing)
+			<NUMBER>	How much overall ammo was actually added (range [0, 1))
 -------------------------------------------------------------------------------------------------------------------- */
 
 #include "..\..\res\common\macros.inc"
@@ -34,6 +39,7 @@ if !(_unit getVariable [QGVAR(overallAmmo_isValid), true]) exitWith {};
 scopeName QGVAR(lo_addOverallAmmo_main);
 
 private _overallAmmo      = _unit getVariable [QGVAR(overallAmmo), 1];
+private _prevOverallAmmo  = _overallAmmo;
 private _missingAmmoQueue = _unit getVariable [QGVAR(overallAmmo_queue), []];
 private _firstRun         = true;
 private ["_ammoDiff", "_curWeight", "_cost", "_finalAmmoCount", "_finalAmmoCountMinusLoaded", "_fullMagazinesCount", "_partialAmmo"];
@@ -110,3 +116,6 @@ _unit setVariable [QGVAR(overallAmmo), _overallAmmo, true];
 _unit setVariable [QGVAR(overallAmmo_queue), _missingAmmoQueue, false];
 
 //systemChat format ["%1 overallAmmo: %2%3", name _unit, floor (_overallAmmo * 100), "%"];
+
+// Return the amount of ammo that was actually added
+(_overallAmmo - _prevOverallAmmo) max 0;
