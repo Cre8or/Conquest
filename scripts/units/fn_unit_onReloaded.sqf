@@ -28,9 +28,8 @@ if (!local _unit) exitWith {};
 
 
 // Interface with lo_getOverallAmmo
-_unit setVariable [QGVAR(overallAmmo_isValid), false, false];
 [_unit] call FUNC(lo_updateOverallAmmo);
-//systemChat format ["(%1) reloaded", name _unit];
+
 
 
 

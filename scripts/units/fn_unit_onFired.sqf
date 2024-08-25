@@ -90,7 +90,6 @@ if (_weapon == _curWeapon) then {
 	// To prevent network saturation, only invalidate the cache on the last bullet of the magazine.
 	private _curAmmo = _unit ammo _muzzle;
 	if (_curAmmo <= 0) then {
-		_unit setVariable [QGVAR(overallAmmo_isValid), false, false];
 		[_unit] call FUNC(lo_updateOverallAmmo);
 	};
 } else {

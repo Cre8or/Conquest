@@ -41,21 +41,18 @@ scopeName QGVAR(lo_addOverallAmmo_main);
 private _overallAmmo      = _unit getVariable [QGVAR(overallAmmo), 1];
 private _prevOverallAmmo  = _overallAmmo;
 private _missingAmmoQueue = _unit getVariable [QGVAR(overallAmmo_queue), []];
-private _firstRun         = true;
 private ["_ammoDiff", "_curWeight", "_cost", "_finalAmmoCount", "_finalAmmoCountMinusLoaded", "_fullMagazinesCount", "_partialAmmo"];
+
+// Add any accumulated ammo from previous runs to the supplies balance
+_supplies = _supplies + (_unit getVariable [QGVAR(lo_addOverallAmmo_accumulator), 0]);
+_unit setVariable [QGVAR(lo_addOverallAmmo_accumulator), 0, false];
 
 for "_i" from (count _missingAmmoQueue) - 1 to 0 step -1 do {
 	(_missingAmmoQueue # _i) params ["_magazine", "_currentAmmoCount", "_defaultAmmoCount", "_ammoPerMagazine", "_loadedAmmo", "_baseWeight"];
 	_ammoDiff       = _defaultAmmoCount - _currentAmmoCount;
 	_curWeight      = (1 - _currentAmmoCount / _defaultAmmoCount) * _baseWeight;
 	_cost           = _supplies min _curWeight;
-	_finalAmmoCount = _currentAmmoCount + _ammoDiff * (_cost / _curWeight);
-
-	if (_firstRun) then {
-		_finalAmmoCount = ceil _finalAmmoCount; // Always guarantee an increase of one ammo unit per run
-	} else {
-		_finalAmmoCount = round _finalAmmoCount;
-	};
+	_finalAmmoCount = floor (_currentAmmoCount + _ammoDiff * (_cost / _curWeight));
 
 	// If we don't have enough supplies remaining to resupply this magazine, skip to the next one
 	if (_finalAmmoCount == _currentAmmoCount) then {
@@ -78,6 +75,7 @@ for "_i" from (count _missingAmmoQueue) - 1 to 0 step -1 do {
 	if (_partialAmmo > 0) then {
 		_unit addMagazine [_magazine, _partialAmmo];
 	};
+	//systemChat format ["Adding (%1 * %2) + %3 rounds (%4)", _fullMagazinesCount, _ammoPerMagazine, _partialAmmo, _magazine];
 
 	// Once this magazine type is refilled, remove it from the list
 	if (_finalAmmoCount >= _defaultAmmoCount) then {
@@ -98,14 +96,20 @@ for "_i" from (count _missingAmmoQueue) - 1 to 0 step -1 do {
 	if (_supplies <= 0) then {
 		breakTo QGVAR(lo_addOverallAmmo_main);
 	};
-
-	_firstRun = false;
 };
 
 // To prevent rounding errors from cumulative increments, force the overall ammo to 1 when no magazines are missing
 if (_missingAmmoQueue isEqualTo []) then {
 	_overallAmmo = 1;
+
+} else {
+
+	// Any leftover supplies are accumulated for future uses
+	if (_supplies > 0) then {
+		_unit setVariable [QGVAR(lo_addOverallAmmo_accumulator), _supplies min 1, false];
+	};
 };
+
 
 
 

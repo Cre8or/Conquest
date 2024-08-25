@@ -31,19 +31,30 @@ private _role             = _unit getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVA
 private _defaultMagazines = missionNamespace getVariable [format [QGVAR(magazinesCache_%1_%2), _side, _role], []];
 private _ammoCountCache   = createHashMapFromArray (_defaultMagazines apply {[_x, 0]});
 private _loadedAmmoCache  = +_ammoCountCache;
+private _magRepackCache   = createHashMapFromArray (_defaultMagazines apply {[_x, 0]});
 private _missingAmmoQueue = [];
+private "_ammoPerMagazine";
 
 // Determine the total ammo count for each magazine classname
 {
-	_x params ["_magazine", "_ammoCount", "_isLoaded"];
+	_x params ["_magazine", "_ammoCount", "_isLoaded", "_magazineType"];
 	_magazine = toLower _magazine;
 
 	// Ignore any magazines that did not come with the loadout (safeguarding)
 	if (_magazine in _defaultMagazines) then {
 
-		// Keep track of loaded magazines so we can deduct their count from the missing ammo queue
+		// Keep track of loaded magazines so we can deduct their count from the missing ammo queue.
 		if (_isLoaded) then {
-			_loadedAmmoCache set [_magazine, (_loadedAmmoCache get _magazine) + _ammoCount];
+			if (_magazineType in [1, 2, 4]) then {
+				_loadedAmmoCache set [_magazine, (_loadedAmmoCache get _magazine) + _ammoCount];
+			};
+		} else {
+
+			// Keep track of how many magazines are not at full capacity
+			_ammoPerMagazine = (_defaultMagazines get _magazine) # 0;
+			if (_ammoCount < _ammoPerMagazine and {_ammoPerMagazine > 1}) then {
+				_magRepackCache set [_magazine, (_magRepackCache get _magazine) + 1];
+			};
 		};
 
 		// Add to the total
@@ -51,7 +62,7 @@ private _missingAmmoQueue = [];
 	};
 } forEach magazinesAmmoFull _unit;
 
-// Determine the unit's overall ammo.
+// Determine the unit's overall ammo
 private _numUniqueMagazines = 1 max count _defaultMagazines;
 private ["_currentAmmoCount", "_defaultAmmoCount", "_baseWeight"];
 {
@@ -79,6 +90,38 @@ _overallAmmo = _overallAmmo / _numUniqueMagazines;
 // Since that would seem wrong, we simply cap the ammo count at 100% and choose to ignore the implications of having
 // an extra magazine.
 _overallAmmo = _overallAmmo min 1;
+
+// Finally, repack the unit's magazines.
+// Since this function runs is executed whenever a unit depletes a magazine or reloads, we can safely
+// tap into it for the purpose of repacking, as we already calculated the total ammo count further above.
+// Repacking and ammo count updating are tightly coupled, so a separate function would be redundant.
+private "_fullMagazinesCount";
+{
+	// Check if this magazine classname is scheduled for repacking (avoids unnecessary inventory actions).
+	// A magazine classname needs repacking when the unit has at least 2 non-full magazines.
+	if ((_magRepackCache get _x) < 2) then {
+		continue;
+	};
+
+	//systemChat format ["(%1) Testing %2", name _unit, _x];
+	_currentAmmoCount   = _y - (_loadedAmmoCache get _x);
+	_ammoPerMagazine    = (_defaultMagazines get _x) # 0;
+	_fullMagazinesCount = floor (_currentAmmoCount / _ammoPerMagazine);
+
+	_unit removeMagazines _x;
+
+	if (_fullMagazinesCount > 0) then {
+		_unit addMagazines [_x, _fullMagazinesCount];
+	};
+
+	_currentAmmoCount = _currentAmmoCount - (_fullMagazinesCount * _ammoPerMagazine);
+	if (_currentAmmoCount > 0) then {
+		_unit addMagazine [_x, _currentAmmoCount];
+	};
+
+	systemChat format ["(%1) %2: Adding %3 * %4 + %5 (%6)", diag_frameNo, name _unit, _fullMagazinesCount, _ammoPerMagazine, _currentAmmoCount, _x];
+
+} forEach _ammoCountCache;
 
 
 

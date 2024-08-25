@@ -18,7 +18,9 @@ class GVAR(TicketsLow_Siren) : GVAR(Default) {
 	sound[] = {"@a3\data_f_curator\sound\cfgsounds\air_raid", db+5, 1};
 };
 
-
+class GVAR(Headshot) : GVAR(Default) {
+	sound[] = {"res\sounds\headshot.ogg", db+12, 1};
+};
 
 
 

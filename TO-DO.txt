@@ -1,5 +1,4 @@
 TO DO:
-	- Add a custom headshot sound (satisfaction factor)
 	- Fix spawn menu camera not being used on JIP (camera is following the player, who gets teleported when switching sides)
 		- Also fix R2T camera not showing on JIP
 	- Fix occasional double-kill registration for an individual unit
@@ -40,6 +39,7 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Add a custom headshot sound (satisfaction factor)
 	- Fix being able to change role GVAR by selecting a new role in the spawnmenu post-spawn
 	- Fix AI medics spam-healing themselves on damage and immediately reviving unconscious units
 	- Fix unconsciousState AI subsystem referencing serverside variables (causing AI to not respawn)

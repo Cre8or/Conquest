@@ -174,6 +174,7 @@ switch (_enum) do {
 			MACRO_SCORE_HEADSHOT,
 			"HEADSHOT BONUS"
 		];
+		_sound = QGVAR(Headshot);
 	};
 
 	// --------
