@@ -472,10 +472,10 @@
 
 	// Ammo
 	#define MACRO_UNIT_AMMO_THRESHOLDLOW                            0.5 // The threshold of overall ammo below which a unit is considered to be at low ammo. Below this threshold, AI units will seek out nearby support units.
-	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        10 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
+	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.16.759" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.16.761" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

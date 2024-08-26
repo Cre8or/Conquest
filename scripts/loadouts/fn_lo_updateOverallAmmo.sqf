@@ -32,12 +32,13 @@ private _defaultMagazines = missionNamespace getVariable [format [QGVAR(magazine
 private _ammoCountCache   = createHashMapFromArray (_defaultMagazines apply {[_x, 0]});
 private _loadedAmmoCache  = +_ammoCountCache;
 private _magRepackCache   = createHashMapFromArray (_defaultMagazines apply {[_x, 0]});
+private _loadedMuzzles    = createHashMap;
 private _missingAmmoQueue = [];
 private "_ammoPerMagazine";
 
 // Determine the total ammo count for each magazine classname
 {
-	_x params ["_magazine", "_ammoCount", "_isLoaded", "_magazineType"];
+	_x params ["_magazine", "_ammoCount", "_isLoaded", "_magazineType", "_muzzle"];
 	_magazine = toLower _magazine;
 
 	// Ignore any magazines that did not come with the loadout (safeguarding)
@@ -47,6 +48,7 @@ private "_ammoPerMagazine";
 		if (_isLoaded) then {
 			if (_magazineType in [1, 2, 4]) then {
 				_loadedAmmoCache set [_magazine, (_loadedAmmoCache get _magazine) + _ammoCount];
+				_loadedMuzzles set [_magazine, _muzzle];
 			};
 		} else {
 
@@ -95,18 +97,55 @@ _overallAmmo = _overallAmmo min 1;
 // Since this function runs is executed whenever a unit depletes a magazine or reloads, we can safely
 // tap into it for the purpose of repacking, as we already calculated the total ammo count further above.
 // Repacking and ammo count updating are tightly coupled, so a separate function would be redundant.
-private "_fullMagazinesCount";
+private ["_partialMagazinesCount", "_canSkipRepack", "_loadedAmmoCount", "_repackLoadedMagazine", "_totalAmmoCount", "_fullMagazinesCount"];
 {
-	// Check if this magazine classname is scheduled for repacking (avoids unnecessary inventory actions).
-	// A magazine classname needs repacking when the unit has at least 2 non-full magazines.
-	if ((_magRepackCache get _x) < 2) then {
+	// Check if this magazine classname should be repacked
+	_partialMagazinesCount = _magRepackCache get _x;
+	if (_partialMagazinesCount < 1) then {
 		continue;
 	};
 
+	// By default, skip if only one magazine is partial
+	_canSkipRepack = (_partialMagazinesCount == 1);
+
+	_loadedAmmoCount       = _loadedAmmoCache get _x;
+	_repackLoadedMagazine  = false;
+	_totalAmmoCount        = _y;
+	(_defaultMagazines get _x) params ["_ammoPerMagazine", "_defaultMagazinesCount"];
+
+	// Sanity check: cap the total ammo at the maximum amount the unit is allowed to have
+	_maxAmmoCount = _ammoPerMagazine * _defaultMagazinesCount;
+	if (_totalAmmoCount > _maxAmmoCount) then {
+		_canSkipRepack        = false;
+		_repackLoadedMagazine = true;
+		_totalAmmoCount       = _maxAmmoCount;
+	};
+
+	// Check if the loaded magazine should be considered in the repacking process
+	if (_loadedAmmoCount > 0 and {_loadedAmmoCount < _ammoPerMagazine}) then {
+		_repackLoadedMagazine = true;
+	} else {
+		_totalAmmoCount = _totalAmmoCount - _loadedAmmoCount;
+	};
+
+	//systemChat format ["(%1) %2: total: %3 (%4)", diag_frameNo, name _unit, _totalAmmoCount, _x];
+
+	// Skip repacking if only one magazine is partial
+	if (!_repackLoadedMagazine) then {
+		if (_canSkipRepack) then {
+			continue;
+		};
+
+	} else {
+		// Fill the unit's loaded magazine first (if it was considered in the repacking process)
+		if (_totalAmmoCount > _ammoPerMagazine) then {
+			_unit setAmmo [_loadedMuzzles get _x, _ammoPerMagazine];
+			_totalAmmoCount = _totalAmmoCount - _ammoPerMagazine;
+		};
+	};
+
 	//systemChat format ["(%1) Testing %2", name _unit, _x];
-	_currentAmmoCount   = _y - (_loadedAmmoCache get _x);
-	_ammoPerMagazine    = (_defaultMagazines get _x) # 0;
-	_fullMagazinesCount = floor (_currentAmmoCount / _ammoPerMagazine);
+	_fullMagazinesCount = floor (_totalAmmoCount / _ammoPerMagazine);
 
 	_unit removeMagazines _x;
 
@@ -114,12 +153,11 @@ private "_fullMagazinesCount";
 		_unit addMagazines [_x, _fullMagazinesCount];
 	};
 
-	_currentAmmoCount = _currentAmmoCount - (_fullMagazinesCount * _ammoPerMagazine);
-	if (_currentAmmoCount > 0) then {
-		_unit addMagazine [_x, _currentAmmoCount];
+	_totalAmmoCount = _totalAmmoCount - (_fullMagazinesCount * _ammoPerMagazine);
+	if (_totalAmmoCount > 0) then {
+		_unit addMagazine [_x, _totalAmmoCount];
 	};
 
-	systemChat format ["(%1) %2: Adding %3 * %4 + %5 (%6)", diag_frameNo, name _unit, _fullMagazinesCount, _ammoPerMagazine, _currentAmmoCount, _x];
 
 } forEach _ammoCountCache;
 

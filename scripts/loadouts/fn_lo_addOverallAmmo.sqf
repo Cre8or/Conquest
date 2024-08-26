@@ -44,8 +44,8 @@ private _missingAmmoQueue = _unit getVariable [QGVAR(overallAmmo_queue), []];
 private ["_ammoDiff", "_curWeight", "_cost", "_finalAmmoCount", "_finalAmmoCountMinusLoaded", "_fullMagazinesCount", "_partialAmmo"];
 
 // Add any accumulated ammo from previous runs to the supplies balance
-_supplies = _supplies + (_unit getVariable [QGVAR(lo_addOverallAmmo_accumulator), 0]);
-_unit setVariable [QGVAR(lo_addOverallAmmo_accumulator), 0, false];
+_supplies = _supplies + (_unit getVariable [QGVAR(overallAmmo_accumulator), 0]);
+_unit setVariable [QGVAR(overallAmmo_accumulator), 0, false];
 
 for "_i" from (count _missingAmmoQueue) - 1 to 0 step -1 do {
 	(_missingAmmoQueue # _i) params ["_magazine", "_currentAmmoCount", "_defaultAmmoCount", "_ammoPerMagazine", "_loadedAmmo", "_baseWeight"];
@@ -106,7 +106,7 @@ if (_missingAmmoQueue isEqualTo []) then {
 
 	// Any leftover supplies are accumulated for future uses
 	if (_supplies > 0) then {
-		_unit setVariable [QGVAR(lo_addOverallAmmo_accumulator), _supplies min 1, false];
+		_unit setVariable [QGVAR(overallAmmo_accumulator), _supplies min 1, false];
 	};
 };
 
