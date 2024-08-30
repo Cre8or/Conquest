@@ -8,7 +8,7 @@ private _movePos = (switch (_moveType) do {
 	case MACRO_ENUM_AI_MOVETYPE_ACTION: {_actionPos};
 	default                             {[]}; // No move order
 });
-private _pathData = _unit getVariable [QGVAR(ai_unitControl_moveToPos_pathData), []];
+private _pathData   = _unit getVariable [QGVAR(ai_unitControl_moveToPos_pathData), []];
 
 
 
@@ -124,9 +124,33 @@ if (!_isInVehicle) then {
 		_unit setVariable [QGVAR(ai_unitControl_moveToPos_nextMoveTime), _time + MACRO_AI_DOMOVEINTERVAL, false];
 		_unit setVariable [QGVAR(ai_unitControl_planNextMovePos_destinationPos), _newDestinationPos, false];
 	};
+
+
+
+	// If the unit has a goal, try to keep it moving by periodically setting it to be careless.
+	if (_shouldMove or {_unit getVariable [QGVAR(ai_unitControl_moveToPos_finished), false]}) then {
+		breakTo QGVAR(ai_sys_unitControl_loop_live);
+	};
+
+	// For the first couple seconds after computing a path, the unit is made careless to get it moving.
+	// Also move while reloading, as the unit is combat ineffective during that time.
+	// Finally, also move post-reloading for a brief time
+	_shouldMove = (
+		_isReloading
+		or {
+			(stance _unit) in ["STAND", "CROUCH"]
+			and {
+				_time < (_unit getVariable [QGVAR(ai_unitControl_moveToPos_nextUpdate), 0]) + MACRO_AI_CARELESSDURATION - MACRO_AI_PATHFINDINTERVAL_INF
+				or {_time < _unit getVariable [QGVAR(ai_unitControl_moveToPos_reloadTime), 0]}
+			}
+		}
+	);
 };
 
-
+if (_shouldMove) then {
+	_unit setCombatBehaviour "CARELESS";
+};
+[_shouldMove, MACRO_ENUM_AI_PRIO_CARELESSMOVE, _unit, ["TARGET", "AUTOTARGET", "COVER", "CHECKVISIBLE"], false] call FUNC(ai_toggleFeature);
 
 
 

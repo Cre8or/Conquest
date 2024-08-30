@@ -71,7 +71,6 @@ if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC and {!(_player getVariable [QGVAR(isUnco
 			_squadMates deleteAt _forEachIndex;
 		};
 	} forEachReversed _squadMates;
-
 };
 
 

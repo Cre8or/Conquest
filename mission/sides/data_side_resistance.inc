@@ -57,7 +57,7 @@ USAGE:
 
 		[	// Sniper
 			MACRO_ENUM_ROLE_SNIPER,
-			[["srifle_DMR_02_camo_F","","acc_flashlight","optic_KHS_blk",["10Rnd_338_Mag",10],[],"bipod_01_F_blk"],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_FullGhillie_sard",[]],["V_Chestrig_rgr",[["HandGrenade",1,1],["16Rnd_9x21_red_Mag",2,17],["10Rnd_338_Mag",7,10]]],[],"","G_Bandanna_tan",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["srifle_DMR_02_camo_F","","acc_flashlight","optic_KHS_blk",["10Rnd_338_Mag",10],[],"bipod_01_F_blk"],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_FullGhillie_sard",[]],["V_Chestrig_rgr",[["HandGrenade",1,1],["16Rnd_9x21_red_Mag",2,17],["10Rnd_338_Mag",5,10]]],[],"","G_Bandanna_tan",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 

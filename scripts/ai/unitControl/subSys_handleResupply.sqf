@@ -70,7 +70,8 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 			[_unit, _recipient] call FUNC(act_tryResupplyUnit);
 			_shouldStop = true;
 		} else {
-			_actionPos = _actionPos vectorAdd [1 - random 2, 1 - random 2, 0]; // Randomness to help the unit get close enough
+			_actionPos  = _actionPos vectorAdd [1 - random 2, 1 - random 2, 0]; // Randomness to help the unit get close enough
+			_shouldMove = true; // Allows switching to careless mode in order to move
 		};
 
 	} else {

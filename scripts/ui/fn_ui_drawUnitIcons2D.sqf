@@ -35,6 +35,7 @@ private _groupPly           = group _player;
 private _spottedTimeVarName = format [QGVAR(spottedTime_%1), GVAR(side)];
 private _mapAngle           = ctrlMapDir _ctrlMap;
 private _blink              = ((_time mod (2 * MACRO_BLINK_INTERVAL)) < MACRO_BLINK_INTERVAL);
+private _isUnconscious      = _player getVariable [QGVAR(isUnconscious), false];
 
 private _allUnits       = allUnits select {_x getVariable [QGVAR(isSpawned), false]};
 private _squadMates     = units _groupPly select {alive _x and {vehicle _x == _x} and {_x getVariable [QGVAR(isSpawned), false]}};
@@ -88,7 +89,7 @@ private _fnc_drawUnit = {
 
 	if (_unit getVariable [QGVAR(isUnconscious), false]) then {
 
-		if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC) then {
+		if (_unit != _player and {GVAR(role) == MACRO_ENUM_ROLE_MEDIC} and {!_isUnconscious}) then {
 			_ctrlMap drawIcon [
 				_c_iconHeal,
 				[_colour, SQUARE(MACRO_COLOUR_A100_WHITE)] select _blink,
@@ -113,16 +114,29 @@ private _fnc_drawUnit = {
 		};
 
 	} else {
-		_ctrlMap drawIcon [
-			_c_iconUnit,
-			_colour,
-			getPosVisual _unit,
-			12,
-			12,
-			_mapAngle + getDir _unit,
-			"",
-			2
-		];
+		if (_isUnconscious and {_unit getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] == MACRO_ENUM_ROLE_MEDIC}) then {
+			_ctrlMap drawIcon [
+				_c_iconHeal,
+				[_colour, SQUARE(MACRO_COLOUR_A100_WHITE)] select _blink,
+				getPosVisual _unit,
+				16,
+				16,
+				0,
+				"",
+				1
+			];
+		} else {
+			_ctrlMap drawIcon [
+				_c_iconUnit,
+				_colour,
+				getPosVisual _unit,
+				12,
+				12,
+				_mapAngle + getDir _unit,
+				"",
+				2
+			];
+		};
 	};
 };
 
@@ -143,6 +157,15 @@ private _fnc_drawVehicle = {
 		1
 	];
 };
+
+
+
+
+
+// DEBUG: When in overview mode, don't render any icons to keep the map clean
+#ifdef MACRO_DEBUG_UI_MAP_OVERVIEWMODE
+	if (true) exitWith {};
+#endif
 
 
 

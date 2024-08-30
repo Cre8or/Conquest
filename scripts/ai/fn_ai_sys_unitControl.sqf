@@ -52,7 +52,7 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 	private _missionSafeStart = (GVAR(missionState) != MACRO_ENUM_MISSION_LIVE);
 
 	// Update candidate units
-	private ["_unit", "_role", "_side", "_group", "_leader", "_isLeader", "_isLeaderPlayer", "_unitPos", "_unitVeh", "_isInVehicle", "_changedVehicle", "_isDriver", "_isUnconscious", "_actionPos", "_moveType"];
+	private ["_unit", "_role", "_side", "_group", "_leader", "_isLeader", "_isLeaderPlayer", "_unitPos", "_unitVeh", "_isInVehicle", "_changedVehicle", "_isDriver", "_isUnconscious", "_isReloading", "_actionPos", "_moveType"];
 	for "_unitIndex" from GVAR(ai_sys_unitControl_index) to 0 step -1 do {
 
 		scopeName QGVAR(ai_sys_unitControl_loop);
@@ -82,8 +82,9 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 			_changedVehicle = (_isInVehicle != _unit getVariable [QGVAR(ai_sys_unitControl_isInVehicle), _isInVehicle]);
 			_isDriver       = (_isInVehicle and {_unit == driver _unitVeh});
 			_isUnconscious  = _unit getVariable [QGVAR(isUnconscious), false];
+			_isReloading    = [_unit] call FUNC(unit_isReloading);
 
-			// Basic AI settings
+			// Base AI settings (may be overriden by subsystems)
 			_unit setCombatBehaviour "AWARE";
 			_unit setSpeedMode "FULL";
 			_unit allowFleeing 0;
@@ -106,8 +107,9 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 				};
 
 				// Define shared variables
-				_actionPos = [];
-				_moveType  = _unit getVariable [QGVAR(ai_sys_unitControl_moveType), MACRO_ENUM_AI_MOVETYPE_HALT];
+				_actionPos  = [];
+				_moveType   = _unit getVariable [QGVAR(ai_sys_unitControl_moveType), MACRO_ENUM_AI_MOVETYPE_HALT];
+				_shouldMove = false;
 
 				scopeName QGVAR(ai_sys_unitControl_loop_live);
 

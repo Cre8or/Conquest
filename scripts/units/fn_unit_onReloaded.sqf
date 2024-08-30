@@ -30,6 +30,9 @@ if (!local _unit) exitWith {};
 // Interface with lo_getOverallAmmo
 [_unit] call FUNC(lo_updateOverallAmmo);
 
+// Interface with subSys_moveToPos
+_unit setVariable [QGVAR(ai_unitControl_moveToPos_reloadTime), time + MACRO_AI_CARELESSDURATION, false];
+
 
 
 

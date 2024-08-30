@@ -1,4 +1,7 @@
 TO DO:
+	- Increase AI aggressivity:
+		+ Make AI more keen on moving into incoming fire to reach move positions
+		- Make AI increase their use of suppressive fire on targets
 	- Fix spawn menu camera not being used on JIP (camera is following the player, who gets teleported when switching sides)
 		- Also fix R2T camera not showing on JIP
 	- Fix occasional double-kill registration for an individual unit
