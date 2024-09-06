@@ -36,6 +36,7 @@ private _spottedTimeVarName = format [QGVAR(spottedTime_%1), GVAR(side)];
 private _mapAngle           = ctrlMapDir _ctrlMap;
 private _blink              = ((_time mod (2 * MACRO_BLINK_INTERVAL)) < MACRO_BLINK_INTERVAL);
 private _isUnconscious      = _player getVariable [QGVAR(isUnconscious), false];
+private _isLowOnHealth      = (_player getVariable [QGVAR(health), 1] <= MACRO_UNIT_HEALTH_THRESHOLDLOW);
 
 private _allUnits       = allUnits select {_x getVariable [QGVAR(isSpawned), false]};
 private _squadMates     = units _groupPly select {alive _x and {vehicle _x == _x} and {_x getVariable [QGVAR(isSpawned), false]}};
@@ -114,7 +115,7 @@ private _fnc_drawUnit = {
 		};
 
 	} else {
-		if (_isUnconscious and {_unit getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] == MACRO_ENUM_ROLE_MEDIC}) then {
+		if (_unit getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] == MACRO_ENUM_ROLE_MEDIC and {_isUnconscious or {_isLowOnHealth}}) then {
 			_ctrlMap drawIcon [
 				_c_iconHeal,
 				[_colour, SQUARE(MACRO_COLOUR_A100_WHITE)] select _blink,

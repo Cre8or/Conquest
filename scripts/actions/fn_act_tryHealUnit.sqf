@@ -129,8 +129,11 @@ if (!isPlayer _medic) then {
 	_medic doWatch _target;
 };
 
-// Inform the server about the successful healing action
+// Inform the unit about the successful healing action
 [_medic, _target] remoteExecCall [QFUNC(unit_onHealUnit), _target, false];
+
+// Handle action sounds
+[_medic, MACRO_ENUM_SOUND_HEAL] remoteExecCall [QFUNC(unit_playSound), 0, false];
 
 // Return the unit that was healed
 [true, _target];

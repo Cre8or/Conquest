@@ -40,9 +40,8 @@ _unit setUnitLoadout _loadout;
 _unit setVariable [QGVAR(role), _role, true];
 
 // (Re)initialise the ammo cache
-_unit setVariable [QGVAR(overallAmmo_cache), 1, true];
+_unit setVariable [QGVAR(overallAmmo), 1, true];
 _unit setVariable [QGVAR(overallAmmo_isValid), true, true];
 [_unit] remoteExecCall [QFUNC(unit_setResupplyCooldown), 0, false];
-
 
 [_unit, true] call FUNC(unit_selectBestWeapon);

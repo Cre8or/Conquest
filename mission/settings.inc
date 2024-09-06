@@ -4,7 +4,7 @@
 
 	#define MACRO_MISSION_NAME                                      "Gulf of Malden"
 
-	#define MACRO_MISSION_OVERVIEW_IMAGE                            "mission\res\overview.paa"
+	#define MACRO_MISSION_OVERVIEW_IMAGE                            ""
 	#define MACRO_MISSION_LOADING_BANNER                            "mission\res\banner.paa"
 
 

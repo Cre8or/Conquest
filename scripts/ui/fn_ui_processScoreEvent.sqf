@@ -32,7 +32,7 @@ if (!hasInterface or {_enum == MACRO_ENUM_SCORE_INVALID}) exitWith {};
 // Set up some variables
 MACRO_FNC_INITVAR(GVAR(ui_sys_drawScoreFeed_data), []);
 MACRO_FNC_INITVAR(GVAR(ui_sys_drawScoreFeed_redrawLast), false);
-MACRO_FNC_INITVAR(GVAR(ui_processScoreEvent_soundObj), objNull);
+MACRO_FNC_INITVAR(GVAR(ui_processScoreEvent_sound), -1);
 
 private _sound = "";
 
@@ -240,7 +240,7 @@ if (_eventData isNotEqualTo []) then {
 
 	// Play a sound
 	if (_sound != "") then {
-		deleteVehicle GVAR(ui_processScoreEvent_soundObj);
-		GVAR(ui_processScoreEvent_soundObj) = playSound _sound;
+		stopSound GVAR(ui_processScoreEvent_sound);
+		GVAR(ui_processScoreEvent_sound) = playSoundUI [_sound, 1, 1, true];
 	};
 };

@@ -225,7 +225,7 @@
 
 	// End Screen
 	#define MACRO_POS_ES_TOP_TEXTSIZE                               MACRO_UI_TEXTSIZE_5
-	#define MACRO_POS_ES_TICKETS_TEXTSIZE                           MACRO_UI_TEXTSIZE_2
+	#define MACRO_POS_ES_TICKETS_TEXTSIZE                           MACRO_UI_TEXTSIZE_3
 
 	// Kill Feed
 	#define MACRO_POS_KF_Y                                          (0.25 * safeZoneH)
@@ -476,7 +476,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.16.768" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.16.779" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -809,17 +809,17 @@
 //	AI REQUEST PIORITIES
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
-	#define MACRO_ENUM_AI_PRIO_BASESETTINGS                          0
-	#define MACRO_ENUM_AI_PRIO_CARELESSMOVE                          1
+	#define MACRO_ENUM_AI_PRIO_BASESETTINGS                         0
+	#define MACRO_ENUM_AI_PRIO_CARELESSMOVE                         1
 
-	#define MACRO_ENUM_AI_PRIO_RESUPPLY                              10
-	#define MACRO_ENUM_AI_PRIO_REPAIR                                11
-	#define MACRO_ENUM_AI_PRIO_MEDICAL                               12
+	#define MACRO_ENUM_AI_PRIO_RESUPPLY                             10
+	#define MACRO_ENUM_AI_PRIO_REPAIR                               11
+	#define MACRO_ENUM_AI_PRIO_MEDICAL                              12
 
-	#define MACRO_ENUM_AI_PRIO_DODGEVEHICLE                          20
+	#define MACRO_ENUM_AI_PRIO_DODGEVEHICLE                         20
 
-	#define MACRO_ENUM_AI_PRIO_UNCONSCIOUS                           30
-	#define MACRO_ENUM_AI_PRIO_SAFESTART                             31
+	#define MACRO_ENUM_AI_PRIO_UNCONSCIOUS                          30
+	#define MACRO_ENUM_AI_PRIO_SAFESTART                            31
 
 
 
@@ -829,10 +829,27 @@
 //	AI MOVE TYPES
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
-	#define MACRO_ENUM_AI_MOVETYPE_HALT                              0
-	#define MACRO_ENUM_AI_MOVETYPE_REGROUP                           1
-	#define MACRO_ENUM_AI_MOVETYPE_GOAL                              2
-	#define MACRO_ENUM_AI_MOVETYPE_ACTION                            3
+	#define MACRO_ENUM_AI_MOVETYPE_HALT                             0
+	#define MACRO_ENUM_AI_MOVETYPE_REGROUP                          1
+	#define MACRO_ENUM_AI_MOVETYPE_GOAL                             2
+	#define MACRO_ENUM_AI_MOVETYPE_ACTION                           3
+
+
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+//	UNIT SOUND ENUMERATIONS
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+
+	#define MACRO_ENUM_SOUND_INVALID                                -1
+
+	#define MACRO_ENUM_SOUND_RESUPPLY                               0
+	#define MACRO_ENUM_SOUND_REPAIR                                 1
+	#define MACRO_ENUM_SOUND_HEAL                                   2
+
+	#define MACRO_ENUM_SOUND_VO_DEATH                               10
+	#define MACRO_ENUM_SOUND_VO_REVIVE                              11
 
 
 

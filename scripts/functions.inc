@@ -202,6 +202,7 @@ class MACRO_PROJECT_PREFIX {
 		class unit_onKilled {};
 		class unit_onReloaded {};
 		class unit_onResupplyUnit {};
+		class unit_playSound {};
 		class unit_processDamageEvent {};
 		class unit_selectBestWeapon {};
 		class unit_setIdentityLocal {};

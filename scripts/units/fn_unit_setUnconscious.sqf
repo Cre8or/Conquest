@@ -39,6 +39,7 @@ _unit setUnconscious _newState;
 _unit setCaptive _newState;
 _unit setVariable [QGVAR(isUnconscious), _newState, true];
 
+
 // Unconscious
 if (_newState) then {
 	_unit setVariable [QGVAR(health), 0, true];
@@ -47,6 +48,7 @@ if (_newState) then {
 	moveOut _unit;
 
 	[_unit] call FUNC(anim_unconscious);
+	[_unit, MACRO_ENUM_SOUND_VO_DEATH] remoteExecCall [QFUNC(unit_playSound), 0, false];
 
 	// Update the respawn time on AI units
 	if (!isPlayer _unit) then {
@@ -55,6 +57,8 @@ if (_newState) then {
 
 // Revived
 } else {
+	[_unit, MACRO_ENUM_SOUND_VO_REVIVE] remoteExecCall [QFUNC(unit_playSound), 0, false];
+
 	// Reset the unit's health to the lowest amount that can be given by a medic
 	_unit setVariable [QGVAR(health), MACRO_ACT_HEALUNIT_AMOUNT, true];
 

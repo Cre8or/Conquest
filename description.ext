@@ -12,8 +12,7 @@ onLoadName    = __EVAL(MACRO_MISSION_NAME);
 onLoadMission = __EVAL(MACRO_MISSION_FRAMEWORK_GAMEMODE + " (v" + MACRO_MISSION_FRAMEWORK_VERSION + ")");
 overviewText  = __EVAL(MACRO_MISSION_FRAMEWORK_GAMEMODE + " - " + MACRO_MISSION_NAME + " (v" + MACRO_MISSION_FRAMEWORK_VERSION + ")<br /><br />Made by Cre8or<br />(C) 2019 - 2024");
 
-// TODO: Add custom overview and banner images
-//overviewPicture = MACRO_MISSION_OVERVIEW_IMAGE;
+overviewPicture = MACRO_MISSION_OVERVIEW_IMAGE;
 loadScreen = MACRO_MISSION_LOADING_BANNER;
 
 joinUnassigned = 0; // Auto-slot players

@@ -126,8 +126,11 @@ if (!isPlayer _support) then {
 	_support doWatch _recipient;
 };
 
-// Inform the server about the successful resupply action
+// Inform the unit about the successful resupply action
 [_support, _recipient] remoteExecCall [QFUNC(unit_onResupplyUnit), _recipient, false];
+
+// Handle action sounds
+[_support, MACRO_ENUM_SOUND_RESUPPLY] remoteExecCall [QFUNC(unit_playSound), 0, false];
 
 // Return the unit that was resupplied
 [true, _recipient];

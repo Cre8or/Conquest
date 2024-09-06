@@ -29,4 +29,8 @@ private _combatArea = missionNamespace getVariable [format [QGVAR(CA_%1), _side]
 // Ignore empty combat areas
 if (_combatArea isEqualTo []) exitWith {true};
 
-_pos inPolygon _combatArea;
+#ifdef MACRO_DEBUG_UI_MAP_OVERVIEWMODE
+	true;
+#else
+	_pos inPolygon _combatArea;
+#endif
