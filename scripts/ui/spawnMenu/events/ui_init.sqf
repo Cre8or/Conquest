@@ -13,6 +13,7 @@ case "ui_init": {
 	MACRO_FNC_INITVAR(GVAR(rt_role_wall),objNull);
 	MACRO_FNC_INITVAR(GVAR(rt_role_unit),objNull);
 	MACRO_FNC_INITVAR(GVAR(rt_role_light),objNull);
+	MACRO_FNC_INITVAR(GVAR(ui_sm_role), MACRO_ENUM_ROLE_INVALID);
 	MACRO_FNC_INITVAR(GVAR(ui_sm_prevMenu), 0);
 	MACRO_FNC_INITVAR(GVAR(ui_sm_EH_eachFrame), 0);
 
@@ -61,9 +62,9 @@ case "ui_init": {
 		and {GVAR(role) != MACRO_ENUM_ROLE_INVALID}
 	) then {
 		switch (GVAR(ui_sm_prevMenu)) do {
-			case MACRO_IDC_SM_ROLE_FRAME: 	{["ui_button_click", [MACRO_IDC_SM_ROLE_BUTTON]] call FUNC(ui_spawnMenu)};
-			case MACRO_IDC_SM_DEPLOY_FRAME:	{["ui_button_click", [MACRO_IDC_SM_DEPLOY_BUTTON]] call FUNC(ui_spawnMenu)};
-			default				{["ui_button_click", [MACRO_IDC_SM_SIDE_BUTTON]] call FUNC(ui_spawnMenu)};
+			case MACRO_IDC_SM_ROLE_FRAME:   {["ui_button_click", [MACRO_IDC_SM_ROLE_BUTTON]] call FUNC(ui_spawnMenu)};
+			case MACRO_IDC_SM_DEPLOY_FRAME: {["ui_button_click", [MACRO_IDC_SM_DEPLOY_BUTTON]] call FUNC(ui_spawnMenu)};
+			default                         {["ui_button_click", [MACRO_IDC_SM_SIDE_BUTTON]] call FUNC(ui_spawnMenu)};
 		};
 	} else {
 		// Default to the side menu, forcing the player to pick a side
@@ -200,7 +201,7 @@ case "ui_init": {
 	private _ctrlMap = _spawnMenu displayCtrl MACRO_IDC_SM_DEPLOY_MAP;
 	_ctrlMap setVariable [QGVAR(isSpawnMenu), true];
 	_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawSpawnSector)];
-	_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawUnitIcons2D)];
+	_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawIcons2D)];
 	_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawSectorFlags)];
 	_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawSectorLocations)];
 	_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawCombatArea_map)];

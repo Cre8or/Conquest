@@ -42,7 +42,7 @@ private _totalWeight = 0;
 private _sideIndexThresholds = [];
 private _prevSideIndex = -1;
 private _allNames_copy = [];
-private ["_sideFaces", "_sideSpeakers"];
+private ["_faces", "_voices", "_sideFaces", "_sideSpeakers"];
 private ["_sideIndex", "_unitIndex", "_sideRoles", "_rolesCount", "_namesCount", "_facesCount", "_speakersCount"];
 GVAR(sv_AIIdentities) = [];
 
@@ -52,14 +52,17 @@ GVAR(sv_AIIdentities) = [];
 
 // Compile the data for all required sides
 {
-	_x params ["_side", "_sideWeight", "_faces", "_speakers"];
+	_x params ["_side", "_sideWeight"];
+
+	_faces  = missionNamespace getVariable [format [QGVAR(aiFaces_%1), _side], []];
+	_voices = missionNamespace getVariable [format [QGVAR(aiVoices_%1), _side], []];
 
 	// Only continue if this side exists
 	if (_side in GVAR(sides)) then {
 		_totalWeight = _totalWeight + (_sideWeight max 0);
 
 		_sideFaces = [_faces] call FUNC(ai_getFaces);
-		_sideSpeakers = [_speakers] call FUNC(ai_getVoices);
+		_sideSpeakers = [_voices] call FUNC(ai_getVoices);
 	} else {
 		_sideFaces = [];
 		_sideSpeakers = [];
@@ -73,9 +76,9 @@ GVAR(sv_AIIdentities) = [];
 	_sideIndexThresholds pushBack _totalWeight;
 
 } forEach [
-	[east,		GVAR(param_AI_spawnWeight_east),	MACRO_AI_FACES_EAST,		MACRO_AI_VOICES_EAST],
-	[resistance,	GVAR(param_AI_spawnWeight_resistance),	MACRO_AI_FACES_RESISTANCE,	MACRO_AI_VOICES_RESISTANCE],
-	[west,		GVAR(param_AI_spawnWeight_west),	MACRO_AI_FACES_WEST,		MACRO_AI_VOICES_WEST]
+	[east,       GVAR(param_AI_spawnWeight_east)],
+	[resistance, GVAR(param_AI_spawnWeight_resistance)],
+	[west,       GVAR(param_AI_spawnWeight_west)]
 ];
 
 // Scale to the AI count
@@ -137,15 +140,15 @@ for "_i" from 0 to GVAR(param_AI_maxCount) - 1 do {
 		and {_speakersCount > 0}
 	) then {
 		// Generate a new identity and add it to the global array
-		GVAR(sv_AIIdentities) pushBack [					// NOTE: Refer to the AI identity enums in macros.hpp! The order MUST match!
-			_i,								// MACRO_ENUM_AIIDENTITY_UNITINDEX
-			_sideIndex,							// MACRO_ENUM_AIIDENTITY_SIDEINDEX
-			floor (_unitIndex / GVAR(param_AI_maxUnitsPerGroup)),		// MACRO_ENUM_AIIDENTITY_GROUPINDEX
-			(_unitIndex mod GVAR(param_AI_maxUnitsPerGroup)) == 0,		// MACRO_ENUM_AIIDENTITY_ISLEADER
-			_sideRoles     deleteAt floor (random _rolesCount),		// MACRO_ENUM_AIIDENTITY_ROLE
-			_allNames_copy deleteAt floor (random _namesCount),		// MACRO_ENUM_AIIDENTITY_NAME
-			_sideFaces     deleteAt floor (random _facesCount),		// MACRO_ENUM_AIIDENTITY_FACE
-			_sideSpeakers  deleteAt floor (random _speakersCount)		// MACRO_ENUM_AIIDENTITY_SPEAKER
+		GVAR(sv_AIIdentities) pushBack [                           // NOTE: Refer to the AI identity enums in macros.hpp! The order MUST match!
+			_i,                                                    // MACRO_ENUM_AIIDENTITY_UNITINDEX
+			_sideIndex,                                            // MACRO_ENUM_AIIDENTITY_SIDEINDEX
+			floor (_unitIndex / GVAR(param_AI_maxUnitsPerGroup)),  // MACRO_ENUM_AIIDENTITY_GROUPINDEX
+			(_unitIndex mod GVAR(param_AI_maxUnitsPerGroup)) == 0, // MACRO_ENUM_AIIDENTITY_ISLEADER
+			_sideRoles     deleteAt floor (random _rolesCount),    // MACRO_ENUM_AIIDENTITY_ROLE
+			_allNames_copy deleteAt floor (random _namesCount),    // MACRO_ENUM_AIIDENTITY_NAME
+			_sideFaces     deleteAt floor (random _facesCount),    // MACRO_ENUM_AIIDENTITY_FACE
+			_sideSpeakers  deleteAt floor (random _speakersCount)  // MACRO_ENUM_AIIDENTITY_SPEAKER
 		];
 	} else {
 		GVAR(sv_AIIdentities) pushBack [

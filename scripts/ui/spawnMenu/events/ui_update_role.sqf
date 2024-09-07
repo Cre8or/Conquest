@@ -125,8 +125,13 @@ case "ui_update_role": {
 	// Check if the selected role has changed
 	if (_shouldUpdateRole) then {
 
-		if (GVAR(role) != MACRO_ENUM_ROLE_INVALID) then {
-			[GVAR(rt_role_unit), GVAR(side), GVAR(role)] call FUNC(lo_setRoleLoadout);
+		private _role = GVAR(role);
+		if ([player, true] call FUNC(unit_isAlive)) then {
+			_role = GVAR(ui_sm_role);
+		};
+
+		if (_role != MACRO_ENUM_ROLE_INVALID) then {
+			[GVAR(rt_role_unit), GVAR(side), _role] call FUNC(lo_setRoleLoadout);
 			GVAR(rt_role_unit) switchMove selectRandom [
 				"Acts_AidlPercMstpSloWWpstDnon_warmup_1_loop",
 				"Acts_AidlPercMstpSloWWrflDnon_warmup_3_loop",
@@ -144,7 +149,7 @@ case "ui_update_role": {
 		private ["_isSelected"];
 		{
 			_x params ["_roleX", "_idc_frameX", "_idc_backgroundX"];
-			_isSelected = (_roleX == GVAR(role));
+			_isSelected = (_roleX == _role);
 
 			(_spawnMenu displayCtrl _idc_frameX) ctrlSetBackgroundColor ([SQUARE(MACRO_COLOUR_BUTTON_ACTIVE), SQUARE(MACRO_COLOUR_BUTTON_ACTIVE_PRESSED)] select _isSelected);
 			(_spawnMenu displayCtrl _idc_backgroundX) ctrlSetBackgroundColor ([SQUARE(MACRO_COLOUR_A50_WHITE), SQUARE(MACRO_COLOUR_A75_WHITE)] select _isSelected);
@@ -216,7 +221,7 @@ case "ui_update_role": {
 		_ctrlLB_members lnbAddRow ["", "", name _x];
 		_ctrlLB_members lnbSetPicture [[_index, 1], squadParams _x # 0 # 4];
 
-		if (!alive _x) then {
+		if !([_x] call FUNC(unit_isAlive)) then {
 			for "_i" from 0 to 2 step 2 do {
 				_ctrlLB_members lnbSetColor [[_index, _i], SQUARE(MACRO_COLOUR_A100_GREY)];
 			};
@@ -232,7 +237,7 @@ case "ui_update_role": {
 		_ctrlLB_members lnbAddRow ["", "AI", GVAR(cl_AIIdentities) # _x # 1];
 		_ctrlLB_members lnbSetColor [[_index, 1], SQUARE(MACRO_COLOUR_A100_GREY)];
 
-		if (!alive _unit) then {
+		if !([_unit] call FUNC(unit_isAlive)) then {
 			for "_i" from 0 to 2 step 2 do {
 				_ctrlLB_members lnbSetColor [[_index, _i], SQUARE(MACRO_COLOUR_A100_GREY)];
 			};

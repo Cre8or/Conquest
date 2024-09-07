@@ -38,11 +38,21 @@ _unit setVariable [QGVAR(EH_unit_onKilled), _unit addEventHandler ["Killed", FUN
 _unit removeEventHandler ["FiredMan", _unit getVariable [QGVAR(EH_unit_onFired), -1]];
 _unit setVariable [QGVAR(EH_unit_onFired), _unit addEventHandler ["FiredMan", FUNC(unit_onFired)], false];
 
+_unit removeEventHandler ["Reloaded", _unit getVariable [QGVAR(EH_unit_onReloaded), -1]];
+_unit setVariable [QGVAR(EH_unit_onReloaded), _unit addEventHandler ["Reloaded", FUNC(unit_onReloaded)], false];
+
 private _local = local _unit;
 _unit setVariable [QGVAR(canCaptureSectors), true, _local];
 _unit setVariable [QGVAR(health), 1, _local];
-_unit setVariable [QGVAR(isSpawned), true, _local]; // Interfaces with drawUnitIcons2D and drawIcons3D
+_unit setVariable [QGVAR(isSpawned), true, _local]; // Interfaces with drawIcons2D and drawIcons3D
 
+_unit setVariable [QGVAR(lo_addOverallAmmo_accumulator), 0, false]; // Interfaces with lo_addOverallAmmo
+
+
+// Disable stamina
+if (_local) then {
+	_unit enableFatigue false;
+};
 
 
 
@@ -78,10 +88,24 @@ if (isPlayer _unit) then {
 	// To fix this, pretend it's a fresh unit.
 	_unit setVariable [QGVAR(gm_sys_removeCorpses_removalTime), -1, false];
 
+	// Add compatibility for ACE's custom events
+	if (GVAR(hasMod_ace_throwing)) then {
+		["ace_firedPlayer", _unit getVariable [QGVAR(EH_unit_ace_firedPlayer), -1]] call CBA_fnc_removeEventHandler;
+		_unit setVariable [QGVAR(EH_unit_ace_firedPlayer), ["ace_firedPlayer", {
+			_this params ["", "_weapon"];
+
+			// We only care about thrown items, to support ACE throwing.
+			// Everything else is already handled by the default "FiredMan" EH.
+			if (_weapon == "Throw") then {
+				_this call FUNC(unit_onFired);
+			};
+		}] call CBA_fnc_addEventHandler, false];
+	};
+
 // AI specific
 } else {
 	[true, MACRO_ENUM_AI_PRIO_BASESETTINGS, _unit, "AUTOCOMBAT", false] call FUNC(ai_toggleFeature);
-
+/*
 	// Reset the unit's movement time when firing (prevents it from being flagged as stuck)
 	_unit removeEventHandler ["Fired", _unit getVariable [QGVAR(EH_stuckDetection_fired), -1]];
 	_unit setVariable [QGVAR(EH_stuckDetection_fired), _unit addEventHandler ["Fired", {
@@ -89,8 +113,5 @@ if (isPlayer _unit) then {
 
 		_unit setVariable [QGVAR(lastMovedTime), time, false];
 	}], false];
-
-	// Handle infinite ammo
-	_unit removeEventHandler ["Reloaded", _unit getVariable [QGVAR(EH_unit_reloaded), -1]];
-	_unit setVariable [QGVAR(EH_unit_reloaded), _unit addEventHandler ["Reloaded", FUNC(unit_onReloaded)], false];
+*/
 };

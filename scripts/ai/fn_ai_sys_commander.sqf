@@ -213,11 +213,11 @@ GVAR(ai_sys_commander_EH) = addMissionEventHandler ["EachFrame", {
 				if (_canReceiveOrders) then {
 					if (_attackPoints isEqualTo []) then {
 						if !(_waypointPos distanceSqr _newWaypointPos < MACRO_AI_COMMANDER_WAYPOINT_MINDISTANCE ^ 2) then {
-							_group addWaypoint [ASLtoATL _newWaypointPos, 0, 1];
+							_group addWaypoint [_newWaypointPos, -1, 1]; // Exact placement in format ASL
 						};
 					} else {
 						if ((_attackPoints findIf {_waypointPos distanceSqr _x < MACRO_AI_COMMANDER_WAYPOINT_MINDISTANCE ^ 2}) < 0) then {
-							_group addWaypoint [ASLtoATL selectRandom _attackPoints, 0, 1];
+							_group addWaypoint [selectRandom _attackPoints, -1, 1]; // Exact placement in format ASL
 						};
 					};
 
@@ -236,8 +236,8 @@ GVAR(ai_sys_commander_EH) = addMissionEventHandler ["EachFrame", {
 					(GVAR(debug_ai_commander_data) # GVAR(ai_sys_commander_side_index)) set [_forEachIndex, [
 						groupId _group,
 						_debug_colour,
-						ASLtoATL _centerPos,
-						ASLtoATL _waypointPos,
+						ASLtoAGL _centerPos,
+						ASLtoAGL _waypointPos,
 						[GVAR(ai_sys_commander_side)] call FUNC(gm_getFlagTexture)
 					]];
 				#endif
@@ -344,8 +344,8 @@ removeMissionEventHandler ["Draw3D", GVAR(ai_sys_commander_EH_draw3D_debug)];
 						private _distMul = 0.25 * (_centerPos distance2D _waypointPos);
 						for "_i" from 0 to _count - 1 do {
 							drawLine3D [
-								ASLtoATL (ATLtoASL _centerPos vectorAdd (_diff vectorMultiply (_i / _count)) vectorAdd [0, 0, _distMul * sin (180 * _i / _count)]),
-								ASLtoATL (ATLtoASL _centerPos vectorAdd (_diff vectorMultiply ((_i + 1) / _count)) vectorAdd [0, 0, _distMul * sin (180 * (_i + 1) / _count)]),
+								ASLtoAGL (ATLtoASL _centerPos vectorAdd (_diff vectorMultiply (_i / _count)) vectorAdd [0, 0, _distMul * sin (180 * _i / _count)]),
+								ASLtoAGL (ATLtoASL _centerPos vectorAdd (_diff vectorMultiply ((_i + 1) / _count)) vectorAdd [0, 0, _distMul * sin (180 * (_i + 1) / _count)]),
 								[0, 1, 0.0, 1]
 							];
 						};

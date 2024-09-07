@@ -81,7 +81,37 @@ if (GVAR(hasMod_ace_finger)) then {
 
 
 
-// Healing
+// Role action: resupplying
+[
+	MACRO_MISSION_FRAMEWORK_GAMEMODE,
+	QGVAR(kb_resupplyUnit),
+	"Resupply unit/self",
+	{([player] call FUNC(act_tryResupplyUnit)) param [0, false]},
+	"",
+	[MACRO_KEYBIND_RESUPPLY, [false, false, false]],
+	true,
+	0,
+	false
+] call CBA_fnc_addKeybind;
+
+
+/*
+// Role action: Repairing
+[
+	MACRO_MISSION_FRAMEWORK_GAMEMODE,
+	QGVAR(kb_repairVehicle),
+	"Repair vehicle",
+	{([player] call FUNC(act_tryHealUnit)) param [0, false]},
+	"",
+	[MACRO_KEYBIND_REPAIR, [false, false, false]],
+	true,
+	0,
+	false
+] call CBA_fnc_addKeybind;
+*/
+
+
+// Role action: Healing
 [
 	MACRO_MISSION_FRAMEWORK_GAMEMODE,
 	QGVAR(kb_healUnit),
@@ -109,15 +139,3 @@ GVAR(kb_act_pressed_giveUp) = false;
 	0,
 	false
 ] call CBA_fnc_addKeybind;
-
-
-
-
-
-// Add compatibility for ACE's custom events
-if (GVAR(hasMod_ace_throwing)) then {
-	MACRO_FNC_INITVAR(GVAR(EH_ace_firedPlayer), -1);
-
-	["ace_firedPlayer", GVAR(EH_ace_firedPlayer)] call CBA_fnc_removeEventHandler;
-	GVAR(EH_ace_firedPlayer) = ["ace_firedPlayer", FUNC(unit_onFired)] call CBA_fnc_addEventHandler;
-};

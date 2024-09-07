@@ -2,7 +2,7 @@
 	Author:	 	Cre8or
 	Description:
 		[GA]
-		Returns the objet's vehicle type enum. For a list of possible values, see macros.inc.
+		Returns the object's vehicle type enum. For a list of possible values, see macros.inc.
 	Arguments:
 		0:	<OBJECT>	The vehicle to be inspected
 	Returns:

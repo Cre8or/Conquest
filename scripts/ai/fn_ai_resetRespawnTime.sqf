@@ -31,9 +31,12 @@ private _time = time;
 
 
 
-// Interface with unitControl to allow unconscious units to give up and bleed out
 if ([_unit, true] call FUNC(unit_isAlive)) then {
+	// Interface with unitControl to allow unconscious units to give up and bleed out
 	_unit setVariable [QGVAR(ai_unitControl_unconsciousState_respawnTime), _time + GVAR(param_gm_unit_respawnDelay), false];
+
+	// Interface with subSys_handleMedical to prevent revive spam
+	_unit setVariable [QGVAR(ai_unitControl_handleMedical_reviveTime), _time + MACRO_AI_MEDICAL_INITIALREVIVEDELAY, false];
 };
 
 // Special case: the server is in charge of respawning units, and uses additional variables.

@@ -7,9 +7,9 @@
 		combat effective), aswell as scenarios where players have been respawned by the engine, but are still
 		in the spawn menu, or waiting to be respawned by the framework.
 	Arguments:
-		0:	<OBJECT>	The unit to be tested
-		1:	<BOOLEAN>	Whether unconsciousness should be considered as being alive (optional, default:
-					false)
+		0:	<OBJECT>    The unit to be tested
+		1:	<BOOLEAN>   Whether unconsciousness should be considered as being alive (optional, default:
+			            false)
 	Returns:
 			<BOOLEAN>	True if the unit is alive, otherwise false
 -------------------------------------------------------------------------------------------------------------------- */

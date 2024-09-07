@@ -225,7 +225,7 @@
 
 	// End Screen
 	#define MACRO_POS_ES_TOP_TEXTSIZE                               MACRO_UI_TEXTSIZE_5
-	#define MACRO_POS_ES_TICKETS_TEXTSIZE                           MACRO_UI_TEXTSIZE_2
+	#define MACRO_POS_ES_TICKETS_TEXTSIZE                           MACRO_UI_TEXTSIZE_3
 
 	// Kill Feed
 	#define MACRO_POS_KF_Y                                          (0.25 * safeZoneH)
@@ -305,9 +305,9 @@
 	#define MACRO_UI_SECTORFLAGS_SCALEOFFSET                        0.03 // When zooming in on the map, the sector flag icons will eventually increase to twice their normal size. This offset lets you choose at which zoom level this transition should happen. Larger numbers lean towards "zoomed out", smaller numbers towards "zoomed in" (logarithmic scale). Accepted range is 0 to 1
 
 	// Unit Icons
-	#define MACRO_UI_ICONS3D_MAXDISTANCE_INF                        300 // The maximum distance, in meters, at which infantry 3D icons are visible
-	#define MACRO_UI_ICONS3D_MAXDISTANCE_VEH                        1000 // The maximum distance, in meters, at which vehicle 3D icons are visible
-	#define MACRO_UI_ICONS3D_MAXDISTANCE_MEDIC                      80 // The maximum distance, in meters, at which medic-specific infantry icons (units in need of healing, and nearby medics) are visible
+	#define MACRO_UI_ICONS3D_MAXDISTANCE_INF                        500 // The maximum distance, in meters, at which infantry 3D icons are visible
+	#define MACRO_UI_ICONS3D_MAXDISTANCE_VEH                        1500 // The maximum distance, in meters, at which vehicle 3D icons are visible
+	#define MACRO_UI_ICONS3D_MAXDISTANCE_ROLEACTION                 80 // The maximum distance, in meters, at which role-specific infantry icons (healing/resupplying/repairing) are visible
 
 	// Combat Area
 	#define MACRO_CA_CORNEROFFSET                                   50000 // How much the combat area should overextend (beyond the map corners), in meters
@@ -319,6 +319,8 @@
 
 	#define MACRO_FONT_UI_THIN                                     "PuristaLight"
 	#define MACRO_FONT_UI_MEDIUM                                   "PuristaMedium"
+
+	#define MACRO_TEXTURE_FLAG_EMPTY                               "a3\data_f\flags\flag_white_co.paa"
 
 
 
@@ -361,18 +363,22 @@
 	// Actions
 	#define MACRO_ACT_SPOTTING_MINVISIBILITY                        0.5 // The minimum threshold that visibility checks must exceed for a target to be considered spottable (return value of checkVisibility)
 	#define MACRO_ACT_SPOTTING_DURATION                             6 // How long, in seconds, a hostile unit/vehicle is visible for when spotted
-	#define MACRO_ACT_SPOTTING_COOLDOWNDURATION                     17 // How long the spotting action remains blocked for, in seconds, when in cooldown
-	#define MACRO_ACT_SPOTTING_COSTPERUSE                           4 // How much it costs to use the spotting action. Divice the cooldown duration by this value to determine how often the action may be triggered (at once) before entering cooldown
+	#define MACRO_ACT_SPOTTING_COOLDOWNDURATION                     15 // How long the spotting action remains blocked for, in seconds, when in cooldown
+	#define MACRO_ACT_SPOTTING_COSTPERUSE                           2 // How much it costs to use the spotting action. Divice the cooldown duration by this value to determine how often the action may be triggered (at once) before entering cooldown
+
+	#define MACRO_ACT_RESUPPLYUNIT_MAXDISTANCE                      2 // The distance, in meters, below which support units must be to friendly units in order to resupply them
+	#define MACRO_ACT_RESUPPLYUNIT_AMOUNT                           0.1 // The amount of ammunition that is added to friendly units upon resupplying, expressed as fraction of their loadout's maximum ammunition
+	#define MACRO_ACT_RESUPPLYUNIT_COOLDOWN                         1 // The cooldown duration, in seconds, between consecutive resupply actions
 
 	#define MACRO_ACT_HEALUNIT_MAXDISTANCE                          2 // The distance, in meters, below which medics must be to their patients in order to heal them
 	#define MACRO_ACT_HEALUNIT_AMOUNT                               0.15 // The amount of health that is added to patients upon healing, expressed as fraction of their maximum health
-	#define MACRO_ACT_HEALUNIT_COOLDOWN                             1 // The cooldown duration, in seconds, between two consecutive healing actions that medics must wait
+	#define MACRO_ACT_HEALUNIT_COOLDOWN                             1 // The cooldown duration, in seconds, between consecutive healing actions
 
 	#define MACRO_KEYBIND_TOGGLESPAWNMENU                           DIK_F1
-	#define MACRO_KEYBIND_HEAL                                      DIK_4
-	#define MACRO_KEYBIND_REARM                                     DIK_5
-	#define MACRO_KEYBIND_REPAIR                                    DIK_6
 	#define MACRO_KEYBIND_GIVEUP                                    DIK_SPACE
+	#define MACRO_KEYBIND_RESUPPLY                                  DIK_4
+	#define MACRO_KEYBIND_REPAIR                                    DIK_4
+	#define MACRO_KEYBIND_HEAL                                      DIK_4
 
 	// Combat Area
 	#define MACRO_CA_PLAYER_INTERVAL                                0.1 // The interval, in seconds, between two consecutive combat area checks for the player
@@ -402,13 +408,16 @@
 	#define MACRO_AI_DRIVERCONTROL_INTERVAL                         0.25 // Interval, in seconds, between two update cycles of the AI driverControl system (each vehicle driver gets updated every this often)
 	#define MACRO_AI_COMMANDER_INTERVAL                             0.25 // Interval, in seconds, between two update cycles of the AI commander system (per side; * 3 for a full cycle)
 	#define MACRO_AI_DOMOVEINTERVAL                                 5 // The interval, in seconds, between two doMove commands being issued to AI units (as they sometimes need to be rescheduled to move)
-	#define MACRO_AI_MEDICAL_MAXACTIONDISTANCE                      20 // The maximum distance, in meters, that AI units are willing to travel in order to perform medical actions on others, or to receive medical attention
-	#define MACRO_AI_MEDICAL_CHANGESTANCEDISTANCE                   8 // The distance to the patient, in meters, below which the unit will adjust its stance to that of the patient
-	#define MACRO_AI_MEDICAL_PATIENT_STOPDURATIONPERHEAL            2 // For how long an AI unit remains stopped, in seconds, after being healed (prevents them from running away while being healed)
+	#define MACRO_AI_CARELESSDURATION                               5 // The duration, in seconds, during which AI units will be careless when being forced to move
+	#define MACRO_AI_ROLEACTION_MAXDISTANCE_UNIT                    20 // The maximum distance, in meters, below which AI units will consider performing role-specific actions on nearby friendly units (and, for the recipients, to seek out the action-providing units)
+	#define MACRO_AI_ROLEACTION_CHANGESTANCEDISTANCE                8 // The distance to the recipient, in meters, below which units performing role-specific actions will adjust their stance to that of the recipient
+	#define MACRO_AI_ROLEACTION_RECIPIENT_STOPDURATION              1 // For how long an AI unit remains stopped, in seconds, after being healed or resupplied, ontop of the performed action's cooldown duration (prevents them from running away while still being healed/resupplied)
+	#define MACRO_AI_MEDICAL_SELFHEALCOOLDOWN                       3 // The duration, in seconds, that a medic must wait after being injured before being allowed to heal itself (to combat heal-spamming)
+	#define MACRO_AI_MEDICAL_INITIALREVIVEDELAY                     2 // The initial delay, in seconds, after a unit has gone unconscious before AI medics are allowed to revive them (to combat revive-spamming)
 	#define MACRO_AI_COMMANDER_STRATEGICVALUE_DECREASEPERGROUP      4 // By how much a sector's current strategic value is divided, for each group ordered to it (per iteration of the commander system)
 	#define MACRO_AI_COMMANDER_SECTOR_MINLEVELOWNED                 0.8 // The minimum capturing level of owned sectors for them to be considered as candidates
 	#define MACRO_AI_COMMANDER_WAYPOINT_MINDISTANCE                 5 // Minimum distance, in meters, that a potential new waypoint must be from a group's current waypoint to be submitted
-	#define MACRO_AI_COMMANDER_NEWORDER_COOLDOWN                    20 // Average (+/-25%) cooldown, in seconds, between two orders to a group from the AI commander (even if the orders are identical)
+	#define MACRO_AI_COMMANDER_NEWORDER_COOLDOWN                    30 // Average (+/-25%) cooldown, in seconds, between two orders to a group from the AI commander (even if the orders are identical)
 
 	// Gamemode
 	#define MACRO_GM_KILLASSISTDURATION                             10 // How long (in seconds), after damaging an enemy unit, it is possible to receive a kill assist for
@@ -460,10 +469,14 @@
 
 	// Health
 	#define MACRO_UNIT_HEALTH_FALLDAMAGEHEIGHT                      3 // The height in meters beyond which units receive fall damage when jumping off of surfaces (assuming no initial velocity)
-	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health
+	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health. Below this threshold, AI units will seek out nearby medics.
+
+	// Ammo
+	#define MACRO_UNIT_AMMO_THRESHOLDLOW                            0.5 // The threshold of overall ammo below which a unit is considered to be at low ammo. Below this threshold, AI units will seek out nearby support units.
+	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.14.662" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.16.794" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -507,6 +520,7 @@
 	#define MACRO_SCORE_SECTOR_CAPTURING                            20 // Triggered for every 10% of level change
 	#define MACRO_SCORE_SECTOR_CAPTURED                             300
 
+	#define MACRO_SCORE_RESUPPLY                                    1 // Per percentage of ammo resupplied
 	#define MACRO_SCORE_HEAL                                        1 // Per health point healed
 	#define MACRO_SCORE_REVIVE                                      50
 
@@ -536,10 +550,10 @@
 	#define MACRO_ENUM_SCORE_SECTOR_CAPTURED                        2
 
 	//TODO: Add messages for the following macros
-	#define MACRO_ENUM_SCORE_HEAL                                   10
-	#define MACRO_ENUM_SCORE_REVIVE                                 11
-	//#define MACRO_ENUM_SCORE_REPAIR                                 12
-	//#define MACRO_ENUM_SCORE_REARM                                  13
+	#define MACRO_ENUM_SCORE_RESUPPLY                               10
+	#define MACRO_ENUM_SCORE_REPAIR                                 11
+	#define MACRO_ENUM_SCORE_HEAL                                   12
+	#define MACRO_ENUM_SCORE_REVIVE                                 13
 
 	#define MACRO_ENUM_SCORE_SUICIDE                                20
 	#define MACRO_ENUM_SCORE_DESERTING                              21
@@ -768,6 +782,7 @@
 	#define MACRO_ENUM_KF_ICON_MINE                                 3
 	#define MACRO_ENUM_KF_ICON_EXPLOSIVE                            4
 
+	#define MACRO_KF_ICON_UNKNOWN                                   "a3\ui_f\data\IGUI\Cfg\simpleTasks\types\unknown_ca.paa"
 	#define MACRO_KF_ICON_HEADSHOT                                  "a3\ui_f\data\IGUI\Cfg\simpleTasks\types\kill_ca.paa"
 	#define MACRO_KF_ICON_ROADKILL                                  "a3\ui_f\data\IGUI\RscIngameUI\RscUnitInfo\role_driver_ca.paa"
 	#define MACRO_KF_ICON_MINE                                      "a3\ui_f\data\IGUI\Cfg\simpleTasks\types\mine_ca.paa"
@@ -795,13 +810,17 @@
 //	AI REQUEST PIORITIES
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
-	#define MACRO_ENUM_AI_PRIO_BASESETTINGS                          0
+	#define MACRO_ENUM_AI_PRIO_BASESETTINGS                         0
+	#define MACRO_ENUM_AI_PRIO_CARELESSMOVE                         1
 
-	#define MACRO_ENUM_AI_PRIO_MEDICAL                               1
-	#define MACRO_ENUM_AI_PRIO_DODGEVEHICLE                          2
+	#define MACRO_ENUM_AI_PRIO_RESUPPLY                             10
+	#define MACRO_ENUM_AI_PRIO_REPAIR                               11
+	#define MACRO_ENUM_AI_PRIO_MEDICAL                              12
 
-	#define MACRO_ENUM_AI_PRIO_UNCONSCIOUS                           10
-	#define MACRO_ENUM_AI_PRIO_SAFESTART                             11
+	#define MACRO_ENUM_AI_PRIO_DODGEVEHICLE                         20
+
+	#define MACRO_ENUM_AI_PRIO_UNCONSCIOUS                          30
+	#define MACRO_ENUM_AI_PRIO_SAFESTART                            31
 
 
 
@@ -811,10 +830,27 @@
 //	AI MOVE TYPES
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
-	#define MACRO_ENUM_AI_MOVETYPE_HALT                              0
-	#define MACRO_ENUM_AI_MOVETYPE_REGROUP                           1
-	#define MACRO_ENUM_AI_MOVETYPE_GOAL                              2
-	#define MACRO_ENUM_AI_MOVETYPE_ACTION                            3
+	#define MACRO_ENUM_AI_MOVETYPE_HALT                             0
+	#define MACRO_ENUM_AI_MOVETYPE_REGROUP                          1
+	#define MACRO_ENUM_AI_MOVETYPE_GOAL                             2
+	#define MACRO_ENUM_AI_MOVETYPE_ACTION                           3
+
+
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+//	UNIT SOUND ENUMERATIONS
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+
+	#define MACRO_ENUM_SOUND_INVALID                                -1
+
+	#define MACRO_ENUM_SOUND_RESUPPLY                               0
+	#define MACRO_ENUM_SOUND_REPAIR                                 1
+	#define MACRO_ENUM_SOUND_HEAL                                   2
+
+	#define MACRO_ENUM_SOUND_VO_DEATH                               10
+	#define MACRO_ENUM_SOUND_VO_REVIVE                              11
 
 
 
@@ -840,3 +876,5 @@
 	//#define MACRO_DEBUG_NM_NODES_VEH
 	//#define MACRO_DEBUG_NM_NODE_IDS
 	//#define MACRO_DEBUG_NM_PATH
+
+	//#define MACRO_DEBUG_UI_MAP_OVERVIEWMODE

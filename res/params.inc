@@ -36,19 +36,19 @@ class Param_AI_MaxUnitsPerGroup {
 };
 
 class Param_AI_SpawnWeight_East {
-	title = __EVAL("AI spawn bias for side """ + MACRO_SIDE_NAME_EAST + """:");
+	title = __EVAL("AI spawn bias for OPFOR:");
 	values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
 	default = MACRO_AI_SPAWNWEIGHT_EAST;
 };
 
 class Param_AI_SpawnWeight_Resistance {
-	title = __EVAL("AI spawn bias for side """ + MACRO_SIDE_NAME_RESISTANCE + """:");
+	title = __EVAL("AI spawn bias for INDFOR:");
 	values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
 	default = MACRO_AI_SPAWNWEIGHT_RESISTANCE;
 };
 
 class Param_AI_SpawnWeight_West {
-	title = __EVAL("AI spawn bias for side """ + MACRO_SIDE_NAME_WEST + """:");
+	title = __EVAL("AI spawn bias for side BLUFOR:");
 	values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
 	default = MACRO_AI_SPAWNWEIGHT_WEST;
 };

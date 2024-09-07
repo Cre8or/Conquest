@@ -12,7 +12,8 @@ if (isMultiplayer and {!(getPlayerUID player in [
 	"76561197970677684",
 	"76561198030888670",
 	"76561198043936460",
-	"76561197997583060"
+	"76561197997583060",
+	"76561198821259924"
 ])}) exitWith {
 	endMission "Not_Whitelisted";
 };
@@ -49,6 +50,7 @@ MACRO_FNC_INITVAR(GVAR(UI_prevPlayerSide),GVAR(side));	// Used to update sector 
 
 
 // Set up the panorama camera
+showCinemaBorder false;
 camDestroy GVAR(cam_panorama);
 GVAR(cam_panorama) = "camera" camCreate [0,0,0];
 GVAR(cam_panorama) setPosWorld MACRO_MISSION_CAMERAPOSITION;
@@ -193,7 +195,7 @@ if (!isNil QGVAR(ACE3_addedActionPAK)) then {
 	private _sidesRev = +GVAR(sides);
 	reverse _sidesRev;
 	GVAR(side) = _sidesRev param [_sidesRev findIf {_x != sideEmpty}, sideEmpty];
-	GVAR(role) = MACRO_ENUM_ROLE_MEDIC;
+	GVAR(role) = MACRO_ENUM_ROLE_SUPPORT;
 	GVAR(spawnSector) = GVAR(allSectors) param [GVAR(allSectors) findIf {
 		_x getVariable [QGVAR(side), sideEmpty] == GVAR(side)
 		and {_x getVariable [format [QGVAR(spawnPoints_%1), GVAR(side)], []] isNotEqualTo []}

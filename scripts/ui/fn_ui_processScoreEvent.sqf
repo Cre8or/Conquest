@@ -32,9 +32,9 @@ if (!hasInterface or {_enum == MACRO_ENUM_SCORE_INVALID}) exitWith {};
 // Set up some variables
 MACRO_FNC_INITVAR(GVAR(ui_sys_drawScoreFeed_data), []);
 MACRO_FNC_INITVAR(GVAR(ui_sys_drawScoreFeed_redrawLast), false);
-MACRO_FNC_INITVAR(GVAR(ui_processScoreEvent_soundObj), objNull);
+MACRO_FNC_INITVAR(GVAR(ui_processScoreEvent_sound), -1);
 
-private _sound = "";
+private _soundData = [];
 
 
 
@@ -66,6 +66,18 @@ switch (_enum) do {
 			MACRO_SCORE_SECTOR_CAPTURED,
 			"SECTOR CAPTURED"
 		];
+	};
+
+	// --------
+
+	case MACRO_ENUM_SCORE_RESUPPLY: {
+		if (_arg isEqualType 0 and {_arg > 0}) then {
+			_eventData = [
+				_arg,
+				"RESUPPLYING"
+			];
+		};
+		_canStack = true;
 	};
 
 	// --------
@@ -138,7 +150,7 @@ switch (_enum) do {
 				name _arg,
 				SQUARE(MACRO_COLOUR_A100_ENEMY)
 			];
-			_sound = QGVAR(EnemyKilled);
+			_soundData = [QGVAR(EnemyKilled), 4, 1];
 		};
 	};
 
@@ -153,7 +165,7 @@ switch (_enum) do {
 					SQUARE(MACRO_COLOUR_A100_SQUAD)
 				] select (_arg in units group player)
 			];
-			_sound = QGVAR(FriendlyKilled);
+			_soundData = [QGVAR(FriendlyKilled), 3, 1];
 		};
 	};
 
@@ -162,6 +174,7 @@ switch (_enum) do {
 			MACRO_SCORE_HEADSHOT,
 			"HEADSHOT BONUS"
 		];
+		_soundData = [QGVAR(Headshot), 5, 1];
 	};
 
 	// --------
@@ -171,7 +184,7 @@ switch (_enum) do {
 			MACRO_SCORE_DESTROYVEHICLE_ENEMY,
 			"VEHICLE DESTROYED"
 		];
-		_sound = QGVAR(EnemyKilled);
+		_soundData = [QGVAR(EnemyKilled), 4, 1];
 	};
 
 	case MACRO_ENUM_SCORE_DESTROYVEHICLE_FRIENDLY: {
@@ -179,7 +192,7 @@ switch (_enum) do {
 			MACRO_SCORE_DESTROYVEHICLE_FRIENDLY,
 			"FRIENDLY VEHICLE DESTROYED"
 		];
-		_sound = QGVAR(FriendlyKilled);
+		_soundData = [QGVAR(FriendlyKilled), 3, 1];
 	};
 
 	// --------
@@ -189,15 +202,11 @@ switch (_enum) do {
 			_eventData = [
 				MACRO_SCORE_SIDEDEFEATED,
 				"DEFEATED",
-				[
-					MACRO_SIDE_NAME_EAST,
-					MACRO_SIDE_NAME_RESISTANCE,
-					MACRO_SIDE_NAME_WEST
-				] param [GVAR(sides) find _arg, "ENEMY FACTION"],
+				[_arg] call FUNC(gm_getSideName),
 				SQUARE(MACRO_COLOUR_A100_ENEMY)
 			];
 		};
-		_sound = QGVAR(SideDefeated);
+		_soundData = [QGVAR(SideDefeated), 4, 1];
 	};
 };
 
@@ -230,8 +239,8 @@ if (_eventData isNotEqualTo []) then {
 	);
 
 	// Play a sound
-	if (_sound != "") then {
-		deleteVehicle GVAR(ui_processScoreEvent_soundObj);
-		GVAR(ui_processScoreEvent_soundObj) = playSound _sound;
+	if (_soundData isNotEqualTo []) then {
+		stopSound GVAR(ui_processScoreEvent_sound);
+		GVAR(ui_processScoreEvent_sound) = playSoundUI (_soundData + [true]);
 	};
 };

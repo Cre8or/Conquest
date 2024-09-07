@@ -14,6 +14,7 @@ class MACRO_PROJECT_PREFIX {
 		class act_toggleSpawnMenu {};
 		class act_spotTarget {};
 		class act_tryHealUnit {};
+		class act_tryResupplyUnit {};
 	};
 
 	class ai {
@@ -67,6 +68,7 @@ class MACRO_PROJECT_PREFIX {
 
 		class gm_addScore {};
 		class gm_compileParams {};
+		class gm_compileSidesData {};
 		class gm_endMission {};
 		class gm_getFlagTexture {};
 		class gm_getSideName {};
@@ -95,7 +97,9 @@ class MACRO_PROJECT_PREFIX {
 		file = "scripts\loadouts";
 		// Abbreviation:	lo
 
-		class lo_compileLoadouts {};
+		class lo_updateOverallAmmo {};
+		class lo_addOverallAmmo {};
+		class lo_getOverallAmmo {};
 		class lo_setRoleLoadout {};
 	};
 
@@ -160,10 +164,10 @@ class MACRO_PROJECT_PREFIX {
 		class ui_disableUserInput {};
 		class ui_drawCombatArea_map {};
 		class ui_drawCombatArea_gps {};
+		class ui_drawIcons2D {};
 		class ui_drawSectorFlags {};
 		class ui_drawSectorLocations {};
 		class ui_drawSpawnSector {};
-		class ui_drawUnitIcons2D {};
 		class ui_focusMap {};
 		class ui_focusMapOnArea {};
 		class ui_getAbilityIcon {};
@@ -190,7 +194,6 @@ class MACRO_PROJECT_PREFIX {
 		class unit_getVehicleRole {};
 		class unit_isAlive {};
 		class unit_isReloading {};
-		class unit_needsHealing {};
 		class unit_onFired {};
 		class unit_onHandleDamage {};
 		class unit_onHealUnit {};
@@ -198,9 +201,12 @@ class MACRO_PROJECT_PREFIX {
 		class unit_onHitPart {};
 		class unit_onKilled {};
 		class unit_onReloaded {};
+		class unit_onResupplyUnit {};
+		class unit_playSound {};
 		class unit_processDamageEvent {};
 		class unit_selectBestWeapon {};
 		class unit_setIdentityLocal {};
+		class unit_setResupplyCooldown {};
 		class unit_setUnconscious {};
 	};
 

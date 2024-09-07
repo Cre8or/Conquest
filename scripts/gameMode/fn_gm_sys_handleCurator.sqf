@@ -63,9 +63,9 @@ GVAR(gm_sys_handleCurator_EH) = addMissionEventHandler ["EachFrame", {
 			};
 
 			if (isNull _admin) then {
-				diag_log "[CONQUEST] Removed curator privileges from previous owner";
+				diag_log "[CONQUEST] (SERVER) Removed curator privileges from previous owner";
 			} else {
-				diag_log format ["[CONQUEST] Assigned curator privileges to new admin (%1)", name _admin];
+				diag_log format ["[CONQUEST] (SERVER) Assigned curator privileges to new admin (%1)", name _admin];
 
 				_admin assignCurator GVAR(curatorModule);
 			};

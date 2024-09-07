@@ -35,6 +35,8 @@ MACRO_FNC_INITVAR(GVAR(respawn_west), objNull);
 
 MACRO_FNC_INITVAR(GVAR(kb_act_pressed_giveUp), false);
 
+MACRO_FNC_INITVAR(GVAR(ui_sm_role), MACRO_ENUM_ROLE_INVALID);
+
 GVAR(gm_sys_handlePlayerRespawn_prevUpdate)      = time;
 GVAR(gm_sys_handlePlayerRespawn_nextUpdate)      = 0; // Interfaces with unit_setUnconscious
 GVAR(gm_sys_handlePlayerRespawn_prevAlive)       = false;
@@ -154,6 +156,10 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 						GVAR(gm_sys_handlePlayerRespawn_spawnRequested) = false;
 						GVAR(gm_sys_handlePlayerRespawn_nextShowMenu)   = -1;
 						GVAR(gm_sys_handlePlayerRespawn_state)          = MACRO_ENUM_RESPAWN_SELECTINGSECTOR;
+
+						if (GVAR(ui_sm_role) != MACRO_ENUM_ROLE_INVALID) then {
+							GVAR(role) = GVAR(ui_sm_role);
+						};
 					};
 
 					case MACRO_ENUM_RESPAWN_SELECTINGSECTOR: {
@@ -301,7 +307,7 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 							};
 
 							// Find the nearest medic
-							private _c_maxDistMedicSqr = MACRO_UI_ICONS3D_MAXDISTANCE_MEDIC ^ 2;
+							private _c_maxDistMedicSqr = MACRO_UI_ICONS3D_MAXDISTANCE_ROLEACTION ^ 2;
 							private _medic             = objNull;
 							private _medicDistSqr      = _c_maxDistMedicSqr;
 							private ["_distSqrX"];

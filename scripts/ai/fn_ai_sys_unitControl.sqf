@@ -52,7 +52,7 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 	private _missionSafeStart = (GVAR(missionState) != MACRO_ENUM_MISSION_LIVE);
 
 	// Update candidate units
-	private ["_unit", "_role", "_side", "_group", "_leader", "_isLeader", "_isLeaderPlayer", "_unitPos", "_unitVeh", "_isInVehicle", "_changedVehicle", "_isDriver", "_isUnconscious", "_actionPos", "_moveType"];
+	private ["_unit", "_role", "_side", "_group", "_leader", "_isLeader", "_isLeaderPlayer", "_unitPos", "_unitVeh", "_isInVehicle", "_changedVehicle", "_isDriver", "_isUnconscious", "_isReloading", "_actionPos", "_moveType", "_switchToCareless"];
 	for "_unitIndex" from GVAR(ai_sys_unitControl_index) to 0 step -1 do {
 
 		scopeName QGVAR(ai_sys_unitControl_loop);
@@ -82,8 +82,9 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 			_changedVehicle = (_isInVehicle != _unit getVariable [QGVAR(ai_sys_unitControl_isInVehicle), _isInVehicle]);
 			_isDriver       = (_isInVehicle and {_unit == driver _unitVeh});
 			_isUnconscious  = _unit getVariable [QGVAR(isUnconscious), false];
+			_isReloading    = [_unit] call FUNC(unit_isReloading);
 
-			// Basic AI settings
+			// Base AI settings (may be overriden by subsystems)
 			_unit setCombatBehaviour "AWARE";
 			_unit setSpeedMode "FULL";
 			_unit allowFleeing 0;
@@ -106,8 +107,9 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 				};
 
 				// Define shared variables
-				_actionPos = [];
-				_moveType  = _unit getVariable [QGVAR(ai_sys_unitControl_moveType), MACRO_ENUM_AI_MOVETYPE_HALT];
+				_actionPos        = [];
+				_moveType         = _unit getVariable [QGVAR(ai_sys_unitControl_moveType), MACRO_ENUM_AI_MOVETYPE_HALT];
+				_switchToCareless = false;
 
 				scopeName QGVAR(ai_sys_unitControl_loop_live);
 
@@ -126,6 +128,9 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 
 				// Handle medical actions (healing other units / seeking medical attention)
 				#include "unitControl\subSys_handleMedical.sqf";
+
+				// Handle support actions (resupplying units / seeking support units)
+				#include "unitControl\subSys_handleResupply.sqf";
 
 				// ---- Goals ----
 				// Determine where the unit should be moving (waypoint, individual orders, etc)
@@ -159,7 +164,7 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 			and {[_x, true] call FUNC(unit_isAlive)} // Include unconscious units
 		};
 
-		private ["_sideX", "_unitsX", "_unitsAlive", "_unitsInjured", "_unitsUnconscious"];
+		private ["_sideX", "_unitsX", "_unitsAlive", "_unitsLowAmmmo", "_unitsNearFullAmmo", "_unitsLowHealth", "_unitsNearHealthy", "_unitsUnconscious", "_unitsSupport", "_unitsEngineer", "_unitsMedic", "_roleX", "_ammoX", "_healthX"];
 		{
 			if (_x == sideEmpty) then {
 				continue;
@@ -167,12 +172,15 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 
 			_sideX  = _x;
 			_unitsX = _allUnits select {_x getVariable [QGVAR(side), sideEmpty] == _sideX};
-			_unitsAlive       = []; // All alive units on this side
-			_unitsInjured     = []; // Alive Units on this side who are injured
-			_unitsUnconscious = []; // Unconscious units on this side
-			_unitsSupport     = []; // All alive support units on this side
-			_unitsEngineer    = []; // All alive engineer units on this side
-			_unitsMedic       = []; // All alive medic units on this side
+			_unitsAlive        = []; // All alive units on this side
+			_unitsLowAmmmo     = []; // Alive units on this side who are considered low on ammo (below threshold)
+			_unitsNearFullAmmo = []; // Alive units on this side who need ammo, but are not low on ammo (near full)
+			_unitsLowHealth    = []; // Alive Units on this side who are considered low on health (below threshold)
+			_unitsNearHealthy  = []; // Alive Units on this side who are injured, but not low on health (near full)
+			_unitsUnconscious  = []; // Unconscious units on this side
+			_unitsSupport      = []; // All alive support units on this side
+			_unitsEngineer     = []; // All alive engineer units on this side
+			_unitsMedic        = []; // All alive medic units on this side
 
 			{
 				if (vehicle _x != _x) then {
@@ -180,15 +188,39 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 				};
 
 				if (_x getVariable [QGVAR(isUnconscious), false]) then {
-					_unitsUnconscious pushBack _x;
+					if (_time > _x getVariable [QGVAR(ai_unitControl_handleMedical_reviveTime), -1]) then {
+						_unitsUnconscious pushBack _x;
+					};
 				} else {
 					_unitsAlive pushBack _x;
+					_roleX   = _x getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID];
+					_ammoX   = [_x] call FUNC(lo_getOverallAmmo);
+					_healthX = _x getVariable [QGVAR(health), 1];
 
-					if (_x getVariable [QGVAR(health), 1] < 1) then {
-						_unitsInjured pushBack _x;
+					if (
+						_roleX != MACRO_ENUM_ROLE_SUPPORT
+						and {_ammoX < 1}
+						and {_time > _x getVariable [QGVAR(resupplyCooldown), 0]}
+					) then {
+						if (_ammoX < MACRO_UNIT_AMMO_THRESHOLDLOW) then {
+							_unitsLowAmmmo pushBack _x;
+						} else {
+							_unitsNearFullAmmo pushBack _x;
+						};
 					};
 
-					switch (_x getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID]) do {
+					if (
+						_roleX != MACRO_ENUM_ROLE_MEDIC
+						and {_healthX < 1}
+					) then {
+						if (_healthX < MACRO_UNIT_HEALTH_THRESHOLDLOW) then {
+							_unitsLowHealth pushBack _x;
+						} else {
+							_unitsNearHealthy pushBack _x;
+						};
+					};
+
+					switch (_roleX) do {
 						case MACRO_ENUM_ROLE_SUPPORT:  {_unitsSupport pushBack _x};
 						case MACRO_ENUM_ROLE_ENGINEER: {_unitsEngineer pushBack _x};
 						case MACRO_ENUM_ROLE_MEDIC:    {_unitsMedic pushBack _x};
@@ -197,7 +229,10 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 			} forEach _unitsX;
 
 			GVAR(ai_sys_unitControl_cache) set [format ["unitsAlive_%1", _sideX], _unitsAlive];
-			GVAR(ai_sys_unitControl_cache) set [format ["unitsInjured_%1", _sideX], _unitsInjured];
+			GVAR(ai_sys_unitControl_cache) set [format ["unitsLowAmmo_%1", _sideX], _unitsLowAmmmo];
+			GVAR(ai_sys_unitControl_cache) set [format ["unitsNearFullAmmo_%1", _sideX], _unitsNearFullAmmo];
+			GVAR(ai_sys_unitControl_cache) set [format ["unitsLowHealth_%1", _sideX], _unitsLowHealth];
+			GVAR(ai_sys_unitControl_cache) set [format ["unitsNearHealthy_%1", _sideX], _unitsNearHealthy];
 			GVAR(ai_sys_unitControl_cache) set [format ["unitsUnconscious_%1", _sideX], _unitsUnconscious];
 			GVAR(ai_sys_unitControl_cache) set [format ["unitsSupport_%1", _sideX], _unitsSupport];
 			GVAR(ai_sys_unitControl_cache) set [format ["unitsEngineer_%1", _sideX], _unitsEngineer];

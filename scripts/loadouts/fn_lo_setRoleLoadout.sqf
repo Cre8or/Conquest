@@ -27,9 +27,21 @@ if (!alive _unit or {!local _unit}) exitWith {};
 
 
 // Apply the loadout onto the unit
-_unit setUnitLoadout (missionNamespace getVariable [format [QGVAR(loadout_%1_%2), _side, _role], []]);
+private _loadout = missionNamespace getVariable [format [QGVAR(loadout_%1_%2), _side, _role], []];
+
+// Fallback loadout on erroneous side data files
+if (_loadout isEqualTo []) then {
+	_loadout = [[],[],[],[],[],[],"","",[],["ItemMap","ItemGPS","","ItemCompass","ItemWatch",""]];
+};
+
+_unit setUnitLoadout _loadout;
 
 // Store the role on the entity for other components to check on
 _unit setVariable [QGVAR(role), _role, true];
+
+// (Re)initialise the ammo cache
+_unit setVariable [QGVAR(overallAmmo), 1, true];
+_unit setVariable [QGVAR(overallAmmo_isValid), true, true];
+[_unit] remoteExecCall [QFUNC(unit_setResupplyCooldown), 0, false];
 
 [_unit, true] call FUNC(unit_selectBestWeapon);

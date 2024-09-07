@@ -44,7 +44,7 @@ GVAR(ui_sys_hookMapCtrls_EH) = addMissionEventHandler ["EachFrame", {
 			} forEach (_ctrlMap getVariable [QGVAR(UI_EH_draw), []]);
 
 			_ctrlMap setVariable [QGVAR(UI_EH_draw), [
-				_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawUnitIcons2D)],
+				_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawIcons2D)],
 				_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawSectorFlags)],
 				_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawSectorLocations)],
 				_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawCombatArea_map)]
@@ -95,7 +95,7 @@ GVAR(ui_sys_hookMapCtrls_EH) = addMissionEventHandler ["EachFrame", {
 				} forEach (_ctrlMap getVariable [QGVAR(UI_EH_draw), []]);
 
 				_ctrlMap setVariable [QGVAR(UI_EH_draw), [
-					_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawUnitIcons2D)],
+					_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawIcons2D)],
 					_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawSectorFlags)],
 					_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawCombatArea_gps)],
 					_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_handleGPSScale)]

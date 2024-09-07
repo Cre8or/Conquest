@@ -4,12 +4,11 @@
 		[LE]
 		Monitors the danger level of all nodemesh nodes and gradually decrements them back down to 0.
 
-		Only executed once upon server init.
+		Only executed once by all machines upon initialisation.
 	Arguments:
 		(none)
 	Returns:
 		(nothing)
-
 -------------------------------------------------------------------------------------------------------------------- */
 
 #include "..\..\res\common\macros.inc"

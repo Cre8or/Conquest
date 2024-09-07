@@ -124,7 +124,7 @@ class GVAR(RscSpawnMenu) {
 				// Flag, Left
 				class Flag_Picture_Left : GVAR(RscPictureNoAR) {
 					idc = MACRO_IDC_SM_SIDE_FLAG_LEFT_PICTURE;
-					text = "a3\data_f\Flags\flag_white_co.paa";
+					text = MACRO_TEXTURE_FLAG_EMPTY;
 					x = pixelW * MACRO_POS_SPACER_X;
 					y = pixelH * MACRO_POS_SPACER_Y;
 					w = MACRO_POS_SM_WIDTH / 3 - pixelW * (MACRO_POS_SPACER_X * 2 + 1);

@@ -1,11 +1,19 @@
 TO DO:
+	- Increase AI aggressivity:
+		+ Make AI more keen on moving into incoming fire to reach move positions
+		- Make AI increase their use of suppressive fire on targets
+	- Fix spawn menu camera not being used on JIP (camera is following the player, who gets teleported when switching sides)
+		- Also fix R2T camera not showing on JIP
 	- Fix occasional double-kill registration for an individual unit
 		- Maybe why kills/vehicle destruction sometimes awards double the points that it should (including headshot damage)?
 	- Fix loadouts sometimes not getting applied to AI units (same issue as gAI when locality changes?)
 	- Fix spotting animation not working (same issue as healing action)
 	- Implement resupply ability to support:
-		- Similar animations/UI icons to medic healing, but for rearming
+		+ Similar animations/UI icons to medic healing, but for rearming
 		- Prevent players from looting bodies/opening their gear
+		+ Add score to the resupplying unit
+		+ Resupply the recipient as a fraction of their overall ammunition
+		+ Calculate and cache ammo count in getOverallAmmo, and invalidate the cache via onInit, onReloaded, setRoleLoadout
 	- Add a repair ability to the engineer role
 		- Implement looping action logic
 		- Play a short unit gesture/animation
@@ -33,6 +41,14 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Flip kill feed horizontally (apparently it's not very readable from right to left)
+	- Add death/revive sounds
+	- Add resupplying action sounds
+	- Add medical action sounds
+	- Add automatic magazine repacking on reload
+	- Add a custom headshot sound (satisfaction factor)
+	- Fix being able to change role GVAR by selecting a new role in the spawnmenu post-spawn
+	- Fix AI medics spam-healing themselves on damage and immediately reviving unconscious units
 	- Fix unconsciousState AI subsystem referencing serverside variables (causing AI to not respawn)
 	- Fix spawn menu inconsistencies
 	 	+ Sides with no tickets don't get greyed out

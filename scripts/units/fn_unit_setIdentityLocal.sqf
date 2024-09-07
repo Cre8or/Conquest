@@ -14,7 +14,6 @@
 
 #include "..\..\res\common\macros.inc"
 
-// Fetch our params
 params [
 	["_unit", objNull, [objNull]],
 	["_name", "", [""]],

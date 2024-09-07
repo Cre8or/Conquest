@@ -49,6 +49,15 @@ _ctrlMap setVariable [QGVAR(EH_focusMap), _ctrlMap ctrlAddEventHandler ["Draw", 
 			missionNamespace getVariable [format [QGVAR(CA_%1), GVAR(side)], []]
 		)
 	);
+
+	// DEBUG: Use the combat area of all sides (for generating overview images)
+	#ifdef MACRO_DEBUG_UI_MAP_OVERVIEWMODE
+	 	_allPositions = (
+			(missionNamespace getVariable [format [QGVAR(CA_%1), east], []])
+			+ (missionNamespace getVariable [format [QGVAR(CA_%1), west], []])
+		);
+	#endif
+
 	([_allPositions] call FUNC(math_boundingBox2D)) params ["_posBL", "_posTR"];
 
 	// Center the map

@@ -16,7 +16,7 @@ if (_time > _bleedoutTime) then {
 
 // Allow the unit to give up prematurely if it can respawn, hasn't bled out yet, and has no medics nearby
 if (_time > _respawnTime) then {
-	private _c_maxMedicalDistSqr = MACRO_AI_MEDICAL_MAXACTIONDISTANCE ^ 2;
+	private _c_maxMedicalDistSqr = MACRO_AI_ROLEACTION_MAXDISTANCE_UNIT ^ 2;
 	private _medics              = GVAR(ai_sys_unitControl_cache) getOrDefault [format ["unitsMedic_%1", _side], []];
 
 	if (_medics findIf {_x distanceSqr _unit < _c_maxMedicalDistSqr} < 0) then {
