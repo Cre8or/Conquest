@@ -202,7 +202,7 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 						and {_ammoX < 1}
 						and {_time > _x getVariable [QGVAR(resupplyCooldown), 0]}
 					) then {
-						if (_ammoX <= MACRO_UNIT_AMMO_THRESHOLDLOW) then {
+						if (_ammoX < MACRO_UNIT_AMMO_THRESHOLDLOW) then {
 							_unitsLowAmmmo pushBack _x;
 						} else {
 							_unitsNearFullAmmo pushBack _x;
@@ -213,7 +213,7 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 						_roleX != MACRO_ENUM_ROLE_MEDIC
 						and {_healthX < 1}
 					) then {
-						if (_healthX <= MACRO_UNIT_HEALTH_THRESHOLDLOW) then {
+						if (_healthX < MACRO_UNIT_HEALTH_THRESHOLDLOW) then {
 							_unitsLowHealth pushBack _x;
 						} else {
 							_unitsNearHealthy pushBack _x;

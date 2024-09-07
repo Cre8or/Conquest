@@ -21,7 +21,7 @@ if (GVAR(role) == MACRO_ENUM_ROLE_SUPPORT) then {
 
 			if (_ammoX < 1) then {
 				_renderData_units pushBack (
-					_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), _freeLook or {_ammoX <= MACRO_UNIT_AMMO_THRESHOLDLOW}, _ammoX, true]
+					_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), _freeLook or {_ammoX < MACRO_UNIT_AMMO_THRESHOLDLOW}, _ammoX, true]
 				);
 				_teamMates deleteAt _forEachIndex;
 			};
@@ -61,7 +61,7 @@ if (GVAR(role) == MACRO_ENUM_ROLE_SUPPORT) then {
 
 		if (_distX < _c_maxDistSupportSqr and {_unitX getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] == MACRO_ENUM_ROLE_SUPPORT} and {[_unitX] call FUNC(unit_isAlive)}) then {
 			_renderData_units pushBack (
-				_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), _ammo <= MACRO_UNIT_AMMO_THRESHOLDLOW or {_freeLook}, _ammo]
+				_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), _ammo < MACRO_UNIT_AMMO_THRESHOLDLOW or {_freeLook}, _ammo]
 			);
 			_teamMates deleteAt _forEachIndex;
 		};
@@ -72,7 +72,7 @@ if (GVAR(role) == MACRO_ENUM_ROLE_SUPPORT) then {
 
 		if (_distX < _c_maxDistSupportSqr and {_unitX getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] == MACRO_ENUM_ROLE_SUPPORT} and {[_unitX] call FUNC(unit_isAlive)}) then {
 			_renderData_units pushBack (
-				_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), _ammo <= MACRO_UNIT_AMMO_THRESHOLDLOW or {_freeLook}, _ammo]
+				_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), _ammo < MACRO_UNIT_AMMO_THRESHOLDLOW or {_freeLook}, _ammo]
 			);
 			_squadMates deleteAt _forEachIndex;
 		};
@@ -101,7 +101,7 @@ private ["_pos2D", "_nameX", "_colour", "_posXASL", "_angle", "_distMul"];
 
 	_nameX = name _unit;
 
-	if (_blink and {_ammo <= MACRO_UNIT_AMMO_THRESHOLDLOW}) then {
+	if (_blink and {_ammo < MACRO_UNIT_AMMO_THRESHOLDLOW}) then {
 		_colour = SQUARE(MACRO_COLOUR_A100_WHITE);
 	} else {
 		_colour = _colourFill;

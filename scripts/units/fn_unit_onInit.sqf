@@ -44,7 +44,7 @@ _unit setVariable [QGVAR(EH_unit_onReloaded), _unit addEventHandler ["Reloaded",
 private _local = local _unit;
 _unit setVariable [QGVAR(canCaptureSectors), true, _local];
 _unit setVariable [QGVAR(health), 1, _local];
-_unit setVariable [QGVAR(isSpawned), true, _local]; // Interfaces with drawUnitIcons2D and drawIcons3D
+_unit setVariable [QGVAR(isSpawned), true, _local]; // Interfaces with drawIcons2D and drawIcons3D
 
 _unit setVariable [QGVAR(lo_addOverallAmmo_accumulator), 0, false]; // Interfaces with lo_addOverallAmmo
 

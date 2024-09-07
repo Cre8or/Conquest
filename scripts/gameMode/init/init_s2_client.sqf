@@ -50,6 +50,7 @@ MACRO_FNC_INITVAR(GVAR(UI_prevPlayerSide),GVAR(side));	// Used to update sector 
 
 
 // Set up the panorama camera
+showCinemaBorder false;
 camDestroy GVAR(cam_panorama);
 GVAR(cam_panorama) = "camera" camCreate [0,0,0];
 GVAR(cam_panorama) setPosWorld MACRO_MISSION_CAMERAPOSITION;

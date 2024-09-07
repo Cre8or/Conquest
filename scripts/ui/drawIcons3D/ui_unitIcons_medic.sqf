@@ -44,7 +44,7 @@ if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC and {!(_player getVariable [QGVAR(isUnco
 // As a non-medic, the player is shown nearby medics when low on health
 } else {
 
-	private _health = _player getVariable [QGVAR(health), -1];
+	private _health = _player getVariable [QGVAR(health), 0];
 	if (_health >= 1) then {
 		breakTo QGVAR(ui_sys_drawIcons3D);
 	};

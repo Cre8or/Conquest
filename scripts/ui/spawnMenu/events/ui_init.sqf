@@ -201,7 +201,7 @@ case "ui_init": {
 	private _ctrlMap = _spawnMenu displayCtrl MACRO_IDC_SM_DEPLOY_MAP;
 	_ctrlMap setVariable [QGVAR(isSpawnMenu), true];
 	_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawSpawnSector)];
-	_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawUnitIcons2D)];
+	_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawIcons2D)];
 	_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawSectorFlags)];
 	_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawSectorLocations)];
 	_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawCombatArea_map)];

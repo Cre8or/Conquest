@@ -90,7 +90,7 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 		};
 
 		// Only look for a support when low on ammo
-		if (_ammo > MACRO_UNIT_AMMO_THRESHOLDLOW) then {
+		if (_ammo >= MACRO_UNIT_AMMO_THRESHOLDLOW) then {
 			breakTo QGVAR(ai_sys_unitControl_loop_live);
 		};
 

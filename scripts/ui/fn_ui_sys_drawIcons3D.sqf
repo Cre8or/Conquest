@@ -39,12 +39,10 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 
 	if (dialog or {!([_player, true] call FUNC(unit_isAlive))}) exitWith {};
 
-	scopeName QGVAR(ui_sys_drawIcons3D);
-
 	// Set up some constants
-	private _c_maxDistSqr  = MACRO_UI_ICONS3D_MAXDISTANCE_INF ^ 2;
-	private _c_maxAngleSqr = (0.2 * getObjectFOV cameraOn) ^ 2; // Minimum angle within which unit names should be displayed
-	private _c_uiScale = getResolution # 5;
+	private _c_maxDistSqr         = MACRO_UI_ICONS3D_MAXDISTANCE_INF ^ 2;
+	private _c_maxAngleSqr        = (0.2 * getObjectFOV cameraOn) ^ 2; // Minimum angle within which unit names should be displayed
+	private _c_uiScale            = getResolution # 5;
 	private _c_spottedTimeVarName = format [QGVAR(spottedTime_%1), GVAR(side)];
 
 	// Set up some variables
@@ -55,6 +53,10 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 	private _dirPly   = (AGLtoASL positionCameraToWorld [0,0,1]) vectorDiff _posPly;
 	private _blink    = ((_time mod (2 * MACRO_BLINK_INTERVAL)) < MACRO_BLINK_INTERVAL);
 	private _freeLook = (inputAction "lookAround" > 0);
+
+	scopeName QGVAR(ui_sys_drawIcons3D);
+
+
 
 	// Aggregate the units data
 	private _teamMates      = [];

@@ -164,10 +164,10 @@ class MACRO_PROJECT_PREFIX {
 		class ui_disableUserInput {};
 		class ui_drawCombatArea_map {};
 		class ui_drawCombatArea_gps {};
+		class ui_drawIcons2D {};
 		class ui_drawSectorFlags {};
 		class ui_drawSectorLocations {};
 		class ui_drawSpawnSector {};
-		class ui_drawUnitIcons2D {};
 		class ui_focusMap {};
 		class ui_focusMapOnArea {};
 		class ui_getAbilityIcon {};
