@@ -26,6 +26,7 @@ params ["_ctrlMap"];
 // Set up some constants
 private _c_iconUnit            = getMissionPath "res\images\icon_unit.paa";
 private _c_iconUnitUnconscious = getMissionPath "res\images\icon_unit_unconscious.paa";
+private _c_iconResupply        = getMissionPath "res\images\abilities\ability_resupply.paa";
 private _c_iconHeal            = getMissionPath "res\images\abilities\ability_heal.paa";
 
 // Set up some variables
@@ -37,6 +38,7 @@ private _mapAngle           = ctrlMapDir _ctrlMap;
 private _blink              = ((_time mod (2 * MACRO_BLINK_INTERVAL)) < MACRO_BLINK_INTERVAL);
 private _isUnconscious      = _player getVariable [QGVAR(isUnconscious), false];
 private _isLowOnHealth      = (_player getVariable [QGVAR(health), 1] <= MACRO_UNIT_HEALTH_THRESHOLDLOW);
+private _isLowOnAmmo        = ([_player] call FUNC(lo_getOverallAmmo) < MACRO_UNIT_AMMO_THRESHOLDLOW);
 
 private _allUnits       = allUnits select {_x getVariable [QGVAR(isSpawned), false]};
 private _squadMates     = units _groupPly select {alive _x and {vehicle _x == _x} and {_x getVariable [QGVAR(isSpawned), false]}};
@@ -87,6 +89,7 @@ private ["_crew", "_driver", "_crewUnit", "_groupX", "_groupIndex"];
 private ["_typeEnum", "_icon"];
 private _fnc_drawUnit = {
 	params ["_unit", "_colour"];
+	private _unitRole = _unit getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID];
 
 	if (_unit getVariable [QGVAR(isUnconscious), false]) then {
 
@@ -115,7 +118,7 @@ private _fnc_drawUnit = {
 		};
 
 	} else {
-		if (_unit getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] == MACRO_ENUM_ROLE_MEDIC and {_isUnconscious or {_isLowOnHealth}}) then {
+		if (_unitRole == MACRO_ENUM_ROLE_MEDIC and {_isUnconscious or {_isLowOnHealth}}) then {
 			_ctrlMap drawIcon [
 				_c_iconHeal,
 				[_colour, SQUARE(MACRO_COLOUR_A100_WHITE)] select _blink,
@@ -127,18 +130,45 @@ private _fnc_drawUnit = {
 				1
 			];
 		} else {
-			_ctrlMap drawIcon [
-				_c_iconUnit,
-				_colour,
-				getPosVisual _unit,
-				12,
-				12,
-				_mapAngle + getDir _unit,
-				"",
-				2
-			];
+			if (_isLowOnAmmo and {_unitRole == MACRO_ENUM_ROLE_SUPPORT}) then {
+				_ctrlMap drawIcon [
+					_c_iconResupply,
+					[_colour, SQUARE(MACRO_COLOUR_A100_WHITE)] select _blink,
+					getPosVisual _unit,
+					16,
+					16,
+					0,
+					"",
+					1
+				];
+			} else {
+				_ctrlMap drawIcon [
+					_c_iconUnit,
+					_colour,
+					getPosVisual _unit,
+					12,
+					12,
+					_mapAngle + getDir _unit,
+					"",
+					2
+				];
+			};
 		};
 	};
+};
+private _fnc_drawUnitEnemy = {
+	params ["_unit", "_colour"];
+
+	_ctrlMap drawIcon [
+		_c_iconUnit,
+		_colour,
+		getPosVisual _unit,
+		12,
+		12,
+		_mapAngle + getDir _unit,
+		"",
+		2
+	];
 };
 
 private _fnc_drawVehicle = {
@@ -188,7 +218,7 @@ private _fnc_drawVehicle = {
 } forEach _squadMates;
 
 {
-	[_x, SQUARE(MACRO_COLOUR_A100_ENEMY)] call _fnc_drawUnit;
+	[_x, SQUARE(MACRO_COLOUR_A100_ENEMY)] call _fnc_drawUnitEnemy;
 } forEach _spottedEnemies;
 
 

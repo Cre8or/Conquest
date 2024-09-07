@@ -30,7 +30,6 @@ if (!hasInterface or {isNull _victim}) exitWith {};
 
 
 // Set up some macros
-#define MACRO_ICON_UNKNOWN "a3\ui_f\data\IGUI\Cfg\simpleTasks\types\unknown_ca.paa"
 #define MACRO_ICON_SUICIDE getMissionPath "res\images\suicide.paa"
 
 // Set up some variables
@@ -40,7 +39,7 @@ private _unitsPly = units group player;
 private _isKillerFriendly = (GVAR(side) == _killer getVariable [QGVAR(side), sideEmpty]);
 private _isVictimFriendly = (GVAR(side) == _victim getVariable [QGVAR(side), sideEmpty]);
 private _iconEnum   = MACRO_ENUM_KF_ICON_NONE;
-private _weaponIcon = MACRO_ICON_UNKNOWN;
+private _weaponIcon = MACRO_KF_ICON_UNKNOWN;
 private ["_colourKiller", "_colourVictim"];
 
 if (_killer in _unitsPly) then {
@@ -96,7 +95,7 @@ if (_iconEnum == MACRO_ENUM_KF_ICON_MINE) then {
 
 // Fallback - default icon
 if (_weaponIcon == "") then {
-	_weaponIcon = MACRO_ICON_UNKNOWN;
+	_weaponIcon = MACRO_KF_ICON_UNKNOWN;
 };
 
 
@@ -108,10 +107,10 @@ if (!isNull _killer and {_killer != _victim}) then {
 
 	GVAR(ui_sys_drawKillFeed_data) pushBack [
 		time + MACRO_UI_KILLFEED_ENTRYLIFETIME,
-		name _victim,
+		name _killer,
 		_iconEnum,
 		_weaponIcon,
-		name _killer,
+		name _victim,
 		_colourKiller,
 		_colourVictim
 	];
@@ -120,10 +119,10 @@ if (!isNull _killer and {_killer != _victim}) then {
 
 	GVAR(ui_sys_drawKillFeed_data) pushBack [
 		time + MACRO_UI_KILLFEED_ENTRYLIFETIME,
-		name _victim,
+		"",
 		_iconEnum,
 		_weaponIcon,
-		"",
+		name _victim,
 		_colourKiller,
 		_colourVictim
 	];

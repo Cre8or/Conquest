@@ -39,8 +39,7 @@ GVAR(ui_sys_drawHitMarkers_EH) = addMissionEventHandler ["Draw3D", {
 	if (GVAR(ui_sys_drawHitMarkers_trigger)) then {
 		GVAR(ui_sys_drawHitMarkers_trigger) = false;
 
-		// Play a sound
-		playSound QGVAR(HitMarker);
+		playSoundUI [QGVAR(HitMarker), 3, 1, true];
 	};
 
 	private _time = time;

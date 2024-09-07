@@ -8,7 +8,6 @@ TO DO:
 		- Maybe why kills/vehicle destruction sometimes awards double the points that it should (including headshot damage)?
 	- Fix loadouts sometimes not getting applied to AI units (same issue as gAI when locality changes?)
 	- Fix spotting animation not working (same issue as healing action)
-	- Add automatic magazine repacking on reload
 	- Implement resupply ability to support:
 		+ Similar animations/UI icons to medic healing, but for rearming
 		- Prevent players from looting bodies/opening their gear
@@ -42,6 +41,11 @@ TO DO:
 	- Search for "DEBUG" and "TODO" keywords
 
 DONE:
+	- Flip kill feed horizontally (apparently it's not very readable from right to left)
+	- Add death/revive sounds
+	- Add resupplying action sounds
+	- Add medical action sounds
+	- Add automatic magazine repacking on reload
 	- Add a custom headshot sound (satisfaction factor)
 	- Fix being able to change role GVAR by selecting a new role in the spawnmenu post-spawn
 	- Fix AI medics spam-healing themselves on damage and immediately reviving unconscious units

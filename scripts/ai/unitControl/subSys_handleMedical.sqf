@@ -29,7 +29,11 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 				_unit setVariable [QGVAR(ai_unitControl_handleMedical_selfHealTime), _selfHealTime, false];
 			};
 			if (_time > _selfHealTime) then {
-				_patient = _unit;
+				[_unit, _unit] call FUNC(act_tryHealUnit);
+				_switchToCareless = true; // Go into careless mode while healing
+
+				// Nobody to move towards
+				breakTo QGVAR(ai_sys_unitControl_loop_live);
 			};
 
 		} else {
@@ -39,18 +43,16 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 		};
 
 		// If the medic is healthy, prioritise reviving unconscious units
-		if (isNull _patient) then {
-			private _unitsUnconscious = GVAR(ai_sys_unitControl_cache) getOrDefault [format ["unitsUnconscious_%1", _side], []];
+		private _unitsUnconscious = GVAR(ai_sys_unitControl_cache) getOrDefault [format ["unitsUnconscious_%1", _side], []];
 
-			{
-				_distSqrX = _x distanceSqr _unit;
+		{
+			_distSqrX = _x distanceSqr _unit;
 
-				if (_distSqrX < _patientDistSqr) then {
-					_patientDistSqr = _distSqrX;
-					_patient        = _x;
-				};
-			} forEach _unitsUnconscious;
-		};
+			if (_distSqrX < _patientDistSqr) then {
+				_patientDistSqr = _distSqrX;
+				_patient        = _x;
+			};
+		} forEach _unitsUnconscious;
 
 		// If no units are unconscious, prioritise healing units who are low on health
 		if (isNull _patient) then {
@@ -102,7 +104,7 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 			_shouldStop = true;
 		} else {
 			_actionPos  = _actionPos vectorAdd [1 - random 2, 1 - random 2, 0]; // Randomness to help the unit get close enough
-			_shouldMove = true; // Allows switching to careless mode in order to move
+			_switchToCareless = true; // Allows switching to careless mode in order to move
 		};
 
 	} else {

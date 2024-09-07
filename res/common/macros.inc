@@ -476,7 +476,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.16.779" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.16.788" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -782,6 +782,7 @@
 	#define MACRO_ENUM_KF_ICON_MINE                                 3
 	#define MACRO_ENUM_KF_ICON_EXPLOSIVE                            4
 
+	#define MACRO_KF_ICON_UNKNOWN                                   "a3\ui_f\data\IGUI\Cfg\simpleTasks\types\unknown_ca.paa"
 	#define MACRO_KF_ICON_HEADSHOT                                  "a3\ui_f\data\IGUI\Cfg\simpleTasks\types\kill_ca.paa"
 	#define MACRO_KF_ICON_ROADKILL                                  "a3\ui_f\data\IGUI\RscIngameUI\RscUnitInfo\role_driver_ca.paa"
 	#define MACRO_KF_ICON_MINE                                      "a3\ui_f\data\IGUI\Cfg\simpleTasks\types\mine_ca.paa"

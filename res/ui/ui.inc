@@ -84,11 +84,11 @@ class GVAR(RscScoreFeed_Text_Left) : GVAR(RscScoreFeed_Text) {
 };
 
 class GVAR(RscKillFeed_Name_Killer) : GVAR(RscText) {
-	style = ST_LEFT;
+	style = ST_RIGHT;
 	sizeEx = MACRO_POS_KF_ENTRY_TEXTSIZE;
 };
 class GVAR(RscKillFeed_Name_Victim) : GVAR(RscKillFeed_Name_Killer) {
-	style = ST_RIGHT;
+	style = ST_LEFT;
 };
 
 

@@ -52,7 +52,7 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 	private _missionSafeStart = (GVAR(missionState) != MACRO_ENUM_MISSION_LIVE);
 
 	// Update candidate units
-	private ["_unit", "_role", "_side", "_group", "_leader", "_isLeader", "_isLeaderPlayer", "_unitPos", "_unitVeh", "_isInVehicle", "_changedVehicle", "_isDriver", "_isUnconscious", "_isReloading", "_actionPos", "_moveType"];
+	private ["_unit", "_role", "_side", "_group", "_leader", "_isLeader", "_isLeaderPlayer", "_unitPos", "_unitVeh", "_isInVehicle", "_changedVehicle", "_isDriver", "_isUnconscious", "_isReloading", "_actionPos", "_moveType", "_switchToCareless"];
 	for "_unitIndex" from GVAR(ai_sys_unitControl_index) to 0 step -1 do {
 
 		scopeName QGVAR(ai_sys_unitControl_loop);
@@ -107,9 +107,9 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 				};
 
 				// Define shared variables
-				_actionPos  = [];
-				_moveType   = _unit getVariable [QGVAR(ai_sys_unitControl_moveType), MACRO_ENUM_AI_MOVETYPE_HALT];
-				_shouldMove = false;
+				_actionPos        = [];
+				_moveType         = _unit getVariable [QGVAR(ai_sys_unitControl_moveType), MACRO_ENUM_AI_MOVETYPE_HALT];
+				_switchToCareless = false;
 
 				scopeName QGVAR(ai_sys_unitControl_loop_live);
 

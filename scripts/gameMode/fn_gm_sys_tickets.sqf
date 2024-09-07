@@ -59,14 +59,14 @@ publicVariable QGVAR(ticketBleedWest);
 
 
 // Define some macros
-#define MACRO_FNC_PERFORMTICKETBLEED(SIDE)															 \
-																				 \
-	if (																			 \
-		(MERGE(_sectorCount,SIDE) == 0 and {GVAR(MERGE(ticketBleedCounter,SIDE)) >= MACRO_TICKETBLEED_INTERVAL_FAST / MACRO_GM_SYS_TICKETS_INTERVAL})	 \
-		or {GVAR(MERGE(ticketBleedCounter,SIDE)) >= MACRO_TICKETBLEED_INTERVAL_SLOW / MACRO_GM_SYS_TICKETS_INTERVAL}					 \
-	) then {																		 \
-		GVAR(MERGE(ticketBleedCounter,SIDE)) = 0;													 \
-		GVAR(MERGE(tickets,SIDE)) = (GVAR(MERGE(tickets,SIDE)) - 1) max 0;										 \
+#define MACRO_FNC_PERFORMTICKETBLEED(SIDE) \
+ \
+	if ( \
+		(MERGE(_sectorCount,SIDE) == 0 and {GVAR(MERGE(ticketBleedCounter,SIDE)) >= MACRO_TICKETBLEED_INTERVAL_FAST / MACRO_GM_SYS_TICKETS_INTERVAL}) \
+		or {GVAR(MERGE(ticketBleedCounter,SIDE)) >= MACRO_TICKETBLEED_INTERVAL_SLOW / MACRO_GM_SYS_TICKETS_INTERVAL} \
+	) then { \
+		GVAR(MERGE(ticketBleedCounter,SIDE)) = 0; \
+		GVAR(MERGE(tickets,SIDE)) = (GVAR(MERGE(tickets,SIDE)) - 1) max 0; \
 	}
 
 

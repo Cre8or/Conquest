@@ -23,6 +23,10 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 
 		// Prioritise resupplying units who are low on ammo
 		{
+			if (_x == _unit) then {
+				continue;
+			};
+
 			_distSqrX = _x distanceSqr _unit;
 
 			if (_distSqrX < _recipientDistSqr) then {
@@ -37,6 +41,10 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 
 			// If no units are low on ammo, resupply nearby units that aren't fully resupplied
 			{
+				if (_x == _unit) then {
+					continue;
+				};
+
 				_distSqrX = _x distanceSqr _unit;
 
 				if (_distSqrX < _recipientDistSqr) then {
@@ -48,14 +56,13 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 
 		// If no nearby units need resupplying, consider resupplying oneself
 		if (isNull _recipient) then {
-
 			if (_ammo < 1) then {
-				_recipient = _unit;
-
-			} else {
-				// If not even the support unit needs ammo, exit the subsystem
-				breakTo QGVAR(ai_sys_unitControl_loop_live);
+				[_unit, _unit] call FUNC(act_tryResupplyUnit);
+				_switchToCareless = true; // Go into careless mode while resupplying
 			};
+
+			// Nobody to move towards
+			breakTo QGVAR(ai_sys_unitControl_loop_live);
 		};
 
 		// Head to the recipients
@@ -71,7 +78,7 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 			_shouldStop = true;
 		} else {
 			_actionPos  = _actionPos vectorAdd [1 - random 2, 1 - random 2, 0]; // Randomness to help the unit get close enough
-			_shouldMove = true; // Allows switching to careless mode in order to move
+			_switchToCareless = true; // Allows switching to careless mode in order to move
 		};
 
 	} else {

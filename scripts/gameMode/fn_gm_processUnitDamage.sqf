@@ -130,19 +130,17 @@ if (_health > 0) then {
 	};
 
 	// Handle spot assists
-	private "_spotter";
-	{
-		if (_x != sideEmpty) then {
-			if (_time <= _unit getVariable [format [QGVAR(spottedTime_%1), _x], -MACRO_ACT_SPOTTING_DURATION]) then {
+	if (
+		_sideInstigator != sideEmpty
+		and {_sideInstigator != _sideUnit}
+		and {_time <= _unit getVariable [format [QGVAR(spottedTime_%1), _sideInstigator], -MACRO_ACT_SPOTTING_DURATION]}
+	) then {
+		private _spotter = _unit getVariable [format [QGVAR(spotter_%1), _sideInstigator], objNull];
 
-				_spotter = _unit getVariable [format [QGVAR(spotter_%1), _x], objNull];
-
-				if (_spotter != _instigator) then {
-					[_spotter, MACRO_ENUM_SCORE_SPOTASSIST] remoteExecCall [QFUNC(gm_addScore), 2, false];
-				};
-			};
+		if (_spotter != _instigator) then {
+			[_spotter, MACRO_ENUM_SCORE_SPOTASSIST] remoteExecCall [QFUNC(gm_addScore), 2, false];
 		};
-	} forEach GVAR(sides);
+	};
 
 	// Handle kill assists
 	private _assistTimes   = _unit getVariable [QGVAR(addHitDetection_assistTimes), []];

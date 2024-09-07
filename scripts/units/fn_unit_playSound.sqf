@@ -51,7 +51,12 @@ switch (_enum) do {
 	};
 
 	case MACRO_ENUM_SOUND_VO_DEATH: {
-		_soundData    = [format [QGVAR(Unit_VO_Death_%1), 1 + floor random 17], 150, (1 + random 0.1) ^ 2, 0];
+		if (0.5 < random 1) then {
+			_soundData = [format [QGVAR(Unit_VO_Death_Loud_%1), 1 + floor random 16], 200, 1, 0];
+		} else {
+			_soundData = [format [QGVAR(Unit_VO_Death_Quiet_%1), 1 + floor random 16], 100, 1, 0];
+		};
+
 		_soundsToStop = [MACRO_ENUM_SOUND_VO_REVIVE];
 	};
 

@@ -128,14 +128,14 @@ if (!_isInVehicle) then {
 
 
 	// If the unit has a goal, try to keep it moving by periodically setting it to be careless.
-	if (_shouldMove or {_unit getVariable [QGVAR(ai_unitControl_moveToPos_finished), false]}) then {
+	if (_switchToCareless or {_unit getVariable [QGVAR(ai_unitControl_moveToPos_finished), false]}) then {
 		breakTo QGVAR(ai_sys_unitControl_loop_live);
 	};
 
 	// For the first couple seconds after computing a path, the unit is made careless to get it moving.
 	// Also move while reloading, as the unit is combat ineffective during that time.
 	// Finally, also move post-reloading for a brief time
-	_shouldMove = (
+	_switchToCareless = (
 		_isReloading
 		or {
 			(stance _unit) in ["STAND", "CROUCH"]
@@ -147,10 +147,10 @@ if (!_isInVehicle) then {
 	);
 };
 
-if (_shouldMove) then {
+if (_switchToCareless) then {
 	_unit setCombatBehaviour "CARELESS";
 };
-[_shouldMove, MACRO_ENUM_AI_PRIO_CARELESSMOVE, _unit, ["TARGET", "AUTOTARGET", "COVER", "CHECKVISIBLE"], false] call FUNC(ai_toggleFeature);
+[_switchToCareless, MACRO_ENUM_AI_PRIO_CARELESSMOVE, _unit, ["TARGET", "AUTOTARGET", "COVER", "CHECKVISIBLE"], false] call FUNC(ai_toggleFeature);
 
 
 

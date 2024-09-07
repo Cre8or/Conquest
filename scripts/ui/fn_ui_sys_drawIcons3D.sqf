@@ -73,7 +73,7 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 				_teamMates pushBack [_x, _posX, _distX];
 			};
 		} else {
-			if (_time < _x getVariable [_c_spottedTimeVarName, 0] and {[_x] call FUNC(unit_isAlive)}) then {
+			if (_time < _x getVariable [_c_spottedTimeVarName, 0] and {!(_x getVariable [QGVAR(isUnconscious), false])}) then {
 				_spottedEnemies pushBack [_x, _posX, _distX];
 			};
 		};

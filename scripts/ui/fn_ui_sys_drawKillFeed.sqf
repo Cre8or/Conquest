@@ -57,10 +57,10 @@ GVAR(ui_sys_drawKillFeed_EH) = addMissionEventHandler ["EachFrame", {
 
 		(GVAR(ui_sys_drawKillFeed_data) # _index) params [
 			"_endTime",
-			"_nameVictim",
+			"_nameKiller",
 			"_iconEnum",
 			"_weaponIcon",
-			"_nameKiller",
+			"_nameVictim",
 			["_killerColour", SQUARE(MACRO_COLOUR_A100_WHITE)],
 			["_victimColour", SQUARE(MACRO_COLOUR_A100_WHITE)]
 		];
@@ -92,7 +92,7 @@ GVAR(ui_sys_drawKillFeed_EH) = addMissionEventHandler ["EachFrame", {
 				_UI setVariable [QGVAR(animEndTime), _animEndTime];
 				_UI setVariable [QGVAR(animOffset),  _animOffset];
 
-				// If no killer is assigned, move the victim's name control to the left (treat the entry as suicide)
+				// If no killer is assigned, move the victim's name control to the right (treat the entry as suicide)
 				if (_nameKiller == "") then {
 					_nameKillerWidth = 0;
 				} else {
@@ -110,28 +110,30 @@ GVAR(ui_sys_drawKillFeed_EH) = addMissionEventHandler ["EachFrame", {
 				};
 				_iconPosX = (MACRO_POS_KF_WIDTH - _weaponIconWidth) / 2;
 
-				// Victim
-				_ctrlBackgroundVictim = _UI ctrlCreate [QGVAR(RscFrame), -1, _ctrlGrp];
-				_ctrlBackgroundVictim ctrlSetPosition [
-					(MACRO_POS_KF_WIDTH - _weaponIconWidth) / 2 - _nameVictimWidth,
-					0,
-					_nameVictimWidth,
-					MACRO_POS_KF_ENTRY_HEIGHT
-				];
-				_ctrlBackgroundVictim ctrlCommit 0;
-				_ctrlBackgroundVictim setVariable [QGVAR(fillColour), SQUARE(MACRO_COLOUR_INGAME_BACKGROUND)];
-				_ctrlBackgroundVictim ctrlSetPixelPrecision 2;
+				// Killer
+				if (_nameKiller != "") then {
+					_ctrlBackgroundKiller = _UI ctrlCreate [QGVAR(RscFrame), -1, _ctrlGrp];
+					_ctrlBackgroundKiller ctrlSetPosition [
+						(MACRO_POS_KF_WIDTH - _weaponIconWidth) / 2 - _nameKillerWidth,
+						0,
+						_nameKillerWidth,
+						MACRO_POS_KF_ENTRY_HEIGHT
+					];
+					_ctrlBackgroundKiller ctrlCommit 0;
+					_ctrlBackgroundKiller setVariable [QGVAR(fillColour), SQUARE(MACRO_COLOUR_INGAME_BACKGROUND)];
+					_ctrlBackgroundKiller ctrlSetPixelPrecision 2;
 
-				_ctrlNameVictim = _UI ctrlCreate [QGVAR(RscKillFeed_Name_Victim), -1, _ctrlGrp];
-				_ctrlNameVictim ctrlSetPosition [
-					0,
-					0,
-					(MACRO_POS_KF_WIDTH - _weaponIconWidth) / 2,
-					MACRO_POS_KF_ENTRY_HEIGHT
-				];
-				_ctrlNameVictim ctrlCommit 0;
-				_ctrlNameVictim ctrlSetText _nameVictim;
-				_ctrlNameVictim setVariable [QGVAR(textColour), _victimColour];
+					_ctrlNameKiller = _UI ctrlCreate [QGVAR(RscKillFeed_Name_Killer), -1, _ctrlGrp];
+					_ctrlNameKiller ctrlSetPosition [
+						0,
+						0,
+						(MACRO_POS_KF_WIDTH - _weaponIconWidth) / 2,
+						MACRO_POS_KF_ENTRY_HEIGHT
+					];
+					_ctrlNameKiller ctrlCommit 0;
+					_ctrlNameKiller ctrlSetText _nameKiller;
+					_ctrlNameKiller setVariable [QGVAR(textColour), _killerColour];
+				};
 
 				// Weapon
 				_ctrlBackgroundWeapon = _UI ctrlCreate [QGVAR(RscFrame), -1, _ctrlGrp];
@@ -145,14 +147,22 @@ GVAR(ui_sys_drawKillFeed_EH) = addMissionEventHandler ["EachFrame", {
 				_ctrlBackgroundWeapon setVariable [QGVAR(fillColour), SQUARE(MACRO_COLOUR_A50_WHITE)];
 				_ctrlBackgroundWeapon ctrlSetPixelPrecision 2;
 
-				// TODO:
-				// Suicide icon: "\a3\ui_f\data\IGUI\Cfg\HoldActions\holdAction_forceRespawn_ca.paa"
+				_ctrlWeapon = _UI ctrlCreate [QGVAR(RscPicture), -1, _ctrlGrp];
+				_ctrlWeapon ctrlSetPosition [
+					_iconPosX,
+					0,
+					MACRO_POS_KF_WEAPON_WIDTH,
+					MACRO_POS_KF_ENTRY_HEIGHT
+				];
+				_ctrlWeapon ctrlCommit 0;
+				_ctrlWeapon ctrlSetText _weaponIcon;
+				_ctrlWeapon setVariable [QGVAR(textColour), SQUARE(MACRO_COLOUR_A100_BLACK)];
 
 				// Special icon
 				if (_iconEnum != MACRO_ENUM_KF_ICON_NONE) then {
 					_ctrlSpecialIcon = _UI ctrlCreate [QGVAR(RscPicture), -1, _ctrlGrp];
 					_ctrlSpecialIcon ctrlSetPosition [
-						_iconPosX,
+						_iconPosX + MACRO_POS_KF_WEAPON_WIDTH,
 						0,
 						MACRO_POS_KF_ICON_WIDTH,
 						MACRO_POS_KF_ENTRY_HEIGHT
@@ -166,45 +176,30 @@ GVAR(ui_sys_drawKillFeed_EH) = addMissionEventHandler ["EachFrame", {
 						case MACRO_ENUM_KF_ICON_EXPLOSIVE: {MACRO_KF_ICON_EXPLOSIVE};
 						default                            {""};
 					});
-
-					_iconPosX = _iconPosX + MACRO_POS_KF_ICON_WIDTH;
 				};
 
-				_ctrlWeapon = _UI ctrlCreate [QGVAR(RscPicture), -1, _ctrlGrp];
-				_ctrlWeapon ctrlSetPosition [
-					_iconPosX,
+				// Victim
+				_ctrlBackgroundVictim = _UI ctrlCreate [QGVAR(RscFrame), -1, _ctrlGrp];
+				_ctrlBackgroundVictim ctrlSetPosition [
+					(MACRO_POS_KF_WIDTH + _weaponIconWidth) / 2,
 					0,
-					MACRO_POS_KF_WEAPON_WIDTH,
+					_nameVictimWidth,
 					MACRO_POS_KF_ENTRY_HEIGHT
 				];
-				_ctrlWeapon ctrlCommit 0;
-				_ctrlWeapon ctrlSetText _weaponIcon;
-				_ctrlWeapon setVariable [QGVAR(textColour), SQUARE(MACRO_COLOUR_A100_BLACK)];
+				_ctrlBackgroundVictim ctrlCommit 0;
+				_ctrlBackgroundVictim setVariable [QGVAR(fillColour), SQUARE(MACRO_COLOUR_INGAME_BACKGROUND)];
+				_ctrlBackgroundVictim ctrlSetPixelPrecision 2;
 
-				// Killer
-				if (_nameKiller != "") then {
-					_ctrlBackgroundKiller = _UI ctrlCreate [QGVAR(RscFrame), -1, _ctrlGrp];
-					_ctrlBackgroundKiller ctrlSetPosition [
-						(MACRO_POS_KF_WIDTH + _weaponIconWidth) / 2,
-						0,
-						_nameKillerWidth,
-						MACRO_POS_KF_ENTRY_HEIGHT
-					];
-					_ctrlBackgroundKiller ctrlCommit 0;
-					_ctrlBackgroundKiller setVariable [QGVAR(fillColour), SQUARE(MACRO_COLOUR_INGAME_BACKGROUND)];
-					_ctrlBackgroundKiller ctrlSetPixelPrecision 2;
-
-					_ctrlNameKiller = _UI ctrlCreate [QGVAR(RscKillFeed_Name_Killer), -1, _ctrlGrp];
-					_ctrlNameKiller ctrlSetPosition [
-						(MACRO_POS_KF_WIDTH + _weaponIconWidth) / 2,
-						0,
-						(MACRO_POS_KF_WIDTH - _weaponIconWidth) / 2,
-						MACRO_POS_KF_ENTRY_HEIGHT
-					];
-					_ctrlNameKiller ctrlCommit 0;
-					_ctrlNameKiller ctrlSetText _nameKiller;
-					_ctrlNameKiller setVariable [QGVAR(textColour), _killerColour];
-				};
+				_ctrlNameVictim = _UI ctrlCreate [QGVAR(RscKillFeed_Name_Victim), -1, _ctrlGrp];
+				_ctrlNameVictim ctrlSetPosition [
+					(MACRO_POS_KF_WIDTH + _weaponIconWidth) / 2,
+					0,
+					(MACRO_POS_KF_WIDTH - _weaponIconWidth) / 2,
+					MACRO_POS_KF_ENTRY_HEIGHT
+				];
+				_ctrlNameVictim ctrlCommit 0;
+				_ctrlNameVictim ctrlSetText _nameVictim;
+				_ctrlNameVictim setVariable [QGVAR(textColour), _victimColour];
 
 				_ctrls = [_ctrlGrp, _ctrlBackgroundVictim, _ctrlNameVictim, _ctrlBackgroundWeapon, _ctrlSpecialIcon, _ctrlWeapon, _ctrlBackgroundKiller, _ctrlNameKiller];
 
