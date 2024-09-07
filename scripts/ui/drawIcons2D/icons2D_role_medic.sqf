@@ -43,6 +43,10 @@ if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC and {[_player] call FUNC(unit_isAlive)})
 
 // As a non-medic, the player is shown nearby medics when low on health
 } else {
+	if (!_isSpawned) then {
+		breakTo QGVAR(ui_drawIcons2D);
+	};
+
 	private _health = _player getVariable [QGVAR(health), 0];
 	if (_health >= 1) then {
 		breakTo QGVAR(ui_drawIcons2D);

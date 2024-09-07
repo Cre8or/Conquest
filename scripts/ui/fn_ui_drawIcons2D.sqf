@@ -32,6 +32,7 @@ private _groupPly   = group _player;
 private _vehPly     = vehicle _player;
 private _mapAngle   = ctrlMapDir _ctrlMap;
 private _blink      = ((_time mod (2 * MACRO_BLINK_INTERVAL)) < MACRO_BLINK_INTERVAL);
+private _isSpawned  = [_player, true] call FUNC(unit_isAlive);
 private _iconsQueue = [];
 
 scopeName QGVAR(ui_drawIcons2D);

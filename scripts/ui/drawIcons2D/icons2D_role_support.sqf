@@ -40,7 +40,12 @@ if (GVAR(role) == MACRO_ENUM_ROLE_SUPPORT and {[_player] call FUNC(unit_isAlive)
 
 // As a non-support, the player is shown nearby support units when low on ammo
 } else {
+	if (!_isSpawned) then {
+		breakTo QGVAR(ui_drawIcons2D);
+	};
+
 	private _ammo = [_player] call FUNC(lo_getOverallAmmo);
+
 	if (_ammo >= 1) then {
 		breakTo QGVAR(ui_drawIcons2D);
 	};
