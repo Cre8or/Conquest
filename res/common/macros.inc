@@ -295,7 +295,7 @@
 	#define MACRO_UI_SCOREFEED_ANIMDURATION                         0.25
 
 	// GPS Info panels (minimap)
-	#define MACRO_UI_GPS_SCALE_INF                                  0.04 // Map scale of the GPS-type info panels when on foot (smaller values = more zoomed in)
+	#define MACRO_UI_GPS_SCALE_INF                                  0.03 // Map scale of the GPS-type info panels when on foot (smaller values = more zoomed in)
 	#define MACRO_UI_GPS_SCALE_VEH                                  0.08 // Map scale of the GPS-type info panels when in a vehicle (smaller values = more zoomed in)
 
 	// Sector Names (Locations)
@@ -476,7 +476,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.16.794" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.16.798" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

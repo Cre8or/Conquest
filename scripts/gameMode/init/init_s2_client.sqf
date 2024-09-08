@@ -67,6 +67,8 @@ call FUNC(gm_sys_handlePlayerRespawn);
 call FUNC(sector_handleClient);
 
 call FUNC(ui_setupPPEffects); // Executes first, to initialise the handles
+call FUNC(ui_hookUnitInfoCtrls);
+
 call FUNC(ui_sys_hookMapCtrls);
 call FUNC(ui_sys_drawHealthBar);
 call FUNC(ui_sys_drawHitMarkers);
@@ -141,48 +143,6 @@ if (!isServer) then {
 		_x setTriggerInterval 9e9;
 	} forEach GVAR(allSectors);
 };
-
-
-
-
-
-/*
-// ACE3 - Allow medics to use PAKs in basic medical
-if (!isNil QGVAR(ACE3_addedActionPAK)) then {
-	GVAR(ACE3_addedActionPAK) = true;
-
-	if (!isNil "ace_medical_level" and {ace_medical_level == 1}) then {
-
-		// Define the healing actions
-		private _actionHealSelf = [
-			QGVAR(healSelf),
-			"Heal Self (PAK)",
-			"",
-			{[_player, _player] spawn FUNC(ace_usePAK)},
-			{
-				params [["_player", objNull]];
-				"ACE_personalAidKit" in items _player;
-			}
-		] call ace_interact_menu_fnc_createAction;
-
-		private _actionHealOther = [
-			QGVAR(healOther),
-			"Heal (PAK)",
-			"",
-			{[_player, _target] spawn FUNC(ace_usePAK)},
-			{
-				params [["_player", objNull], ["_target", objNull]];
-				("ACE_personalAidKit" in items _player) or {"ACE_personalAidKit" in items _target};
-			}
-		] call ace_interact_menu_fnc_createAction;
-
-		// Add the new actions to the ACE menu
-		["CAManBase", 1, ["ACE_SelfActions", "Medical", "ACE_Torso"], _actionHealSelf, true] call ace_interact_menu_fnc_addActionToClass;
-		["CAManBase", 0, ["ACE_Torso"], _actionHealOther, true] call ace_interact_menu_fnc_addActionToClass;
-		["CAManBase", 0, ["ACE_MainActions", "Medical", "ACE_Torso"], _actionHealOther, true] call ace_interact_menu_fnc_addActionToClass;
-	};
-};
-*/
 
 
 

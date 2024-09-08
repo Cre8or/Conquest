@@ -19,6 +19,8 @@ GVAR(hasMod_ace_throwing) = isClass (_configMods >> "ace_advanced_throwing");
 // Compile the mission parameters
 call FUNC(gm_compileParams);
 
+call FUNC(gm_compileSidesData);
+
 call FUNC(ca_setupCombatAreas);
 
 

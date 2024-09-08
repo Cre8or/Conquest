@@ -6,8 +6,6 @@ diag_log "[CONQUEST] Shared initialisation (stage 3) starting...";
 
 
 // Prepare data
-call FUNC(gm_compileSidesData);
-
 call FUNC(nm_setupNodeMesh);
 
 // Start the shared systems

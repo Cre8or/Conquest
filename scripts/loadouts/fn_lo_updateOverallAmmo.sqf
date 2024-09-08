@@ -116,19 +116,16 @@ private ["_partialMagazinesCount", "_canSkipRepack", "_loadedAmmoCount", "_repac
 	// Sanity check: cap the total ammo at the maximum amount the unit is allowed to have
 	_maxAmmoCount = _ammoPerMagazine * _defaultMagazinesCount;
 	if (_totalAmmoCount > _maxAmmoCount) then {
-		_canSkipRepack        = false;
-		_repackLoadedMagazine = true;
-		_totalAmmoCount       = _maxAmmoCount;
+		_canSkipRepack  = false;
+		_totalAmmoCount = _maxAmmoCount;
 	};
 
 	// Check if the loaded magazine should be considered in the repacking process
 	if (_loadedAmmoCount > 0 and {_loadedAmmoCount < _ammoPerMagazine}) then {
 		_repackLoadedMagazine = true;
-	} else {
-		_totalAmmoCount = _totalAmmoCount - _loadedAmmoCount;
 	};
 
-	//systemChat format ["(%1) %2: total: %3 (%4)", diag_frameNo, name _unit, _totalAmmoCount, _x];
+	//systemChat format ["(%1) %2: total: %3 (%4) / %5 - %6", diag_frameNo, name _unit, _totalAmmoCount, _x, _maxAmmoCount, _repackLoadedMagazine];
 
 	// Skip repacking if only one magazine is partial
 	if (!_repackLoadedMagazine) then {
@@ -136,15 +133,20 @@ private ["_partialMagazinesCount", "_canSkipRepack", "_loadedAmmoCount", "_repac
 			continue;
 		};
 
+		_totalAmmoCount = _totalAmmoCount - _loadedAmmoCount;
+
 	} else {
 		// Fill the unit's loaded magazine first (if it was considered in the repacking process)
 		if (_totalAmmoCount > _ammoPerMagazine) then {
 			_unit setAmmo [_loadedMuzzles get _x, _ammoPerMagazine];
 			_totalAmmoCount = _totalAmmoCount - _ammoPerMagazine;
+
+		} else {
+			_unit setAmmo [_loadedMuzzles get _x, _totalAmmoCount];
+			_totalAmmoCount = 0;
 		};
 	};
 
-	//systemChat format ["(%1) Testing %2", name _unit, _x];
 	_fullMagazinesCount = floor (_totalAmmoCount / _ammoPerMagazine);
 
 	_unit removeMagazines _x;

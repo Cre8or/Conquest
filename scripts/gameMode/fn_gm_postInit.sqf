@@ -54,12 +54,3 @@ if (hasInterface) then {
 
 // Shared component (stage 3)
 #include "init\init_s3_shared.sqf"
-
-
-
-
-
-// Server component (stage 4)
-if (isServer) then {
-	#include "init\init_s4_server.sqf"
-};

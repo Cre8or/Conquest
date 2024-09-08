@@ -174,6 +174,7 @@ class MACRO_PROJECT_PREFIX {
 		class ui_getFillBarIcon {};
 		class ui_getVehTypeIcon {};
 		class ui_handleGPSScale {};
+		class ui_hookUnitInfoCtrls {};
 		class ui_processScoreEvent {};
 		class ui_processKillFeedEvent {};
 		class ui_setupPPEffects {};
