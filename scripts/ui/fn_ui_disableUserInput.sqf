@@ -4,8 +4,11 @@
 		[LE]
 		Disables user input by holding an empty GUI open. Works similarily to ACE3's UI handler.
 		Also used to re-enable input after they have been disabled (see the arguments below).
+
+		For a list of source enumerations, see macros.hpp.
 	Arguments:
-		0:	<BOOLEAN>	Whether or not user inputs should be disabled (default: true)
+		0:	<NUMBER>	The enum of the source that disabled the input
+		1:	<BOOLEAN>	Whether or not user inputs should be disabled (default: true)
 	Returns:
 		(nothing)
 -------------------------------------------------------------------------------------------------------------------- */
@@ -17,28 +20,48 @@
 #include "..\..\res\macros\fnc_initVar.inc"
 
 params [
+	["_source", MACRO_ENUM_INPUTLOCK_UNKNOWN, [MACRO_ENUM_INPUTLOCK_UNKNOWN]],
 	["_active", true, [true]]
 ];
 
-if (!hasInterface) exitWith {};
+if (!hasInterface or {_source == MACRO_ENUM_INPUTLOCK_UNKNOWN}) exitWith {};
 
 
 
 
 
 // Set up some variables
-MACRO_FNC_INITVAR(GVAR(EH_disableUserInput_eachFrame),-1);
+MACRO_FNC_INITVAR(GVAR(ui_disableUserInput_EH), -1);
+MACRO_FNC_INITVAR(GVAR(ui_disableUserInput_sources), createHashMap);
+
+private _disabled = _active;
 
 
 
 
 
-removeMissionEventHandler ["EachFrame", GVAR(EH_disableUserInput_eachFrame)];
-
+// Manage the sources
 if (_active) then {
+	GVAR(ui_disableUserInput_sources) set [_source, true];
+
+} else {
+	if (_source in GVAR(ui_disableUserInput_sources)) then {
+		GVAR(ui_disableUserInput_sources) deleteAt _source;
+	};
+
+	_disabled = (count GVAR(ui_disableUserInput_sources) > 0);
+};
+
+
+
+
+
+removeMissionEventHandler ["EachFrame", GVAR(ui_disableUserInput_EH)];
+
+if (_disabled) then {
 
 	// Disable user input
-	GVAR(EH_disableUserInput_eachFrame) = addMissionEventHandler ["EachFrame", {
+	GVAR(ui_disableUserInput_EH) = addMissionEventHandler ["EachFrame", {
 
 		if (isGamePaused) exitWith {};
 
@@ -59,15 +82,14 @@ if (_active) then {
 					private _dialogMainMenu = createDialog [["RscDisplayInterrupt", "RscDisplayMPInterrupt"] select isMultiplayer, true];
 
 					// Restore the "Abort" button
-			                private _ctrlAbort = _dialogMainMenu displayctrl 104;
+					private _ctrlAbort = _dialogMainMenu displayctrl 104;
 					_ctrlAbort ctrlRemoveAllEventHandlers "buttonClick";
-			                _ctrlAbort ctrlAddEventHandler ["buttonClick", {
-						[false] call FUNC(ui_disableUserInput);
+					_ctrlAbort ctrlAddEventHandler ["buttonClick", {
 						endMission "END1";
 					}];
-			                _ctrlAbort ctrlEnable true;
-			                _ctrlAbort ctrlSetText "ABORT";
-			                _ctrlAbort ctrlSetTooltip "Abort the mission and return to the slotting screen.";
+					_ctrlAbort ctrlEnable true;
+					_ctrlAbort ctrlSetText "ABORT";
+					_ctrlAbort ctrlSetTooltip "Abort the mission and return to the slotting screen.";
 
 					_consumed = true;
 				};

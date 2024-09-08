@@ -105,7 +105,7 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 				// to use a workaround by using switchCamera. This is not ideal, but gets the job done.
 				switchCamera GVAR(cam_panorama);
 
-				[true] call FUNC(ui_disableUserInput);
+				[MACRO_ENUM_INPUTLOCK_RESPAWN, true] call FUNC(ui_disableUserInput);
 			};
 
 			// Ensure the player is always attached to their respawn object while awaiting spawning
@@ -240,7 +240,7 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 
 						(uiNamespace getVariable [QGVAR(RscSpawnMenu), displayNull]) closeDisplay 0;
 
-						[false] call FUNC(ui_disableUserInput);
+						[MACRO_ENUM_INPUTLOCK_RESPAWN, false] call FUNC(ui_disableUserInput);
 
 						[false, 0.5] call FUNC(ui_blackScreen);
 						QGVAR(RscSpawnStatus) cutRsc ["Default", "PLAIN"];
@@ -270,6 +270,14 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 						// Detect unconsciousness
 						if (_player getVariable [QGVAR(isUnconscious), false]) then {
 							GVAR(gm_sys_handlePlayerRespawn_state) = MACRO_ENUM_RESPAWN_UNCONSCIOUS;
+							[MACRO_ENUM_INPUTLOCK_RESPAWN, true] call FUNC(ui_disableUserInput);
+
+							GVAR(gm_sys_handlePlayerRespawn_respawnTime) = _time + GVAR(param_gm_unit_respawnDelay);
+							GVAR(gm_sys_handlePlayerRespawn_nextUpdate)  = -1;
+							GVAR(gm_sys_handlePlayerRespawn_bledOut)     = false;
+
+							// Pre-emptively reset the give-up action (prevents sticky keys)
+							GVAR(kb_act_pressed_giveUp) = false;
 
 							// Open the unconscious HUD
 							QGVAR(RscUnconsciousHUD) cutRsc [QGVAR(RscUnconsciousHUD), "PLAIN"];
@@ -327,6 +335,8 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 								and {[_x] call FUNC(unit_isAlive)}
 								and {_x != _player}
 							});
+
+							openMap [false, false];
 
 							// Handle the unconscious HUD
 							private _ctrlCountdown = _unconsciousHUD displayCtrl MACRO_IDC_UHUD_TEXT_COUNTDOWN;
@@ -386,6 +396,8 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 							GVAR(gm_sys_handlePlayerRespawn_unconsciousTime) = -1;
 
 							QGVAR(RscUnconsciousHUD) cutRsc ["Default", "PLAIN"];
+
+							[MACRO_ENUM_INPUTLOCK_RESPAWN, false] call FUNC(ui_disableUserInput);
 						};
 					};
 				};

@@ -54,7 +54,7 @@ if (isServer) then {
 if (hasInterface) then {
 
 	[false] call FUNC(ui_blackScreen);
-	[true] call FUNC(ui_disableUserInput);
+	[MACRO_ENUM_INPUTLOCK_ENDMISSION, true] call FUNC(ui_disableUserInput);
 
 	// Stop any active radio messages
 	[MACRO_ENUM_RADIOMSG_INVALID, true] call FUNC(gm_playRadioMsg);
@@ -221,7 +221,7 @@ GVAR(EH_endMission_eachFrame) = addMissionEventHandler ["EachFrame", {
 				GVAR(endMission_stage) = MACRO_ENUM_ENDMISSION_ENDING;
 
 				//endMission "END1";
-				[false] call FUNC(ui_disableUserInput);
+				[MACRO_ENUM_INPUTLOCK_ENDMISSION, false] call FUNC(ui_disableUserInput);
 				[false] call FUNC(ui_blackScreen);
 
 				playMusic "";

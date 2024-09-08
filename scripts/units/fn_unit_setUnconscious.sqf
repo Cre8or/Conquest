@@ -75,19 +75,12 @@ if (_newState) then {
 if (_unit == player) then {
 
 	//Handle unscoping, whether it's when going unconscious or when waking up
-	_unit switchCamera "INTERNAL";
-
-	GVAR(gm_sys_handlePlayerRespawn_bledOut) = false;
+	if (cameraView == "GUNNER") then {
+		_unit switchCamera "INTERNAL";
+	};
 
 	// Force a respawn state transition check (interface with gm_sys_handlePlayerRespawn)
 	if (_newState) then {
-		GVAR(gm_sys_handlePlayerRespawn_respawnTime) = _time + GVAR(param_gm_unit_respawnDelay);
-		GVAR(gm_sys_handlePlayerRespawn_nextUpdate)  = -1;
-
-		// Pre-emptively reset the give-up action (prevents sticky keys)
-		GVAR(kb_act_pressed_giveUp) = false;
-
-		openMap [false, false];
 
 		// If the player was carrying an object via ACE, drop it
 		private _carriedObj = _unit getVariable ["ace_dragging_carriedObject", objNull];

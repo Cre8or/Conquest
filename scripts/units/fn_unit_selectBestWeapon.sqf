@@ -23,22 +23,29 @@ if (!alive _unit or {!local _unit}) exitWith {};
 
 
 
-private _primary = primaryWeapon _unit;
-private _handgun = handgunWeapon _unit;
+private _primary     = primaryWeapon _unit;
+private _handgun     = handgunWeapon _unit;
+private _bestWeapon  = "";
 private _weaponIndex = 0;
 
 // Handle weapon selection
 if (_primary != "" and {_unit ammo _primary > 0}) then {
-	_unit selectWeapon _primary;
+	_bestWeapon = _primary;
 	_weaponIndex = 2;
 } else {
 	if (_handgun != "" and {_unit ammo _handgun > 0}) then {
-		_unit selectWeapon _handgun;
+		_bestWeapon = _handgun;
 		_weaponIndex = 1;
 	} else {
 		_unit action ["SwitchWeapon", _unit, _unit, 0];
 	};
 };
+
+if (currentWeapon _unit != _bestWeapon) then {
+	_unit selectWeapon _bestWeapon;
+};
+
+
 
 // Handle animations
 if (_forceAnim and {vehicle _unit == _unit}) then {

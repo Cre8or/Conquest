@@ -476,7 +476,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.16.798" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.16.802" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -851,6 +851,18 @@
 
 	#define MACRO_ENUM_SOUND_VO_DEATH                               10
 	#define MACRO_ENUM_SOUND_VO_REVIVE                              11
+
+
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+//	USER INPUT LOCK SOURCES
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+
+	#define MACRO_ENUM_INPUTLOCK_UNKNOWN                            0
+	#define MACRO_ENUM_INPUTLOCK_RESPAWN                            1
+	#define MACRO_ENUM_INPUTLOCK_ENDMISSION                         2
 
 
 
