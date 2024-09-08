@@ -46,13 +46,14 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 	private _c_spottedTimeVarName = format [QGVAR(spottedTime_%1), GVAR(side)];
 
 	// Set up some variables
-	private _time     = time;
-	private _vehPly   = vehicle _player;
-	private _groupPly = group _player;
-	private _posPly   = AGLtoASL positionCameraToWorld [0,0,0];
-	private _dirPly   = (AGLtoASL positionCameraToWorld [0,0,1]) vectorDiff _posPly;
-	private _blink    = ((_time mod (2 * MACRO_BLINK_INTERVAL)) < MACRO_BLINK_INTERVAL);
-	private _freeLook = (inputAction "lookAround" > 0);
+	private _time       = time;
+	private _vehPly     = vehicle _player;
+	private _groupPly   = group _player;
+	private _posPly     = AGLtoASL positionCameraToWorld [0,0,0];
+	private _dirPly     = (AGLtoASL positionCameraToWorld [0,0,1]) vectorDiff _posPly;
+	private _blink      = ((_time mod (2 * MACRO_BLINK_INTERVAL)) < MACRO_BLINK_INTERVAL);
+	private _freeLook   = (inputAction "lookAround" > 0);
+	private _iconsQueue = [];
 
 	scopeName QGVAR(ui_sys_drawIcons3D);
 
@@ -87,17 +88,75 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 
 
 
+	// Aggregate the vehicles data
+	private _allVehicles     = GVAR(allVehicles) select {alive _x};
+	private _teamVehicles    = [];
+	private _squadVehicles   = [];
+	private _spottedVehicles = [];
+	private ["_crew", "_unitX", "_groupX", "_groupIndex"];
+	{
+		if (_x == _vehPly) then {
+			continue;
+		};
+
+		_crew  = crew _x select {[_x] call FUNC(unit_isAlive)};
+		_unitX = driver _x;
+
+		if (isNull _unitX) then {
+			_unitX = _crew param [0, objNull];
+		};
+
+		// Empty vehicles
+		if (isNull _unitX) then {
+			continue;
+		};
+
+		// Manned vehicles
+		_groupX = group _unitX;
+		if (side _groupX == GVAR(side)) then {
+
+			// Edge case: AI drivers are in a separate group. Fetch the original one.
+			if (_groupX getVariable [QGVAR(isVehicleGroup), false]) then {
+				_groupIndex = _unitX getVariable [QGVAR(groupIndex), -1];
+				_groupX     = missionNamespace getVariable [format [QGVAR(AIGroup_%1_%2), GVAR(side), _groupIndex], _groupX];
+			};
+
+			if (_groupX == _groupPly) then {
+				_squadVehicles pushBack [_x, _unitX];
+			} else {
+				_teamVehicles pushBack [_x, _unitX];
+			};
+		} else {
+			_unitX = _crew param [_crew findIf {_time < _x getVariable [_c_spottedTimeVarName, 0]}, objNull];
+
+			if (!isNull _unitX) then {
+				_spottedVehicles pushBack [_x, _unitX];
+			};
+		};
+	} forEach _allVehicles;
+
+
+
 	// Handle role-specific icon drawing
-	#include "drawIcons3D\ui_unitIcons_support.sqf"
+	private ["_renderData"];
 
-	#include "drawIcons3D\ui_unitIcons_medic.sqf"
+	#include "drawIcons3D\icons3D_role_medic.sqf"
 
-	#include "drawIcons3D\ui_vehicleIcons_engineer.sqf"
+	#include "drawIcons3D\icons3D_role_support.sqf"
+
+	//#include "drawIcons3D\icons3D_role_engineer.sqf"
 
 
 
 	// Handle role-agnostic unit and vehicle icon drawing
-	#include "drawIcons3D\ui_unitIcons.sqf"
+	#include "drawIcons3D\icons3D_vehicles.sqf"
 
-	#include "drawIcons3D\ui_vehicleIcons.sqf"
+	#include "drawIcons3D\icons3D_units.sqf"
+
+
+
+	// Render the queued icons, in reverse order (3D icons render back to front)
+	{
+		drawIcon3D _x;
+	} forEachReversed _iconsQueue;
 }];

@@ -38,8 +38,8 @@ _renderData = [];
 if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC and {[_player] call FUNC(unit_isAlive)}) then {
 	private "_healthX";
 
-	MACRO_FNC_FILTERUNITS_LOWHEALTH(_teamMates, MACRO_COLOUR_A100_FRIENDLY);
 	MACRO_FNC_FILTERUNITS_LOWHEALTH(_squadMates, MACRO_COLOUR_A100_SQUAD);
+	MACRO_FNC_FILTERUNITS_LOWHEALTH(_teamMates, MACRO_COLOUR_A100_FRIENDLY);
 
 // As a non-medic, the player is shown nearby medics when low on health
 } else {
@@ -53,8 +53,8 @@ if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC and {[_player] call FUNC(unit_isAlive)})
 	};
 	private _isLowHealth = (_health < MACRO_UNIT_HEALTH_THRESHOLDLOW);
 
-	MACRO_FNC_FILTERUNITS_ISMEDIC(_teamMates, MACRO_COLOUR_A100_FRIENDLY);
 	MACRO_FNC_FILTERUNITS_ISMEDIC(_squadMates, MACRO_COLOUR_A100_SQUAD);
+	MACRO_FNC_FILTERUNITS_ISMEDIC(_teamMates, MACRO_COLOUR_A100_FRIENDLY);
 };
 
 
@@ -81,4 +81,4 @@ if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC and {[_player] call FUNC(unit_isAlive)})
 		1
 	];
 
-} forEachReversed _renderData;
+} forEach _renderData;

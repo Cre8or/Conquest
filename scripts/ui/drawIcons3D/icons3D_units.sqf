@@ -2,22 +2,17 @@
 private _c_iconUnit            = "a3\ui_f\data\IGUI\RscIngameUI\RscHint\indent_gr.paa";
 private _c_iconUnitUnconscious = getMissionPath "res\images\icon_unit_unconscious.paa";
 
-// Set up some variables
-private _renderData_units = [];
-
-
-
-
-
 // Compile unit data into an array for rendering
-_renderData_units append (_teamMates apply {
-	_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), false, false]
+_renderData = [];
+
+_renderData append (_spottedEnemies apply {
+	_x + [SQUARE(MACRO_COLOUR_A100_ENEMY), true, false]
 });
-_renderData_units append (_squadMates apply {
+_renderData append (_squadMates apply {
 	_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), false, _freeLook]
 });
-_renderData_units append (_spottedEnemies apply {
-	_x + [SQUARE(MACRO_COLOUR_A100_ENEMY), true, false]
+_renderData append (_teamMates apply {
+	_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), false, false]
 });
 
 
@@ -67,7 +62,7 @@ private ["_pos2D", "_posXASL", "_visibility", "_isUnconscious", "_nameX", "_angl
 	};
 
 	if (_isUnconscious) then {
-		drawIcon3D [
+		_iconsQueue pushBack [
 			_c_iconUnitUnconscious,
 			_colour,
 			_posX,
@@ -84,7 +79,7 @@ private ["_pos2D", "_posXASL", "_visibility", "_isUnconscious", "_nameX", "_angl
 			-0.07 * _c_uiScale
 		];
 	} else {
-		drawIcon3D [
+		_iconsQueue pushBack [
 			_c_iconUnit,
 			_colour,
 			_posX,
@@ -101,4 +96,4 @@ private ["_pos2D", "_posXASL", "_visibility", "_isUnconscious", "_nameX", "_angl
 			-0.07 * _c_uiScale
 		];
 	};
-} forEach _renderData_units;
+} forEach _renderData;

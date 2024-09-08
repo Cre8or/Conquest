@@ -35,8 +35,8 @@ _renderData = [];
 
 // As a support, the player is shown units who are in need of resupplying
 if (GVAR(role) == MACRO_ENUM_ROLE_SUPPORT and {[_player] call FUNC(unit_isAlive)}) then {
-	MACRO_FNC_FILTERUNITS_LOWAMMO(_teamMates, MACRO_COLOUR_A100_FRIENDLY);
 	MACRO_FNC_FILTERUNITS_LOWAMMO(_squadMates, MACRO_COLOUR_A100_SQUAD);
+	MACRO_FNC_FILTERUNITS_LOWAMMO(_teamMates, MACRO_COLOUR_A100_FRIENDLY);
 
 // As a non-support, the player is shown nearby support units when low on ammo
 } else {
@@ -51,8 +51,8 @@ if (GVAR(role) == MACRO_ENUM_ROLE_SUPPORT and {[_player] call FUNC(unit_isAlive)
 	};
 	private _isLowAmmo = (_ammo < MACRO_UNIT_AMMO_THRESHOLDLOW);
 
-	MACRO_FNC_FILTERUNITS_ISSUPPORT(_teamMates, MACRO_COLOUR_A100_FRIENDLY);
 	MACRO_FNC_FILTERUNITS_ISSUPPORT(_squadMates, MACRO_COLOUR_A100_SQUAD);
+	MACRO_FNC_FILTERUNITS_ISSUPPORT(_teamMates, MACRO_COLOUR_A100_FRIENDLY);
 };
 
 
@@ -79,4 +79,4 @@ if (GVAR(role) == MACRO_ENUM_ROLE_SUPPORT and {[_player] call FUNC(unit_isAlive)
 		1
 	];
 
-} forEachReversed _renderData;
+} forEach _renderData;

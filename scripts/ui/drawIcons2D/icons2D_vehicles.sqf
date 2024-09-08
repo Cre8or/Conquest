@@ -51,4 +51,4 @@ private ["_typeEnum", "_icon"];
 		2
 	];
 
-} forEachReversed _renderData;
+} forEach _renderData;

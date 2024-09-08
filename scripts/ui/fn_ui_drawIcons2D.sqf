@@ -69,10 +69,10 @@ private ["_posX", "_groupX"];
 
 // Aggregate the vehicles data
 private _allVehicles     = GVAR(allVehicles) select {alive _x};
+private _emptyVehicles   = [];
 private _teamVehicles    = [];
 private _squadVehicles   = [];
 private _spottedVehicles = [];
-private _emptyVehicles   = [];
 private ["_crew", "_unitX", "_groupX", "_groupIndex"];
 {
 	_posX  = getPosWorld _x;
@@ -120,9 +120,9 @@ private ["_crew", "_unitX", "_groupX", "_groupIndex"];
 // Handle role-specific icon drawing
 private ["_renderData", "_colour"];
 
-#include "drawIcons2D\icons2D_role_support.sqf"
-
 #include "drawIcons2D\icons2D_role_medic.sqf"
+
+#include "drawIcons2D\icons2D_role_support.sqf"
 
 //#include "drawIcons2D\icons2D_role_engineer.sqf"
 
@@ -135,7 +135,7 @@ private ["_renderData", "_colour"];
 
 
 
-// Render the queued icons, in reverse order
+// Render the queued icons, in reverse order (map icons render back to front)
 {
 	_ctrlMap drawIcon _x;
 } forEachReversed _iconsQueue;

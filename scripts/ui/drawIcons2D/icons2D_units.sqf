@@ -8,10 +8,12 @@ _renderData = [];
 {
 	_unitX = _x # 0;
 
-	_renderData pushBack (
-		_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), _unitX getVariable [QGVAR(isUnconscious), false]]
-	);
-} forEach _teamMates;
+	if !(_unitX getVariable [QGVAR(isUnconscious), false]) then {
+		_renderData pushBack (
+			_x + [SQUARE(MACRO_COLOUR_A100_ENEMY), false]
+		);
+	};
+} forEach _spottedEnemies;
 
 {
 	_unitX = _x # 0;
@@ -24,12 +26,10 @@ _renderData = [];
 {
 	_unitX = _x # 0;
 
-	if !(_unitX getVariable [QGVAR(isUnconscious), false]) then {
-		_renderData pushBack (
-			_x + [SQUARE(MACRO_COLOUR_A100_ENEMY), false]
-		);
-	};
-} forEach _spottedEnemies;
+	_renderData pushBack (
+		_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), _unitX getVariable [QGVAR(isUnconscious), false]]
+	);
+} forEach _teamMates;
 
 
 
@@ -63,4 +63,4 @@ _renderData = [];
 		];
 	};
 
-} forEachReversed _renderData;
+} forEach _renderData;

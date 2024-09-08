@@ -3,74 +3,60 @@ private _c_iconHeal        = getMissionPath "res\images\abilities\ability_heal.p
 
 // Strip specific units from the existing arrays, so we can render them separately while leaving the remaining ones
 // for the role-agnostic render method
-private _renderData_units = [];
+_renderData = [];
 private "_unitX";
+
+// Define some macro functions
+#define MACRO_FNC_FILTERUNITS_LOWHEALTH(UNITARRAY, COLOUR) \
+	{ \
+		_unitX   = _x select 0; \
+		_distX   = _x select 2; \
+		_healthX = _unitX getVariable [QGVAR(health), 0]; \
+ \
+		if ( \
+			_distX < _c_maxDistMedicSqr \
+			and {_healthX < 1 or {_unitX getVariable [QGVAR(isUnconscious), false]}} \
+		) then { \
+			_renderData pushBack ( \
+				_x + [SQUARE(COLOUR), _freeLook or {_healthX < MACRO_UNIT_HEALTH_THRESHOLDLOW}, _healthX, !(_unitX getVariable [QGVAR(isUnconscious), false])] \
+			); \
+			UNITARRAY deleteAt _forEachIndex; \
+		}; \
+	} forEachReversed UNITARRAY;
+
+#define MACRO_FNC_FILTERUNITS_ISMEDIC(UNITARRAY, COLOUR) \
+	{ \
+		_unitX = _x select 0; \
+		_distX = _x select 2; \
+ \
+		if (_distX < _c_maxDistMedicSqr and {_unitX getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] == MACRO_ENUM_ROLE_MEDIC} and {[_unitX] call FUNC(unit_isAlive)}) then { \
+			_renderData pushBack ( \
+				_x + [SQUARE(COLOUR), _health < MACRO_UNIT_HEALTH_THRESHOLDLOW or {_freeLook}, _health, false] \
+			); \
+			UNITARRAY deleteAt _forEachIndex; \
+		}; \
+	} forEachReversed UNITARRAY;
+
+
+
+
 
 // As a medic, the player is shown nearby units who are in need of healing
 if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC and {!(_player getVariable [QGVAR(isUnconscious), false])}) then {
 	private "_healthX";
 
-	{
-		_unitX   = _x # 0;
-		_distX   = _x # 2;
-		_healthX = _unitX getVariable [QGVAR(health), 0];
-
-		if (
-			_distX < _c_maxDistMedicSqr
-			and {_healthX < 1 or {_unitX getVariable [QGVAR(isUnconscious), false]}}
-		) then {
-			_renderData_units pushBack (
-				_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), _freeLook or {_healthX < MACRO_UNIT_HEALTH_THRESHOLDLOW}, _healthX, !(_unitX getVariable [QGVAR(isUnconscious), false])]
-			);
-			_teamMates deleteAt _forEachIndex;
-		};
-	} forEachReversed _teamMates;
-	{
-		_unitX   = _x # 0;
-		_distX   = _x # 2;
-		_healthX = _unitX getVariable [QGVAR(health), 0];
-
-		if (
-			_distX < _c_maxDistMedicSqr
-			and {_healthX < 1 or {_unitX getVariable [QGVAR(isUnconscious), false]}}
-		) then {
-			_renderData_units pushBack (
-				_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), _freeLook or {_healthX < MACRO_UNIT_HEALTH_THRESHOLDLOW}, _healthX, !(_unitX getVariable [QGVAR(isUnconscious), false])]
-			);
-			_squadMates deleteAt _forEachIndex;
-		};
-	} forEachReversed _squadMates;
+	MACRO_FNC_FILTERUNITS_LOWHEALTH(_squadMates, MACRO_COLOUR_A100_SQUAD);
+	MACRO_FNC_FILTERUNITS_LOWHEALTH(_teamMates, MACRO_COLOUR_A100_FRIENDLY);
 
 // As a non-medic, the player is shown nearby medics when low on health
 } else {
-
 	private _health = _player getVariable [QGVAR(health), 0];
 	if (_health >= 1) then {
 		breakTo QGVAR(ui_sys_drawIcons3D);
 	};
 
-	{
-		_unitX = _x # 0;
-		_distX = _x # 2;
-
-		if (_distX < _c_maxDistMedicSqr and {_unitX getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] == MACRO_ENUM_ROLE_MEDIC} and {[_unitX] call FUNC(unit_isAlive)}) then {
-			_renderData_units pushBack (
-				_x + [SQUARE(MACRO_COLOUR_A100_FRIENDLY), _health < MACRO_UNIT_HEALTH_THRESHOLDLOW or {_freeLook}, _health, false]
-			);
-			_teamMates deleteAt _forEachIndex;
-		};
-	} forEachReversed _teamMates;
-	{
-		_unitX = _x # 0;
-		_distX = _x # 2;
-
-		if (_distX < _c_maxDistMedicSqr and {_unitX getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] == MACRO_ENUM_ROLE_MEDIC} and {[_unitX] call FUNC(unit_isAlive)}) then {
-			_renderData_units pushBack (
-				_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), _health < MACRO_UNIT_HEALTH_THRESHOLDLOW or {_freeLook}, _health, false]
-			);
-			_squadMates deleteAt _forEachIndex;
-		};
-	} forEachReversed _squadMates;
+	MACRO_FNC_FILTERUNITS_ISMEDIC(_squadMates, MACRO_COLOUR_A100_SQUAD);
+	MACRO_FNC_FILTERUNITS_ISMEDIC(_teamMates, MACRO_COLOUR_A100_FRIENDLY);
 };
 
 
@@ -113,7 +99,7 @@ private ["_pos2D", "_nameX", "_colour", "_posXASL", "_angle", "_distMul"];
 		_colour set [3, _distMul];
 	};
 
-	drawIcon3D [
+	_iconsQueue pushBack [
 		_c_iconHeal,
 		[_colour, _colourFill] select _showHealth,
 		_posX,
@@ -132,7 +118,7 @@ private ["_pos2D", "_nameX", "_colour", "_posXASL", "_angle", "_distMul"];
 
 	// Health bar
 	if (_showHealth) then {
-		drawIcon3D [
+		_iconsQueue pushBack [
 			[_health] call FUNC(ui_getFillBarIcon),
 			_colour,
 			_posX,
@@ -150,4 +136,4 @@ private ["_pos2D", "_nameX", "_colour", "_posXASL", "_angle", "_distMul"];
 		];
 	};
 
-} forEach _renderData_units;
+} forEach _renderData;
