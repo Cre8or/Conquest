@@ -65,6 +65,16 @@
 	#define MACRO_IDC_HFX_CTRLGRP                                   100
 	#define MACRO_IDC_HFX_HIT_EFFECT_IMAGE                          101
 
+	// Scoreboard
+	#define MACRO_IDC_SB_CTRLGRP                                    100
+	#define MACRO_IDC_SB_FOCUS_FRAME                                101
+	#define MACRO_IDC_SB_SIDE_NAME_LEFT_TEXT                        102
+	#define MACRO_IDC_SB_SIDE_NAME_MIDDLE_TEXT                      103
+	#define MACRO_IDC_SB_SIDE_NAME_RIGHT_TEXT                       105
+	#define MACRO_IDC_SB_SIDE_NAME_LEFT_SEPARATOR                   106
+	//#define MACRO_IDC_SB_SIDE_NAME_MIDDLE_SEPARATOR                 107
+	//#define MACRO_IDC_SB_SIDE_NAME_RIGHT_SEPARATOR                  108
+
 	// Spawn Menu							// IDCs 0 to 2 are reserved for buttons and will cause the display to close when used! (hardcoded engine behaviour) - DO NOT USE THEM!
 	#define MACRO_IDC_SM_CTRLGROUP                                  100
 	#define MACRO_IDC_SM_BACKGROUND                                 101
@@ -236,6 +246,11 @@
 	#define MACRO_POS_KF_ENTRY_TEXTSIZE                             MACRO_UI_TEXTSIZE_1
 	#define MACRO_POS_KF_ENTRY_MAXCOUNT                             8
 
+	// Scoreboard
+	#define MACRO_POS_SB_WIDTH_COLUMN                               (0.25 * safeZoneW)
+	#define MACRO_POS_SB_HEIGHT                                     (0.6 * safeZoneH)
+	#define MACRO_POS_SB_SIDE_NAME_TEXTSIZE                         MACRO_UI_TEXTSIZE_3
+
 	// Score Feed
 	#define MACRO_POS_SF_WIDTH                                      (0.33 * safeZoneW)
 	#define MACRO_POS_SF_X_OFFSET                                   (0.6 * MACRO_POS_SF_WIDTH)
@@ -375,6 +390,7 @@
 	#define MACRO_ACT_HEALUNIT_COOLDOWN                             1 // The cooldown duration, in seconds, between consecutive healing actions
 
 	#define MACRO_KEYBIND_TOGGLESPAWNMENU                           DIK_F1
+	#define MACRO_KEYBIND_SHOWSCOREBOARD                            DIK_TAB
 	#define MACRO_KEYBIND_GIVEUP                                    DIK_SPACE
 	#define MACRO_KEYBIND_RESUPPLY                                  DIK_4
 	#define MACRO_KEYBIND_REPAIR                                    DIK_4
@@ -476,7 +492,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.16.806" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.16.812" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -861,8 +877,9 @@
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	#define MACRO_ENUM_INPUTLOCK_UNKNOWN                            0
-	#define MACRO_ENUM_INPUTLOCK_RESPAWN                            1
-	#define MACRO_ENUM_INPUTLOCK_ENDMISSION                         2
+	#define MACRO_ENUM_INPUTLOCK_SAFESTART                          1
+	#define MACRO_ENUM_INPUTLOCK_RESPAWN                            2
+	#define MACRO_ENUM_INPUTLOCK_ENDMISSION                         3
 
 
 
@@ -882,6 +899,7 @@
 	//#define MACRO_DEBUG_CA
 
 	//#define MACRO_DEBUG_GM_PRESLOT
+	//#define MACRO_DEBUG_GM_NOSAFESTART
 
 	//#define MACRO_DEBUG_NM_OCCLUDERS
 	//#define MACRO_DEBUG_NM_NODES_INF

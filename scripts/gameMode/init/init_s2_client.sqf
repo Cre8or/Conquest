@@ -50,11 +50,11 @@ MACRO_FNC_INITVAR(GVAR(UI_prevPlayerSide),GVAR(side));	// Used to update sector 
 
 
 // Set up the panorama camera
-showCinemaBorder false;
 camDestroy GVAR(cam_panorama);
 GVAR(cam_panorama) = "camera" camCreate [0,0,0];
 GVAR(cam_panorama) setPosWorld MACRO_MISSION_CAMERAPOSITION;
 GVAR(cam_panorama) setVectorDirAndUp [MACRO_MISSION_CAMERADIRECTION, [0,0,1]];
+showCinemaBorder false;
 
 call FUNC(act_registerKeybindings);
 
@@ -76,6 +76,7 @@ call FUNC(ui_sys_drawIcons3D);
 call FUNC(ui_sys_drawKillFeed);
 call FUNC(ui_sys_drawMedicalEffects);
 call FUNC(ui_sys_drawSectorHUD);
+call FUNC(ui_sys_drawScoreBoard);
 call FUNC(ui_sys_drawScoreFeed);
 
 // Add unit EHs on all existing units. Useful for JIP.
@@ -155,7 +156,7 @@ if (!isServer) then {
 	private _sidesRev = +GVAR(sides);
 	reverse _sidesRev;
 	GVAR(side) = _sidesRev param [_sidesRev findIf {_x != sideEmpty}, sideEmpty];
-	GVAR(role) = MACRO_ENUM_ROLE_SUPPORT;
+	GVAR(role) = MACRO_ENUM_ROLE_MEDIC;
 	GVAR(spawnSector) = GVAR(allSectors) param [GVAR(allSectors) findIf {
 		_x getVariable [QGVAR(side), sideEmpty] == GVAR(side)
 		and {_x getVariable [format [QGVAR(spawnPoints_%1), GVAR(side)], []] isNotEqualTo []}

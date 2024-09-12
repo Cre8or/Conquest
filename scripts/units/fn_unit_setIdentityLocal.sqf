@@ -4,7 +4,7 @@
 		[GA][LE]
 		Sets up the identity of a unit with the provided name, face and speaker.
 	Arguments:
-		0:	<OBJECT>	The unit whose identity should be set
+		0:	<OBJECT>	The concerned unit
 		1:	<STRING>	The unit's new name
 		2:	<STRING>	The new face class
 		3:	<STRING>	The new speaker class
@@ -34,3 +34,8 @@ if (_face != "") then {
 if (_speaker != "") then {
 	_unit setSpeaker _speaker;
 };
+
+// Cache the data
+_unit setVariable [QGVAR(ai_name), _name, false];
+_unit setVariable [QGVAR(ai_face), _face, false];
+_unit setVariable [QGVAR(ai_speaker), _speaker, false];

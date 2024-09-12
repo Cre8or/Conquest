@@ -6,32 +6,31 @@
 
 // Spawn Menu
 class GVAR(RscSpawnMenu) {
-        idd = -1;
-        name = QGVAR(RscSpawnMenu);
+	idd = -1;
+	name = QGVAR(RscSpawnMenu);
 	onLoad = __EVAL(format ["uiNamespace setVariable ['%1', _this select 0]", QGVAR(RscSpawnMenu)]);
 
-        class controls {
+	class controls {
 
 		// Background Controls Group
 		class Background_CtrlGrp : RscControlsGroupNoScrollbars {
 			idc = MACRO_IDC_SM_CTRLGROUP;
-                        x = safeZoneX + (1 - MACRO_POS_SM_WIDTH / safezoneW) * (safezoneW / 2);
-                        y = safeZoneY + (1 - MACRO_POS_SM_HEIGHT / safezoneH) * (safezoneH / 2);
-                	w = MACRO_POS_SM_WIDTH;
-                	h = MACRO_POS_SM_HEIGHT;
-
+			x = safeZoneX + (1 - MACRO_POS_SM_WIDTH / safezoneW) * (safezoneW / 2);
+			y = safeZoneY + (1 - MACRO_POS_SM_HEIGHT / safezoneH) * (safezoneH / 2);
+			w = MACRO_POS_SM_WIDTH;
+			h = MACRO_POS_SM_HEIGHT;
 			onChar = __EVAL(format ["['ui_char_entered', _this] call %1", QFUNC(ui_spawnMenu)]);
 
 			class controls {
 
 				// Background
-				class Background : GVAR(RscFrameFocused) {		// Has to be RscFrameFocused for the UI events to fire
+				class Background : GVAR(RscFrameFocused) { // Has to be RscFrameFocused for the UI events to fire
 					idc = MACRO_IDC_SM_BACKGROUND;
 					colorBackground[] = CURLY(MACRO_COLOUR_A75_BLACK);
-		                	w = MACRO_POS_SM_WIDTH;
-		                	h = MACRO_POS_SM_HEIGHT;
-					onMouseButtonDown =	__EVAL(format ["['ui_focus_reset'] call %1", QFUNC(ui_spawnMenu)]);
-					onMouseButtonDblClick =	__EVAL(format ["['ui_focus_reset'] call %1", QFUNC(ui_spawnMenu)]);
+					w = MACRO_POS_SM_WIDTH;
+					h = MACRO_POS_SM_HEIGHT;
+					onMouseButtonDown     = __EVAL(format ["['ui_focus_reset'] call %1", QFUNC(ui_spawnMenu)]);
+					onMouseButtonDblClick = __EVAL(format ["['ui_focus_reset'] call %1", QFUNC(ui_spawnMenu)]);
 				};
 
 				// Focus Frame
@@ -40,7 +39,7 @@ class GVAR(RscSpawnMenu) {
 				};
 
 				class Menu_Separator : GVAR(RscFrame) {
-					idc = MACRO_IDC_SM_MENU_SEPARATOR;	// This control needs an IDC for some reason, otherwise it won't show (perhaps because it's the first RscFrame?)
+					idc = MACRO_IDC_SM_MENU_SEPARATOR; // This control needs an IDC for some reason, otherwise it won't show (perhaps because it's the first RscFrame?)
 					colorBackground[] = CURLY(MACRO_COLOUR_A100_WHITE);
 					x = 0;
 					y = MACRO_POS_SM_MENU_HEIGHT + pixelH * MACRO_POS_SPACER_Y;
@@ -111,13 +110,13 @@ class GVAR(RscSpawnMenu) {
 					x = MACRO_POS_SM_WIDTH - safeZoneW * 0.1;
 				};
 			};
-                };
+				};
 
 		// ------------------------------------------------------------------------------------------------------------------------------------------------
 		// Side Control Group
 		class Side_CtrlGrp : Background_CtrlGrp {
 			idc = MACRO_IDC_SM_SIDE_CTRLGROUP;
-                	h = MACRO_POS_SM_MENU_HEIGHT;
+					h = MACRO_POS_SM_MENU_HEIGHT;
 
 			class controls {
 
@@ -375,8 +374,8 @@ class GVAR(RscSpawnMenu) {
 					y = MACRO_POS_SM_MENU_HEIGHT * 0.92;
 					w = MACRO_POS_SM_WIDTH / 3 - pixelW * (MACRO_POS_SPACER_X * 2 + 1);
 					h = MACRO_POS_SM_MENU_HEIGHT * 0.08;
-					onButtonClick =         __EVAL(format ["['ui_button_click', _this] call %1", QFUNC(ui_spawnMenu)]);
-					onButtonDown =          __EVAL(format ["['ui_focus_reset'] call %1", QFUNC(ui_spawnMenu)]);
+					onButtonClick         = __EVAL(format ["['ui_button_click', _this] call %1", QFUNC(ui_spawnMenu)]);
+					onButtonDown          = __EVAL(format ["['ui_focus_reset'] call %1", QFUNC(ui_spawnMenu)]);
 					onMouseButtonDblClick = __EVAL(format ["['ui_focus_reset'] call %1", QFUNC(ui_spawnMenu)]);
 				};
 
@@ -491,6 +490,7 @@ class GVAR(RscSpawnMenu) {
 						class Controls_Text : GVAR(RscText) {
 							idc = MACRO_IDC_SM_ROLE_PREVIEW_CONTROLS_TEXT;
 							style = ST_MULTI;
+							sizeEx = MACRO_UI_TEXTSIZE_1;
 							shadow = 0;
 							text = "Hold LMB to pan/rotate\nScroll to zoom\nPress N to toggle NVG";
 							x = 0;
@@ -504,9 +504,9 @@ class GVAR(RscSpawnMenu) {
 							idc = MACRO_IDC_SM_ROLE_PREVIEW_FRAME;
 							w = MACRO_POS_SM_WIDTH / 3 - pixelW * MACRO_POS_SPACER_X * 2;
 							h = MACRO_POS_SM_MENU_HEIGHT - pixelH * MACRO_POS_SPACER_Y;
-							onMouseMoving =         __EVAL(format ["['ui_mouse_moving', _this] call %1", QFUNC(ui_spawnMenu)]);
-							onMouseZChanged =       __EVAL(format ["['ui_mousez_changed', _this] call %1", QFUNC(ui_spawnMenu)]);
-							onMouseButtonDown =     __EVAL(format ["['ui_button_click', _this] call %1", QFUNC(ui_spawnMenu)]);
+							onMouseMoving         = __EVAL(format ["['ui_mouse_moving', _this] call %1", QFUNC(ui_spawnMenu)]);
+							onMouseZChanged       = __EVAL(format ["['ui_mousez_changed', _this] call %1", QFUNC(ui_spawnMenu)]);
+							onMouseButtonDown     = __EVAL(format ["['ui_button_click', _this] call %1", QFUNC(ui_spawnMenu)]);
 							onMouseButtonDblClick = __EVAL(format ["['ui_focus_reset'] call %1", QFUNC(ui_spawnMenu)]);
 						};
 					};
@@ -589,7 +589,6 @@ class GVAR(RscSpawnMenu) {
 					w = MACRO_POS_SM_WIDTH / 6 - pixelW * (MACRO_POS_SPACER_X + 2);
 					h = MACRO_POS_SM_MENU_HEIGHT * 0.87 - pixelH * MACRO_POS_SPACER_Y * 3;
 					onLBSelChanged = __EVAL(format ["['ui_listbox_changed', _this] call %1", QFUNC(ui_spawnMenu)]);
-
 				};
 
 				// Group Members Listbox Background
@@ -633,8 +632,8 @@ class GVAR(RscSpawnMenu) {
 					y = MACRO_POS_SM_MENU_HEIGHT * 0.92;
 					w = MACRO_POS_SM_WIDTH / 9 - pixelW * (MACRO_POS_SPACER_X * (4 / 3));
 					h = MACRO_POS_SM_MENU_HEIGHT * 0.08;
-					onButtonDown =          __EVAL(format ["['ui_focus_reset'] call %1", QFUNC(ui_spawnMenu)]);
-					onButtonClick =         __EVAL(format ["['ui_button_click', _this] call %1", QFUNC(ui_spawnMenu)]);
+					onButtonDown          = __EVAL(format ["['ui_focus_reset'] call %1", QFUNC(ui_spawnMenu)]);
+					onButtonClick         = __EVAL(format ["['ui_button_click', _this] call %1", QFUNC(ui_spawnMenu)]);
 					onMouseButtonDblClick = __EVAL(format ["['ui_focus_reset'] call %1", QFUNC(ui_spawnMenu)]);
 				};
 
@@ -690,8 +689,8 @@ class GVAR(RscSpawnMenu) {
 					idc = MACRO_IDC_SM_DEPLOY_SECTORS_CTRLGROUP;
 					x = 0;
 					y = 0;
-                			w = MACRO_POS_SM_WIDTH / 3;
-                			h = MACRO_POS_SM_MENU_HEIGHT;
+					w = MACRO_POS_SM_WIDTH / 3;
+					h = MACRO_POS_SM_MENU_HEIGHT;
 
 					class controls {
 					};
@@ -707,6 +706,7 @@ class GVAR(RscSpawnMenu) {
 			h = 0;
 
 			class controls {
+
 				// Focus Frame
 				class Focus_Frame : GVAR(RscFrameFocused) {
 					idc = MACRO_IDC_SM_EMPTY_FOCUS_FRAME;
@@ -714,16 +714,15 @@ class GVAR(RscSpawnMenu) {
 			};
 		};
 
-
 		// ------------------------------------------------------------------------------------------------------------------------------------------------
 		// Deployment Map
 		class Map : RscMapControl {	// The map may not be created inside a controls group, otherwise strange positioning/offset errors will arise (see https://feedback.bistudio.com/T78273)
 			idc = MACRO_IDC_SM_DEPLOY_MAP;
-                        x = safeZoneX + (1 - MACRO_POS_SM_WIDTH / safezoneW) * (safezoneW / 2) + MACRO_POS_SM_WIDTH / 3 + pixelW * MACRO_POS_SPACER_X;
-                        y = safeZoneY + (1 - MACRO_POS_SM_HEIGHT / safezoneH) * (safezoneH / 2) + pixelH * MACRO_POS_SPACER_Y;
+			x = safeZoneX + (1 - MACRO_POS_SM_WIDTH / safezoneW) * (safezoneW / 2) + MACRO_POS_SM_WIDTH / 3 + pixelW * MACRO_POS_SPACER_X;
+			y = safeZoneY + (1 - MACRO_POS_SM_HEIGHT / safezoneH) * (safezoneH / 2) + pixelH * MACRO_POS_SPACER_Y;
 			w = MACRO_POS_SM_WIDTH * (2 / 3) - pixelW * MACRO_POS_SPACER_X * 2;
 			h = MACRO_POS_SM_MENU_HEIGHT - pixelW * (MACRO_POS_SPACER_Y + 1);
 			onMouseButtonDown = __EVAL(format ["['ui_button_click', _this] call %1", QFUNC(ui_spawnMenu)]);
 		};
-        };
+	};
 };

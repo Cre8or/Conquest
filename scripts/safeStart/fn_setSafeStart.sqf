@@ -5,7 +5,7 @@
 
 		Remotely executed on all machines by the server.
 	Arguments:
-		0:	<BOOLEAN>	Whether safestart should be on or off
+		0:	<BOOLEAN>	True to enable safestart, false to disable (optional, default: false)
 	Returns:
 		(nothing)
 -------------------------------------------------------------------------------------------------------------------- */
@@ -14,7 +14,7 @@
 #include "..\..\mission\settings.inc"
 
 params [
-	"_enabled"				// No default parameter, so it MUST be specified
+	["_enabled", false, [false]]
 ];
 
 
@@ -53,6 +53,11 @@ if (isServer) then {
 {
 	[_x, _enabled] call FUNC(safeStart_vehicle);
 } forEach GVAR(allVehicles);
+
+// Toggle player input
+#ifndef MACRO_DEBUG_GM_NOSAFESTART
+	[MACRO_ENUM_INPUTLOCK_SAFESTART, _enabled] call FUNC(ui_disableUserInput);
+#endif
 
 // Update the safeStart variable
 GVAR(safeStart) = _enabled;

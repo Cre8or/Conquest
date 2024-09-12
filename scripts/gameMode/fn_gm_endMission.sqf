@@ -155,6 +155,7 @@ if (hasInterface) then {
 
 	// Switch into the camera
 	GVAR(cam_panorama) cameraEffect ["Internal", "BACK"];
+	showCinemaBorder false;
 };
 
 

@@ -256,12 +256,9 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 
 					case MACRO_ENUM_RESPAWN_SPAWNED_UNFROZEN: {
 
-						if (_time > GVAR(gm_sys_handlePlayerRespawn_protectionTime)) then {
+						if (!GVAR(safeStart) and {_time > GVAR(gm_sys_handlePlayerRespawn_protectionTime)}) then {
 							GVAR(gm_sys_handlePlayerRespawn_state) = MACRO_ENUM_RESPAWN_SPAWNED_UNPROTECTED;
-
-							//if (!GVAR(safeStart)) then {
-								_player allowDamage true;	// TODO: Reimplement safestart guard after safestart rewrite
-							//};
+							_player allowDamage true;	// TODO: Reimplement safestart guard after safestart rewrite
 						};
 					};
 

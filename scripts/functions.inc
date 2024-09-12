@@ -183,6 +183,7 @@ class MACRO_PROJECT_PREFIX {
 		class ui_sys_drawIcons3D {};
 		class ui_sys_drawKillFeed {};
 		class ui_sys_drawMedicalEffects {};
+		class ui_sys_drawScoreBoard {};
 		class ui_sys_drawScoreFeed {};
 		class ui_sys_drawSectorHUD {};
 		class ui_sys_hookMapCtrls {};
@@ -195,6 +196,7 @@ class MACRO_PROJECT_PREFIX {
 		class unit_getVehicleRole {};
 		class unit_isAlive {};
 		class unit_isReloading {};
+		class unit_onConsciousnessChanged {};
 		class unit_onFired {};
 		class unit_onHandleDamage {};
 		class unit_onHealUnit {};

@@ -40,7 +40,7 @@ class GVAR(RscText) : RscText {
 	shadow = 2;
 	style = ST_CENTER;
 	font = MACRO_FONT_UI_MEDIUM;
-	sizeEx = 0.015 * safeZoneW;
+	sizeEx = MACRO_UI_TEXTSIZE_1;
 };
 
 class GVAR(RscTextHeader) : GVAR(RscText) {
@@ -109,6 +109,7 @@ class RscTitles {
 	#include "rscTitles\rscCombatArea.inc"
 	#include "rscTitles\rscEndScreen.inc"
 	#include "rscTitles\rscKillFeed.inc"
+	#include "rscTitles\rscScoreBoard.inc"
 	#include "rscTitles\rscScoreFeed.inc"
 	#include "rscTitles\rscSectorHUD.inc"
 	#include "rscTitles\rscHealthBar.inc"

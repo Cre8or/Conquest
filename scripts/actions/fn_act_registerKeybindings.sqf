@@ -71,9 +71,24 @@ if (GVAR(hasMod_ace_finger)) then {
 	MACRO_MISSION_FRAMEWORK_GAMEMODE,
 	QGVAR(kb_toggleSpawnMenu),
 	"Open/close spawn menu",
-	{call FUNC(act_toggleSpawnMenu)},
+	{systemChat "toggleSpawnMenu"; call FUNC(act_toggleSpawnMenu)},
 	"",
 	[MACRO_KEYBIND_TOGGLESPAWNMENU, [true, false, false]],
+	false,
+	0,
+	false
+] call CBA_fnc_addKeybind;
+
+
+
+// Scoreboard
+[
+	MACRO_MISSION_FRAMEWORK_GAMEMODE,
+	QGVAR(kb_showScoreBoard),
+	"Show scoreboard",
+	{systemChat "showScoreBoard"; GVAR(kb_act_pressed_showScoreBoard) = true},
+	{GVAR(kb_act_pressed_showScoreBoard) = false},
+	[MACRO_KEYBIND_SHOWSCOREBOARD, [false, false, false]],
 	false,
 	0,
 	false
