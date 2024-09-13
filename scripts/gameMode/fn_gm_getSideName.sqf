@@ -14,7 +14,7 @@
 #include "..\..\mission\settings.inc"
 
 params [
-	["_side", sideEmpty],
+	["_side", sideEmpty, [sideEmpty]],
 	["_longName", false, [false]]
 ];
 

@@ -29,9 +29,6 @@ if (!hasInterface or {isNull _victim}) exitWith {};
 
 
 
-// Set up some macros
-#define MACRO_ICON_SUICIDE getMissionPath "res\images\suicide.paa"
-
 // Set up some variables
 MACRO_FNC_INITVAR(GVAR(ui_sys_drawKillFeed_data), []);
 
@@ -89,7 +86,7 @@ if (_iconEnum == MACRO_ENUM_KF_ICON_MINE) then {
 } else {
 	// Special case 2: Suicide (from physics damage, or from self-damage with no additional data)
 	if (_iconClass == "" and {_killer == _victim}) then {
-		_weaponIcon = MACRO_ICON_SUICIDE;
+		_weaponIcon = MACRO_KF_ICON_SUICIDE;
 	};
 };
 

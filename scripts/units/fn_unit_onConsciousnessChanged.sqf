@@ -1,7 +1,7 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
-		[LA][GE]
+		[GA][LE]
 		Callback function for when a unit becomes unconscious, or is revived.
 		Called remotely by unit_setUnconscious.
 	Arguments:

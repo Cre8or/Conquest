@@ -68,14 +68,24 @@
 	// Scoreboard
 	#define MACRO_IDC_SB_CTRLGRP                                    100
 	#define MACRO_IDC_SB_FOCUS_FRAME                                101
-	#define MACRO_IDC_SB_SIDE_NAME_LEFT_TEXT                        102
-	#define MACRO_IDC_SB_SIDE_NAME_MIDDLE_TEXT                      103
-	#define MACRO_IDC_SB_SIDE_NAME_RIGHT_TEXT                       105
-	#define MACRO_IDC_SB_SIDE_NAME_LEFT_SEPARATOR                   106
-	//#define MACRO_IDC_SB_SIDE_NAME_MIDDLE_SEPARATOR                 107
-	//#define MACRO_IDC_SB_SIDE_NAME_RIGHT_SEPARATOR                  108
+	#define MACRO_IDC_SB_SIDE_FLAG_LEFT_PICTURE                     102
+	#define MACRO_IDC_SB_SIDE_FLAG_MIDDLE_PICTURE                   103
+	#define MACRO_IDC_SB_SIDE_FLAG_RIGHT_PICTURE                    104
+	#define MACRO_IDC_SB_SIDE_NAME_LEFT_TEXT                        105
+	#define MACRO_IDC_SB_SIDE_NAME_MIDDLE_TEXT                      106
+	#define MACRO_IDC_SB_SIDE_NAME_RIGHT_TEXT                       107
+	#define MACRO_IDC_SB_SIDE_TICKETS_LEFT_TEXT                     108
+	#define MACRO_IDC_SB_SIDE_TICKETS_MIDDLE_TEXT                   109
+	#define MACRO_IDC_SB_SIDE_TICKETS_RIGHT_TEXT                    110
 
-	// Spawn Menu							// IDCs 0 to 2 are reserved for buttons and will cause the display to close when used! (hardcoded engine behaviour) - DO NOT USE THEM!
+	#define MACRO_IDC_SB_SIDE_PLAYERS_LEFT_OUTLINE                  200
+	#define MACRO_IDC_SB_SIDE_PLAYERS_MIDDLE_OUTLINE                201
+	#define MACRO_IDC_SB_SIDE_PLAYERS_RIGHT_OUTLINE                 202
+	#define MACRO_IDC_SB_SIDE_PLAYERS_LEFT_LISTBOX                  203
+	#define MACRO_IDC_SB_SIDE_PLAYERS_MIDDLE_LISTBOX                204
+	#define MACRO_IDC_SB_SIDE_PLAYERS_RIGHT_LISTBOX                 205
+
+	// Spawn Menu                                                   // IDCs 0 to 2 are reserved for buttons and will cause the display to close when used! (hardcoded engine behaviour) - DO NOT USE THEM!
 	#define MACRO_IDC_SM_CTRLGROUP                                  100
 	#define MACRO_IDC_SM_BACKGROUND                                 101
 	#define MACRO_IDC_SM_MENU_SEPARATOR                             102
@@ -249,7 +259,10 @@
 	// Scoreboard
 	#define MACRO_POS_SB_WIDTH_COLUMN                               (0.25 * safeZoneW)
 	#define MACRO_POS_SB_HEIGHT                                     (0.6 * safeZoneH)
-	#define MACRO_POS_SB_SIDE_NAME_TEXTSIZE                         MACRO_UI_TEXTSIZE_3
+	#define MACRO_POS_SB_SIDE_HEADER_HEIGHT                         0.07
+	#define MACRO_POS_SB_SIDE_NAME_TEXTSIZE                         MACRO_UI_TEXTSIZE_2
+	#define MACRO_POS_SB_SIDE_FLAG_WIDTH                            ((3 / 2) * MACRO_POS_SB_SIDE_HEADER_HEIGHT)
+	#define MACRO_POS_SB_LISTBOX_WIDTH                              (MACRO_POS_SB_WIDTH_COLUMN - 2 * pixelW * MACRO_POS_SPACER_X)
 
 	// Score Feed
 	#define MACRO_POS_SF_WIDTH                                      (0.33 * safeZoneW)
@@ -466,6 +479,9 @@
 	#define MACRO_NM_BITFLAG_SIDE_RESISTANCE                        2 // 2^1
 	#define MACRO_NM_BITFLAG_SIDE_WEST                              1 // 2^0
 
+	// Scoreboard
+	#define MACRO_SB_SYS_UPDATEINTERVAL                             1 // Interval, in seconds, between updates of the scoreboard contents
+
 	// Spawn menu
 	#define MACRO_SM_ROLEPREVIEW_BASEHEIGHTASL                      10 // The height above sea level, in meters, that the spawn menu objects (preview unit, etc.) will spawn at
 	#define MACRO_SM_ROLEPREVIEW_BASEFOV                            0.1 // The default field of view of the role preview camera
@@ -492,7 +508,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.16.812" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.16.817" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -799,6 +815,7 @@
 	#define MACRO_ENUM_KF_ICON_EXPLOSIVE                            4
 
 	#define MACRO_KF_ICON_UNKNOWN                                   "a3\ui_f\data\IGUI\Cfg\simpleTasks\types\unknown_ca.paa"
+	#define MACRO_KF_ICON_SUICIDE                                   "res\images\suicide.paa"
 	#define MACRO_KF_ICON_HEADSHOT                                  "a3\ui_f\data\IGUI\Cfg\simpleTasks\types\kill_ca.paa"
 	#define MACRO_KF_ICON_ROADKILL                                  "a3\ui_f\data\IGUI\RscIngameUI\RscUnitInfo\role_driver_ca.paa"
 	#define MACRO_KF_ICON_MINE                                      "a3\ui_f\data\IGUI\Cfg\simpleTasks\types\mine_ca.paa"

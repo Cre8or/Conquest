@@ -45,6 +45,7 @@ class GVAR(RscText) : RscText {
 
 class GVAR(RscTextHeader) : GVAR(RscText) {
 	style = ST_LEFT;
+	disableOverflow = 1;
 };
 
 class GVAR(RscListBox) : RscListBox {

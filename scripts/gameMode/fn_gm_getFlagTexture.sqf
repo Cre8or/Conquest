@@ -11,7 +11,9 @@
 #include "..\..\res\common\macros.inc"
 #include "..\..\mission\settings.inc"
 
-params [["_side", sideEmpty]];
+params [
+	["_side", sideEmpty, [sideEmpty]]
+];
 
 
 

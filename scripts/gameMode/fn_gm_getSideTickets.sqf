@@ -11,7 +11,7 @@
 #include "..\..\res\common\macros.inc"
 
 params [
-	["_side", sideEmpty]
+	["_side", sideEmpty, [sideEmpty]]
 ];
 
 
@@ -20,8 +20,8 @@ params [
 
 // Fetch and return the side's tickets
 switch (_side) do {
-	case east:		{GVAR(ticketsEast)};
-	case resistance:	{GVAR(ticketsResistance)};
-	case west:		{GVAR(ticketsWest)};
-	default			{0};
+	case east:       {GVAR(ticketsEast)};
+	case resistance: {GVAR(ticketsResistance)};
+	case west:       {GVAR(ticketsWest)};
+	default          {0};
 };
