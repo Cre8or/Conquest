@@ -43,7 +43,7 @@ private _sideIndexThresholds = [];
 private _prevSideIndex = -1;
 private _allNames_copy = [];
 private ["_faces", "_voices", "_sideFaces", "_sideSpeakers"];
-private ["_sideIndex", "_unitIndex", "_sideRoles", "_rolesCount", "_namesCount", "_facesCount", "_speakersCount"];
+private ["_sideIndex", "_unitIndex", "_sideRoles", "_rolesCount", "_namesCount", "_facesCount", "_speakersCount", "_groupIndex", "_isLeader", "_role", "_name", "_face", "_speaker"];
 GVAR(sv_AIIdentities) = [];
 
 
@@ -132,6 +132,9 @@ for "_i" from 0 to GVAR(param_AI_maxCount) - 1 do {
 		_speakersCount = _maxSpeakersCount param [_sideIndex, 0];
 	};
 
+	_groupIndex = floor (_unitIndex / GVAR(param_AI_maxUnitsPerGroup));
+	_isLeader   = (_unitIndex mod GVAR(param_AI_maxUnitsPerGroup) == 0);
+
 	// Sanity check: if not all data is complete, skip this identity (otherwise a script error is raised)
 	if (
 		_rolesCount > 0
@@ -140,28 +143,27 @@ for "_i" from 0 to GVAR(param_AI_maxCount) - 1 do {
 		and {_speakersCount > 0}
 	) then {
 		// Generate a new identity and add it to the global array
-		GVAR(sv_AIIdentities) pushBack [                           // NOTE: Refer to the AI identity enums in macros.hpp! The order MUST match!
-			_i,                                                    // MACRO_ENUM_AIIDENTITY_UNITINDEX
-			_sideIndex,                                            // MACRO_ENUM_AIIDENTITY_SIDEINDEX
-			floor (_unitIndex / GVAR(param_AI_maxUnitsPerGroup)),  // MACRO_ENUM_AIIDENTITY_GROUPINDEX
-			(_unitIndex mod GVAR(param_AI_maxUnitsPerGroup)) == 0, // MACRO_ENUM_AIIDENTITY_ISLEADER
-			_sideRoles     deleteAt floor (random _rolesCount),    // MACRO_ENUM_AIIDENTITY_ROLE
-			_allNames_copy deleteAt floor (random _namesCount),    // MACRO_ENUM_AIIDENTITY_NAME
-			_sideFaces     deleteAt floor (random _facesCount),    // MACRO_ENUM_AIIDENTITY_FACE
-			_sideSpeakers  deleteAt floor (random _speakersCount)  // MACRO_ENUM_AIIDENTITY_SPEAKER
-		];
+		_role    = _sideRoles     deleteAt floor (random _rolesCount);
+		_name    = _allNames_copy deleteAt floor (random _namesCount);
+		_face    = _sideFaces     deleteAt floor (random _facesCount);
+		_speaker = _sideSpeakers  deleteAt floor (random _speakersCount);
 	} else {
-		GVAR(sv_AIIdentities) pushBack [
-			_i,
-			_sideIndex,
-			floor (_unitIndex / GVAR(param_AI_maxUnitsPerGroup)),
-			(_unitIndex mod GVAR(param_AI_maxUnitsPerGroup)) == 0,
-			MACRO_ENUM_ROLE_INVALID,
-			"",
-			"",
-			""
-		];
+		_role    = MACRO_ENUM_ROLE_INVALID;
+		_name    = "";
+		_face    = "";
+		_speaker = "";
 	};
+
+	GVAR(sv_AIIdentities) pushBack [
+		_sideIndex,  // MACRO_ENUM_AIIDENTITY_SIDEINDEX
+		_groupIndex, // MACRO_ENUM_AIIDENTITY_GROUPINDEX
+		_isLeader,   // MACRO_ENUM_AIIDENTITY_ISLEADER
+		_role,       // MACRO_ENUM_AIIDENTITY_ROLE
+		_name,       // MACRO_ENUM_AIIDENTITY_NAME
+		_face,       // MACRO_ENUM_AIIDENTITY_FACE
+		_speaker,    // MACRO_ENUM_AIIDENTITY_SPEAKER
+		_i           // MACRO_ENUM_AIIDENTITY_UNITINDEX
+	];
 
 	// Decrease the array counts
 	_rolesCount = _rolesCount - 1;
@@ -174,12 +176,8 @@ for "_i" from 0 to GVAR(param_AI_maxCount) - 1 do {
 
 
 
-// Broadcast a simplified array of the AI identities to all clients
-GVAR(cl_AIIdentities) = GVAR(sv_AIIdentities) apply {[
-	_x # MACRO_ENUM_AIIDENTITY_SIDEINDEX,
-	_x # MACRO_ENUM_AIIDENTITY_NAME,
-	_x # MACRO_ENUM_AIIDENTITY_ROLE
-]};
+// Broadcast a trimmed copy of the AI identities to all clients
+GVAR(cl_AIIdentities) = GVAR(sv_AIIdentities) apply {_x select [0, 5]}; // Side index .. name
 publicVariable QGVAR(cl_AIIdentities);
 
 diag_log format ["[CONQUEST] (SERVER) Generated %1 AI identities", count GVAR(sv_AIIdentities)];

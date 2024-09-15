@@ -186,10 +186,10 @@ case "ui_update_side": {
 			// Add the AI units from this side
 			{
 				// Only consider units that are on this side
-				if (_x # 0 == _curSideIndex) then {
+				if (_x # MACRO_ENUM_AIIDENTITY_SIDEINDEX == _curSideIndex) then {
 					_unit = missionNamespace getVariable [format [QGVAR(AIUnit_%1), _forEachIndex], objNull];
 
-					_ctrlListBox lnbAddRow ["AI", _x # 1];
+					_ctrlListBox lnbAddRow ["AI", _x # MACRO_ENUM_AIIDENTITY_NAME];
 					_ctrlListBox lnbSetColor [[_index, 0], SQUARE(MACRO_COLOUR_A100_GREY)];
 
 					if !([_unit] call FUNC(unit_isAlive)) then {

@@ -49,12 +49,13 @@ class GVAR(RscTextHeader) : GVAR(RscText) {
 };
 
 class GVAR(RscListBox) : RscListBox {
-
+	disableOverflow = 1;
 };
 
 class GVAR(RscListNBox) : RscListNBox {
 	idc = -1;
 	default = 0;
+	disableOverflow = 1;
 	font = MACRO_FONT_UI_MEDIUM;
 	sizeEx = 0.015 * safeZoneW;
 	colorSelect[] = CURLY(MACRO_COLOUR_A100_BLACK);

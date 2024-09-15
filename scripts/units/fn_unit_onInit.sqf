@@ -48,7 +48,6 @@ _unit setVariable [QGVAR(isSpawned), true, _local]; // Interfaces with drawIcons
 
 _unit setVariable [QGVAR(lo_addOverallAmmo_accumulator), 0, false]; // Interfaces with lo_addOverallAmmo
 
-
 // Disable stamina
 if (_local) then {
 	_unit enableFatigue false;

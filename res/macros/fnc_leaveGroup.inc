@@ -13,5 +13,5 @@
 																 \
 	if (MACRO_COND_ISVALIDGROUP(THISGROUP) and THISGROUP getVariable [QGVAR(group_AIIdentities), []] isEqualTo []) then {	 \
 		THISGROUP setVariable [QGVAR(isValid), false, true];								 \
-		[THISGROUP] remoteExecCall ["deleteGroup", 0, false];								 \
+		THISGROUP remoteExecCall ["deleteGroup", 0, false];								 \
 	}

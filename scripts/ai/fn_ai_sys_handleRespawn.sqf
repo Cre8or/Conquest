@@ -52,7 +52,7 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 
 		private ["_unit", "_identity"];
 		private ["_side", "_sideIndex"];
-		private ["_unitIndex", "_unitSide", "_sideGroups", "_group", "_groupID", "_sector", "_spawnableSectors", "_leader", "_leaderIsPlayer", "_claimableVehicles", "_sectorX", "_groupWP", "_spawnableSectors_sorted", "_leaderPos", "_spawnPoint", "_unitClass"];
+		private ["_unitIndex", "_unitSide", "_sideGroups", "_group", "_groupID", "_unitIndexes", "_sector", "_spawnableSectors", "_leader", "_leaderIsPlayer", "_claimableVehicles", "_sectorX", "_groupWP", "_spawnableSectors_sorted", "_leaderPos", "_spawnPoint", "_unitClass"];
 
 		// Check up on the recently spawned units that don't have an identity yet
 		for "_i" from count GVAR(ai_sys_handleRespawn_newSpawns) - 1 to 0 step -1 do {
@@ -101,8 +101,8 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 
 				// If this unit isn't spawned, check why
 				if (!alive _unit and {_time > GVAR(ai_sys_handleRespawn_respawnTimes) param [_i, -1]}) then {
-					_identity  = GVAR(sv_AIIdentities) param [_i, [sideEmpty]];
-					_sideIndex = _identity # MACRO_ENUM_AIIDENTITY_SIDEINDEX;
+					_identity  = GVAR(sv_AIIdentities) param [_i, []];
+					_sideIndex = _identity param [MACRO_ENUM_AIIDENTITY_SIDEINDEX, -1];
 
 					if ([_sideIndex] call FUNC(gm_isSidePlayable)) then {
 
@@ -125,8 +125,7 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 		if (!isNil "_unitIndex") then {
 
 			_identity = GVAR(sv_AIIdentities) param [_unitIndex, []];
-			_identity params [
-				"",                       // MACRO_ENUM_AIIDENTITY_UNITINDEX (not used here)
+			_identity params [ // NOTE: The order of these parameters must match that of ai_generateIdentities!
 				["_sideIndex", 0],        // MACRO_ENUM_AIIDENTITY_SIDEINDEX
 				["_unitGroupIndex", 0],   // MACRO_ENUM_AIIDENTITY_GROUPINDEX
 				["_unitIsLeader", false], // MACRO_ENUM_AIIDENTITY_ISLEADER
@@ -136,10 +135,10 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 
 			// Fetch the group from the list
 			_sideGroups = switch (_unitSide) do {
-				case east:		{GVAR(ai_sys_handleRespawn_groups_east)};
-				case resistance:	{GVAR(ai_sys_handleRespawn_groups_resistance)};
-				case west:		{GVAR(ai_sys_handleRespawn_groups_west)};
-				default			{[]};
+				case east:       {GVAR(ai_sys_handleRespawn_groups_east)};
+				case resistance: {GVAR(ai_sys_handleRespawn_groups_resistance)};
+				case west:       {GVAR(ai_sys_handleRespawn_groups_west)};
+				default          {[]};
 			};
 			_group = _sideGroups param [_unitGroupIndex, grpNull];
 
@@ -161,10 +160,14 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 					_group setGroupIdGlobal [format ["ERR_GROUPID_%1_TAKEN___(%2)", _unitGroupIndex, diag_frameNo]];
 				};
 
-				// Save the AI identity IDs that will be present in this group
-				_group setVariable [QGVAR(group_AIIdentities),
-					GVAR(sv_AIIdentities) select {_x # 1 == _sideIndex and {_x # 2 == _unitGroupIndex}} apply {_x # 0}
-				, true];
+				// Broadcast the indexes of the AI units that will be present in this group
+				_unitIndexes = (
+					(GVAR(sv_AIIdentities) select {
+						_x # MACRO_ENUM_AIIDENTITY_SIDEINDEX == _sideIndex
+						and {_x # MACRO_ENUM_AIIDENTITY_GROUPINDEX == _unitGroupIndex}}
+					) apply {_x # MACRO_ENUM_AIIDENTITY_UNITINDEX}
+				);
+				_group setVariable [QGVAR(group_AIIdentities), _unitIndexes, true];
 
 				// Broadcast the group variable (for global fetching)
 				missionNamespace setVariable [format [QGVAR(AIGroup_%1_%2), _unitSide, _unitGroupIndex], _group, true];

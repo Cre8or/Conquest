@@ -78,12 +78,9 @@
 	#define MACRO_IDC_SB_SIDE_TICKETS_MIDDLE_TEXT                   109
 	#define MACRO_IDC_SB_SIDE_TICKETS_RIGHT_TEXT                    110
 
-	#define MACRO_IDC_SB_SIDE_PLAYERS_LEFT_OUTLINE                  200
-	#define MACRO_IDC_SB_SIDE_PLAYERS_MIDDLE_OUTLINE                201
-	#define MACRO_IDC_SB_SIDE_PLAYERS_RIGHT_OUTLINE                 202
-	#define MACRO_IDC_SB_SIDE_PLAYERS_LEFT_LISTBOX                  203
-	#define MACRO_IDC_SB_SIDE_PLAYERS_MIDDLE_LISTBOX                204
-	#define MACRO_IDC_SB_SIDE_PLAYERS_RIGHT_LISTBOX                 205
+	#define MACRO_IDC_SB_SIDE_PLAYERS_LEFT_LISTBOX                  200
+	#define MACRO_IDC_SB_SIDE_PLAYERS_MIDDLE_LISTBOX                201
+	#define MACRO_IDC_SB_SIDE_PLAYERS_RIGHT_LISTBOX                 202
 
 	// Spawn Menu                                                   // IDCs 0 to 2 are reserved for buttons and will cause the display to close when used! (hardcoded engine behaviour) - DO NOT USE THEM!
 	#define MACRO_IDC_SM_CTRLGROUP                                  100
@@ -263,6 +260,12 @@
 	#define MACRO_POS_SB_SIDE_NAME_TEXTSIZE                         MACRO_UI_TEXTSIZE_2
 	#define MACRO_POS_SB_SIDE_FLAG_WIDTH                            ((3 / 2) * MACRO_POS_SB_SIDE_HEADER_HEIGHT)
 	#define MACRO_POS_SB_LISTBOX_WIDTH                              (MACRO_POS_SB_WIDTH_COLUMN - 2 * pixelW * MACRO_POS_SPACER_X)
+	#define MACRO_POS_SB_COLUMN_X_NAME                              0.07
+	#define MACRO_POS_SB_COLUMN_X_SCORE                             0.5
+	#define MACRO_POS_SB_COLUMN_X_KILLS                             0.6
+	#define MACRO_POS_SB_COLUMN_X_DEATHS                            0.7
+	#define MACRO_POS_SB_COLUMN_X_REVIVES                           0.8
+	#define MACRO_POS_SB_COLUMN_X_PING                              0.9
 
 	// Score Feed
 	#define MACRO_POS_SF_WIDTH                                      (0.33 * safeZoneW)
@@ -359,6 +362,7 @@
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	#define MACRO_COLOUR_A0                                         0.0, 0.0, 0.0, 0.0
+	#define MACRO_COLOUR_A10_WHITE                                  1.0, 1.0, 1.0, 0.1
 	#define MACRO_COLOUR_A25_WHITE                                  1.0, 1.0, 1.0, 0.25
 	#define MACRO_COLOUR_A50_WHITE                                  1.0, 1.0, 1.0, 0.5
 	#define MACRO_COLOUR_A75_BLACK                                  0.0, 0.0, 0.0, 0.75
@@ -508,7 +512,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.16.817" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.16.824" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -655,14 +659,14 @@
 //	AI IDENTITY ENUMS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
-	#define MACRO_ENUM_AIIDENTITY_UNITINDEX                         0
-	#define MACRO_ENUM_AIIDENTITY_SIDEINDEX                         1
-	#define MACRO_ENUM_AIIDENTITY_GROUPINDEX                        2
-	#define MACRO_ENUM_AIIDENTITY_ISLEADER                          3
-	#define MACRO_ENUM_AIIDENTITY_ROLE                              4
-	#define MACRO_ENUM_AIIDENTITY_NAME                              5
-	#define MACRO_ENUM_AIIDENTITY_FACE                              6
-	#define MACRO_ENUM_AIIDENTITY_SPEAKER                           7
+	#define MACRO_ENUM_AIIDENTITY_SIDEINDEX                         0
+	#define MACRO_ENUM_AIIDENTITY_GROUPINDEX                        1
+	#define MACRO_ENUM_AIIDENTITY_ISLEADER                          2
+	#define MACRO_ENUM_AIIDENTITY_ROLE                              3
+	#define MACRO_ENUM_AIIDENTITY_NAME                              4
+	#define MACRO_ENUM_AIIDENTITY_FACE                              5
+	#define MACRO_ENUM_AIIDENTITY_SPEAKER                           6
+	#define MACRO_ENUM_AIIDENTITY_UNITINDEX                         7
 
 
 

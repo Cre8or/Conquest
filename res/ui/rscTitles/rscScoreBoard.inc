@@ -143,105 +143,128 @@ class GVAR(RscScoreBoard) {
 				};
 
 				// ------------------------------------------------------------------------------------------------------------------------------------------------
+				// Scorboard Column Backgrounds, Left
+				class Background_Column_Name_Left : GVAR(RscFrame) {
+					x = pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_COLUMN_X_NAME * MACRO_POS_SB_LISTBOX_WIDTH;
+					y = MACRO_POS_SB_SIDE_HEADER_HEIGHT + 2 * pixelH * MACRO_POS_SPACER_Y;
+					w = MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_SCORE - MACRO_POS_SB_COLUMN_X_NAME);
+					h = MACRO_POS_SB_HEIGHT - MACRO_POS_SB_SIDE_HEADER_HEIGHT - 3 * pixelH * MACRO_POS_SPACER_Y;
+					colorBackground[] = CURLY(MACRO_COLOUR_A10_WHITE);
+				};
+
+				class Background_Column_Kills_Left : Background_Column_Name_Left {
+					x = pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_COLUMN_X_KILLS * MACRO_POS_SB_LISTBOX_WIDTH;
+					w = MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_DEATHS - MACRO_POS_SB_COLUMN_X_KILLS);
+				};
+
+				class Background_Column_Revives_Left : Background_Column_Name_Left {
+					x = pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_COLUMN_X_REVIVES * MACRO_POS_SB_LISTBOX_WIDTH;
+					w = MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_PING - MACRO_POS_SB_COLUMN_X_REVIVES);
+				};
+
+				// Scorboard Column Backgrounds, Middle
+				class Background_Column_Name_Middle : Background_Column_Name_Left {
+					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_COLUMN_X_NAME * MACRO_POS_SB_LISTBOX_WIDTH;
+				};
+
+				class Background_Column_Kills_Middle : Background_Column_Kills_Left {
+					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_COLUMN_X_KILLS * MACRO_POS_SB_LISTBOX_WIDTH;
+				};
+
+				class Background_Column_Revives_Middle : Background_Column_Revives_Left {
+					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_COLUMN_X_REVIVES * MACRO_POS_SB_LISTBOX_WIDTH;
+				};
+
+				// Scorboard Column Backgrounds, Right
+				class Background_Column_Name_Right : Background_Column_Name_Left {
+					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_COLUMN_X_NAME * MACRO_POS_SB_LISTBOX_WIDTH;
+				};
+
+				class Background_Column_Kills_Right : Background_Column_Kills_Left {
+					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_COLUMN_X_KILLS * MACRO_POS_SB_LISTBOX_WIDTH;
+				};
+
+				class Background_Column_Revives_Right : Background_Column_Revives_Left {
+					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_COLUMN_X_REVIVES * MACRO_POS_SB_LISTBOX_WIDTH;
+				};
+
+				// ------------------------------------------------------------------------------------------------------------------------------------------------
 				// Scoreboard Icons, Left
 				class Icon_Score_Left : GVAR(RscPicture) {
 					text = "a3\ui_f\data\GUI\Rsc\RscDisplayConfigViewer\bookmark_gs.paa";
-					x = pixelW * MACRO_POS_SPACER_X + 0.5 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = pixelW * MACRO_POS_SPACER_X + 0.55 * MACRO_POS_SB_LISTBOX_WIDTH;
 					y = MACRO_POS_SB_SIDE_HEADER_HEIGHT + 3 * pixelH * MACRO_POS_SPACER_Y;
-					w = MACRO_POS_SB_LISTBOX_WIDTH * 0.1;
+					w = MACRO_POS_SB_LISTBOX_WIDTH * 0.05;
 					h = MACRO_UI_TEXTSIZE_1;
 				};
 
 				class Icon_Kills_Left : Icon_Score_Left {
 					text = "a3\ui_f\data\GUI\Cfg\RespawnRoles\recon_ca.paa";
-					x = pixelW * MACRO_POS_SPACER_X + 0.6 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = pixelW * MACRO_POS_SPACER_X + 0.65 * MACRO_POS_SB_LISTBOX_WIDTH;
 				};
 
 				class Icon_Deaths_Left : Icon_Score_Left {
 					text = MACRO_KF_ICON_SUICIDE;
-					x = pixelW * MACRO_POS_SPACER_X + 0.7 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = pixelW * MACRO_POS_SPACER_X + 0.75 * MACRO_POS_SB_LISTBOX_WIDTH;
 				};
 
 				class Icon_Revives_Left : Icon_Score_Left {
 					text = "res\images\revive.paa";
-					x = pixelW * MACRO_POS_SPACER_X + 0.8 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = pixelW * MACRO_POS_SPACER_X + 0.85 * MACRO_POS_SB_LISTBOX_WIDTH;
 				};
 
 				class Icon_Ping_Left : Icon_Score_Left {
-					text = "a3\ui_f\data\IGUI\Cfg\simpleTasks\types\wait_ca.paa";
-					x = pixelW * MACRO_POS_SPACER_X + 0.9 * MACRO_POS_SB_LISTBOX_WIDTH;
+					text = "res\images\connection.paa";
+					x = pixelW * MACRO_POS_SPACER_X + 0.95 * MACRO_POS_SB_LISTBOX_WIDTH;
 				};
 
 				// Scoreboard Icons, Middle
 				class Icon_Score_Middle : Icon_Score_Left {
-					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.5 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.55 * MACRO_POS_SB_LISTBOX_WIDTH;
 				};
 
 				class Icon_Kills_Middle : Icon_Kills_Left {
-					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.6 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.65 * MACRO_POS_SB_LISTBOX_WIDTH;
 				};
 
 				class Icon_Deaths_Middle : Icon_Deaths_Left {
-					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.7 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.75 * MACRO_POS_SB_LISTBOX_WIDTH;
 				};
 
 				class Icon_Revives_Middle : Icon_Revives_Left {
-					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.8 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.85 * MACRO_POS_SB_LISTBOX_WIDTH;
 				};
 
 				class Icon_Ping_Middle : Icon_Ping_Left {
-					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.9 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.95 * MACRO_POS_SB_LISTBOX_WIDTH;
 				};
 
 				// Scoreboard Icons, Right
 				class Icon_Score_Right : Icon_Score_Left {
-					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.5 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.55 * MACRO_POS_SB_LISTBOX_WIDTH;
 				};
 
 				class Icon_Kills_Right : Icon_Kills_Left {
-					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.6 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.65 * MACRO_POS_SB_LISTBOX_WIDTH;
 				};
 
 				class Icon_Deaths_Right : Icon_Deaths_Left {
-					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.7 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.75 * MACRO_POS_SB_LISTBOX_WIDTH;
 				};
 
 				class Icon_Revives_Right : Icon_Revives_Left {
-					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.8 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.85 * MACRO_POS_SB_LISTBOX_WIDTH;
 				};
 
 				class Icon_Ping_Right : Icon_Ping_Left {
-					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.9 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.95 * MACRO_POS_SB_LISTBOX_WIDTH;
 				};
-
 
 				// ------------------------------------------------------------------------------------------------------------------------------------------------
-				// Players Listbox Outline, Left
-				class Players_Listbox_Outline_Left : GVAR(RscOutline) {
-					idc = MACRO_IDC_SB_SIDE_PLAYERS_LEFT_OUTLINE;
-					sizeEx = MACRO_UI_TEXTSIZE_1;
-					x = pixelW * MACRO_POS_SPACER_X;
-					y = MACRO_POS_SB_SIDE_HEADER_HEIGHT + 3 * pixelH * MACRO_POS_SPACER_Y;
-					w = MACRO_POS_SB_WIDTH_COLUMN - 2 * pixelW * MACRO_POS_SPACER_X;
-					h = MACRO_POS_SB_HEIGHT - MACRO_POS_SB_SIDE_HEADER_HEIGHT - 4 * pixelH * MACRO_POS_SPACER_Y;
-				};
-
-				// Players Listbox Outline, Middle
-				class Players_Listbox_Outline_Middle : Players_Listbox_Outline_Left {
-					idc = MACRO_IDC_SB_SIDE_PLAYERS_MIDDLE_OUTLINE;
-					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X;
-				};
-
-				// Players Listbox Outline, Right
-				class Players_Listbox_Outline_Right : Players_Listbox_Outline_Left {
-					idc = MACRO_IDC_SB_SIDE_PLAYERS_RIGHT_OUTLINE;
-					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X;
-				};
-
 				// Players Listbox, Left
 				class Players_Listbox_Left : GVAR(RscListNBox) {
 					idc = MACRO_IDC_SB_SIDE_PLAYERS_LEFT_LISTBOX;
-					columns[] = {0, 0.05, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
+					columns[] = {0, MACRO_POS_SB_COLUMN_X_NAME, MACRO_POS_SB_COLUMN_X_SCORE, MACRO_POS_SB_COLUMN_X_KILLS, MACRO_POS_SB_COLUMN_X_DEATHS, MACRO_POS_SB_COLUMN_X_REVIVES, MACRO_POS_SB_COLUMN_X_PING};
 					x = pixelW * MACRO_POS_SPACER_X;
 					y = MACRO_POS_SB_SIDE_HEADER_HEIGHT + MACRO_UI_TEXTSIZE_1 + 3 * pixelH * MACRO_POS_SPACER_Y;
 					w = MACRO_POS_SB_LISTBOX_WIDTH;
@@ -257,6 +280,25 @@ class GVAR(RscScoreBoard) {
 				// Players Listbox, Right
 				class Players_Listbox_Right : Players_Listbox_Left {
 					idc = MACRO_IDC_SB_SIDE_PLAYERS_RIGHT_LISTBOX;
+					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X;
+				};
+
+				// Players Listbox Outline, Left
+				class Players_Listbox_Outline_Left : GVAR(RscOutline) {
+					sizeEx = MACRO_UI_TEXTSIZE_1;
+					x = pixelW * MACRO_POS_SPACER_X;
+					y = MACRO_POS_SB_SIDE_HEADER_HEIGHT + 3 * pixelH * MACRO_POS_SPACER_Y;
+					w = MACRO_POS_SB_WIDTH_COLUMN - 2 * pixelW * MACRO_POS_SPACER_X;
+					h = MACRO_POS_SB_HEIGHT - MACRO_POS_SB_SIDE_HEADER_HEIGHT - 4 * pixelH * MACRO_POS_SPACER_Y;
+				};
+
+				// Players Listbox Outline, Middle
+				class Players_Listbox_Outline_Middle : Players_Listbox_Outline_Left {
+					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X;
+				};
+
+				// Players Listbox Outline, Right
+				class Players_Listbox_Outline_Right : Players_Listbox_Outline_Left {
 					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X;
 				};
 

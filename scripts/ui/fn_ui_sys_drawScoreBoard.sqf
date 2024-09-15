@@ -35,6 +35,9 @@ GVAR(ui_sys_drawScoreBoard_EH) = addMissionEventHandler ["EachFrame", {
 
 	if (isGamePaused) exitWith {};
 
+	// DEBUG
+	//GVAR(kb_act_pressed_showScoreBoard) = true;
+
 
 
 	// Handle the scoreboard UI
@@ -51,7 +54,6 @@ GVAR(ui_sys_drawScoreBoard_EH) = addMissionEventHandler ["EachFrame", {
 		private _time       = time;
 		private _sidesValid = GVAR(sides) select {_x != sideEmpty};
 		_sidesValid params [["_sideLeft", sideEmpty], ["_sideMiddle", sideEmpty], ["_sideRight", sideEmpty]];
-
 
 
 		// Initialise the UI
@@ -90,12 +92,74 @@ GVAR(ui_sys_drawScoreBoard_EH) = addMissionEventHandler ["EachFrame", {
 
 
 
-		// Update the scoreboard contents
 		if (_time > GVAR(ui_sys_drawScoreBoard_nextUpdate)) then {
 			GVAR(ui_sys_drawScoreBoard_nextUpdate) = _time + MACRO_SB_SYS_UPDATEINTERVAL;
 
+			private _player       = player;
+			private _plyGroup     = group _player;
+			private _allSideUnits = _sidesValid apply {[]};
+			private _sideIndexes  = GVAR(sides) apply {_sidesValid find _x}; // Used to match AI units' side indexes
 
+			// Aggregate players data from all sides
+			private ["_sideX", "_sideIndex", "_sideUnits"];
+			{
+				_sideX = _x getVariable [QGVAR(side), sideEmpty];
 
+				_sideIndex = _sidesValid find _sideX;
+				if (_sideIndex < 0) then {
+					continue;
+				};
+
+				_sideUnits = _allSideUnits # _sideIndex;
+				_sideUnits pushBack [
+					squadParams _x # 0 # 4, // squadIcon
+					name _x, // name
+					-200 + floor random 500, // score
+					floor random 20, // kills
+					floor random 20, // deaths
+					floor random 5, // revives
+					floor random 200, // ping
+					group _x, // group
+					[_x] call FUNC(unit_isAlive), // isAlive
+					true, // isPlayer
+					_x == _player // isCurrentPlayer
+				];
+			} forEach allPlayers;
+
+			// Aggregate AI units data from all sides
+			private ["_groupIndex", "_groupX", "_unitX"];
+			{
+				_sideIndex = _x # 0;
+
+				// Remap the "global" side index to the list of valid sides
+				_sideIndex = _sideIndexes # _sideIndex;
+				if (_sideIndex < 0) then {
+					continue;
+				};
+
+				_side       = _sidesValid # _sideIndex;
+				_groupIndex = _x # MACRO_ENUM_AIIDENTITY_GROUPINDEX;
+				_groupX     = missionNamespace getVariable [format [QGVAR(AIGroup_%1_%2), _side, _groupIndex], grpNull];
+				_unitX      = missionNamespace getVariable [format [QGVAR(AIUnit_%1), _forEachIndex], objNull];
+
+				_sideUnits = _allSideUnits # _sideIndex;
+				_sideUnits pushBack [
+					"", // squadIcon (AI)
+					_x # MACRO_ENUM_AIIDENTITY_NAME, // name
+					-200 + floor random 500, // score
+					floor random 20, // kills
+					floor random 20, // deaths
+					floor random 5, // revives
+					0, // ping
+					_groupX, // group
+					[_unitX] call FUNC(unit_isAlive), // isAlive
+					false // isPlayer
+				];
+
+			} forEach GVAR(cl_AIIdentities);
+
+			// Update the scoreboard listboxes for all sides
+			private ["_isPlayerSide", "_rowValue", "_colour"];
 			{
 				_x params ["_sideX", "_idcSideTickets", "_idcListBox"];
 
@@ -103,38 +167,81 @@ GVAR(ui_sys_drawScoreBoard_EH) = addMissionEventHandler ["EachFrame", {
 					continue;
 				};
 
+				scopeName QGVAR(ui_sys_drawScoreBoard_side);
+
 				(_UI displayCtrl _idcSideTickets) ctrlSetText str ([_sideX] call FUNC(gm_getSideTickets));
 
 				private _ctrlListBox = _UI displayCtrl _idcListBox;
 				lnbClear _ctrlListBox;
 
-				private ["_name", "_score", "_kills", "_deaths", "_revives", "_ping"];
+				_sideUnits    = _allSideUnits param [_forEachIndex, []];
+				_isPlayerSide = (_sideX == GVAR(side));
 				{
-					_name    = name _x;
-					_score   = -200 + floor random 500;
-					_kills   = 0;
-					_deaths  = 0;
-					_revives = 0;
-					_ping    = 0;
+					_x params ["_squadIcon", "_name", "_score", "_kills", "_deaths", "_revives", "_ping", "_group", "_isAlive", "_isPlayer", ["_isCurrentPlayer", false]];
 
 					_ctrlListBox lnbAddRow ["", _name, "", "", "", "", ""];
-
 					_ctrlListBox lnbSetTextRight [[_forEachIndex, 2], str _score];
 					_ctrlListBox lnbSetValue [[_forEachIndex, 2], _score];
 					_ctrlListBox lnbSetTextRight [[_forEachIndex, 3], str _kills];
 					_ctrlListBox lnbSetTextRight [[_forEachIndex, 4], str _deaths];
 					_ctrlListBox lnbSetTextRight [[_forEachIndex, 5], str _revives];
-					_ctrlListBox lnbSetTextRight [[_forEachIndex, 6], str _ping];
 
-					if (isPlayer _x) then {
-						_ctrlListBox lnbSetPicture [[_forEachIndex, 0], squadParams _x # 0 # 4];
+					// Differentiate players from AI units
+					if (_isPlayer) then {
+						_ctrlListBox lnbSetPicture [[_forEachIndex, 0], _squadIcon];
+						_ctrlListBox lnbSetTextRight [[_forEachIndex, 6], str _ping];
+
 					} else {
 						_ctrlListBox lnbSetText [[_forEachIndex, 0], "AI"];
-						_ctrlListBox lnbSetColor [[_forEachIndex, 0], SQUARE(MACRO_COLOUR_A100_GREY)];
+						_ctrlListBox lnbSetColor [[_forEachIndex, 0], SQUARE(MACRO_COLOUR_A25_WHITE)];
 					};
-				} forEach allUnits;
 
-    			[_ctrlListBox, 2] lnbSortBy ["VALUE", true, false, false, true]
+					// Mark the player so they can be selected after sorting
+					if (_isCurrentPlayer) then {
+						_ctrlListBox lnbSetValue [[_forEachIndex, 0], 1];
+					};
+
+					// Handle row colours
+					_colour = (switch (true) do {
+						case (_isPlayer): {
+							SQUARE(MACRO_COLOUR_A100_BLACK);
+						};
+						case (!_isAlive): {
+							SQUARE(MACRO_COLOUR_A100_GREY);
+						};
+						case (_group == _plyGroup): {
+							SQUARE(MACRO_COLOUR_A100_SQUAD);
+						};
+						case (_isPlayerSide): {
+							SQUARE(MACRO_COLOUR_A100_FRIENDLY);
+						};
+						default {
+							SQUARE(MACRO_COLOUR_A100_ENEMY);
+						};
+					});
+
+					_ctrlListBox lnbSetColor [[_forEachIndex, 1], _colour];
+					for "_column" from 2 to 6 do {
+						_ctrlListBox lnbSetColorRight [[_forEachIndex, _column], _colour];
+					};
+				} forEach _sideUnits;
+
+				// Sort by score
+    			[_ctrlListBox, 2] lnbSortBy ["VALUE", true, false, false, true];
+
+				// Select the player
+				if (!_isPlayerSide) then {
+					_ctrlListBox lnbSetCurSelRow -1;
+					continue;
+				};
+				for "_i" from 0 to (count _sideUnits) - 1 do {
+					_rowValue = _ctrlListBox lnbValue [_i, 0];
+
+					if (_rowValue > 0) then {
+						_ctrlListBox lnbSetCurSelRow _i;
+						breakTo QGVAR(ui_sys_drawScoreBoard_side);
+					};
+				};
 
 			} forEach [
 				[_sideLeft,   MACRO_IDC_SB_SIDE_TICKETS_LEFT_TEXT,   MACRO_IDC_SB_SIDE_PLAYERS_LEFT_LISTBOX],
