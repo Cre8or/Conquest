@@ -23,7 +23,7 @@ if (isMultiplayer and {!(getPlayerUID player in [
 
 
 // Define shared global variables (broadcast by the server)
-MACRO_FNC_INITVAR(GVAR(sides),[]);
+MACRO_FNC_INITVAR(GVAR(sides), []);
 MACRO_FNC_INITVAR(GVAR(safeStart), false);
 MACRO_FNC_INITVAR(GVAR(missionState), MACRO_ENUM_MISSION_INIT);
 
@@ -37,13 +37,13 @@ MACRO_FNC_INITVAR(GVAR(ticketBleedWest),       false);
 MACRO_FNC_INITVAR(GVAR(cl_AIIdentities),[]);
 
 // Define global client variables
-MACRO_FNC_INITVAR(GVAR(side),sideEmpty);
-GVAR(role) = MACRO_ENUM_ROLE_INVALID;
+MACRO_FNC_INITVAR(GVAR(side), sideEmpty);
+GVAR(role)        = MACRO_ENUM_ROLE_INVALID;
 GVAR(spawnSector) = objNull;
 
-MACRO_FNC_INITVAR(GVAR(cam_panorama),objNull);
-MACRO_FNC_INITVAR(GVAR(STHUD_UIMode),0);
-MACRO_FNC_INITVAR(GVAR(UI_prevPlayerSide),GVAR(side));	// Used to update sector colours if the player changes sides
+MACRO_FNC_INITVAR(GVAR(cam_panorama), objNull);
+MACRO_FNC_INITVAR(GVAR(STHUD_UIMode), 0);
+MACRO_FNC_INITVAR(GVAR(UI_prevPlayerSide), GVAR(side)); // Used to update sector colours if the player changes sides
 
 
 

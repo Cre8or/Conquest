@@ -155,14 +155,14 @@ for "_i" from 0 to GVAR(param_AI_maxCount) - 1 do {
 	};
 
 	GVAR(sv_AIIdentities) pushBack [
-		_sideIndex,  // MACRO_ENUM_AIIDENTITY_SIDEINDEX
-		_groupIndex, // MACRO_ENUM_AIIDENTITY_GROUPINDEX
-		_isLeader,   // MACRO_ENUM_AIIDENTITY_ISLEADER
-		_role,       // MACRO_ENUM_AIIDENTITY_ROLE
-		_name,       // MACRO_ENUM_AIIDENTITY_NAME
-		_face,       // MACRO_ENUM_AIIDENTITY_FACE
-		_speaker,    // MACRO_ENUM_AIIDENTITY_SPEAKER
-		_i           // MACRO_ENUM_AIIDENTITY_UNITINDEX
+		_sideIndex,  // MACRO_INDEX_AIIDENTITY_SIDEINDEX
+		_groupIndex, // MACRO_INDEX_AIIDENTITY_GROUPINDEX
+		_isLeader,   // MACRO_INDEX_AIIDENTITY_ISLEADER
+		_role,       // MACRO_INDEX_AIIDENTITY_ROLE
+		_name,       // MACRO_INDEX_AIIDENTITY_NAME
+		_face,       // MACRO_INDEX_AIIDENTITY_FACE
+		_speaker,    // MACRO_INDEX_AIIDENTITY_SPEAKER
+		_i           // MACRO_INDEX_AIIDENTITY_UNITINDEX
 	];
 
 	// Decrease the array counts

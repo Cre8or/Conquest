@@ -23,6 +23,7 @@ if (!hasInterface) exitWith {};
 // Set up some variables
 MACRO_FNC_INITVAR(GVAR(ui_sys_drawScoreBoard_EH), -1);
 MACRO_FNC_INITVAR(GVAR(ui_sys_drawScoreBoard_nextUpdate), -1);
+MACRO_FNC_INITVAR(GVAR(ui_sys_drawScoreBoard_cache), createHashMap);
 
 MACRO_FNC_INITVAR(GVAR(kb_act_pressed_showScoreBoard), false);
 
@@ -101,7 +102,7 @@ GVAR(ui_sys_drawScoreBoard_EH) = addMissionEventHandler ["EachFrame", {
 			private _sideIndexes  = GVAR(sides) apply {_sidesValid find _x}; // Used to match AI units' side indexes
 
 			// Aggregate players data from all sides
-			private ["_sideX", "_sideIndex", "_sideUnits"];
+			private ["_sideX", "_sideIndex", "_UID", "_data", "_sideUnits"];
 			{
 				_sideX = _x getVariable [QGVAR(side), sideEmpty];
 
@@ -110,15 +111,17 @@ GVAR(ui_sys_drawScoreBoard_EH) = addMissionEventHandler ["EachFrame", {
 					continue;
 				};
 
+				_UID       = [_x] call FUNC(unit_getUID);
+				_data      = GVAR(ui_sys_drawScoreBoard_cache) getOrDefault [_UID, []];
 				_sideUnits = _allSideUnits # _sideIndex;
 				_sideUnits pushBack [
 					squadParams _x # 0 # 4, // squadIcon
 					name _x, // name
-					-200 + floor random 500, // score
-					floor random 20, // kills
-					floor random 20, // deaths
-					floor random 5, // revives
-					floor random 200, // ping
+					_data param [MACRO_INDEX_SERVERSTAT_SCORE, 0], // score
+					_data param [MACRO_INDEX_SERVERSTAT_KILLS, 0], // kills
+					_data param [MACRO_INDEX_SERVERSTAT_DEATHS, 0], // deaths
+					_data param [MACRO_INDEX_SERVERSTAT_REVIVES, 0], // revives
+					_data param [MACRO_INDEX_SERVERSTAT_PING, 0], // ping
 					group _x, // group
 					[_x] call FUNC(unit_isAlive), // isAlive
 					true, // isPlayer
@@ -138,18 +141,20 @@ GVAR(ui_sys_drawScoreBoard_EH) = addMissionEventHandler ["EachFrame", {
 				};
 
 				_side       = _sidesValid # _sideIndex;
-				_groupIndex = _x # MACRO_ENUM_AIIDENTITY_GROUPINDEX;
+				_groupIndex = _x # MACRO_INDEX_AIIDENTITY_GROUPINDEX;
 				_groupX     = missionNamespace getVariable [format [QGVAR(AIGroup_%1_%2), _side, _groupIndex], grpNull];
 				_unitX      = missionNamespace getVariable [format [QGVAR(AIUnit_%1), _forEachIndex], objNull];
+				_UID        = [_unitX] call FUNC(unit_getUID);
+				_data       = GVAR(ui_sys_drawScoreBoard_cache) getOrDefault [_UID, []];
 
 				_sideUnits = _allSideUnits # _sideIndex;
 				_sideUnits pushBack [
 					"", // squadIcon (AI)
-					_x # MACRO_ENUM_AIIDENTITY_NAME, // name
-					-200 + floor random 500, // score
-					floor random 20, // kills
-					floor random 20, // deaths
-					floor random 5, // revives
+					_x # MACRO_INDEX_AIIDENTITY_NAME, // name
+					_data param [MACRO_INDEX_SERVERSTAT_SCORE, 0], // score
+					_data param [MACRO_INDEX_SERVERSTAT_KILLS, 0], // kills
+					_data param [MACRO_INDEX_SERVERSTAT_DEATHS, 0], // deaths
+					_data param [MACRO_INDEX_SERVERSTAT_REVIVES, 0], // revives
 					0, // ping
 					_groupX, // group
 					[_unitX] call FUNC(unit_isAlive), // isAlive

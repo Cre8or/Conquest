@@ -29,7 +29,7 @@ TO DO:
 	- Move macros/variables pertaining to a side's definition into single file (merge with loadouts file?)
 	- (Investigate Joe's isssue with being able to spawn when no sectors are owned)
 	- Add a custom scoreboard UI
-		- Display score, kills, deaths, revives
+		+ Display score, kills, deaths, revives
 		+ Separate scoreboard by teams and squads
 		+ Add a keybind to toggle the UI
 		- Force-show the UI during mission ending sequence

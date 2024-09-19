@@ -78,6 +78,30 @@ if (_score == 0) exitWith {};
 
 
 
+// Add the score to the server statistics
+private _UID        = [_unit] call FUNC(unit_getUID);
+private _data       = GVAR(sv_stats) getOrDefault [_UID, []];
+private _totalScore = (_data param [MACRO_INDEX_SERVERSTAT_SCORE, 0]) + _score;
+_data set [MACRO_INDEX_SERVERSTAT_SCORE, _totalScore];
+
+// Also keep track of kills and revives
+switch (_enum) do {
+	case MACRO_ENUM_SCORE_KILL_ENEMY: {
+		private _kills = _data param [MACRO_INDEX_SERVERSTAT_KILLS, 0];
+		_data set [MACRO_INDEX_SERVERSTAT_KILLS, _kills + 1];
+	};
+	case MACRO_ENUM_SCORE_REVIVE: {
+		private _revives = _data param [MACRO_INDEX_SERVERSTAT_REVIVES, 0];
+		_data set [MACRO_INDEX_SERVERSTAT_REVIVES, _revives + 1];
+	};
+};
+
+GVAR(sv_stats) set [_UID, _data];
+
+
+
+
+
 // Determine the additional arguments
 private _argOut = switch (_enum) do {
 
@@ -106,7 +130,3 @@ private _argOut = switch (_enum) do {
 if (isPlayer _unit) then {
 	[_enum, _argOut] remoteExecCall [QFUNC(ui_processScoreEvent), _unit, false];
 };
-
-// Add to the total score
-private _totalScore = (_unit getVariable [QGVAR(score), 0]) + _score;
-_unit setVariable [QGVAR(score), _totalScore, true];

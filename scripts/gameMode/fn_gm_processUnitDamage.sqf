@@ -40,7 +40,7 @@ if (!local _unit or {_damage == 0} or {!([_unit] call FUNC(unit_isAlive))}) exit
 
 
 // Set up some variables
-private _time = time;
+private _time           = time;
 private _health         = _unit getVariable [QGVAR(health), 1];
 private _sideUnit       = _unit getVariable [QGVAR(side), sideEmpty];
 private _sideInstigator = _instigator getVariable [QGVAR(side), sideEmpty];

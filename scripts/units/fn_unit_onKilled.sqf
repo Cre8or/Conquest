@@ -68,9 +68,25 @@ if (
 
 
 
-// Serverside AI respawn time handling
-if (isServer and {!_isUnconscious} and {!isPlayer _unit}) then {
-	[_unit] call FUNC(ai_resetRespawnTime);
+// Serverside handling
+if (isServer) then {
+
+	// Handle respawn times
+	if (!_isUnconscious and {!isPlayer _unit}) then {
+		private _unitIndex = _unit getVariable [QGVAR(unitIndex), -1];
+
+		if (_unitIndex >= 0 and {_unitIndex < GVAR(param_ai_maxCount)}) then {
+			GVAR(ai_sys_handleRespawn_respawnTimes) set [_unitIndex, _time + GVAR(param_gm_unit_respawnDelay)];
+		};
+	};
+
+	// Add the death to the server statistics
+	private _UID    = [_unit] call FUNC(unit_getUID);
+	private _data   = GVAR(sv_stats) getOrDefault [_UID, []];
+	private _deaths = _data param [MACRO_INDEX_SERVERSTAT_DEATHS, 0];
+	_data set [MACRO_INDEX_SERVERSTAT_DEATHS, _deaths + 1];
+
+	GVAR(sv_stats) set [_UID, _data];
 };
 
 

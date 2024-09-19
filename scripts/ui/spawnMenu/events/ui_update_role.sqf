@@ -234,7 +234,7 @@ case "ui_update_role": {
 	{
 		_unit = missionNamespace getVariable [format [QGVAR(AIUnit_%1), _x], objNull];
 
-		_ctrlLB_members lnbAddRow ["", "AI", GVAR(cl_AIIdentities) # _x # MACRO_ENUM_AIIDENTITY_NAME];
+		_ctrlLB_members lnbAddRow ["", "AI", GVAR(cl_AIIdentities) # _x # MACRO_INDEX_AIIDENTITY_NAME];
 		_ctrlLB_members lnbSetColor [[_index, 1], SQUARE(MACRO_COLOUR_A100_GREY)];
 
 		if !([_unit] call FUNC(unit_isAlive)) then {

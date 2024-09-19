@@ -1,7 +1,8 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
-		Handles various serverside functionalities pertaining to entity deaths, such as score events.
+		[S]
+		Handles various serverside functionalities to entity deaths, such as score events.
 
 		Only executed once by the server upon initialisation.
 	Arguments:
@@ -21,15 +22,15 @@ if (!isServer) exitWith {};
 
 
 // Set up some variables
-MACRO_FNC_INITVAR(GVAR(EH_handleEntityDeath_entityKilled),-1);
+MACRO_FNC_INITVAR(GVAR(gm_sys_handleEntityDeaths_EH),-1);
 
 
 
 
 
 // Handle vehicle kills
-removeMissionEventHandler ["EntityKilled", GVAR(EH_handleEntityDeath_entityKilled)];
-GVAR(EH_handleEntityDeath_entityKilled) = addMissionEventHandler ["EntityKilled", {
+removeMissionEventHandler ["EntityKilled", GVAR(gm_sys_handleEntityDeaths_EH)];
+GVAR(gm_sys_handleEntityDeaths_EH) = addMissionEventHandler ["EntityKilled", {
 
 	params ["_obj", "_killer", "_instigator"];
 

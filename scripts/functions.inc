@@ -21,7 +21,6 @@ class MACRO_PROJECT_PREFIX {
 		file = "scripts\ai";
 		// Abbreviation:	ai
 
-		class ai_resetRespawnTime {};
 		class ai_forfeitVehicleClaim {};
 		class ai_generateIdentities {};
 		class ai_getFaces {};
@@ -73,7 +72,6 @@ class MACRO_PROJECT_PREFIX {
 		class gm_getFlagTexture {};
 		class gm_getSideName {};
 		class gm_getSideTickets {};
-		class gm_handleEntityDeaths {};
 		class gm_isSidePlayable {};
 		class gm_playRadioMsg {};
 		class gm_postInit {
@@ -86,7 +84,9 @@ class MACRO_PROJECT_PREFIX {
 		class gm_sys_endConditions {};
 		class gm_sys_enforceFPVInCamera {};
 		class gm_sys_handleCurator {};
+		class gm_sys_handleEntityDeaths {};
 		class gm_sys_handlePlayerRespawn {};
+		class gm_sys_handleServerStats {};
 		class gm_sys_monitorUnitDamage {};
 		class gm_sys_removeCorpses {};
 		class gm_sys_tickets {};
@@ -175,8 +175,9 @@ class MACRO_PROJECT_PREFIX {
 		class ui_getVehTypeIcon {};
 		class ui_handleGPSScale {};
 		class ui_hookUnitInfoCtrls {};
-		class ui_processScoreEvent {};
 		class ui_processKillFeedEvent {};
+		class ui_processScoreEvent {};
+		class ui_processUnitStats {};
 		class ui_setupPPEffects {};
 		class ui_sys_drawHealthBar {};
 		class ui_sys_drawHitMarkers {};
@@ -193,6 +194,7 @@ class MACRO_PROJECT_PREFIX {
 		file = "scripts\units";
 		// Abbreviation:	unit
 
+		class unit_getUID {};
 		class unit_getVehicleRole {};
 		class unit_isAlive {};
 		class unit_isReloading {};

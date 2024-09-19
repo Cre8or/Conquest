@@ -240,6 +240,8 @@ GVAR(EH_endMission_eachFrame) = addMissionEventHandler ["EachFrame", {
 				// Re-enable the score and kill feeds
 				QGVAR(RscScoreFeed) cutRsc [QGVAR(RscScoreFeed), "PLAIN"];
 				QGVAR(RscKillFeed) cutRsc [QGVAR(RscKillFeed), "PLAIN"];
+
+				[MACRO_ENUM_INPUTLOCK_ENDMISSION, false] call FUNC(ui_disableUserInput);
 			};
 		};
 	};

@@ -66,9 +66,9 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 				if !(_identity isEqualTo []) then {
 					[
 						_unit,
-						_identity param [MACRO_ENUM_AIIDENTITY_NAME, ""],
-						_identity param [MACRO_ENUM_AIIDENTITY_FACE, ""],
-						_identity param [MACRO_ENUM_AIIDENTITY_SPEAKER, ""]
+						_identity param [MACRO_INDEX_AIIDENTITY_NAME, ""],
+						_identity param [MACRO_INDEX_AIIDENTITY_FACE, ""],
+						_identity param [MACRO_INDEX_AIIDENTITY_SPEAKER, ""]
 					] remoteExecCall [QFUNC(unit_setIdentityLocal), 0, format [QGVAR(ai_identity_%1), _i]];
 				};
 
@@ -89,7 +89,7 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 				_side = _x;
 
 				_AICounts pushBack (
-					({_x # MACRO_ENUM_AIIDENTITY_SIDEINDEX == _forEachIndex} count GVAR(sv_AIIdentities)) + (_AICounts param [_forEachIndex - 1, 0])
+					({_x # MACRO_INDEX_AIIDENTITY_SIDEINDEX == _forEachIndex} count GVAR(sv_AIIdentities)) + (_AICounts param [_forEachIndex - 1, 0])
 				);
 				_playerCounts pushBack (
 					{_x getVariable [QGVAR(side), sideEmpty] == _side} count allPlayers
@@ -102,7 +102,7 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 				// If this unit isn't spawned, check why
 				if (!alive _unit and {_time > GVAR(ai_sys_handleRespawn_respawnTimes) param [_i, -1]}) then {
 					_identity  = GVAR(sv_AIIdentities) param [_i, []];
-					_sideIndex = _identity param [MACRO_ENUM_AIIDENTITY_SIDEINDEX, -1];
+					_sideIndex = _identity param [MACRO_INDEX_AIIDENTITY_SIDEINDEX, -1];
 
 					if ([_sideIndex] call FUNC(gm_isSidePlayable)) then {
 
@@ -126,10 +126,10 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 
 			_identity = GVAR(sv_AIIdentities) param [_unitIndex, []];
 			_identity params [ // NOTE: The order of these parameters must match that of ai_generateIdentities!
-				["_sideIndex", 0],        // MACRO_ENUM_AIIDENTITY_SIDEINDEX
-				["_unitGroupIndex", 0],   // MACRO_ENUM_AIIDENTITY_GROUPINDEX
-				["_unitIsLeader", false], // MACRO_ENUM_AIIDENTITY_ISLEADER
-				["_unitRole", -1]         // MACRO_ENUM_AIIDENTITY_ROLE
+				["_sideIndex", 0],        // MACRO_INDEX_AIIDENTITY_SIDEINDEX
+				["_unitGroupIndex", 0],   // MACRO_INDEX_AIIDENTITY_GROUPINDEX
+				["_unitIsLeader", false], // MACRO_INDEX_AIIDENTITY_ISLEADER
+				["_unitRole", -1]         // MACRO_INDEX_AIIDENTITY_ROLE
 			];
 			_unitSide = GVAR(sides) # _sideIndex;
 
@@ -163,9 +163,9 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 				// Broadcast the indexes of the AI units that will be present in this group
 				_unitIndexes = (
 					(GVAR(sv_AIIdentities) select {
-						_x # MACRO_ENUM_AIIDENTITY_SIDEINDEX == _sideIndex
-						and {_x # MACRO_ENUM_AIIDENTITY_GROUPINDEX == _unitGroupIndex}}
-					) apply {_x # MACRO_ENUM_AIIDENTITY_UNITINDEX}
+						_x # MACRO_INDEX_AIIDENTITY_SIDEINDEX == _sideIndex
+						and {_x # MACRO_INDEX_AIIDENTITY_GROUPINDEX == _unitGroupIndex}}
+					) apply {_x # MACRO_INDEX_AIIDENTITY_UNITINDEX}
 				);
 				_group setVariable [QGVAR(group_AIIdentities), _unitIndexes, true];
 
@@ -212,7 +212,7 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 						_sector = objNull;
 /*					// DEBUG
 					} else {
-						systemChat format ["Respawning %1 %2 on %3 (might claim a vehicle)", _unitSide, _identity # MACRO_ENUM_AIIDENTITY_NAME, _sector getVariable [QGVAR(letter), "???"]];
+						systemChat format ["Respawning %1 %2 on %3 (might claim a vehicle)", _unitSide, _identity # MACRO_INDEX_AIIDENTITY_NAME, _sector getVariable [QGVAR(letter), "???"]];
 */
 					};
 				};

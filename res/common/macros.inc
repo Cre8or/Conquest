@@ -458,6 +458,8 @@
 	#define MACRO_GM_SYS_ENDCONDITIONS_INTERVAL                     0.25 // Interval, in seconds, between two update cycles of the end conditions system
 	#define MACRO_GM_SYS_HANDLEPLAYERRESPAWN_INTERVAL               0.05 // Interval, in seconds, between two update cycles of the player respawn system (Note: must be less than the MP respawn time!)
 	#define MACRO_GM_SYS_HANDLECURATOR_INTERVAL                     1 // Interval, in seconds, between two update cycles of the end curator handler system
+	#define MACRO_GM_SYS_HANDLESERVERSTATS_INTERVAL                 1 // Interval, in seconds, between two update cycles of the serverside stats handler
+	#define MACRO_GM_SYS_HANDLESERVERSTATS_PING_INTERVAL            10 // Interval, in seconds, between updates of players' ping stat. Intended to reduce network clutter as the ping constantly changes
 
 	// Sectors
 	#define MACRO_SECTOR_TRIGGERINTERVAL                            0.5 // The interval between two trigger executions, in seconds
@@ -512,7 +514,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.16.824" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.17.832" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -576,7 +578,7 @@
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
-//	SCORE ENUMS
+//	SCORE ENUMERATIONS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	#define MACRO_ENUM_SCORE_INVALID                               -1
@@ -611,7 +613,7 @@
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
-//	ROLE ENUMS
+//	ROLE ENUMERATIONS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	#define MACRO_ENUM_ROLE_INVALID                                 -1
@@ -629,7 +631,7 @@
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
-//	LOADOUT ABILITIES ENUMS
+//	LOADOUT ABILITY ENUMERATIONS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	#define MACRO_ENUM_LOADOUT_ABILITY_INVALID                      -1
@@ -656,24 +658,7 @@
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
-//	AI IDENTITY ENUMS
-// ------------------------------------------------------------------------------------------------------------------------------------------------
-
-	#define MACRO_ENUM_AIIDENTITY_SIDEINDEX                         0
-	#define MACRO_ENUM_AIIDENTITY_GROUPINDEX                        1
-	#define MACRO_ENUM_AIIDENTITY_ISLEADER                          2
-	#define MACRO_ENUM_AIIDENTITY_ROLE                              3
-	#define MACRO_ENUM_AIIDENTITY_NAME                              4
-	#define MACRO_ENUM_AIIDENTITY_FACE                              5
-	#define MACRO_ENUM_AIIDENTITY_SPEAKER                           6
-	#define MACRO_ENUM_AIIDENTITY_UNITINDEX                         7
-
-
-
-
-
-// ------------------------------------------------------------------------------------------------------------------------------------------------
-//	VEHICLE CREW ROLE ENUMS
+//	VEHICLE CREW ROLE ENUMERATIONS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	#define MACRO_ENUM_VEHICLEROLE_INVALID                          -1
@@ -689,7 +674,7 @@
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
-//	VEHICLE TYPE ENUMS
+//	VEHICLE TYPE ENUMERATIONS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	#define MACRO_ENUM_VEHICLETYPE_UNKNOWN                          -1
@@ -715,7 +700,7 @@
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
-//	RADIO MESSAGE ENUMS
+//	RADIO MESSAGE ENUMERATIONS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	// NOTE: This list is ordered! The ID determines the priority of the message (higher number = higher priority)
@@ -751,7 +736,7 @@
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
-//	MISSION STATE ENUMS
+//	MISSION STATE ENUMERATIONS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	#define MACRO_ENUM_MISSION_INIT                                 0
@@ -764,7 +749,7 @@
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
-//	ENDING STATE ENUMS
+//	ENDING STATE ENUMERATIONS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	#define MACRO_ENUM_ENDMISSION_INIT                              0
@@ -777,7 +762,7 @@
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
-//	RESPAWN STATE ENUMS
+//	RESPAWN STATE ENUMERATIONS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	#define MACRO_ENUM_RESPAWN_INIT                                 0
@@ -794,7 +779,7 @@
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
-//	DAMAGE ENUMS
+//	DAMAGE ENUMERATIONS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	#define MACRO_ENUM_DAMAGE_UNKNOWN                               0
@@ -830,7 +815,7 @@
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
-//	CLASS KINDS
+//	CLASS KIND ENUMERATIONS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	#define MACRO_ENUM_CLASSKIND_NONE                               0
@@ -844,7 +829,7 @@
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
-//	AI REQUEST PIORITIES
+//	AI REQUEST PIORITY ENUMERATIONS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	#define MACRO_ENUM_AI_PRIO_BASESETTINGS                         0
@@ -864,7 +849,7 @@
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
-//	AI MOVE TYPES
+//	AI MOVE TYPE ENUMERATIONS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	#define MACRO_ENUM_AI_MOVETYPE_HALT                             0
@@ -894,13 +879,45 @@
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
-//	USER INPUT LOCK SOURCES
+//	USER INPUT LOCK ENUMERATIONS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	#define MACRO_ENUM_INPUTLOCK_UNKNOWN                            0
 	#define MACRO_ENUM_INPUTLOCK_SAFESTART                          1
 	#define MACRO_ENUM_INPUTLOCK_RESPAWN                            2
 	#define MACRO_ENUM_INPUTLOCK_ENDMISSION                         3
+
+
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+//	AI IDENTITY INDEXES
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+
+	#define MACRO_INDEX_AIIDENTITY_SIDEINDEX                        0
+	#define MACRO_INDEX_AIIDENTITY_GROUPINDEX                       1
+	#define MACRO_INDEX_AIIDENTITY_ISLEADER                         2
+	#define MACRO_INDEX_AIIDENTITY_ROLE                             3
+	#define MACRO_INDEX_AIIDENTITY_NAME                             4
+	#define MACRO_INDEX_AIIDENTITY_FACE                             5
+	#define MACRO_INDEX_AIIDENTITY_SPEAKER                          6
+	#define MACRO_INDEX_AIIDENTITY_UNITINDEX                        7
+
+
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+//	SERVER STATISTICS INDEXES
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+
+	#define MACRO_INDEX_SERVERSTAT_SCORE                            0
+	#define MACRO_INDEX_SERVERSTAT_KILLS                            1
+	#define MACRO_INDEX_SERVERSTAT_DEATHS                           2
+	#define MACRO_INDEX_SERVERSTAT_REVIVES                          3
+	#define MACRO_INDEX_SERVERSTAT_PING                             4
+	#define MACRO_INDEX_SERVERSTAT_PING_NEXTUPDATE                  5
 
 
 
