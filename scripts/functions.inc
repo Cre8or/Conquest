@@ -24,7 +24,7 @@ class MACRO_PROJECT_PREFIX {
 		class ai_forfeitVehicleClaim {};
 		class ai_generateIdentities {};
 		class ai_getFaces {};
-		class ai_getVoices {};
+		class ai_getSpeakers {};
 		class ai_increaseDangerLevel {};
 		class ai_requestVehicleClaim {};
 		class ai_processVehicleClaim {};

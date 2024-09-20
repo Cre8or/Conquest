@@ -34,40 +34,36 @@ GVAR(gm_sys_handleEntityDeaths_EH) = addMissionEventHandler ["EntityKilled", {
 
 	params ["_obj", "_killer", "_instigator"];
 
-	if (isNull _killer) then {
-		_killer = _instigator;
+	// Only handle vehicles
+	if !(_obj isKindOf "Air" or {_obj isKindOf "LandVehicle"}) exitWith {};
+
+	if (isNull _instigator or {!(_instigator isKindOf "Man")}) then {
+		_instigator = _killer;
 	};
 
-	private _sideObj    = _obj getVariable [QGVAR(side), sideEmpty];
-	private _sideKiller = _killer getVariable [QGVAR(side), sideEmpty];
+	private _sideObj        = _obj getVariable [QGVAR(side), sideEmpty];
+	private _sideInstigator = _instigator getVariable [QGVAR(side), sideEmpty];
 
-	// Only handle vehicles
-	if (
-		_obj isKindOf "Air"
-		or {_obj isKindOf "LandVehicle"}
-	) then {
+	// Kill the crew
+	{
+		[
+			_x,
+			-1,
+			MACRO_ENUM_DAMAGE_EXPLOSIVE,
+			_killer,
+			_instigator,
+			false,
+			"",
+			false
+		] call FUNC(gm_processUnitDamage);
+	} forEach (crew _obj select {alive _x});
 
-		// Kill the crew
-		{
-			[
-				_x,
-				-1,
-				MACRO_ENUM_DAMAGE_EXPLOSIVE,
-				_obj,
-				_killer,
-				false,
-				"",
-				false
-			] call FUNC(gm_processUnitDamage);
-		} forEach (crew _obj select {alive _x});
-
-		// If the vehicle belongs to a side, hand out a score
-		if (_sideObj != sideEmpty) then {
-			[
-				_killer,
-				[MACRO_ENUM_SCORE_DESTROYVEHICLE_ENEMY, MACRO_ENUM_SCORE_DESTROYVEHICLE_FRIENDLY] select (_sideObj == _sideKiller),
-				_obj
-			] call FUNC(gm_addScore);
-		};
+	// If the vehicle belongs to a side, hand out a score
+	if (_sideObj != sideEmpty) then {
+		[
+			_instigator,
+			[MACRO_ENUM_SCORE_DESTROYVEHICLE_ENEMY, MACRO_ENUM_SCORE_DESTROYVEHICLE_FRIENDLY] select (_sideObj == _sideInstigator),
+			_obj
+		] call FUNC(gm_addScore);
 	};
 }];

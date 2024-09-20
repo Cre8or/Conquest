@@ -460,6 +460,7 @@
 	#define MACRO_GM_SYS_HANDLECURATOR_INTERVAL                     1 // Interval, in seconds, between two update cycles of the end curator handler system
 	#define MACRO_GM_SYS_HANDLESERVERSTATS_INTERVAL                 1 // Interval, in seconds, between two update cycles of the serverside stats handler
 	#define MACRO_GM_SYS_HANDLESERVERSTATS_PING_INTERVAL            10 // Interval, in seconds, between updates of players' ping stat. Intended to reduce network clutter as the ping constantly changes
+	#define MACRO_GM_SYS_REMOVECORPSES_INTERVAL                     0.5 // The interval, in seconds, between two consecutive corpse removal cycles
 
 	// Sectors
 	#define MACRO_SECTOR_TRIGGERINTERVAL                            0.5 // The interval between two trigger executions, in seconds
@@ -514,7 +515,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.17.832" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.17.841" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

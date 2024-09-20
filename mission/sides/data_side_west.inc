@@ -42,8 +42,6 @@ USAGE:
 
 
 
-
-
 	// Loadouts
 	[
 		[	// Spec Ops
@@ -51,57 +49,30 @@ USAGE:
 			[["arifle_MX_Black_F","","acc_flashlight","optic_Aco",["30Rnd_65x39_caseless_black_mag_Tracer",30],[],""],[],["hgun_Pistol_heavy_01_MRD_F","muzzle_snds_acp","acc_flashlight_pistol","",["11Rnd_45ACP_Mag",11],[],""],["U_B_CombatUniform_mcam",[]],["V_PlateCarrier2_rgr",[["30Rnd_65x39_caseless_black_mag_Tracer",7,30],["HandGrenade",1,1],["11Rnd_45ACP_Mag",2,11]]],[],"H_Cap_headphones","G_Combat",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
-
-
-
-
 		[	// Sniper
 			MACRO_ENUM_ROLE_SNIPER,
 			[["srifle_DMR_02_camo_F","","acc_flashlight","optic_KHS_blk",["10Rnd_338_Mag",10],[],"bipod_01_F_blk"],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_FullGhillie_sard",[]],["V_Chestrig_rgr",[["HandGrenade",1,1],["16Rnd_9x21_red_Mag",2,17],["10Rnd_338_Mag",5,10]]],[],"","G_Bandanna_tan",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
-
-
-
-
 
 		[	// Assault
 			MACRO_ENUM_ROLE_ASSAULT,
 			[["arifle_MX_GL_Black_F","","acc_flashlight","optic_Aco",["30Rnd_65x39_caseless_black_mag_Tracer",30],["1Rnd_HE_Grenade_shell",1],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam",[]],["V_PlateCarrier1_rgr",[["30Rnd_65x39_caseless_black_mag_Tracer",7,30],["16Rnd_9x21_red_Mag",2,17],["1Rnd_HE_Grenade_shell",4,1]]],[],"H_HelmetSpecB","",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
-
-
-
-
 		[	// Support
 			MACRO_ENUM_ROLE_SUPPORT,
-			[["LMG_03_F","","acc_flashlight","",["200Rnd_556x45_Box_Tracer_Red_F",200],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam_vest",[]],["V_PlateCarrier1_rgr",[["200Rnd_556x45_Box_Tracer_Red_F",2,200],["HandGrenade",1,1],["16Rnd_9x21_red_Mag",2,17]]],["B_Kitbag_mcamo",[]],"H_HelmetB_sand","G_Combat",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
-			[MACRO_ENUM_LOADOUT_ABILITY_RESUPPLY]
+			[["LMG_03_F","","acc_flashlight","",["200Rnd_556x45_Box_Tracer_Red_F",200],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam_vest",[]],["V_PlateCarrier1_rgr",[["200Rnd_556x45_Box_Tracer_Red_F",2,200],["HandGrenade",1,1],["16Rnd_9x21_red_Mag",2,17]]],["B_Kitbag_mcamo",[]],"H_HelmetB_sand","G_Combat",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
-
-
-
-
 
 		[	// Engineer
 			MACRO_ENUM_ROLE_ENGINEER,
-			[["SMG_02_F","","acc_flashlight","optic_Aco",["30Rnd_9x21_Mag_SMG_02_Tracer_Red",30],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam",[["MineDetector",1]]],["V_PlateCarrier2_rgr",[["16Rnd_9x21_red_Mag",2,17],["HandGrenade",1,1],["30Rnd_9x21_Mag_SMG_02_Tracer_Red",9,30]]],["B_AssaultPack_khk",[["SLAMDirectionalMine_Wire_Mag",3,1]]],"H_HelmetB_grass","G_Balaclava_TI_blk_F",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
-			[MACRO_ENUM_LOADOUT_ABILITY_REPAIR]
+			[["SMG_02_F","","acc_flashlight","optic_Aco",["30Rnd_9x21_Mag_SMG_02_Tracer_Red",30],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam",[["MineDetector",1]]],["V_PlateCarrier2_rgr",[["16Rnd_9x21_red_Mag",2,17],["HandGrenade",1,1],["30Rnd_9x21_Mag_SMG_02_Tracer_Red",9,30]]],["B_AssaultPack_khk",[["SLAMDirectionalMine_Wire_Mag",3,1]]],"H_HelmetB_grass","G_Balaclava_TI_blk_F",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
-
-
-
-
 
 		[	// Medic
 			MACRO_ENUM_ROLE_MEDIC,
-			[["arifle_SPAR_01_blk_F","","acc_flashlight","optic_Holosight_blk_F",["30Rnd_556x45_Stanag_Tracer_Red",30],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam",[]],["V_PlateCarrier1_rgr",[["16Rnd_9x21_red_Mag",2,17],["30Rnd_556x45_Stanag_Tracer_Red",7,30],["SmokeShell",2,1]]],["B_AssaultPack_mcamo",[]],"H_HelmetB_camo","G_Combat",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]],
-			[MACRO_ENUM_LOADOUT_ABILITY_HEAL]
+			[["arifle_SPAR_01_blk_F","","acc_flashlight","optic_Holosight_blk_F",["30Rnd_556x45_Stanag_Tracer_Red",30],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam",[]],["V_PlateCarrier1_rgr",[["16Rnd_9x21_red_Mag",2,17],["30Rnd_556x45_Stanag_Tracer_Red",7,30],["SmokeShell",2,1]]],["B_AssaultPack_mcamo",[]],"H_HelmetB_camo","G_Combat",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
-
-
-
-
 
 		[	// Anti Tank
 			MACRO_ENUM_ROLE_ANTITANK,

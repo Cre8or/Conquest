@@ -229,7 +229,7 @@ private ["_spawnPoint", "_spawnData", "_typeData", "_vehSide", "_index", "_vehSp
 									_x getVariable [QGVAR(forbiddenWeapons), []],                         // 6
 									_x getVariable [QGVAR(forbiddenMagazines), []],                       // 7
 									(_x getVariable [QGVAR(invincibleHitPoints), []]) apply {toLower _x}, // 8
-									0.6 * (2 boundingBoxReal _x) # 2,                                     // 9 (bounding sphere radius)
+									MACRO_FNC_BOUNDINGRADIUS(_x),                                         // 9 (bounding sphere radius)
 									-1                                                                    // 10 (next respawn time)
 								];
 

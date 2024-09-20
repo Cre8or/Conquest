@@ -20,10 +20,7 @@ if (!isServer) exitWith {};
 
 
 
-// Define some macros
-#define MACRO_SYS_REMOVECORPSES_INTERVAL 0.5 // The interval, in seconds, between two consecutive corpse removal cycles
-
-// Set up some variables
+/// Set up some variables
 MACRO_FNC_INITVAR(GVAR(gm_sys_removeCorpses_EH), -1);
 
 GVAR(gm_sys_removeCorpses_nextUpdate) = -1;
@@ -96,6 +93,6 @@ GVAR(gm_sys_removeCorpses_EH) = addMissionEventHandler ["EachFrame", {
 			publicVariable QGVAR(allVehicles);
 		};
 
-		GVAR(gm_sys_removeCorpses_nextUpdate) = _time + MACRO_SYS_REMOVECORPSES_INTERVAL;
+		GVAR(gm_sys_removeCorpses_nextUpdate) = _time + MACRO_GM_SYS_REMOVECORPSES_INTERVAL;
 	};
 }];

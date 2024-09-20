@@ -67,24 +67,28 @@ private _allSides = [ // Fixed order by framework convention
 		["_sideNameLong", "Unknown", [""]],
 		["_sideFlag", MACRO_TEXTURE_FLAG_EMPTY, [""]],
 		["_sideAIFaces", ["white"], ["", []]],
-		["_sideAIVoices", ["english_us"], ["", []]],
+		["_sideAISpeakers", ["english_us"], ["", []]],
 		["_sideLoadouts", [], [[]]]
 	];
 
+	diag_log format ["[CONQUEST] Compiling side %1 (%2)", _sideNameShort, _side];
+
 	// Validate the parameters
-	if (_sideAIVoices isEqualType "") then {
-		_sideAIVoices = [_sideAIVoices];
-	};
 	if (_sideAIFaces isEqualType "") then {
 		_sideAIFaces = [_sideAIFaces];
 	};
+	if (_sideAISpeakers isEqualType "") then {
+		_sideAISpeakers = [_sideAISpeakers];
+	};
+
+
 
 	// Expose the common side data as global variables
 	missionNamespace setVariable [format [QGVAR(shortName_%1), _side], _sideNameShort, false];
 	missionNamespace setVariable [format [QGVAR(longName_%1), _side], _sideNameLong, false];
 	missionNamespace setVariable [format [QGVAR(flagTexture_%1), _side], _sideFlag, false];
 	missionNamespace setVariable [format [QGVAR(aiFaces_%1), _side], _sideAIFaces, false];
-	missionNamespace setVariable [format [QGVAR(aiVoices_%1), _side], _sideAIVoices, false];
+	missionNamespace setVariable [format [QGVAR(aiSpeakers_%1), _side], _sideAISpeakers, false];
 
 
 

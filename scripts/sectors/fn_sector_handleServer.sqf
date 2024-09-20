@@ -14,6 +14,8 @@
 
 #include "..\..\res\common\macros.inc"
 
+#include "..\..\res\macros\fnc_boundingRadius.inc"
+
 params ["_sector", ["_thisList", []]];
 
 
@@ -252,15 +254,17 @@ private _activeVehicles   = _sector getVariable [QGVAR(activeVehicles), []];
 private _sideIndex = GVAR(sides) find _side;
 
 if (_sideIndex >= 0) then {
-	private ["_veh", "_spawnData", "_vehSide", "_vehPos", "_punishTime", "_damage"];
+	private ["_veh", "_spawnData", "_isRespawnCandidate", "_vehSide", "_vehPos", "_punishTime", "_damage"];
 
 	{
 		_veh = _activeVehicles param [_forEachIndex, objNull];
 		_spawnData = _x param [_sideIndex, []];
 		_spawnData params [["_class", ""], "_spawnPos", "_vecDir", "_vecUp", "_respawnDelay", "_playersOnly", "_forbiddenWeapons", "_forbiddenMagazines", "_invincibleHitPoints", "_radius", "_respawnTime"];
 
+		scopeName QGVAR(sector_handleServer_vehLoop);
+
 		// Check if the vehicle may be respawned
-		private _isRespawnCandidate = (
+		_isRespawnCandidate = (
 			_time > _respawnTime
 			and {
 				isNull _veh
@@ -276,10 +280,15 @@ if (_sideIndex >= 0) then {
 			};
 
 			// Ensure that the spawn area is empty
-			private _nearObjects = nearestObjects [ASLtoAGL _spawnPos, ["AllVehicles"], _radius, false];
-			if (_nearObjects isNotEqualTo []) then {
-				continue;
-			};
+			{
+				if (getPosWorld _x distanceSqr _spawnPos > (_radius + MACRO_FNC_BOUNDINGRADIUS(_x)) ^ 2) then {
+					continue;
+				};
+
+				if (!alive _x) then {
+					_x setVariable [QGVAR(gm_sys_removeCorpses_removalTime), _time, false]; // Don't use -1
+				};
+			} forEach GVAR(allVehicles);
 
 			_veh = createVehicle [_class, _spawnPos, [], 0, "CAN_COLLIDE"];
 			_veh setPosWorld _spawnPos;

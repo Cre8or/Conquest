@@ -42,7 +42,7 @@ private _totalWeight = 0;
 private _sideIndexThresholds = [];
 private _prevSideIndex = -1;
 private _allNames_copy = [];
-private ["_faces", "_voices", "_sideFaces", "_sideSpeakers"];
+private ["_faces", "_speakers", "_sideFaces", "_sideSpeakers"];
 private ["_sideIndex", "_unitIndex", "_sideRoles", "_rolesCount", "_namesCount", "_facesCount", "_speakersCount", "_groupIndex", "_isLeader", "_role", "_name", "_face", "_speaker"];
 GVAR(sv_AIIdentities) = [];
 
@@ -54,18 +54,24 @@ GVAR(sv_AIIdentities) = [];
 {
 	_x params ["_side", "_sideWeight"];
 
-	_faces  = missionNamespace getVariable [format [QGVAR(aiFaces_%1), _side], []];
-	_voices = missionNamespace getVariable [format [QGVAR(aiVoices_%1), _side], []];
+	_faces        = missionNamespace getVariable [format [QGVAR(aiFaces_%1), _side], []];
+	_speakers     = missionNamespace getVariable [format [QGVAR(aiSpeakers_%1), _side], []];
+	_sideFaces    = [];
+	_sideSpeakers = [];
 
 	// Only continue if this side exists
 	if (_side in GVAR(sides)) then {
 		_totalWeight = _totalWeight + (_sideWeight max 0);
+		_sideFaces    = [_faces] call FUNC(ai_getFaces);
+		_sideSpeakers = [_speakers] call FUNC(ai_getSpeakers);
+	};
 
-		_sideFaces = [_faces] call FUNC(ai_getFaces);
-		_sideSpeakers = [_voices] call FUNC(ai_getVoices);
-	} else {
-		_sideFaces = [];
-		_sideSpeakers = [];
+	// Fallback values for when no data is provided
+	if (_sideFaces isEqualTo []) then {
+		_sideFaces = ["Custom"];
+	};
+	if (_sideSpeakers isEqualTo []) then {
+		_sideSpeakers = ["NoVoice"];
 	};
 
 	_allFaces pushBack _sideFaces;
@@ -86,7 +92,7 @@ if (_totalWeight > 0) then { // Edge case for empty sides array
 	_sideIndexThresholds = _sideIndexThresholds apply {_x * GVAR(param_AI_maxCount) / _totalWeight};
 };
 
-// Append a fourth dummy value to act as "stopper"
+// Append a fourth dummy value as a sentinel
 _sideIndexThresholds pushBack 9e9;
 
 
@@ -98,39 +104,41 @@ for "_i" from 0 to GVAR(param_AI_maxCount) - 1 do {
 
 	// Associate the unit to a side
 	_sideIndex = _sideIndexThresholds findIf {_x > _i};
-	_unitIndex = _i - floor (_sideIndexThresholds param [_sideIndex - 1, 0]);
+	_unitIndex = floor (_i - (_sideIndexThresholds param [_sideIndex - 1, 0]));
 
 	// If the side has changed (ie the index is now in a different region), update our variables
 	if (_sideIndex != _prevSideIndex) then {
 		_prevSideIndex = _sideIndex;
-		_sideRoles = [];
-		_sideFaces = [];
-		_sideSpeakers = [];
+		_sideRoles     = [];
+		_sideFaces     = [];
+		_sideSpeakers  = [];
 	};
 
 	// If the roles array is empty, make a new copy
 	if (_sideRoles isEqualTo []) then {
-		_sideRoles = +_allRoles;
+		_sideRoles  = +_allRoles;
 		_rolesCount = _maxRolesCount;
 	};
 
 	// If the names array is empty, make a new copy
 	if (_allNames_copy isEqualTo []) then {
 		_allNames_copy = +_allNames;
-		_namesCount = _maxNamesCount;
+		_namesCount    = _maxNamesCount;
 	};
 
 	// If the current faces array is empty, make a new copy
 	if (_sideFaces isEqualTo []) then {
-		_sideFaces = +(_allFaces param [_sideIndex, []]);
+		_sideFaces  = +(_allFaces param [_sideIndex, []]);
 		_facesCount = _maxFaceCounts param [_sideIndex, 0];
 	};
 
 	// If the current speakers array is empty, make a new copy
 	if (_sideSpeakers isEqualTo []) then {
-		_sideSpeakers = +(_allSpeakers param [_sideIndex, []]);
+		_sideSpeakers  = +(_allSpeakers param [_sideIndex, []]);
 		_speakersCount = _maxSpeakersCount param [_sideIndex, 0];
 	};
+
+
 
 	_groupIndex = floor (_unitIndex / GVAR(param_AI_maxUnitsPerGroup));
 	_isLeader   = (_unitIndex mod GVAR(param_AI_maxUnitsPerGroup) == 0);
@@ -147,6 +155,12 @@ for "_i" from 0 to GVAR(param_AI_maxCount) - 1 do {
 		_name    = _allNames_copy deleteAt floor (random _namesCount);
 		_face    = _sideFaces     deleteAt floor (random _facesCount);
 		_speaker = _sideSpeakers  deleteAt floor (random _speakersCount);
+
+		// Decrease the array counts
+		_rolesCount    = _rolesCount - 1;
+		_namesCount    = _namesCount - 1;
+		_facesCount    = _facesCount - 1;
+		_speakersCount = _speakersCount - 1;
 	} else {
 		_role    = MACRO_ENUM_ROLE_INVALID;
 		_name    = "";
@@ -164,12 +178,6 @@ for "_i" from 0 to GVAR(param_AI_maxCount) - 1 do {
 		_speaker,    // MACRO_INDEX_AIIDENTITY_SPEAKER
 		_i           // MACRO_INDEX_AIIDENTITY_UNITINDEX
 	];
-
-	// Decrease the array counts
-	_rolesCount = _rolesCount - 1;
-	_namesCount = _namesCount - 1;
-	_facesCount = _facesCount - 1;
-	_speakersCount = _speakersCount - 1;
 };
 
 

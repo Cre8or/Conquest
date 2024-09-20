@@ -54,7 +54,7 @@ if (_damage < 0) then {
 };
 
 // Edge case 2: in singleplayer, the player is immediately respawned upon dying, so the instigator
-// may point at their corpse. If this is the case, we reassign the instigator to the "new" player
+// may point to their corpse. If this is the case, we reassign the instigator to the "new" player
 // unit.
 if (!isMultiplayer) then {
 	if (_source getVariable [QGVAR(cl_sp_isPlayer), false]) then {
@@ -98,7 +98,6 @@ if (_health > 0) then {
 		_unit setVariable [QGVAR(addHitDetection_assistDamages), _assistDamages, false];
 	};
 
-	// Health can't be <= 0
 	_unit setVariable [QGVAR(health), _health, true];
 
 // Unit is unconscious / dead
@@ -190,7 +189,11 @@ if (_health > 0) then {
 
 				_killData = [_iconEnum] + _ammoData;
 			} else {
-				_killData = [MACRO_ENUM_KF_ICON_NONE, MACRO_ENUM_CLASSKIND_VEHICLE, ""];
+				if (_source isKindOf "Man") then {
+					_killData = [MACRO_ENUM_KF_ICON_EXPLOSIVE, MACRO_ENUM_CLASSKIND_VEHICLE, ""];
+				} else {
+					_killData = [MACRO_ENUM_KF_ICON_EXPLOSIVE, MACRO_ENUM_CLASSKIND_VEHICLE, typeOf _source];
+				};
 			};
 		};
 		case MACRO_ENUM_DAMAGE_PHYSICS: {

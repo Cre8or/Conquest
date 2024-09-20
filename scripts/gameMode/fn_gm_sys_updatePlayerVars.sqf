@@ -67,4 +67,10 @@ GVAR(gm_sys_updatePlayerVars_EH) = addMissionEventHandler ["EachFrame", {
 			MACRO_FNC_LEAVEGROUP(_group);
 		};
 	};
+
+	// Ensure the player rating never goes below 0
+	private _rating = rating _player;
+	if (_rating < 0) then {
+		_player addRating (-_rating + 1);
+	};
 }];

@@ -14,6 +14,7 @@
 #include "..\..\res\common\macros.inc"
 #include "..\..\mission\settings.inc"
 
+#include "..\..\res\macros\fnc_boundingRadius.inc"
 #include "..\..\res\macros\fnc_initVar.inc"
 
 
@@ -69,7 +70,7 @@ GVAR(ai_sys_driverControl_EH) = addMissionEventHandler ["EachFrame", {
 			and {[_unit] call FUNC(unit_isAlive)}
 		) then {
 			_vehPos            = _veh modelToWorldVisualWorld getCenterOfMass _veh; // Some vehicles have strange origin points; this compensates for that
-			_vehRadius         = 0.6 * (2 boundingBoxReal _veh) # 2; // Approximation
+			_vehRadius         = MACRO_FNC_BOUNDINGRADIUS(_veh); // Approximation
 			_vehVel            = velocity _veh;
 			_shouldHalt        = false;
 			_hasTracks         = _veh getVariable QGVAR(hasTracks);

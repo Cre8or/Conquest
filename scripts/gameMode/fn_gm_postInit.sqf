@@ -18,6 +18,7 @@
 #include "..\..\res\common\macros.inc"
 #include "..\..\mission\settings.inc"
 
+#include "..\..\res\macros\fnc_boundingRadius.inc"
 #include "..\..\res\macros\fnc_initVar.inc"
 
 // Enforce unscheduled environment

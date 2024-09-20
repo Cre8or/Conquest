@@ -28,7 +28,6 @@ if (!hasInterface or {isNull _victim}) exitWith {};
 
 
 
-
 // Set up some variables
 MACRO_FNC_INITVAR(GVAR(ui_sys_drawKillFeed_data), []);
 
