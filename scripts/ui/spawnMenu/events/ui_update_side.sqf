@@ -7,26 +7,22 @@ case "ui_update_side": {
 	private _sideMiddle = resistance;
 	private _sideRight  = west;
 
-	private _ticketBleedLeft   = GVAR(ticketBleedEast);
-	private _ticketBleedMiddle = GVAR(ticketBleedResistance);
-	private _ticketBleedRight  = GVAR(ticketBleedWest);
-
 	// On a two-sides setup, swap the panels around such that the middle one remains free
 	private _indexEmpty = GVAR(sides) find sideEmpty;
 	if (_indexEmpty >= 0) then {
 
 		switch (_indexEmpty) do {
 			case 0: {
-				_ticketBleedLeft = _ticketBleedMiddle;
 				_sideLeft        = _sideMiddle;
 			};
 			case 2: {
-				_ticketBleedRight = _ticketBleedMiddle;
 				_sideRight        = _sideMiddle;
 			};
 		};
 		_sideMiddle = sideEmpty;
 	};
+
+
 
 	// Initial setup
 	if !(_spawnMenu getVariable [QGVAR(menuSide_isInit), false]) then {
@@ -120,16 +116,17 @@ case "ui_update_side": {
 		_x params ["_side", "_idcTickets", "_ticketBleed"];
 
 		if (_side != sideEmpty) then {
-			_ticketsX = [_side] call FUNC(gm_getSideTickets);
+			_ticketsX    = [_side] call FUNC(gm_getSideTickets);
+			_ticketBleed = [_side] call FUNC(gm_getTicketBleed);
 
 			_ctrlX = _spawnMenu displayCtrl _idcTickets;
 			_ctrlX ctrlSetText str _ticketsX;
-			_ctrlX ctrlSetTextColor ([SQUARE(MACRO_COLOUR_A100_WHITE), SQUARE(MACRO_COLOUR_A100_RED)] select (_ticketBleed or {_ticketsX <= 0}));
+			_ctrlX ctrlSetTextColor ([SQUARE(MACRO_COLOUR_A100_WHITE), SQUARE(MACRO_COLOUR_A100_RED)] select (_ticketBleed > 0 or {_ticketsX <= 0}));
 		};
 	} forEach [
-		[_sideLeft,	MACRO_IDC_SM_SIDE_TICKETS_LEFT_TEXT, 	_ticketBleedLeft],
-		[_sideMiddle,	MACRO_IDC_SM_SIDE_TICKETS_MIDDLE_TEXT,	_ticketBleedMiddle],
-		[_sideRight,	MACRO_IDC_SM_SIDE_TICKETS_RIGHT_TEXT,	_ticketBleedRight]
+		[_sideLeft,   MACRO_IDC_SM_SIDE_TICKETS_LEFT_TEXT],
+		[_sideMiddle, MACRO_IDC_SM_SIDE_TICKETS_MIDDLE_TEXT],
+		[_sideRight,  MACRO_IDC_SM_SIDE_TICKETS_RIGHT_TEXT]
 	];
 
 	// Update the side join buttons

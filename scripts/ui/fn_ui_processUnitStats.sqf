@@ -34,7 +34,7 @@ if (_UID == "" or {!hasInterface}) exitWith {};
 
 
 // Set up some variables
-MACRO_FNC_INITVAR(GVAR(ui_sys_drawScoreBoard_cache), createHashMap);
+MACRO_FNC_INITVAR(GVAR(ui_scoreBoard_cache), createHashMap);
 
 private _data = [];
 
@@ -52,4 +52,4 @@ if (_ping >= 0) then {
 	_data set [MACRO_INDEX_SERVERSTAT_PING, _ping];
 };
 
-GVAR(ui_sys_drawScoreBoard_cache) set [_UID, _data];
+GVAR(ui_scoreBoard_cache) set [_UID, _data];

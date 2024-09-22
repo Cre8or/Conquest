@@ -12,6 +12,7 @@ class MACRO_PROJECT_PREFIX {
 
 		class act_registerKeybindings {};
 		class act_toggleSpawnMenu {};
+		class act_toggleScoreBoard {};
 		class act_spotTarget {};
 		class act_tryHealUnit {};
 		class act_tryResupplyUnit {};
@@ -49,6 +50,7 @@ class MACRO_PROJECT_PREFIX {
 		file = "scripts\cba";
 
 		class cba_addKeybindExtended {};
+		class cba_initDisplay {};
 	};
 
 	class combatArea {
@@ -72,6 +74,7 @@ class MACRO_PROJECT_PREFIX {
 		class gm_getFlagTexture {};
 		class gm_getSideName {};
 		class gm_getSideTickets {};
+		class gm_getTicketBleed {};
 		class gm_isSidePlayable {};
 		class gm_playRadioMsg {};
 		class gm_postInit {
@@ -178,13 +181,13 @@ class MACRO_PROJECT_PREFIX {
 		class ui_processKillFeedEvent {};
 		class ui_processScoreEvent {};
 		class ui_processUnitStats {};
+		class ui_scoreBoard {};
 		class ui_setupPPEffects {};
 		class ui_sys_drawHealthBar {};
 		class ui_sys_drawHitMarkers {};
 		class ui_sys_drawIcons3D {};
 		class ui_sys_drawKillFeed {};
 		class ui_sys_drawMedicalEffects {};
-		class ui_sys_drawScoreBoard {};
 		class ui_sys_drawScoreFeed {};
 		class ui_sys_drawSectorHUD {};
 		class ui_sys_hookMapCtrls {};

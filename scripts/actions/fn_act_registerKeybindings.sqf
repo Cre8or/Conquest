@@ -86,9 +86,24 @@ if (GVAR(hasMod_ace_finger)) then {
 	MACRO_MISSION_FRAMEWORK_GAMEMODE,
 	QGVAR(kb_showScoreBoard),
 	"Show scoreboard",
-	{GVAR(kb_act_pressed_showScoreBoard) = true},
-	{GVAR(kb_act_pressed_showScoreBoard) = false},
+	{[true] call FUNC(act_toggleScoreBoard)},
+	{[false] call FUNC(act_toggleScoreBoard)},
 	[MACRO_KEYBIND_SHOWSCOREBOARD, [false, false, false]],
+	false,
+	0,
+	false
+] call CBA_fnc_addKeybind;
+
+
+
+// Scoreboard: show cursor
+[
+	MACRO_MISSION_FRAMEWORK_GAMEMODE,
+	QGVAR(kb_showScoreBoard_cursor),
+	"Show cursor on scoreboard",
+	{["ui_request_cursor"] call FUNC(ui_scoreBoard)},
+	"",
+	[MACRO_KEYBIND_SHOWSCOREBOARD_CURSOR, [false, false, false]],
 	false,
 	0,
 	false

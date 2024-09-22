@@ -71,6 +71,9 @@ if (_disabled) then {
 
 			_UI = createDialog [QGVAR(RscUserInputBlocker), false];
 
+			// Register CBA's event handlers on the dialog display
+			[_UI] call FUNC(cba_initDisplay);
+
 			// Allow specific keys to pass through
 			_UI displayAddEventHandler ["KeyDown", {
 

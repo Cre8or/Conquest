@@ -192,83 +192,84 @@ class GVAR(RscScoreBoard) {
 				// Scoreboard Icons, Left
 				class Icon_Score_Left : GVAR(RscPicture) {
 					text = "a3\ui_f\data\GUI\Rsc\RscDisplayConfigViewer\bookmark_gs.paa";
-					x = pixelW * MACRO_POS_SPACER_X + 0.55 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_KILLS - MACRO_POS_SB_IMAGE_WIDTH);
 					y = MACRO_POS_SB_SIDE_HEADER_HEIGHT + 3 * pixelH * MACRO_POS_SPACER_Y;
-					w = MACRO_POS_SB_LISTBOX_WIDTH * 0.05;
+					w = MACRO_POS_SB_LISTBOX_WIDTH * MACRO_POS_SB_IMAGE_WIDTH;
 					h = MACRO_UI_TEXTSIZE_1;
 				};
 
 				class Icon_Kills_Left : Icon_Score_Left {
 					text = "a3\ui_f\data\GUI\Cfg\RespawnRoles\recon_ca.paa";
-					x = pixelW * MACRO_POS_SPACER_X + 0.65 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_DEATHS - MACRO_POS_SB_IMAGE_WIDTH);
 				};
 
 				class Icon_Deaths_Left : Icon_Score_Left {
 					text = MACRO_KF_ICON_SUICIDE;
-					x = pixelW * MACRO_POS_SPACER_X + 0.75 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_REVIVES - MACRO_POS_SB_IMAGE_WIDTH);
 				};
 
 				class Icon_Revives_Left : Icon_Score_Left {
 					text = "res\images\revive.paa";
-					x = pixelW * MACRO_POS_SPACER_X + 0.85 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_PING - MACRO_POS_SB_IMAGE_WIDTH);
 				};
 
 				class Icon_Ping_Left : Icon_Score_Left {
 					text = "res\images\connection.paa";
-					x = pixelW * MACRO_POS_SPACER_X + 0.95 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_SCROLLBAR - MACRO_POS_SB_IMAGE_WIDTH);
 				};
 
 				// Scoreboard Icons, Middle
 				class Icon_Score_Middle : Icon_Score_Left {
-					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.55 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_KILLS - MACRO_POS_SB_IMAGE_WIDTH);
 				};
 
 				class Icon_Kills_Middle : Icon_Kills_Left {
-					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.65 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_DEATHS - MACRO_POS_SB_IMAGE_WIDTH);
 				};
 
 				class Icon_Deaths_Middle : Icon_Deaths_Left {
-					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.75 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_REVIVES - MACRO_POS_SB_IMAGE_WIDTH);
 				};
 
 				class Icon_Revives_Middle : Icon_Revives_Left {
-					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.85 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_PING - MACRO_POS_SB_IMAGE_WIDTH);
 				};
 
 				class Icon_Ping_Middle : Icon_Ping_Left {
-					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.95 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_SCROLLBAR - MACRO_POS_SB_IMAGE_WIDTH);
 				};
 
 				// Scoreboard Icons, Right
 				class Icon_Score_Right : Icon_Score_Left {
-					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.55 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = 2 * MACRO_POS_SB_WIDTH_COLUMN+ pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_KILLS - MACRO_POS_SB_IMAGE_WIDTH);
 				};
 
 				class Icon_Kills_Right : Icon_Kills_Left {
-					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.65 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = 2 * MACRO_POS_SB_WIDTH_COLUMN+ pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_DEATHS - MACRO_POS_SB_IMAGE_WIDTH);
 				};
 
 				class Icon_Deaths_Right : Icon_Deaths_Left {
-					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.75 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = 2 * MACRO_POS_SB_WIDTH_COLUMN+ pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_REVIVES - MACRO_POS_SB_IMAGE_WIDTH);
 				};
 
 				class Icon_Revives_Right : Icon_Revives_Left {
-					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.85 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = 2 * MACRO_POS_SB_WIDTH_COLUMN+ pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_PING - MACRO_POS_SB_IMAGE_WIDTH);
 				};
 
 				class Icon_Ping_Right : Icon_Ping_Left {
-					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + 0.95 * MACRO_POS_SB_LISTBOX_WIDTH;
+					x = 2 * MACRO_POS_SB_WIDTH_COLUMN+ pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_SCROLLBAR - MACRO_POS_SB_IMAGE_WIDTH);
 				};
 
 				// ------------------------------------------------------------------------------------------------------------------------------------------------
 				// Players Listbox, Left
 				class Players_Listbox_Left : GVAR(RscListNBox) {
 					idc = MACRO_IDC_SB_SIDE_PLAYERS_LEFT_LISTBOX;
-					columns[] = {0, MACRO_POS_SB_COLUMN_X_NAME, MACRO_POS_SB_COLUMN_X_SCORE, MACRO_POS_SB_COLUMN_X_KILLS, MACRO_POS_SB_COLUMN_X_DEATHS, MACRO_POS_SB_COLUMN_X_REVIVES, MACRO_POS_SB_COLUMN_X_PING};
+					columns[] = {0, MACRO_POS_SB_COLUMN_X_NAME, MACRO_POS_SB_COLUMN_X_SCORE, MACRO_POS_SB_COLUMN_X_KILLS, MACRO_POS_SB_COLUMN_X_DEATHS, MACRO_POS_SB_COLUMN_X_REVIVES, MACRO_POS_SB_COLUMN_X_PING, MACRO_POS_SB_COLUMN_X_SCROLLBAR};
 					x = pixelW * MACRO_POS_SPACER_X;
 					y = MACRO_POS_SB_SIDE_HEADER_HEIGHT + MACRO_UI_TEXTSIZE_1 + 3 * pixelH * MACRO_POS_SPACER_Y;
 					w = MACRO_POS_SB_LISTBOX_WIDTH;
 					h = MACRO_POS_SB_HEIGHT - MACRO_POS_SB_SIDE_HEADER_HEIGHT - MACRO_UI_TEXTSIZE_1 - 4 * pixelH * MACRO_POS_SPACER_Y;
+					onLBSelChanged = __EVAL(format ["['ui_lbselection_changed', _this] call %1", QFUNC(ui_scoreBoard)]);
 				};
 
 				// Players Listbox, Middle

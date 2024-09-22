@@ -1,38 +1,3 @@
-/*
-High-level plan:
-
-	Squad leaders can give units direct orders (e.g. "move there", "regroup", "stop").
-
-	Groups can have waypoints. These can apparently only be assigned by AI leaders. Assuming the unit
-	has no direct order, move the group waypoint.
-		- What happens when a unit has a direct order, and a group waypoint?
-		- What if a unit is told to stop, but receives a group waypoint?
-	--> Direct unit orders and group waypoints are equally important; whichever one is most recent
-	should be used. This means a group waypoint can override a "stop" unit order, and vice versa.
-
-
-
-	If any subsystems yielded a (scripted) move position, then that position has priority over unit
-	orders and waypoints. The unit should follow the scripted move position, and upon completion,
-	fall back to the previously issued move order (unit order or group waypoint).
-
-	To enable this, we need to detect unit orders and group waypoints, and cache them, so that we
-	may return to them later. Additionally, when issuing scripted move orders, we need to ensure
-	that they don't get detected as unit orders.
-	--> Whenever a unit order/group waypoint is detected, store its type and position (if necessary)
-	on the unit
-
-	The resulting priority is then (in decreasing order):
-		- scripted move orders, THEN
-		- direct unit orders / group waypoints
-
-	TODO:
-		- Differentiate between:
-			- "Stop" unit order (halt / reached destination)
-			- "Regroup" unit order (follow group leader)
-			- "Move there" unit order / group waypoint
-*/
-
 // Define some macros
 #define MACRO_DESTINATIONPOS_THRESHOLD 0.1
 #define MACRO_ASSIGNEDVEHICLE_THRESHOLD 30
@@ -229,7 +194,7 @@ if (_actionPos isNotEqualTo []) then {
 		_unit setVariable [QGVAR(ai_unitControl_planNextMovePos_destinationPos), _destinationPos, false];
 	};
 
-	// Fallback 1: when coming out of a scripted action, return to the "GOAL" movetype
+	// Fallback: when coming out of a scripted action, return to the "GOAL" movetype
 	if (_moveType == MACRO_ENUM_AI_MOVETYPE_ACTION) then {
 		_moveType = MACRO_ENUM_AI_MOVETYPE_GOAL;
 	};

@@ -4,8 +4,8 @@
 		Opens and handles the spawn menu UI. Accepts an event name (e.g. "ui_init") and an optional array with
 		additional parameters that might be required for the specified event.
 	Arguments:
-		0:      <STRING>	Name of the event
-		1:	<ARRAY>		Array of additional parameters for the specified event
+		0:	<STRING>	Name of the event
+		1:	<ARRAY>		Array of additional parameters for the specified event (optional, default: [])
 	Returns:
 		(nothing)
 	EXAMPLE:
@@ -23,13 +23,14 @@ params [
 	["_args", []]
 ];
 
-// Change the case to avoid mistakes
 _event = toLower _event;
 
 disableSerialization;
 private _eventExists = false;
 private _spawnMenu = uiNamespace getVariable [QGVAR(RscSpawnMenu), displayNull];
+
 if (isNull _spawnMenu and {_event != "ui_init"}) exitWith {
+	// DEBUG
 	diag_log format ["[CONQUEST] Spawn menu isn't open! (%1)", _event];
 	systemChat format ["Spawn menu isn't open! (%1)", _event];
 };
@@ -77,7 +78,7 @@ if !(_event in _filteredEvents) then {
 
 // DEBUG: Check if the event was recognised - if not, print a message
 if (!_eventExists) then {
-	private _str = format ["(%1) [SPAWN MENU] ERROR: Unknown event '%2' called!", time, _event];
+	private _str = format ["[CONQUEST] (%1) SpawnMenu: Unknown event '%2' called!", time, _event];
 	systemChat _str;
 	hint _str;
 };

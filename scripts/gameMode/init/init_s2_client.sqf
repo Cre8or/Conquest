@@ -30,9 +30,9 @@ MACRO_FNC_INITVAR(GVAR(missionState), MACRO_ENUM_MISSION_INIT);
 MACRO_FNC_INITVAR(GVAR(ticketsEast),       GVAR(param_gm_startingTickets));
 MACRO_FNC_INITVAR(GVAR(ticketsResistance), GVAR(param_gm_startingTickets));
 MACRO_FNC_INITVAR(GVAR(ticketsWest),       GVAR(param_gm_startingTickets));
-MACRO_FNC_INITVAR(GVAR(ticketBleedEast),       false);
-MACRO_FNC_INITVAR(GVAR(ticketBleedResistance), false);
-MACRO_FNC_INITVAR(GVAR(ticketBleedWest),       false);
+MACRO_FNC_INITVAR(GVAR(ticketBleedEast),       0);
+MACRO_FNC_INITVAR(GVAR(ticketBleedResistance), 0);
+MACRO_FNC_INITVAR(GVAR(ticketBleedWest),       0);
 
 MACRO_FNC_INITVAR(GVAR(cl_AIIdentities),[]);
 
@@ -76,7 +76,6 @@ call FUNC(ui_sys_drawIcons3D);
 call FUNC(ui_sys_drawKillFeed);
 call FUNC(ui_sys_drawMedicalEffects);
 call FUNC(ui_sys_drawSectorHUD);
-call FUNC(ui_sys_drawScoreBoard);
 call FUNC(ui_sys_drawScoreFeed);
 
 // Add unit EHs on all existing units. Useful for JIP.

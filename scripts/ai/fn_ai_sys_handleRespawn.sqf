@@ -124,14 +124,12 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 		_unitIndex = GVAR(ai_sys_handleRespawn_queue) deleteAt _unitIndex; // If the queue is empty, _unitIndex will be nil
 		if (!isNil "_unitIndex") then {
 
-			_identity = GVAR(sv_AIIdentities) param [_unitIndex, []];
-			_identity params [ // NOTE: The order of these parameters must match that of ai_generateIdentities!
-				["_sideIndex", 0],        // MACRO_INDEX_AIIDENTITY_SIDEINDEX
-				["_unitGroupIndex", 0],   // MACRO_INDEX_AIIDENTITY_GROUPINDEX
-				["_unitIsLeader", false], // MACRO_INDEX_AIIDENTITY_ISLEADER
-				["_unitRole", -1]         // MACRO_INDEX_AIIDENTITY_ROLE
-			];
-			_unitSide = GVAR(sides) # _sideIndex;
+			_identity       = GVAR(sv_AIIdentities) param [_unitIndex, []];
+			_sideIndex      = _identity param [MACRO_INDEX_AIIDENTITY_SIDEINDEX, 0];
+			_unitGroupIndex = _identity param [MACRO_INDEX_AIIDENTITY_GROUPINDEX, 0];
+			_unitIsLeader   = _identity param [MACRO_INDEX_AIIDENTITY_ISLEADER, false];
+			_unitRole       = _identity param [MACRO_INDEX_AIIDENTITY_ROLE, MACRO_ENUM_ROLE_INVALID];
+			_unitSide       = GVAR(sides) # _sideIndex;
 
 			// Fetch the group from the list
 			_sideGroups = switch (_unitSide) do {

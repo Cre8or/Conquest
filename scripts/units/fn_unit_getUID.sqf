@@ -8,6 +8,8 @@
 		For players, this function returns their regular Steam UID.
 	Arguments:
 		0:	<OBJECT>	The concerned unit
+			OR:
+		0:	<NUMBER>	The AI unit index
 	Returns:
 			<STRING>	The unit's UID
 -------------------------------------------------------------------------------------------------------------------- */
@@ -15,10 +17,19 @@
 #include "..\..\res\common\macros.inc"
 
 params [
-	["_unit", objNull, [objNull]]
+	["_unit", objNull, [objNull, 0]]
 ];
 
-if (isNull _unit) exitWith {""};
+
+private "_index";
+if (_unit isEqualType objNull) then {
+	_index = -1;
+} else {
+	_index = _unit;
+	_unit = objNull;
+};
+
+if (isNull _unit and {_index < 0}) exitWith {""};
 
 
 
@@ -28,8 +39,13 @@ private ["_UID"];
 
 if (isPlayer _unit) then {
 	_UID = getPlayerUID _unit;
+
 } else {
-	_UID = "AI_" + str (_unit getVariable [QGVAR(unitIndex), -1]);
+	if (!isNull _unit) then {
+		_index = _unit getVariable [QGVAR(unitIndex), -1];
+	};
+
+	_UID = "AI_" + str _index;
 };
 
 _UID;

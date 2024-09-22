@@ -169,14 +169,14 @@ for "_i" from 0 to GVAR(param_AI_maxCount) - 1 do {
 	};
 
 	GVAR(sv_AIIdentities) pushBack [
+		_i,          // MACRO_INDEX_AIIDENTITY_UNITINDEX
 		_sideIndex,  // MACRO_INDEX_AIIDENTITY_SIDEINDEX
 		_groupIndex, // MACRO_INDEX_AIIDENTITY_GROUPINDEX
 		_isLeader,   // MACRO_INDEX_AIIDENTITY_ISLEADER
 		_role,       // MACRO_INDEX_AIIDENTITY_ROLE
 		_name,       // MACRO_INDEX_AIIDENTITY_NAME
 		_face,       // MACRO_INDEX_AIIDENTITY_FACE
-		_speaker,    // MACRO_INDEX_AIIDENTITY_SPEAKER
-		_i           // MACRO_INDEX_AIIDENTITY_UNITINDEX
+		_speaker    // MACRO_INDEX_AIIDENTITY_SPEAKER
 	];
 };
 
@@ -185,7 +185,7 @@ for "_i" from 0 to GVAR(param_AI_maxCount) - 1 do {
 
 
 // Broadcast a trimmed copy of the AI identities to all clients
-GVAR(cl_AIIdentities) = GVAR(sv_AIIdentities) apply {_x select [0, 5]}; // Side index .. name
+GVAR(cl_AIIdentities) = GVAR(sv_AIIdentities) apply {_x select [0, 6]}; // Unit index .. name
 publicVariable QGVAR(cl_AIIdentities);
 
 diag_log format ["[CONQUEST] (SERVER) Generated %1 AI identities", count GVAR(sv_AIIdentities)];

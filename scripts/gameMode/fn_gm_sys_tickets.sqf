@@ -24,50 +24,54 @@
 
 
 
-// Set up some variales
+// Set up some variables
 MACRO_FNC_INITVAR(GVAR(gm_sys_tickets_EH_eachFrame),-1);
 MACRO_FNC_INITVAR(GVAR(gm_sys_tickets_EH_killed),-1);
-
-MACRO_FNC_INITVAR(GVAR(AIUnits),[]);
 
 GVAR(gm_sys_tickets_nextTime) = -1;
 GVAR(gm_sys_tickets_canBeWarned) = GVAR(sides) apply {_x != sideEmpty};
 GVAR(gm_sys_tickets_remainingWarnings) = ({_x} count GVAR(gm_sys_tickets_canBeWarned)) - 1;
 
-GVAR(ticketBleedCounterEast)       = 0;
-GVAR(ticketBleedCounterResistance) = 0;
-GVAR(ticketBleedCounterWest)       = 0;
-
 GVAR(ticketsEast_last)       = -1;
 GVAR(ticketsResistance_last) = -1;
 GVAR(ticketsWest_last)       = -1;
 
-GVAR(ticketBleedEast)       = false;
-GVAR(ticketBleedResistance) = false;
-GVAR(ticketBleedWest)       = false;
+GVAR(ticketBleedTimeEast)       = -1;
+GVAR(ticketBleedTimeResistance) = -1;
+GVAR(ticketBleedTimeWest)       = -1;
 
-GVAR(ticketBleedEast_last)       = false;
-GVAR(ticketBleedResistance_last) = false;
-GVAR(ticketBleedWest_last)       = false;
+GVAR(ticketBleedEast)       = 0;
+GVAR(ticketBleedResistance) = 0;
+GVAR(ticketBleedWest)       = 0;
 
-publicVariable QGVAR(ticketBleedEast);
-publicVariable QGVAR(ticketBleedResistance);
-publicVariable QGVAR(ticketBleedWest);
-
-
+GVAR(ticketBleedEast_last)       = 0;
+GVAR(ticketBleedResistance_last) = 0;
+GVAR(ticketBleedWest_last)       = 0;
 
 
 
-// Define some macros
-#define MACRO_FNC_PERFORMTICKETBLEED(SIDE) \
+
+
+#define MACRO_FNC_PERFORMTICKETBLEED(THISSIDE) \
+	if (GVAR(MERGE(tickets,THISSIDE)) > 0 and {MERGE(_sectorCount,THISSIDE) == 0 or {_maxRatio - MERGE(_sectorRatio,THISSIDE) > _c_sectorRatioThresholdInv}}) then { \
+		GVAR(MERGE(ticketBleed,THISSIDE)) = 0.0001 max ([MACRO_TICKETBLEED_FAST, MACRO_TICKETBLEED_SLOW] select (MERGE(_sectorCount,THISSIDE) > 0)); \
  \
-	if ( \
-		(MERGE(_sectorCount,SIDE) == 0 and {GVAR(MERGE(ticketBleedCounter,SIDE)) >= MACRO_TICKETBLEED_INTERVAL_FAST / MACRO_GM_SYS_TICKETS_INTERVAL}) \
-		or {GVAR(MERGE(ticketBleedCounter,SIDE)) >= MACRO_TICKETBLEED_INTERVAL_SLOW / MACRO_GM_SYS_TICKETS_INTERVAL} \
-	) then { \
-		GVAR(MERGE(ticketBleedCounter,SIDE)) = 0; \
-		GVAR(MERGE(tickets,SIDE)) = (GVAR(MERGE(tickets,SIDE)) - 1) max 0; \
-	}
+		if (GVAR(MERGE(ticketBleedTime,THISSIDE)) < 0) then { \
+			GVAR(MERGE(ticketBleedTime,THISSIDE)) = _time; \
+		} else { \
+			private _interval = GVAR(MERGE(ticketBleed,THISSIDE)) / 60; \
+			private _steps    = floor ((_time - GVAR(MERGE(ticketBleedTime,THISSIDE))) * _interval); \
+ \
+			if (_steps > 0) then { \
+				GVAR(MERGE(tickets,THISSIDE))          = (GVAR(MERGE(tickets,THISSIDE)) - _steps) max 0; \
+				GVAR(MERGE(ticketBleedTime,THISSIDE)) = GVAR(MERGE(ticketBleedTime,THISSIDE)) + _steps / _interval; \
+				systemChat format ["(%1) Ticket bleed %2: %3", _time, THISSIDE, _steps]; \
+			}; \
+		}; \
+	} else { \
+		GVAR(MERGE(ticketBleed,THISSIDE))      = 0; \
+		GVAR(MERGE(ticketBleedTime,THISSIDE)) = -1; \
+	}; \
 
 
 
@@ -115,9 +119,9 @@ GVAR(gm_sys_tickets_EH_eachFrame) = addMissionEventHandler ["EachFrame", {
 				_freeSectorCount = _freeSectorCount + _sectorCountX;
 				_sideTickets set [_forEachIndex, 0];
 				switch (_sideX) do {
-					case east:		{GVAR(ticketsEast)       = 0};
-					case resistance:	{GVAR(ticketsResistance) = 0};
-					case west:		{GVAR(ticketsWest)       = 0};
+					case east:       {GVAR(ticketsEast)       = 0};
+					case resistance: {GVAR(ticketsResistance) = 0};
+					case west:       {GVAR(ticketsWest)       = 0};
 				};
 			};
 		} forEach GVAR(sides);
@@ -125,37 +129,25 @@ GVAR(gm_sys_tickets_EH_eachFrame) = addMissionEventHandler ["EachFrame", {
 		private _maxRatio         = 0;
 		private _sideSectorRatios = [0, 0, 0];
 		{
-			if (_x != sideEmpty) then {
-				_ratioX   = (_freeSectorCount + (_sideSectorCounts # _forEachIndex)) / _totalSectorCount;
-				_maxRatio = _maxRatio max _ratioX;
-
-				_sideSectorRatios set [_forEachIndex, _ratioX];
+			if (_x == sideEmpty) then {
+				continue;
 			};
+
+			_ratioX   = (_freeSectorCount + (_sideSectorCounts # _forEachIndex)) / _totalSectorCount;
+			_maxRatio = _maxRatio max _ratioX;
+
+			_sideSectorRatios set [_forEachIndex, _ratioX];
 		} forEach GVAR(sides);
-		_sideSectorCounts params ["_sectorCountEast", "_sectorCountResistance", "_sectorCountWest"]; // Needed by the ticket bleed macro
 
 
 
-		GVAR(ticketBleedEast)       = false;
-		GVAR(ticketBleedResistance) = false;
-		GVAR(ticketBleedWest)       = false;
 
-		// Determine ticket bleed
-		private _c_sectorRatioThresholdInv = 1 - MACRO_TICKETBLEED_SECTORRATIOTHRESHOLD;
-		if (_sectorCountEast == 0 or {_maxRatio - _sideSectorRatios # 0 > _c_sectorRatioThresholdInv}) then {
-			GVAR(ticketBleedEast) = true;
-			GVAR(ticketBleedCounterEast) = GVAR(ticketBleedCounterEast) + 1;
-		};
-		if (_sectorCountResistance == 0 or {_maxRatio - _sideSectorRatios # 1 > _c_sectorRatioThresholdInv}) then {
-			GVAR(ticketBleedResistance) = true;
-			GVAR(ticketBleedCounterResistance) = GVAR(ticketBleedCounterResistance) + 1;
-		};
-		if (_sectorCountWest == 0 or {_maxRatio - _sideSectorRatios # 2 > _c_sectorRatioThresholdInv}) then {
-			GVAR(ticketBleedWest) = true;
-			GVAR(ticketBleedCounterWest) = GVAR(ticketBleedCounterWest) + 1;
-		};
 
 		// Perform ticket bleed
+		private _c_sectorRatioThresholdInv = 1 - MACRO_TICKETBLEED_SECTORRATIOTHRESHOLD;
+		_sideSectorCounts params ["_sectorCountEast", "_sectorCountResistance", "_sectorCountWest"]; // Needed by the ticket bleed macro
+		_sideSectorRatios params ["_sectorRatioEast", "_sectorRatioResistance", "_sectorRatioWest"]; // Needed by the ticket bleed macro
+
 		MACRO_FNC_PERFORMTICKETBLEED(East);
 		MACRO_FNC_PERFORMTICKETBLEED(Resistance);
 		MACRO_FNC_PERFORMTICKETBLEED(West);

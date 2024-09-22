@@ -58,10 +58,11 @@ class GVAR(RscListNBox) : RscListNBox {
 	disableOverflow = 1;
 	font = MACRO_FONT_UI_MEDIUM;
 	sizeEx = 0.015 * safeZoneW;
+	period = 0; // Blinking interval
 	colorSelect[] = CURLY(MACRO_COLOUR_A100_BLACK);
 	colorSelect2[] = CURLY(MACRO_COLOUR_A100_BLACK);
-	colorSelectBackground[] = CURLY(MACRO_COLOUR_A100_WHITE);
-	colorSelectBackground2[] = CURLY(MACRO_COLOUR_A100_WHITE);
+	colorSelectBackground[] = CURLY(MACRO_COLOUR_A100_WHITE); // First blinking colour (background)
+	colorSelectBackground2[] = CURLY(MACRO_COLOUR_A100_WHITE); // Second blinking colour (background)
 };
 
 class GVAR(RscEdit) : RscEdit {
@@ -107,6 +108,7 @@ class RscTitles {
                 duration = 999999;
         };
 
+	// Displays
 	#include "rscTitles\rscBlackScreen.inc"
 	#include "rscTitles\rscCombatArea.inc"
 	#include "rscTitles\rscEndScreen.inc"
@@ -120,9 +122,9 @@ class RscTitles {
 	#include "rscTitles\rscUnconsciousHUD.inc"
 };
 
-
-
-
-
+// Dialogs
 #include "dialogs\rscSpawnMenu.inc"
 #include "dialogs\rscUserInputBlocker.inc"
+
+// Special case: resources that are both a display and a dialog
+#include "rscTitles\rscScoreBoard.inc"

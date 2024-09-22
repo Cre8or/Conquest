@@ -260,12 +260,14 @@
 	#define MACRO_POS_SB_SIDE_NAME_TEXTSIZE                         MACRO_UI_TEXTSIZE_2
 	#define MACRO_POS_SB_SIDE_FLAG_WIDTH                            ((3 / 2) * MACRO_POS_SB_SIDE_HEADER_HEIGHT)
 	#define MACRO_POS_SB_LISTBOX_WIDTH                              (MACRO_POS_SB_WIDTH_COLUMN - 2 * pixelW * MACRO_POS_SPACER_X)
+	#define MACRO_POS_SB_IMAGE_WIDTH                                0.05
 	#define MACRO_POS_SB_COLUMN_X_NAME                              0.07
 	#define MACRO_POS_SB_COLUMN_X_SCORE                             0.5
-	#define MACRO_POS_SB_COLUMN_X_KILLS                             0.6
-	#define MACRO_POS_SB_COLUMN_X_DEATHS                            0.7
+	#define MACRO_POS_SB_COLUMN_X_KILLS                             0.62
+	#define MACRO_POS_SB_COLUMN_X_DEATHS                            0.71
 	#define MACRO_POS_SB_COLUMN_X_REVIVES                           0.8
-	#define MACRO_POS_SB_COLUMN_X_PING                              0.9
+	#define MACRO_POS_SB_COLUMN_X_PING                              0.89
+	#define MACRO_POS_SB_COLUMN_X_SCROLLBAR                         0.98
 
 	// Score Feed
 	#define MACRO_POS_SF_WIDTH                                      (0.33 * safeZoneW)
@@ -408,6 +410,7 @@
 
 	#define MACRO_KEYBIND_TOGGLESPAWNMENU                           DIK_F1
 	#define MACRO_KEYBIND_SHOWSCOREBOARD                            DIK_TAB
+	#define MACRO_KEYBIND_SHOWSCOREBOARD_CURSOR                     0xF1 // 0xF0: Left mouse button 0xF1: Right mouse button 0xF2: Middle mouse button 0xF3: Mouse #4 0xF4: Mouse #5 0xF5: Mouse #6 0xF6: Mouse #7 0xF7: Mouse #8 0xF8: Mouse wheel up 0xF9: Mouse wheel down
 	#define MACRO_KEYBIND_GIVEUP                                    DIK_SPACE
 	#define MACRO_KEYBIND_RESUPPLY                                  DIK_4
 	#define MACRO_KEYBIND_REPAIR                                    DIK_4
@@ -454,7 +457,7 @@
 
 	// Gamemode
 	#define MACRO_GM_KILLASSISTDURATION                             10 // How long (in seconds), after damaging an enemy unit, it is possible to receive a kill assist for
-	#define MACRO_GM_SYS_TICKETS_INTERVAL                           0.25 // Interval, in seconds, between two update cycles of the tickets system
+	#define MACRO_GM_SYS_TICKETS_INTERVAL                           0.5 // Interval, in seconds, between two update cycles of the tickets system
 	#define MACRO_GM_SYS_ENDCONDITIONS_INTERVAL                     0.25 // Interval, in seconds, between two update cycles of the end conditions system
 	#define MACRO_GM_SYS_HANDLEPLAYERRESPAWN_INTERVAL               0.05 // Interval, in seconds, between two update cycles of the player respawn system (Note: must be less than the MP respawn time!)
 	#define MACRO_GM_SYS_HANDLECURATOR_INTERVAL                     1 // Interval, in seconds, between two update cycles of the end curator handler system
@@ -501,8 +504,9 @@
 
 	// Tickets
 	#define MACRO_TICKETBLEED_SECTORRATIOTHRESHOLD                  0.6 // The threshold of a side's owned sectors ratio, below which the side receives ticket bleed. The side with the highest ratio determines the target value that each side's ratio is compared against. Uncaptured (neutral) sectors are not counted.
-	#define MACRO_TICKETBLEED_INTERVAL_SLOW                         20 // The interval, in seconds, in which slow ticket bleed occurs. Ticket bleed causes a penalty of one ticket to sides which own less than the speciifed ratio of all captured sectors.
-	#define MACRO_TICKETBLEED_INTERVAL_FAST                         1 // The interval, in seconds, in which fast ticket bleed occurs. Fast ticket bleed only occurs when a side owns no sectors, but still has units which are alive.
+	#define MACRO_TICKETBLEED_SLOW                                  60 // The bleed rate, in tickets per minute, of slow ticket bleed. Ticket bleed causes a penalty of one ticket to sides which own less than the speciifed ratio of all captured sectors.
+	#define MACRO_TICKETBLEED_FAST                                  3 // The bleed rate, in tickets per minute, of fast ticket bleed. Fast ticket bleed only occurs when a side owns no sectors, but still has units which are alive.
+
 	#define MACRO_TICKETS_WARNINGTHRESHOLD                          50 // When 2 out of 3 sides have fewer than this many tickets, a warning is broadcast to build up suspense (the mission will likely be over soon)
 	#define MACRO_TICKETS_DECISIVETHRESHOLD                         100 // If the round ends, and the winning side has at least this many tickets left, the end counts as a decisive victory/crushing defeat
 
@@ -515,7 +519,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.17.841" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.17.852" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -896,14 +900,14 @@
 //	AI IDENTITY INDEXES
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
-	#define MACRO_INDEX_AIIDENTITY_SIDEINDEX                        0
-	#define MACRO_INDEX_AIIDENTITY_GROUPINDEX                       1
-	#define MACRO_INDEX_AIIDENTITY_ISLEADER                         2
-	#define MACRO_INDEX_AIIDENTITY_ROLE                             3
-	#define MACRO_INDEX_AIIDENTITY_NAME                             4
-	#define MACRO_INDEX_AIIDENTITY_FACE                             5
-	#define MACRO_INDEX_AIIDENTITY_SPEAKER                          6
-	#define MACRO_INDEX_AIIDENTITY_UNITINDEX                        7
+	#define MACRO_INDEX_AIIDENTITY_UNITINDEX                        0
+	#define MACRO_INDEX_AIIDENTITY_SIDEINDEX                        1
+	#define MACRO_INDEX_AIIDENTITY_GROUPINDEX                       2
+	#define MACRO_INDEX_AIIDENTITY_ISLEADER                         3
+	#define MACRO_INDEX_AIIDENTITY_ROLE                             4
+	#define MACRO_INDEX_AIIDENTITY_NAME                             5
+	#define MACRO_INDEX_AIIDENTITY_FACE                             6
+	#define MACRO_INDEX_AIIDENTITY_SPEAKER                          7
 
 
 

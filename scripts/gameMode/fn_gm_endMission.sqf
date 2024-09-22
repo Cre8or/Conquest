@@ -18,7 +18,7 @@
 
 // Fetch our params
 params [
-	["_side", sideEmpty, [sideEmpty]],
+	["_winningSide", sideEmpty, [sideEmpty]],
 	["_isDecisive", false, [false]]
 ];
 
@@ -59,8 +59,8 @@ if (hasInterface) then {
 	// Stop any active radio messages
 	[MACRO_ENUM_RADIOMSG_INVALID, true] call FUNC(gm_playRadioMsg);
 
-	private _isTie = (_side == sideEmpty);
-	private _isWin = (!_isTie and {_side == GVAR(side)});
+	private _isTie = (_winningSide == sideEmpty);
+	private _isWin = (!_isTie and {_winningSide == GVAR(side)});
 
 	// Play music
 	0 fadeMusic 0;
@@ -83,6 +83,7 @@ if (hasInterface) then {
 
 
 	// Close the spawn menu, if it is still open
+	// TODO: Close via an event
 	(uiNamespace getVariable [QGVAR(RscSpawnMenu), displayNull]) closeDisplay 0;
 
 	// Disable the combat area warning screen
@@ -124,16 +125,16 @@ if (hasInterface) then {
 		_topText ctrlSetText (["VICTORY", "DECISIVE VICTORY"] select _isDecisive);
 	} else {
 		if (_isTie) then {
-			_topText ctrlSetText "STALEMATE";
+			_topText ctrlSetText "DRAW";
 		} else {
 			_topText ctrlSetText (["DEFEAT", "CRUSHING DEFEAT"] select _isDecisive);
 		};
 	};
 
-	if (_side != sideEmpty) then {
-		_bottomText ctrlSetText toUpper format ["%1 wins", [_side] call FUNC(gm_getSideName)];
-	} else {
+	if (_isTie) then {
 		_bottomText ctrlSetText "NOBODY WINS";
+	} else {
+		_bottomText ctrlSetText toUpper format ["%1 wins", [_winningSide] call FUNC(gm_getSideName)];
 	};
 
 	// Set up the flags and tickets
@@ -143,9 +144,9 @@ if (hasInterface) then {
 		(_endScreen displayCtrl _idcFlag) ctrlSetText ([_sideX] call FUNC(gm_getFlagTexture));
 		(_endScreen displayCtrl _idcTickets) ctrlSetText str ([_sideX] call FUNC(gm_getSideTickets));
 	} forEach [
-		[_sideLeft,	MACRO_IDC_ES_FLAG_LEFT_PICTURE,		MACRO_IDC_ES_TICKETS_LEFT_TEXT],
-		[_sideMiddle,	MACRO_IDC_ES_FLAG_MIDDLE_PICTURE,	MACRO_IDC_ES_TICKETS_MIDDLE_TEXT],
-		[_sideRight,	MACRO_IDC_ES_FLAG_RIGHT_PICTURE,	MACRO_IDC_ES_TICKETS_RIGHT_TEXT]
+		[_sideLeft,   MACRO_IDC_ES_FLAG_LEFT_PICTURE,   MACRO_IDC_ES_TICKETS_LEFT_TEXT],
+		[_sideMiddle, MACRO_IDC_ES_FLAG_MIDDLE_PICTURE, MACRO_IDC_ES_TICKETS_MIDDLE_TEXT],
+		[_sideRight,  MACRO_IDC_ES_FLAG_RIGHT_PICTURE,  MACRO_IDC_ES_TICKETS_RIGHT_TEXT]
 	];
 
 
