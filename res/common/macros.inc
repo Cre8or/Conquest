@@ -504,8 +504,8 @@
 
 	// Tickets
 	#define MACRO_TICKETBLEED_SECTORRATIOTHRESHOLD                  0.6 // The threshold of a side's owned sectors ratio, below which the side receives ticket bleed. The side with the highest ratio determines the target value that each side's ratio is compared against. Uncaptured (neutral) sectors are not counted.
-	#define MACRO_TICKETBLEED_SLOW                                  60 // The bleed rate, in tickets per minute, of slow ticket bleed. Ticket bleed causes a penalty of one ticket to sides which own less than the speciifed ratio of all captured sectors.
-	#define MACRO_TICKETBLEED_FAST                                  3 // The bleed rate, in tickets per minute, of fast ticket bleed. Fast ticket bleed only occurs when a side owns no sectors, but still has units which are alive.
+	#define MACRO_TICKETBLEED_SLOW                                  3 // The bleed rate, in tickets per minute, of slow ticket bleed. Ticket bleed causes a penalty of one ticket to sides which own less than the speciifed ratio of all captured sectors.
+	#define MACRO_TICKETBLEED_FAST                                  60 // The bleed rate, in tickets per minute, of fast ticket bleed. Fast ticket bleed only occurs when a side owns no sectors, but still has units which are alive.
 
 	#define MACRO_TICKETS_WARNINGTHRESHOLD                          50 // When 2 out of 3 sides have fewer than this many tickets, a warning is broadcast to build up suspense (the mission will likely be over soon)
 	#define MACRO_TICKETS_DECISIVETHRESHOLD                         100 // If the round ends, and the winning side has at least this many tickets left, the end counts as a decisive victory/crushing defeat
@@ -519,7 +519,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.17.860" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.17.861" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
