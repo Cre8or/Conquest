@@ -159,10 +159,6 @@ class MACRO_PROJECT_PREFIX {
 		file = "scripts\ui";
 		// Abbreviation:	ui
 
-		class ui_spawnMenu {
-			file = "scripts\ui\spawnMenu\fn_ui_spawnMenu.sqf";
-		};
-
 		class ui_blackScreen {};
 		class ui_disableUserInput {};
 		class ui_drawCombatArea_map {};
@@ -183,6 +179,7 @@ class MACRO_PROJECT_PREFIX {
 		class ui_processUnitStats {};
 		class ui_scoreBoard {};
 		class ui_setupPPEffects {};
+		class ui_spawnMenu {};
 		class ui_sys_drawHealthBar {};
 		class ui_sys_drawHitMarkers {};
 		class ui_sys_drawIcons3D {};
@@ -197,6 +194,7 @@ class MACRO_PROJECT_PREFIX {
 		file = "scripts\units";
 		// Abbreviation:	unit
 
+		class unit_disableInventory {};
 		class unit_getUID {};
 		class unit_getVehicleRole {};
 		class unit_isAlive {};

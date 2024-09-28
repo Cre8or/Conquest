@@ -28,7 +28,7 @@ private _spawnMenu = uiNamespace getVariable [QGVAR(RscSpawnMenu), displayNull];
 if (isNull _spawnMenu) then {
 	["ui_init"] call FUNC(ui_spawnMenu);
 } else {
-	_spawnMenu closeDisplay 0;
+	["ui_close", true] call FUNC(ui_spawnMenu);
 };
 
 

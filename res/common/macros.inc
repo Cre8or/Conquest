@@ -400,11 +400,11 @@
 	#define MACRO_ACT_SPOTTING_COOLDOWNDURATION                     15 // How long the spotting action remains blocked for, in seconds, when in cooldown
 	#define MACRO_ACT_SPOTTING_COSTPERUSE                           2 // How much it costs to use the spotting action. Divice the cooldown duration by this value to determine how often the action may be triggered (at once) before entering cooldown
 
-	#define MACRO_ACT_RESUPPLYUNIT_MAXDISTANCE                      2 // The distance, in meters, below which support units must be to friendly units in order to resupply them
+	#define MACRO_ACT_RESUPPLYUNIT_MAXDISTANCE                      2.5 // The distance, in meters, below which support units must be to friendly units in order to resupply them
 	#define MACRO_ACT_RESUPPLYUNIT_AMOUNT                           0.1 // The amount of ammunition that is added to friendly units upon resupplying, expressed as fraction of their loadout's maximum ammunition
 	#define MACRO_ACT_RESUPPLYUNIT_COOLDOWN                         1 // The cooldown duration, in seconds, between consecutive resupply actions
 
-	#define MACRO_ACT_HEALUNIT_MAXDISTANCE                          2 // The distance, in meters, below which medics must be to their patients in order to heal them
+	#define MACRO_ACT_HEALUNIT_MAXDISTANCE                          2.5 // The distance, in meters, below which medics must be to their patients in order to heal them
 	#define MACRO_ACT_HEALUNIT_AMOUNT                               0.15 // The amount of health that is added to patients upon healing, expressed as fraction of their maximum health
 	#define MACRO_ACT_HEALUNIT_COOLDOWN                             1 // The cooldown duration, in seconds, between consecutive healing actions
 
@@ -519,7 +519,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.17.852" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.17.860" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -759,8 +759,9 @@
 
 	#define MACRO_ENUM_ENDMISSION_INIT                              0
 	#define MACRO_ENUM_ENDMISSION_PLAYMUSIC                         1
-	#define MACRO_ENUM_ENDMISSION_FADEMUSIC                         2
-	#define MACRO_ENUM_ENDMISSION_ENDING                            3
+	#define MACRO_ENUM_ENDMISSION_SHOWSCOREBOARD                    2
+	#define MACRO_ENUM_ENDMISSION_FADEOUT                           3
+	#define MACRO_ENUM_ENDMISSION_ENDING                            4
 
 
 
@@ -943,6 +944,8 @@
 
 	//#define MACRO_DEBUG_GM_PRESLOT
 	//#define MACRO_DEBUG_GM_NOSAFESTART
+	//#define MACRO_DEBUG_GM_CONTINUEAFTERENDING
+	//#define MACRO_DEBUG_GM_ALLOWINVENTORY
 
 	//#define MACRO_DEBUG_NM_OCCLUDERS
 	//#define MACRO_DEBUG_NM_NODES_INF

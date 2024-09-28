@@ -47,12 +47,29 @@ case "ui_lbselection_changed": {
 	if (_selectedUIDChanged and {_selectedIndex >= 0}) then {
 		private _UID = _ctrl lnbData [_selectedIndex, 1];
 
-		if (_UID != GVAR(ui_scoreBoard_selectedUID)) then {
-			GVAR(ui_scoreBoard_selectedUID)  = _UID;
-			GVAR(ui_scoreBoard_selectedSide) = _selectedSide;
+		if (_UID == "") then {
+			if (_selectedSide == GVAR(ui_scoreBoard_selectedSide)) then {
+				private _prevIndex = _ctrl getVariable [QGVAR(prevSelectedIndex), -1];
+				_ctrl lnbSetCurSelRow _prevIndex;
 
-			// Update the listboxes
-			["ui_update"] call FUNC(ui_scoreBoard);
+				//systemchat format ["Reselecting previous index %1", _prevIndex];
+
+				["ui_update"] call FUNC(ui_scoreBoard);
+			};
+
+		} else {
+
+			if (_UID != GVAR(ui_scoreBoard_selectedUID)) then {
+				GVAR(ui_scoreBoard_selectedUID)  = _UID;
+				GVAR(ui_scoreBoard_selectedSide) = _selectedSide;
+
+				_ctrl setVariable [QGVAR(prevSelectedIndex), _selectedIndex];
+
+				//systemchat format ["Selected %1 (%2)", _selectedIndex, _UID];
+
+				// Update the listboxes
+				["ui_update"] call FUNC(ui_scoreBoard);
+			};
 		};
 	};
 };

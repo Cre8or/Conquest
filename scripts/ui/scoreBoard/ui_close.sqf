@@ -9,6 +9,11 @@ case "ui_close": {
 
 
 
+	// Re-enable the action menu
+	inGameUISetEventHandler ["PrevAction", "false"];
+	inGameUISetEventHandler ["NextAction", "false"];
+	inGameUISetEventHandler ["Action", "false"];
+
 	removeMissionEventHandler ["EachFrame", GVAR(ui_scoreBoard_EH)];
 
 	// If this event is being forced, manually close the scorebard

@@ -2,7 +2,6 @@
 case "ui_listbox_changed": {
 	_eventExists = true;
 
-	// Fetch the params
 	_args params ["_ctrl", "_index"];
 
 	// Determine what to do based on which listbox raised the event

@@ -68,13 +68,13 @@ if (hasInterface) then {
 
 	if (_isWin) then {
 		if (_isDecisive) then {
-			playMusic ["LeadTrack01_F_Mark", 138];
+			playMusic ["LeadTrack01_F_Mark", 137];
 		} else {
-			playMusic ["LeadTrack01_F_Jets", 117.3];
+			playMusic ["LeadTrack01_F_Jets", 117];
 		};
 	} else {
 		if (_isDecisive) then {
-			playMusic ["EventTrack01_F_EPC", 22];
+			playMusic ["EventTrack01_F_EPC", 19.6];
 		} else {
 			playMusic ["Leadtrack06_F_Tank", 0];
 		};
@@ -83,8 +83,10 @@ if (hasInterface) then {
 
 
 	// Close the spawn menu, if it is still open
-	// TODO: Close via an event
-	(uiNamespace getVariable [QGVAR(RscSpawnMenu), displayNull]) closeDisplay 0;
+	["ui_close", true] call FUNC(ui_spawnMenu);
+
+	// Close the scoreboard
+	["ui_close", true] call FUNC(ui_scoreBoard);
 
 	// Disable the combat area warning screen
 	QGVAR(RscCombatArea) cutRsc ["Default", "PLAIN"];
@@ -205,44 +207,55 @@ GVAR(EH_endMission_eachFrame) = addMissionEventHandler ["EachFrame", {
 
 			case MACRO_ENUM_ENDMISSION_INIT: {
 				GVAR(endMission_stage) = MACRO_ENUM_ENDMISSION_PLAYMUSIC;
+				GVAR(endMission_nextStageTime) = _time + 10;
+			};
+			case MACRO_ENUM_ENDMISSION_PLAYMUSIC: {
+				GVAR(endMission_stage) = MACRO_ENUM_ENDMISSION_SHOWSCOREBOARD;
 				GVAR(endMission_nextStageTime) = _time + 15;
+
+				// Close the end screen and force-open the scoreboard
+				QGVAR(RscEndScreen) cutRsc ["Default", "PLAIN"];
+				["ui_init", true] call FUNC(ui_scoreBoard);
 			};
 
-			case MACRO_ENUM_ENDMISSION_PLAYMUSIC: {
-				GVAR(endMission_stage) = MACRO_ENUM_ENDMISSION_FADEMUSIC;
+			case MACRO_ENUM_ENDMISSION_SHOWSCOREBOARD: {
+				GVAR(endMission_stage) = MACRO_ENUM_ENDMISSION_FADEOUT;
 
 				private _fadeDuration = 5;
-				GVAR(endMission_nextStageTime) = _time + _fadeDuration + 1;	// Extra second of delay for a subtle dramatic note
+				GVAR(endMission_nextStageTime) = _time + _fadeDuration + 2;	// Extra delay for a subtle dramatic note
 
 				_fadeDuration fadeMusic 0;
 				_fadeDuration fadeSound 0;
 				[true, _fadeDuration] call FUNC(ui_blackScreen);
 			};
 
-			case MACRO_ENUM_ENDMISSION_FADEMUSIC: {
+			case MACRO_ENUM_ENDMISSION_FADEOUT: {
 				GVAR(endMission_stage) = MACRO_ENUM_ENDMISSION_ENDING;
 
-				//endMission "END1";
-				[MACRO_ENUM_INPUTLOCK_ENDMISSION, false] call FUNC(ui_disableUserInput);
-				[false] call FUNC(ui_blackScreen);
+				// Close the scoreboard
+				["ui_close", true] call FUNC(ui_scoreBoard);
 
-				playMusic "";
-				0 fadeSound 1;
-				0 fadeMusic 1;
+				#ifdef MACRO_DEBUG_GM_CONTINUEAFTERENDING
+					[MACRO_ENUM_INPUTLOCK_ENDMISSION, false] call FUNC(ui_disableUserInput);
+					[false] call FUNC(ui_blackScreen);
 
-				switchCamera player;
-				GVAR(cam_panorama) cameraEffect ["Terminate", "BACK"];
-				GVAR(cam_panorama) camSetFov 0.75;
-				GVAR(cam_panorama) camCommit 0;
+					playMusic "";
+					0 fadeSound 1;
+					0 fadeMusic 1;
 
-				// Terminate the end screen
-				QGVAR(RscEndScreen) cutRsc ["Default", "PLAIN"];
+					switchCamera player;
+					GVAR(cam_panorama) cameraEffect ["Terminate", "BACK"];
+					GVAR(cam_panorama) camSetFov 0.75;
+					GVAR(cam_panorama) camCommit 0;
 
-				// Re-enable the score and kill feeds
-				QGVAR(RscScoreFeed) cutRsc [QGVAR(RscScoreFeed), "PLAIN"];
-				QGVAR(RscKillFeed) cutRsc [QGVAR(RscKillFeed), "PLAIN"];
+					// Re-enable the score and kill feeds
+					QGVAR(RscScoreFeed) cutRsc [QGVAR(RscScoreFeed), "PLAIN"];
+					QGVAR(RscKillFeed) cutRsc [QGVAR(RscKillFeed), "PLAIN"];
 
-				[MACRO_ENUM_INPUTLOCK_ENDMISSION, false] call FUNC(ui_disableUserInput);
+					[MACRO_ENUM_INPUTLOCK_ENDMISSION, false] call FUNC(ui_disableUserInput);
+				#else
+					endMission "END1";
+				#endif
 			};
 		};
 	};

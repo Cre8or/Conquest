@@ -2,9 +2,6 @@
 case "ui_key_down": {
 	_eventExists = true;
 
-	#include "..\..\..\..\res\macros\fnc_submitNewCallsign.inc"
-
-	// Fetch the params
 	_args params ["", "_key", "_shift", "_ctrl", "_alt"];
 
 	// Set up some variables

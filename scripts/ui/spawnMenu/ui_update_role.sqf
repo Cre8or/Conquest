@@ -2,9 +2,6 @@
 case "ui_update_role": {
 	_eventExists = true;
 
-	#include "..\..\..\..\res\macros\cond_isValidGroup.inc"
-
-	// Fetch our params
 	_args params [
 		["_shouldUpdateRole", false, [false]],
 		["_shouldSelectCurrentGroup", false, [false]]

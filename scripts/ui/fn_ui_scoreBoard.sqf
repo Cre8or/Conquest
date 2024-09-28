@@ -31,8 +31,8 @@ private _scoreBoard = uiNamespace getVariable [QGVAR(RscScoreBoard), displayNull
 
 if (isNull _scoreBoard and {_event != "ui_init"}) exitWith {
 	// DEBUG
-	diag_log format ["[CONQUEST] Scoreboard isn't open! (%1)", _event];
-	systemChat format ["Scoreboard isn't open! (%1)", _event];
+	//diag_log format ["[CONQUEST] Scoreboard isn't open! (%1)", _event];
+	//systemChat format ["Scoreboard isn't open! (%1)", _event];
 };
 
 
@@ -55,5 +55,5 @@ switch (_event) do {
 if (!_eventExists) then {
 	private _str = format ["[CONQUEST] (%1) ScoreBoard: Unknown event '%2' called!", time, _event];
 	systemChat _str;
-	hint _str;
+	diag_log _str;
 };

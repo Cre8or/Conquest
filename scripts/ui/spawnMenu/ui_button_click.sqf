@@ -2,11 +2,6 @@
 case "ui_button_click": {
 	_eventExists = true;
 
-	#include "..\..\..\..\res\macros\cond_isValidGroup.inc"
-	#include "..\..\..\..\res\macros\fnc_leaveGroup.inc"
-	#include "..\..\..\..\res\macros\fnc_submitNewCallsign.inc"
-
-	// Fetch the parameters
 	_args params [
 		["_ctrlIn", controlNull, [controlNull, -1]],	// can either be a control or an IDC
 		["_button", 0],
@@ -136,7 +131,7 @@ case "ui_button_click": {
 				// Tell the respawn handler that the player is ready
 				GVAR(gm_sys_handlePlayerRespawn_spawnRequested) = true;
 
-				_spawnMenu closeDisplay 0;
+				["ui_close", true] call FUNC(ui_spawnMenu);
 			} else {
 				["ui_update_spawn"] call FUNC(ui_spawnMenu);
 			};

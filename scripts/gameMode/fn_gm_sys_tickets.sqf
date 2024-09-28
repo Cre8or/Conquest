@@ -65,7 +65,6 @@ GVAR(ticketBleedWest_last)       = 0;
 			if (_steps > 0) then { \
 				GVAR(MERGE(tickets,THISSIDE))          = (GVAR(MERGE(tickets,THISSIDE)) - _steps) max 0; \
 				GVAR(MERGE(ticketBleedTime,THISSIDE)) = GVAR(MERGE(ticketBleedTime,THISSIDE)) + _steps / _interval; \
-				systemChat format ["(%1) Ticket bleed %2: %3", _time, THISSIDE, _steps]; \
 			}; \
 		}; \
 	} else { \

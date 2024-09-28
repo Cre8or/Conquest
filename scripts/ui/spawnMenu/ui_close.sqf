@@ -1,6 +1,14 @@
 // Unloading (closing the inventory)
-case "ui_unload": {
+case "ui_close": {
 	_eventExists = true;
+
+	_args params [
+		["_forced", false, [false]]
+	];
+
+
+
+
 
 	// Remember which menu was open
 	GVAR(ui_sm_prevMenu) = _spawnMenu getVariable [QGVAR(currentMenu), -1];
@@ -32,4 +40,12 @@ case "ui_unload": {
 	// Hide the role rendertarget objects
 	GVAR(rt_role_wall) hideObject true;
 	GVAR(rt_role_unit) hideObject true;
+
+	// If this event is being forced, manually close the scorebard
+	if (_forced) then {
+
+		// Prevent recursive firing of the unload events handler
+		_spawnMenu displayRemoveAllEventHandlers "Unload";
+		_spawnMenu closeDisplay 0;
+	};
 };

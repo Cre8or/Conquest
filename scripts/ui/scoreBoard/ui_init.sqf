@@ -30,6 +30,13 @@ case "ui_init": {
 		_scoreBoard = uiNamespace getVariable [QGVAR(RscScoreBoard), displayNull];
 	};
 
+	// Disable the action menu
+	if (_isDialog) then {
+		inGameUISetEventHandler ["PrevAction", "true"];
+		inGameUISetEventHandler ["NextAction", "true"];
+		inGameUISetEventHandler ["Action", "true"];
+	};
+
 	GVAR(ui_scoreBoard_isDialog)   = _isDialog;
 	GVAR(ui_scoreBoard_nextUpdate) = -1;
 	GVAR(ui_scoreBoard_sides)      = GVAR(sides) select {_x != sideEmpty};

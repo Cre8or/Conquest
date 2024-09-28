@@ -30,6 +30,8 @@ _unit setVariable [QGVAR(EH_unit_onHandleDamage), _unit addEventHandler ["Handle
 if (hasInterface) then {
 	_unit removeEventHandler ["HitPart", _unit getVariable [QGVAR(EH_unit_onHitPart), -1]];
 	_unit setVariable [QGVAR(EH_unit_onHitPart), _unit addEventHandler ["HitPart", FUNC(unit_onHitPart)], false];
+
+	[_unit] call FUNC(unit_disableInventory);
 };
 
 _unit removeEventHandler ["Killed", _unit getVariable [QGVAR(EH_unit_onKilled), -1]];
@@ -52,6 +54,7 @@ _unit setVariable [QGVAR(lo_addOverallAmmo_accumulator), 0, false]; // Interface
 if (_local) then {
 	_unit enableFatigue false;
 };
+
 
 
 

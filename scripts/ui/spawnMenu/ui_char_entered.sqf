@@ -2,9 +2,6 @@
 case "ui_char_entered": {
 	_eventExists = true;
 
-	#include "..\..\..\..\res\macros\cond_isValidGroup.inc"
-
-	// Fetch the parameters
 	_args params ["", "_char"];
 
 

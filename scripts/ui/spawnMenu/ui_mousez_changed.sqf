@@ -2,7 +2,6 @@
 case "ui_mousez_changed": {
 	_eventExists = true;
 
-	// Fetch the params
 	_args params ["_ctrl", "_mouseZ"];
 
 

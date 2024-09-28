@@ -18,30 +18,31 @@ TO DO:
 		- Implement looping action logic
 		- Play a short unit gesture/animation
 		- Notify the crew they are being repaired (via UI element/sounds)?
+	- (Investigate Joe's isssue with being able to spawn when no sectors are owned)
+	- Rewrite safestart system
+		- it's super ugly and weird
+		+ Freeze players in an animation that prevents them from moving (rotation is fine, though)
+		+ Prevent AI units from firing (using combat mode)
+	- Search for "DEBUG" and "TODO" keywords
+
+DONE:
+	- Rewrite the combat area drawing handler (see init_s2_client.sqf)
+	- Add a custom scoreboard UI
+		+ Display score, kills, deaths, revives
+		+ Separate scoreboard by teams and squads
+		+ Add a keybind to toggle the UI
+		+ Force-show the UI during mission ending sequence
+		+ Highlight squad/team members and enemies
+		+ Scale to the amount of teams in the mission
 	- Unify UI text sizes:
 		+ Score feed
 		+ Kill feed
 		+ Sector HUD
 		+ Health bar
 		+ Sector letters on maps
-		- Spawn menu
-		- End screen
+		+ Spawn menu
+		+ End screen
 	- Move macros/variables pertaining to a side's definition into single file (merge with loadouts file?)
-	- (Investigate Joe's isssue with being able to spawn when no sectors are owned)
-	- Add a custom scoreboard UI
-		+ Display score, kills, deaths, revives
-		+ Separate scoreboard by teams and squads
-		+ Add a keybind to toggle the UI
-		- Force-show the UI during mission ending sequence
-		+ Highlight squad/team members and enemies
-		+ Scale to the amount of teams in the mission
-	- Rewrite the combat area drawing handler (see init_client.sqf)
-	- Rewrite safestart system (it's super ugly and weird)
-		- Freeze players in an animation that prevents them from moving (rotation is fine, though)
-		+ Prevent AI units from firing (using combat mode)
-	- Search for "DEBUG" and "TODO" keywords
-
-DONE:
 	- Show the ammo count of the player's loaded magazine (irrespective of mod/difficulty settings)
 	- Flip kill feed horizontally (apparently it's not very readable from right to left)
 	- Add death/revive sounds

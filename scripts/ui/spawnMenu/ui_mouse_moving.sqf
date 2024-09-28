@@ -2,7 +2,6 @@
 case "ui_mouse_moving": {
 	_eventExists = true;
 
-	// Fetch the params
 	_args params ["_ctrl", "_mouseX", "_mouseY", "_mouseOver"];
 
 

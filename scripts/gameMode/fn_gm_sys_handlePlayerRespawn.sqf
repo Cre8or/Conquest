@@ -238,10 +238,9 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 
 						switchCamera _player;
 
-						(uiNamespace getVariable [QGVAR(RscSpawnMenu), displayNull]) closeDisplay 0;
+						["ui_close", true] call FUNC(ui_spawnMenu);
 
 						[MACRO_ENUM_INPUTLOCK_RESPAWN, false] call FUNC(ui_disableUserInput);
-
 						[false, 0.5] call FUNC(ui_blackScreen);
 						QGVAR(RscSpawnStatus) cutRsc ["Default", "PLAIN"];
 

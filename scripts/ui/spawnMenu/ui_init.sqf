@@ -29,7 +29,7 @@ case "ui_init": {
 
 	// Attach an EH to the spawn menu to detect when it is closed
 	_spawnMenu displayAddEventHandler ["Unload", {
-		["ui_unload"] call FUNC(ui_spawnMenu);
+		["ui_close"] call FUNC(ui_spawnMenu);
 	}];
 
 	// Turn on the blur post-process effect
