@@ -31,6 +31,8 @@ if (!local _unit or {_newState == _unit getVariable [QGVAR(isUnconscious), false
 
 
 
+
+
 // Local processing
 _unit setUnconscious _newState;
 _unit setCaptive _newState;

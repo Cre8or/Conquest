@@ -25,7 +25,7 @@ MACRO_FNC_INITVAR(GVAR(ui_sys_hookMapCtrls_EH), -1);
 
 GVAR(ui_sys_hookMapCtrls_hookedMap)   = false;
 GVAR(ui_sys_hookMapCtrls_hookedMapMP) = (time > 0) or !(isMultiplayer or {is3DENMultiplayer}); // Only relevant in multiplayer (on briefing only)
-GVAR(ui_sys_hookMapCtrls_hookedIGUIs) = false;
+GVAR(ui_sys_hookMapCtrls_countIGUIs)  = 0;
 
 
 
@@ -83,39 +83,34 @@ GVAR(ui_sys_hookMapCtrls_EH) = addMissionEventHandler ["EachFrame", {
 		};
 	};
 
-	// Hook into all map panels (GPS and helicopter terrain avoidance)
-	// RscCustomInfoMiniMap / RscCustomInfoAirborneMiniMap
-	if (!GVAR(ui_sys_hookMapCtrls_hookedIGUIs)) then {
-		{
-			private _ctrlMap = _x displayCtrl 101;	// See a3/ui_f/config.cpp
-
-			if (!isNull _ctrlMap) then {
-				{
-					_ctrlMap ctrlRemoveEventHandler ["Draw", _x];
-				} forEach (_ctrlMap getVariable [QGVAR(UI_EH_draw), []]);
-
-				_ctrlMap setVariable [QGVAR(UI_EH_draw), [
-					_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawIcons2D)],
-					_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawSectorFlags)],
-					_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawCombatArea_gps)],
-					_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_handleGPSScale)]
-				]];
-
-				GVAR(ui_sys_hookMapCtrls_hookedIGUIs) = true;
-			};
-		} forEach ((uiNamespace getVariable ["IGUI_Displays", []]) select {ctrlIDD _x == 311});	// See a3/ui_f/config.cpp
-	};
 
 
+	// Hook into all map panels (e.g. RscCustomInfoMiniMap / RscCustomInfoAirborneMiniMap).
+	// NOTE: IGUIs seem to only load on demand. If a mission does not have any air vehicles spawned,
+	// the terrain collision avoidance IGUI will not be loaded, and thus cannot be hooked into.
+	// As a result we need to monitor the IGUI list for changes (count increases), and react to it.
+	private _allIGUIs   = uiNamespace getVariable ["IGUI_Displays", []];
+	private _countIGUIs = count _allIGUIs;
 
+	if (_countIGUIs == GVAR(ui_sys_hookMapCtrls_countIGUIs)) exitWith {};
+	GVAR(ui_sys_hookMapCtrls_countIGUIs) = _countIGUIs;
 
-	// Clean up once all map controls have been hooked into
-	if (
-		GVAR(ui_sys_hookMapCtrls_hookedMap)
-		and {GVAR(ui_sys_hookMapCtrls_hookedMapMP)}
-		and {GVAR(ui_sys_hookMapCtrls_hookedIGUIs)}
-	) then {
-		removeMissionEventHandler ["EachFrame", GVAR(ui_sys_hookMapCtrls_EH)];
-		GVAR(ui_sys_hookMapCtrls_EH) = -1;
-	};
+	{
+		private _ctrlMap = _x displayCtrl 101;	// See a3/ui_f/config.cpp
+
+		if (!isNull _ctrlMap) then {
+			{
+				_ctrlMap ctrlRemoveEventHandler ["Draw", _x];
+			} forEach (_ctrlMap getVariable [QGVAR(UI_EH_draw), []]);
+
+			_ctrlMap setVariable [QGVAR(UI_EH_draw), [
+				_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawIcons2D)],
+				_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawSectorFlags)],
+				_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawCombatArea_gps)],
+				_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_handleGPSScale)]
+			]];
+
+			GVAR(ui_sys_hookMapCtrls_hookedIGUIs) = true;
+		};
+	} forEach (_allIGUIs select {ctrlIDD _x == 311});	// See a3/ui_f/config.cpp
 }];

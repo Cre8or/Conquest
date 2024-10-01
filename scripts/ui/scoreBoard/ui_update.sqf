@@ -83,7 +83,7 @@ case "ui_update": {
 			"", // UID
 			"", // squadIcon (AI)
 			"", // name
-			-9e9, // score
+			0, // score
 			0, // kills
 			0, // deaths
 			0, // revives
@@ -152,12 +152,16 @@ case "ui_update": {
 			if (_name != "") then {
 				// Differentiate players from AI units
 				if (_isPlayer) then {
+					_ctrlListBox lnbSetText [[_forEachIndex, 0], ""];
 					_ctrlListBox lnbSetPicture [[_forEachIndex, 0], _squadIcon];
+					_ctrlListBox lnbSetColor [[_forEachIndex, 0], SQUARE(MACRO_COLOUR_A100_WHITE)];
 					_ctrlListBox lnbSetTextRight [[_forEachIndex, 6], str _ping];
 
 				} else {
+					_ctrlListBox lnbSetPicture [[_forEachIndex, 0], ""];
 					_ctrlListBox lnbSetText [[_forEachIndex, 0], "AI"];
 					_ctrlListBox lnbSetColor [[_forEachIndex, 0], SQUARE(MACRO_COLOUR_A25_WHITE)];
+					_ctrlListBox lnbSetTextRight [[_forEachIndex, 6], ""];
 				};
 
 				// Fill out the remaining columns
@@ -193,13 +197,14 @@ case "ui_update": {
 
 			// Blank entry
 			} else {
-				_ctrlListBox lnbSetText [[_forEachIndex, 0], ""];
+				_ctrlListBox lnbSetPicture [[_forEachIndex, 0], ""];
 				_ctrlListBox lnbSetText [[_forEachIndex, 1], ""];
 				_ctrlListBox lnbSetTextRight [[_forEachIndex, 2], ""];
-				_ctrlListBox lnbSetValue [[_forEachIndex, 2], ""];
+				_ctrlListBox lnbSetValue [[_forEachIndex, 2], -9e9];
 				_ctrlListBox lnbSetTextRight [[_forEachIndex, 3], ""];
 				_ctrlListBox lnbSetTextRight [[_forEachIndex, 4], ""];
 				_ctrlListBox lnbSetTextRight [[_forEachIndex, 5], ""];
+				_ctrlListBox lnbSetTextRight [[_forEachIndex, 6], ""];
 			}
 
 		} forEach _sideUnits;

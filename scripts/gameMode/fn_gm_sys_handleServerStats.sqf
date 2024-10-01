@@ -109,8 +109,7 @@ GVAR(gm_sys_handleServerStats_EH) = addMissionEventHandler ["EachFrame", {
 
 		// Add the players, and update the ping in their corresponding data cache while we're at it
 		{
-			// Match the UID as defined in unit_getUID
-			_UID = getPlayerUID _x;
+			_UID = [_x] call FUNC(unit_getUID);
 			GVAR(gm_sys_handleServerStats_units) pushBack _UID;
 
 			_ping = ceil ((getUserInfo getPlayerID _x) param [9, []] param [0, 0]);

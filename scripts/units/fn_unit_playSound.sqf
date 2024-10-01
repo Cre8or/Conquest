@@ -25,8 +25,9 @@ if (!hasInterface or {!alive _unit}) exitWith {};
 
 
 
-private _soundData    = [];
-private _soundsToStop = [];
+private _soundData = [];
+private _isVoice   = false;
+
 
 // Fetch the requested sound data
 switch (_enum) do {
@@ -57,11 +58,12 @@ switch (_enum) do {
 			_soundData = [format [QGVAR(Unit_VO_Death_Quiet_%1), 1 + floor random 16], 100, 1, 0];
 		};
 
-		_soundsToStop = [MACRO_ENUM_SOUND_VO_REVIVE];
+		_isVoice = true;
 	};
 
 	case MACRO_ENUM_SOUND_VO_REVIVE: {
 		_soundData = [format [QGVAR(Unit_VO_Revive_%1), 1 + floor random 10], 50, 1, 0];
+		_isVoice = true;
 	};
 
 };
@@ -76,12 +78,16 @@ if (_soundData isEqualTo []) exitWith {};
 private _soundObjName = format [QGVAR(unit_soundObj_%1), _enum];
 deleteVehicle (_unit getVariable [_soundObjName, objNull]);
 
-// Stop any additional sounds, if requested
-{
-	deleteVehicle (_unit getVariable [format [QGVAR(unit_soundObj_%1), _x], objNull]);
-} forEach _soundsToStop;
+// Stop any additional voice sounds that might overlap with the scheduled sound
+if (_isVoice) then {
+	deleteVehicle (_unit getVariable [QGVAR(unit_soundObj_voice), objNull]);
+};
 
 // Play the new sound
 private _soundObj = _unit say3D _soundData;
 
 _unit setVariable [_soundObjName, _soundObj, false];
+
+if (_isVoice) then {
+	_unit setVariable [QGVAR(unit_soundObj_voice), _soundObj, false];
+};

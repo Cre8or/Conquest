@@ -38,7 +38,7 @@ if (isNull _unit and {_index < 0}) exitWith {""};
 private ["_UID"];
 
 if (isPlayer _unit) then {
-	_UID = getPlayerUID _unit;
+	_UID = format ["%1_%2", getPlayerUID _unit, name _unit];
 
 } else {
 	if (!isNull _unit) then {
