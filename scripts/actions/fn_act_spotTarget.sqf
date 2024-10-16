@@ -19,7 +19,7 @@
 
 private _player = player;
 
-if (!hasInterface or {!alive _player}) exitWith {true};
+if (!hasInterface or {!([_player] call FUNC(unit_isAlive))} or {GVAR(missionState) != MACRO_ENUM_MISSION_LIVE}) exitWith {true};
 
 
 

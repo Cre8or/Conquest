@@ -272,9 +272,6 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 							GVAR(gm_sys_handlePlayerRespawn_nextUpdate)  = -1;
 							GVAR(gm_sys_handlePlayerRespawn_bledOut)     = false;
 
-							// Pre-emptively reset the give-up action (prevents sticky keys)
-							GVAR(kb_act_pressed_giveUp) = false;
-
 							// Open the unconscious HUD
 							QGVAR(RscUnconsciousHUD) cutRsc [QGVAR(RscUnconsciousHUD), "PLAIN"];
 							_unconsciousHUD = uiNamespace getVariable [QGVAR(RscUnconsciousHUD), displayNull];

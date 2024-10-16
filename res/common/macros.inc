@@ -519,7 +519,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.17.867" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.17.874" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -559,9 +559,9 @@
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	// Score penalties are defined as negative values
-	#define MACRO_SCORE_SECTOR_NEUTRALISED                          200
-	#define MACRO_SCORE_SECTOR_CAPTURING                            20 // Triggered for every 10% of level change
-	#define MACRO_SCORE_SECTOR_CAPTURED                             300
+	#define MACRO_SCORE_SECTOR_NEUTRALISED                          100
+	#define MACRO_SCORE_SECTOR_CAPTURING                            10 // Triggered for every 10% of level change
+	#define MACRO_SCORE_SECTOR_CAPTURED                             100
 
 	#define MACRO_SCORE_RESUPPLY                                    1 // Per percentage of ammo resupplied
 	#define MACRO_SCORE_HEAL                                        1 // Per health point healed

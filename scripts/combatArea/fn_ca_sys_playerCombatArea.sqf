@@ -41,17 +41,18 @@ GVAR(ca_sys_playerCombatArea_EH) = addMissionEventHandler ["EachFrame", {
 
 	if (isGamePaused) exitWith {};
 
-	if (GVAR(missionState) != MACRO_ENUM_MISSION_LIVE) exitWith {};
-
 	// Update the state periodically
 	private _time = time;
 
 	if (_time > GVAR(ca_sys_playerCombatArea_nextUpdate)) then {
 
 		private _player   = player;
-		private _newState = true;
+		private _newState = true; // Default to true (inside the combat area)
 
-		if ([_player] call FUNC(unit_isAlive)) then {
+		if (
+			GVAR(missionState) == MACRO_ENUM_MISSION_LIVE) then {
+		 	and {[_player] call FUNC(unit_isAlive)}
+		) then {
 			_newState = [getPosWorld _player, GVAR(side)] call FUNC(ca_isInCombatArea);
 		};
 

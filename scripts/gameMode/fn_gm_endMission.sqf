@@ -2,6 +2,7 @@
 	Author:	 	Cre8or
 	Description:
 		Initiates the mission ending sequence and announces the given side as the winner.
+
 		This function handles both client and server code, and as such must be executed globally.
 	Arguments:
 		0:      <SIDE>		The side that won the mission
@@ -16,7 +17,6 @@
 
 #include "..\..\res\macros\fnc_initVar.inc"
 
-// Fetch our params
 params [
 	["_winningSide", sideEmpty, [sideEmpty]],
 	["_isDecisive", false, [false]]
@@ -26,12 +26,12 @@ params [
 
 
 
-// Set up some variables
 MACRO_FNC_INITVAR(GVAR(EH_endMission_eachFrame),-1);
 
-GVAR(endMission_startTime) = time;
-GVAR(endMission_stage) = MACRO_ENUM_ENDMISSION_INIT;
-GVAR(endMission_nextStageTime) = 0;
+GVAR(gm_endMission_startTime)     = time;
+GVAR(gm_endMission_stage)         = MACRO_ENUM_ENDMISSION_INIT;
+GVAR(gm_endMission_nextStageTime) = 0;
+GVAR(gm_endMission_sides)         = +GVAR(sides);
 
 
 
@@ -82,7 +82,10 @@ if (hasInterface) then {
 
 
 
-	// Close the spawn menu, if it is still open
+	// Close the Zeus interface
+	(findDisplay 312) closeDisplay 0;
+
+	// Close the spawn menu
 	["ui_close", true] call FUNC(ui_spawnMenu);
 
 	// Close the scoreboard
@@ -122,6 +125,7 @@ if (hasInterface) then {
 		(_endScreen displayCtrl MACRO_IDC_ES_FLAG_MIDDLE_PICTURE) ctrlShow false;
 		(_endScreen displayCtrl MACRO_IDC_ES_TICKETS_MIDDLE_TEXT) ctrlShow false;
 	};
+	GVAR(gm_endMission_sides) = [_sideLeft, _sideMiddle, _sideRight];
 
 	if (_isWin) then {
 		_topText ctrlSetText (["VICTORY", "DECISIVE VICTORY"] select _isDecisive);
@@ -154,9 +158,14 @@ if (hasInterface) then {
 
 
 	// ACRE2 compatibility
-	ACRE_IS_SPECTATOR = true;
+	if (GVAR(hasMod_acre)) then {
+		[true] call acre_api_fnc_setSpectator;
+	};
 
 	// Switch into the camera
+	// Here, cameraEffect allows us to adjust the field of view. Additionally, switchCamera enables
+	// us to detect whether the camera is attached to the panorama cam, so that we re-enforce it
+	switchCamera GVAR(cam_panorama);
 	GVAR(cam_panorama) cameraEffect ["Internal", "BACK"];
 	showCinemaBorder false;
 };
@@ -175,11 +184,19 @@ GVAR(EH_endMission_eachFrame) = addMissionEventHandler ["EachFrame", {
 
 	// Handle the camera FOV
 	if (hasInterface) then {
-		private _deltaTime = _time - GVAR(endMission_startTime) + 4;
+		private _deltaTime = _time - GVAR(gm_endMission_startTime) + 4;
 		private _FOV = 0.75 - 1.5 / _deltaTime;
 
 		GVAR(cam_panorama) camSetFov _FOV;
 		GVAR(cam_panorama) camCommit 0;
+	};
+
+	// Ensure that the camera remains active (primarily used to enforce the camera after exiting the
+	// Zeus/curator interface, as there is a one-frame delay)
+	if (GVAR(gm_endMission_stage) != MACRO_ENUM_ENDMISSION_ENDING and {cameraOn != GVAR(cam_panorama)}) then {
+		switchCamera GVAR(cam_panorama);
+		GVAR(cam_panorama) cameraEffect ["Internal", "BACK"];
+		showCinemaBorder false;
 	};
 
 	// Update the ticket counts
@@ -193,25 +210,25 @@ GVAR(EH_endMission_eachFrame) = addMissionEventHandler ["EachFrame", {
 
 		(_endScreen displayCtrl _idcTickets) ctrlSetText str ([_sideX] call FUNC(gm_getSideTickets));
 	} forEach [
-		[GVAR(sides) # 0,	MACRO_IDC_ES_TICKETS_LEFT_TEXT],
-		[GVAR(sides) # 1,	MACRO_IDC_ES_TICKETS_MIDDLE_TEXT],
-		[GVAR(sides) # 2,	MACRO_IDC_ES_TICKETS_RIGHT_TEXT]
+		[GVAR(gm_endMission_sides) # 0, MACRO_IDC_ES_TICKETS_LEFT_TEXT],
+		[GVAR(gm_endMission_sides) # 1, MACRO_IDC_ES_TICKETS_MIDDLE_TEXT],
+		[GVAR(gm_endMission_sides) # 2, MACRO_IDC_ES_TICKETS_RIGHT_TEXT]
 	];
 
 
 
 	// Handle the state transitions
-	if (_time > GVAR(endMission_nextStageTime)) then {
+	if (_time > GVAR(gm_endMission_nextStageTime)) then {
 
-		switch (GVAR(endMission_stage)) do {
+		switch (GVAR(gm_endMission_stage)) do {
 
 			case MACRO_ENUM_ENDMISSION_INIT: {
-				GVAR(endMission_stage) = MACRO_ENUM_ENDMISSION_PLAYMUSIC;
-				GVAR(endMission_nextStageTime) = _time + 10;
+				GVAR(gm_endMission_stage) = MACRO_ENUM_ENDMISSION_PLAYMUSIC;
+				GVAR(gm_endMission_nextStageTime) = _time + 10;
 			};
 			case MACRO_ENUM_ENDMISSION_PLAYMUSIC: {
-				GVAR(endMission_stage) = MACRO_ENUM_ENDMISSION_SHOWSCOREBOARD;
-				GVAR(endMission_nextStageTime) = _time + 15;
+				GVAR(gm_endMission_stage) = MACRO_ENUM_ENDMISSION_SHOWSCOREBOARD;
+				GVAR(gm_endMission_nextStageTime) = _time + 15;
 
 				// Close the end screen and force-open the scoreboard
 				QGVAR(RscEndScreen) cutRsc ["Default", "PLAIN"];
@@ -219,10 +236,10 @@ GVAR(EH_endMission_eachFrame) = addMissionEventHandler ["EachFrame", {
 			};
 
 			case MACRO_ENUM_ENDMISSION_SHOWSCOREBOARD: {
-				GVAR(endMission_stage) = MACRO_ENUM_ENDMISSION_FADEOUT;
+				GVAR(gm_endMission_stage) = MACRO_ENUM_ENDMISSION_FADEOUT;
 
 				private _fadeDuration = 5;
-				GVAR(endMission_nextStageTime) = _time + _fadeDuration + 2;	// Extra delay for a subtle dramatic note
+				GVAR(gm_endMission_nextStageTime) = _time + _fadeDuration + 1;	// Extra delay for a subtle dramatic note
 
 				_fadeDuration fadeMusic 0;
 				_fadeDuration fadeSound 0;
@@ -230,30 +247,40 @@ GVAR(EH_endMission_eachFrame) = addMissionEventHandler ["EachFrame", {
 			};
 
 			case MACRO_ENUM_ENDMISSION_FADEOUT: {
-				GVAR(endMission_stage) = MACRO_ENUM_ENDMISSION_ENDING;
+				GVAR(gm_endMission_stage) = MACRO_ENUM_ENDMISSION_ENDING;
 
 				// Close the scoreboard
 				["ui_close", true] call FUNC(ui_scoreBoard);
 
+				[MACRO_ENUM_INPUTLOCK_ENDMISSION, false] call FUNC(ui_disableUserInput);
+
 				#ifdef MACRO_DEBUG_GM_CONTINUEAFTERENDING
-					[MACRO_ENUM_INPUTLOCK_ENDMISSION, false] call FUNC(ui_disableUserInput);
+
 					[false] call FUNC(ui_blackScreen);
 
 					playMusic "";
 					0 fadeSound 1;
 					0 fadeMusic 1;
 
-					switchCamera player;
 					GVAR(cam_panorama) cameraEffect ["Terminate", "BACK"];
 					GVAR(cam_panorama) camSetFov 0.75;
 					GVAR(cam_panorama) camCommit 0;
+					switchCamera player;
 
 					// Re-enable the score and kill feeds
 					QGVAR(RscScoreFeed) cutRsc [QGVAR(RscScoreFeed), "PLAIN"];
 					QGVAR(RscKillFeed) cutRsc [QGVAR(RscKillFeed), "PLAIN"];
 
 					[MACRO_ENUM_INPUTLOCK_ENDMISSION, false] call FUNC(ui_disableUserInput);
+
+					if (GVAR(hasMod_acre)) then {
+						[false] call acre_api_fnc_setSpectator;
+					};
+
 				#else
+					// Close all open dialogs and end the mission
+					closeDialog 0;
+					(findDisplay 46) closeDisplay 0;
 					endMission "END1";
 				#endif
 			};

@@ -87,7 +87,7 @@ case "ui_button_click": {
 				["ui_update_role"] call FUNC(ui_spawnMenu);
 			} else {
 				// Only allow leaving if the current group isn't valid -> player is "ungrouped"
-				if !MACRO_COND_ISVALIDGROUP(_groupPly) then {
+				if (!MACRO_COND_ISVALIDGROUP(_groupPly)) then {
 
 					// First, leave the current group
 					["ui_button_click", MACRO_IDC_SM_GROUP_LEAVE_BUTTON] call FUNC(ui_spawnMenu);

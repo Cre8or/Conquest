@@ -491,7 +491,7 @@ class GVAR(RscSpawnMenu) {
 							idc = MACRO_IDC_SM_ROLE_PREVIEW_CONTROLS_TEXT;
 							style = ST_MULTI;
 							sizeEx = MACRO_UI_TEXTSIZE_1;
-							shadow = 0;
+							shadow = 2;
 							text = "Hold LMB to pan/rotate\nScroll to zoom\nPress N to toggle NVG";
 							x = 0;
 							y = 0;

@@ -46,10 +46,6 @@ case "ui_key_down": {
 			_spawnMenu_return = true;
 		};
 
-
-
-
-
 	} else {
 
 		// If the enter key was pressed, simulate clicking the "Spawn" button
@@ -58,7 +54,7 @@ case "ui_key_down": {
 		};
 
 		// If the night vision key was pressed...
-		if (inputAction "nightvision" > 0 and {_key in actionKeys "nightvision"}) then {
+		if (_key in actionKeys "nightvision") then {
 
 			// ...and the role menu is currently active...
 			if (_curMenu == MACRO_IDC_SM_ROLE_FRAME) then {

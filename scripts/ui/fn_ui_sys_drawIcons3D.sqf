@@ -33,7 +33,8 @@ MACRO_FNC_INITVAR(GVAR(ui_sys_drawIcons3D_EH), -1);
 removeMissionEventHandler ["Draw3D", GVAR(ui_sys_drawIcons3D_EH)];
 GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 
-	if (isGamePaused) exitWith {};
+	// Don't render if the game is paused or if the mission is over
+	if (isGamePaused or {GVAR(missionState) > MACRO_ENUM_MISSION_LIVE}) exitWith {};
 
 	private _player = player;
 

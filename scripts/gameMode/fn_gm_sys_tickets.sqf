@@ -196,6 +196,9 @@ GVAR(gm_sys_tickets_EH_killed) = addMissionEventHandler ["EntityKilled", {
 
 	params ["_unit"];
 
+	// Don't register deaths after the mission has ended
+	if (GVAR(missionState) > MACRO_ENUM_MISSION_LIVE) exitWith {};
+
 	switch (_unit getVariable [QGVAR(side), sideEmpty]) do {
 		case east: {
 			GVAR(ticketsEast) = (GVAR(ticketsEast) - 1) max 0;
