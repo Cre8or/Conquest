@@ -262,12 +262,12 @@
 	#define MACRO_POS_SB_LISTBOX_WIDTH                              (MACRO_POS_SB_WIDTH_COLUMN - 2 * pixelW * MACRO_POS_SPACER_X)
 	#define MACRO_POS_SB_IMAGE_WIDTH                                0.05
 	#define MACRO_POS_SB_COLUMN_X_NAME                              0.07
-	#define MACRO_POS_SB_COLUMN_X_SCORE                             0.5
-	#define MACRO_POS_SB_COLUMN_X_KILLS                             0.62
-	#define MACRO_POS_SB_COLUMN_X_DEATHS                            0.71
-	#define MACRO_POS_SB_COLUMN_X_REVIVES                           0.8
-	#define MACRO_POS_SB_COLUMN_X_PING                              0.89
-	#define MACRO_POS_SB_COLUMN_X_SCROLLBAR                         0.98
+	#define MACRO_POS_SB_COLUMN_X_SCORE                             0.47
+	#define MACRO_POS_SB_COLUMN_X_KILLS                             0.59
+	#define MACRO_POS_SB_COLUMN_X_DEATHS                            0.68
+	#define MACRO_POS_SB_COLUMN_X_REVIVES                           0.77
+	#define MACRO_POS_SB_COLUMN_X_PING                              0.86
+	#define MACRO_POS_SB_COLUMN_X_SCROLLBAR                         0.95
 
 	// Score Feed
 	#define MACRO_POS_SF_WIDTH                                      (0.33 * safeZoneW)
@@ -519,7 +519,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.17.874" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.18.883" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -531,6 +531,10 @@
 	#define MACRO_CLEANUPDELAY_CORPSE                               30 // How long, in seconds, a unit corpse persists after death before being removed
 	#define MACRO_CLEANUPDELAY_WRECK                                60 // How long, in seconds, a Vehicle wreck persists after destruction before being removed
 
+	// ACRE2
+	#define MACRO_ACRE2_RADIO_CLASSNAME                             "ACRE_PRC343" // The ACRE2 radio classname that all units should use
+	#define MACRO_ACRE2_AVAILABLECHANNELS                           16 // The amount of unique radio channels, as supported by the radio defined above
+	#define MACRO_ACRE2_SYS_ASSIGNCHANNELS_INTERVAL                 0.5 // The interval, in seconds, between two update cycles of the ACRE2 channel assignment system
 
 
 

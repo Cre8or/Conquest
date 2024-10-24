@@ -230,6 +230,7 @@ if (GVAR(missionState) == MACRO_ENUM_MISSION_LIVE and {!(_sector getVariable [QG
 	};
 
 	// Update the flag's animation phase
+	// TODO: Move this into sector_handleClient!
 	if (_level != _levelLast) then {
 		_flag setFlagAnimationPhase _levelLast;
 	};

@@ -57,7 +57,7 @@ class GVAR(RscListNBox) : RscListNBox {
 	default = 0;
 	disableOverflow = 1;
 	font = MACRO_FONT_UI_MEDIUM;
-	sizeEx = 0.015 * safeZoneW;
+	sizeEx = MACRO_UI_TEXTSIZE_1;
 	period = 0; // Blinking interval
 	colorSelect[] = CURLY(MACRO_COLOUR_A100_BLACK);
 	colorSelect2[] = CURLY(MACRO_COLOUR_A100_BLACK);

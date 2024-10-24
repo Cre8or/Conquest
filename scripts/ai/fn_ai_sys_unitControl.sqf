@@ -91,6 +91,20 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 			_unit doWatch objNull;
 			_unit setUnitPos "AUTO";
 
+			// Base skills
+			_unit setSkill ["courage", 1];
+			_unit setSkill ["commanding", 1];
+			_unit setSkill ["aimingSpeed", 1];
+			_unit setSkill ["reloadSpeed", 1];
+			_unit setSkill ["spotTime", 1];
+
+			if (_role == MACRO_ENUM_ROLE_SNIPER) then {
+				_unit setSkill ["aimingAccuracy", 1];
+				_unit setSkill ["spotDistance", 1];
+			} else {
+				_unit setSkill ["aimingShake", 1];
+			};
+
 			// Safestart
 			#include "unitControl\subSys_enforceSafeStart.sqf"
 

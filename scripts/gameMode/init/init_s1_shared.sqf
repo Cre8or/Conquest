@@ -12,6 +12,8 @@ GVAR(hasMod_ace_finger)   = isClass (_configMods >> "ace_finger");
 GVAR(hasMod_ace_medical)  = isClass (_configMods >> "ace_medical_engine");
 GVAR(hasMod_ace_throwing) = isClass (_configMods >> "ace_advanced_throwing");
 
+GVAR(hasMod_acre) = isClass (_configMods >> "acre_api");
+
 
 
 

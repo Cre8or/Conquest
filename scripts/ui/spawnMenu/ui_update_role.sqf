@@ -179,7 +179,7 @@ case "ui_update_role": {
 	private _playerGroup = group player;
 	private _selectedGroup = _spawnMenu getVariable [QGVAR(menuRole_selectedGroup), grpNull];
 	private _isNamingGroup = _spawnMenu getVariable [QGVAR(menuRole_isNamingGroup), false];
-	private _groups = allGroups select {MACRO_COND_ISVALIDGROUP(_x)};
+	private _groups = allGroups select {side _x == GVAR(side) and {MACRO_COND_ISVALIDGROUP(_x)}};
 
 	// List all groups
 	private ["_units", "_buffer", "_countTotal"];

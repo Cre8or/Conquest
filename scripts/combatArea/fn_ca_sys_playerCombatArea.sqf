@@ -50,7 +50,7 @@ GVAR(ca_sys_playerCombatArea_EH) = addMissionEventHandler ["EachFrame", {
 		private _newState = true; // Default to true (inside the combat area)
 
 		if (
-			GVAR(missionState) == MACRO_ENUM_MISSION_LIVE) then {
+			GVAR(missionState) == MACRO_ENUM_MISSION_LIVE
 		 	and {[_player] call FUNC(unit_isAlive)}
 		) then {
 			_newState = [getPosWorld _player, GVAR(side)] call FUNC(ca_isInCombatArea);

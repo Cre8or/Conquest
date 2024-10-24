@@ -1,9 +1,10 @@
 class MACRO_PROJECT_PREFIX {
 
-	class ace_medical {
-		file = "scripts\ace\medical";
+	class acre {
+		file = "scripts\acre";
 
-		//class itemCheck {};
+		class acre_sys_assignChannels {};
+		class acre_sys_handleRadios {};
 	};
 
 	class actions {
@@ -229,20 +230,3 @@ class MACRO_PROJECT_PREFIX {
 		class veh_isOperable {};
 	};
 };
-
-
-
-
-
-/*
-// ACE3 function overwrites
-class ace_medical {
-
-	class Medical {
-
-		class itemCheck {
-			file = "scripts\ace\medical\fn_itemCheck.sqf";
-		};
-	};
-};
-*/

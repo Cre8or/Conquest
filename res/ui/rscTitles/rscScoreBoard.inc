@@ -162,6 +162,11 @@ class GVAR(RscScoreBoard) {
 					w = MACRO_POS_SB_LISTBOX_WIDTH * (MACRO_POS_SB_COLUMN_X_PING - MACRO_POS_SB_COLUMN_X_REVIVES);
 				};
 
+				class Background_Column_Scrollbar_Left : Background_Column_Name_Left {
+					x = pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_COLUMN_X_SCROLLBAR * MACRO_POS_SB_LISTBOX_WIDTH;
+					w = MACRO_POS_SB_LISTBOX_WIDTH * (1 - MACRO_POS_SB_COLUMN_X_SCROLLBAR);
+				};
+
 				// Scorboard Column Backgrounds, Middle
 				class Background_Column_Name_Middle : Background_Column_Name_Left {
 					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_COLUMN_X_NAME * MACRO_POS_SB_LISTBOX_WIDTH;
@@ -175,6 +180,10 @@ class GVAR(RscScoreBoard) {
 					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_COLUMN_X_REVIVES * MACRO_POS_SB_LISTBOX_WIDTH;
 				};
 
+				class Background_Column_Scrollbar_Middle : Background_Column_Scrollbar_Left {
+					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_COLUMN_X_SCROLLBAR * MACRO_POS_SB_LISTBOX_WIDTH;
+				};
+
 				// Scorboard Column Backgrounds, Right
 				class Background_Column_Name_Right : Background_Column_Name_Left {
 					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_COLUMN_X_NAME * MACRO_POS_SB_LISTBOX_WIDTH;
@@ -186,6 +195,10 @@ class GVAR(RscScoreBoard) {
 
 				class Background_Column_Revives_Right : Background_Column_Revives_Left {
 					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_COLUMN_X_REVIVES * MACRO_POS_SB_LISTBOX_WIDTH;
+				};
+
+				class Background_Column_Scrollbar_Right : Background_Column_Scrollbar_Left {
+					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X + MACRO_POS_SB_COLUMN_X_SCROLLBAR * MACRO_POS_SB_LISTBOX_WIDTH;
 				};
 
 				// ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -302,7 +315,6 @@ class GVAR(RscScoreBoard) {
 				class Players_Listbox_Outline_Right : Players_Listbox_Outline_Left {
 					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X;
 				};
-
 			};
 		};
 	};

@@ -37,6 +37,8 @@ force ace_overheating_enabled = false;
 force ace_respawn_removeDeadBodiesDisconnected = false;
 
 // ACE Scopes
+force ace_scopes_enabled = true;
+force ace_scopes_inScopeAdjustment = true;
 force ace_scopes_simplifiedZeroing = true;
 
 // ACE Uncategorized
@@ -47,5 +49,7 @@ force ace_overpressure_distanceCoefficient = 0;
 force ace_ui_ammoCount = true;
 
 // ACRE2
+force acre_sys_core_fullDuplex = true;
+force acre_sys_core_ignoreAntennaDirection = false;
 force acre_sys_core_terrainLoss = 0;
 force acre_sys_signal_signalModel = 0;

@@ -1,5 +1,6 @@
 TO DO:
-	- Fix ACRE2 spectator workaround in endMission not working
+	- Fix endMission screen not showing the correct amount of tickets (e.g. 11 vs 1)
+	- Fix flag animations (setFlagAnimationPhase) not being done on the client (flag level is not broadcast)
 	- Increase AI aggressivity:
 		+ Make AI more keen on moving into incoming fire to reach move positions
 		- Make AI increase their use of suppressive fire on targets
@@ -23,6 +24,7 @@ UNCONFIRMED:
 	- Investigate Joe's isssue with being able to spawn when no sectors are owned
 
 DONE:
+	- Fix ACRE2 spectator workaround in endMission not working
 	- Implement resupply ability to support:
 		+ Similar animations/UI icons to medic healing, but for rearming
 		+ Prevent players from looting bodies/opening their gear

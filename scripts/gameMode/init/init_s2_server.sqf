@@ -367,6 +367,8 @@ call FUNC(ai_generateIdentities);
 // Start the systems
 call FUNC(ai_sys_handleRespawn);
 
+call FUNC(acre_sys_assignChannels);
+
 call FUNC(gm_sys_endConditions);
 call FUNC(gm_sys_handleCurator);
 call FUNC(gm_sys_handleEntityDeaths);
