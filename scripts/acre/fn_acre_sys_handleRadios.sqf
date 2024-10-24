@@ -34,8 +34,6 @@ GVAR(acre_sys_handleRadios_EH) = addMissionEventHandler ["EachFrame", {
 
 	if (GVAR(missionState) > MACRO_ENUM_MISSION_LIVE) exitWith {};
 
-	private _shouldUpdateChannel = false;
-
 	private _player      = player;
 	private _veh         = vehicle _player;
 	private _targetRadio = [MACRO_ACRE2_RADIO_CLASSNAME] call acre_api_fnc_getRadioByType;
@@ -63,7 +61,9 @@ GVAR(acre_sys_handleRadios_EH) = addMissionEventHandler ["EachFrame", {
 	} forEach (call acre_api_fnc_getCurrentRadioList);
 
 	// Switch to the correct radio
-	[_targetRadio] call acre_api_fnc_setCurrentRadio;
+	if (_targetRadio != (call acre_api_fnc_getCurrentRadio)) then {
+		[_targetRadio] call acre_api_fnc_setCurrentRadio;
+	};
 
 
 

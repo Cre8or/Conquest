@@ -58,7 +58,7 @@ showCinemaBorder false;
 
 call FUNC(act_registerKeybindings);
 
-call FUNC(acre_sys_handleChannel);
+call FUNC(acre_sys_handleRadios);
 
 call FUNC(ca_sys_playerCombatArea);
 

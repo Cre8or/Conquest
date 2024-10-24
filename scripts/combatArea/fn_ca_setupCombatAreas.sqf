@@ -91,14 +91,16 @@ removeMissionEventHandler ["Draw3D", GVAR(ca_setupCombatAreas_EH_draw3D)];
 			drawLine3D [
 				_x,
 				_x vectorAdd [0,0,_startZ + _stepZ * _bands],
-				[1,0,0,1]
+				[1,0,0,1],
+				20
 			];
 
 			for "_i" from 0 to _bands do {
 				drawLine3D [
 					_x vectorAdd [0,0,_startZ + _i * _stepZ],
 					(_CA # ((_forEachIndex + 1) mod _count)) vectorAdd [0,0,_startZ + _i * _stepZ],
-					[1,0,0,1]
+					[1,0,0,1],
+					50
 				];
 			};
 		} forEach _CA;

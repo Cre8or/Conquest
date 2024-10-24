@@ -24,6 +24,11 @@ UNCONFIRMED:
 	- Investigate Joe's isssue with being able to spawn when no sectors are owned
 
 DONE:
+	- Add ACRE2 compatibility:
+		+ Ensure players always have one compatible radio (and only one)
+		+ Automatically switch radio to per-group channels
+		+ Prevent players from manually switching channels
+		+ Prevent players from using the radio when not in a valid group
 	- Fix ACRE2 spectator workaround in endMission not working
 	- Implement resupply ability to support:
 		+ Similar animations/UI icons to medic healing, but for rearming

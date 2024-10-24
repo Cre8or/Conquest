@@ -519,7 +519,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.18.883" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.18.885" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -533,7 +533,7 @@
 
 	// ACRE2
 	#define MACRO_ACRE2_RADIO_CLASSNAME                             "ACRE_PRC343" // The ACRE2 radio classname that all units should use
-	#define MACRO_ACRE2_AVAILABLECHANNELS                           16 // The amount of unique radio channels, as supported by the radio defined above
+	#define MACRO_ACRE2_AVAILABLECHANNELS                           256 // The amount of unique radio channels, as supported by the radio defined above
 	#define MACRO_ACRE2_SYS_ASSIGNCHANNELS_INTERVAL                 0.5 // The interval, in seconds, between two update cycles of the ACRE2 channel assignment system
 
 

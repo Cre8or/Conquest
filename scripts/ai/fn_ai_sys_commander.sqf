@@ -346,7 +346,8 @@ removeMissionEventHandler ["Draw3D", GVAR(ai_sys_commander_EH_draw3D_debug)];
 							drawLine3D [
 								ASLtoAGL (ATLtoASL _centerPos vectorAdd (_diff vectorMultiply (_i / _count)) vectorAdd [0, 0, _distMul * sin (180 * _i / _count)]),
 								ASLtoAGL (ATLtoASL _centerPos vectorAdd (_diff vectorMultiply ((_i + 1) / _count)) vectorAdd [0, 0, _distMul * sin (180 * (_i + 1) / _count)]),
-								[0, 1, 0.0, 1]
+								[0, 1, 0.0, 1],
+								10
 							];
 						};
 
