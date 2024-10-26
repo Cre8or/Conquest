@@ -35,6 +35,7 @@ if (_reviveDuration < 0) then {
 	_reviveDuration = MACRO_GM_UNIT_REVIVEDURATION;
 };
 
+_unit setVariable [QGVAR(unconsciousTime), [-1, _time] select _newState, false];
 _unit setVariable [QGVAR(bleedoutTime), [-1, _time + _reviveDuration] select _newState, false];
 
 

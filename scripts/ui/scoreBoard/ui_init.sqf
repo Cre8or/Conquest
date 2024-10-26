@@ -10,13 +10,20 @@ case "ui_init": {
 	MACRO_FNC_INITVAR(GVAR(ui_scoreBoard_cache), createHashMap);
 	MACRO_FNC_INITVAR(GVAR(ui_scoreBoard_isDialog), false);
 
-	GVAR(ui_scoreBoard_selectedSide) = GVAR(side);
-	GVAR(ui_scoreBoard_selectedUID)  = [player] call FUNC(unit_getUID);
+	MACRO_FNC_INITVAR(GVAR(ui_scoreBoard_selectedUID), "");
+	MACRO_FNC_INITVAR(GVAR(ui_scoreBoard_selectedSide), sideEmpty);
+
+
+	private _shouldSelectPlayer = false;
 
 
 
-	// If the scoreboard is already open, close it
-	if (!isNull _scoreBoard) then {
+	// If the scoreboard isn't open yet, default the listbox selection to the player
+	if (isNull _scoreBoard) then {
+		_shouldSelectPlayer = true;
+
+	// Otherwise, ensure we don't overlap the dialog and non-dialog versions
+	} else {
 		["ui_close", true] call FUNC(ui_scoreBoard);
 	};
 
@@ -96,5 +103,13 @@ case "ui_init": {
 	};
 
 	_scoreBoard displayAddEventHandler ["Unload", {["ui_close"] call FUNC(ui_scoreBoard)}];
+
+	if (_shouldSelectPlayer) then {
+		// Populate the scoreboard
+		["ui_update"] call FUNC(ui_scoreBoard);
+
+		// Find the player
+		["ui_lbselection_changed", [controlNull, [player] call FUNC(unit_getUID)]] call FUNC(ui_scoreBoard);
+	};
 
 };

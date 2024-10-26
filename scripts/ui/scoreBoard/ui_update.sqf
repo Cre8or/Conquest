@@ -133,7 +133,7 @@ case "ui_update": {
 		// scrollbar from nudging all columns when it appears), we must resize it to
 		// prevent being able to infinitely scroll to the bottom.
 		private _ctrlPos = ctrlPosition _ctrlListBox;
-		_ctrlPos set [3, MACRO_POS_SB_LISTBOX_TEXTSIZE * (_unitsCount + 1)];
+		_ctrlPos set [3, MACRO_POS_SB_LISTBOX_TEXTSIZE * (1 + _unitsCount) * 1.01]; // 1% additional row height to acount for pixel rounding errors
 		_ctrlListBox ctrlSetPosition _ctrlPos;
 		_ctrlListBox ctrlCommit 0;
 

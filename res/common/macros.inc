@@ -78,9 +78,13 @@
 	#define MACRO_IDC_SB_SIDE_TICKETS_MIDDLE_TEXT                   109
 	#define MACRO_IDC_SB_SIDE_TICKETS_RIGHT_TEXT                    110
 
-	#define MACRO_IDC_SB_PLAYERS_LEFT_LISTBOX                       200
-	#define MACRO_IDC_SB_PLAYERS_MIDDLE_LISTBOX                     201
-	#define MACRO_IDC_SB_PLAYERS_RIGHT_LISTBOX                      202
+	#define MACRO_IDC_SB_PLAYERS_LEFT_CTRGROUP                      200
+	#define MACRO_IDC_SB_PLAYERS_MIDDLE_CTRGROUP                    201
+	#define MACRO_IDC_SB_PLAYERS_RIGHT_CTRGROUP                     202
+
+	#define MACRO_IDC_SB_PLAYERS_LEFT_LISTBOX                       210
+	#define MACRO_IDC_SB_PLAYERS_MIDDLE_LISTBOX                     211
+	#define MACRO_IDC_SB_PLAYERS_RIGHT_LISTBOX                      212
 
 	#define MACRO_IDC_SB_EMPTY_FOCUS_FRAME                          1000
 
@@ -522,7 +526,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.18.889" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.18.893" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

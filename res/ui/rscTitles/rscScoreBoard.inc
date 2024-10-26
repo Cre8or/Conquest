@@ -263,6 +263,7 @@ class GVAR(RscScoreBoard) {
 				// ------------------------------------------------------------------------------------------------------------------------------------------------
 				// Players Listbox Control Group, Left
 				class Players_Listbox_CtrlGrp_Left : RscControlsGroupNoScrollbars {
+					idc = MACRO_IDC_SB_PLAYERS_LEFT_CTRGROUP;
 					x = pixelW * MACRO_POS_SPACER_X;
 					y = MACRO_POS_SB_SIDE_HEADER_HEIGHT + MACRO_POS_SB_LISTBOX_TEXTSIZE + 4 * pixelH * MACRO_POS_SPACER_Y;
 					w = MACRO_POS_SB_LISTBOX_WIDTH;
@@ -280,12 +281,14 @@ class GVAR(RscScoreBoard) {
 							w = MACRO_POS_SB_LISTBOX_WIDTH;
 							h = 999; // Resized via script
 							onLBSelChanged = __EVAL(format ["['ui_lbselection_changed', _this] call %1", QFUNC(ui_scoreBoard)]);
+							onSetFocus     = __EVAL(format ["['ui_reset_focus'] call %1", QFUNC(ui_scoreBoard)]);
 						};
 					};
 				};
 
 				// Players Listbox Control Group, Middle
 				class Players_Listbox_CtrlGrp_Middle : Players_Listbox_CtrlGrp_Left {
+					idc = MACRO_IDC_SB_PLAYERS_MIDDLE_CTRGROUP;
 					x = MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X;
 
 					class Controls : Controls {
@@ -299,6 +302,7 @@ class GVAR(RscScoreBoard) {
 
 				// Players Listbox Control Group, Right
 				class Players_Listbox_CtrlGrp_Right : Players_Listbox_CtrlGrp_Left {
+					idc = MACRO_IDC_SB_PLAYERS_RIGHT_CTRGROUP;
 					x = 2 * MACRO_POS_SB_WIDTH_COLUMN + pixelW * MACRO_POS_SPACER_X;
 
 					class Controls : Controls {

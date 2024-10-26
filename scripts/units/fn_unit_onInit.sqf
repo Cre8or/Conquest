@@ -44,9 +44,14 @@ _unit removeEventHandler ["Reloaded", _unit getVariable [QGVAR(EH_unit_onReloade
 _unit setVariable [QGVAR(EH_unit_onReloaded), _unit addEventHandler ["Reloaded", FUNC(unit_onReloaded)], false];
 
 private _local = local _unit;
+private _broadcast = (_local and {isPlayer _unit});
 _unit setVariable [QGVAR(canCaptureSectors), true, _local];
-_unit setVariable [QGVAR(health), 1, _local];
-_unit setVariable [QGVAR(isSpawned), true, _local]; // Interfaces with drawIcons2D and drawIcons3D
+
+_unit setVariable [QGVAR(health), 1, _broadcast];
+_unit setVariable [QGVAR(isSpawned), true, _broadcast]; // Interfaces with drawIcons2D and drawIcons3D
+
+_unit setVariable [QGVAR(unconsciousTime), -1, _broadcast];
+_unit setVariable [QGVAR(bleedoutTime), -1, _broadcast];
 
 _unit setVariable [QGVAR(lo_addOverallAmmo_accumulator), 0, false]; // Interfaces with lo_addOverallAmmo
 

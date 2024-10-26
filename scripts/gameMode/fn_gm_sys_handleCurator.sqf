@@ -15,7 +15,7 @@
 
 #include "..\..\res\macros\fnc_initVar.inc"
 
-if (!isServer) exitWith {};
+if (!isServer or {!isMultiplayer}) exitWith {};
 
 
 
