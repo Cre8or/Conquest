@@ -1,9 +1,11 @@
 TO DO:
+	- Fix player deaths not being registered in multiplayer
 	- Fix endMission screen not showing the correct amount of tickets (e.g. 11 vs 1)
 	- Fix flag animations (setFlagAnimationPhase) not being done on the client (flag level is not broadcast)
 	- Increase AI aggressivity:
 		+ Make AI more keen on moving into incoming fire to reach move positions
 		- Make AI increase their use of suppressive fire on targets
+		+ Increase AI skills to make them more responsive (but not necessarily more accurate)
 	- Add a repair ability to the engineer role
 		- Implement looping action logic
 		- Play a short unit gesture/animation
@@ -17,13 +19,13 @@ TO DO:
 UNCONFIRMED:
 	- Fix spawn menu camera not being used on JIP (camera is following the player, who gets teleported when switching sides)
 		- Also fix R2T camera not showing on JIP
-	- Fix occasional double-kill registration for an individual unit
-		- Maybe why kills/vehicle destruction sometimes awards double the points that it should (including headshot damage)?
 	- Fix loadouts sometimes not getting applied to AI units (same issue as gAI when locality changes?)
 	- Fix spotting animation not working (same issue as healing action)
 	- Investigate Joe's isssue with being able to spawn when no sectors are owned
 
 DONE:
+	- Fix occasional multi-kill registration for an individual unit
+		- Can kill units that are already unconscious (health is != 0); potential race condition?
 	- Add ACRE2 compatibility:
 		+ Ensure players always have one compatible radio (and only one)
 		+ Automatically switch radio to per-group channels

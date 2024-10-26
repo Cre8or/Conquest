@@ -15,8 +15,6 @@ case "ui_init": {
 
 
 
-
-
 	// If the scoreboard is already open, close it
 	if (!isNull _scoreBoard) then {
 		["ui_close", true] call FUNC(ui_scoreBoard);
@@ -69,9 +67,9 @@ case "ui_init": {
 		(_scoreBoard displayCtrl _idcSideName) ctrlSetText ([_sideX] call FUNC(gm_getSideName));
 		(_scoreBoard displayCtrl _idcSideFlag) ctrlSetText ([_sideX] call FUNC(gm_getFlagTexture));
 	} forEach [
-		[_sideLeft,   MACRO_IDC_SB_SIDE_FLAG_LEFT_PICTURE,   MACRO_IDC_SB_SIDE_NAME_LEFT_TEXT,   MACRO_IDC_SB_SIDE_PLAYERS_LEFT_LISTBOX],
-		[_sideMiddle, MACRO_IDC_SB_SIDE_FLAG_MIDDLE_PICTURE, MACRO_IDC_SB_SIDE_NAME_MIDDLE_TEXT, MACRO_IDC_SB_SIDE_PLAYERS_MIDDLE_LISTBOX],
-		[_sideRight,  MACRO_IDC_SB_SIDE_FLAG_RIGHT_PICTURE,  MACRO_IDC_SB_SIDE_NAME_RIGHT_TEXT,  MACRO_IDC_SB_SIDE_PLAYERS_RIGHT_LISTBOX]
+		[_sideLeft,   MACRO_IDC_SB_SIDE_FLAG_LEFT_PICTURE,   MACRO_IDC_SB_SIDE_NAME_LEFT_TEXT,   MACRO_IDC_SB_PLAYERS_LEFT_LISTBOX],
+		[_sideMiddle, MACRO_IDC_SB_SIDE_FLAG_MIDDLE_PICTURE, MACRO_IDC_SB_SIDE_NAME_MIDDLE_TEXT, MACRO_IDC_SB_PLAYERS_MIDDLE_LISTBOX],
+		[_sideRight,  MACRO_IDC_SB_SIDE_FLAG_RIGHT_PICTURE,  MACRO_IDC_SB_SIDE_NAME_RIGHT_TEXT,  MACRO_IDC_SB_PLAYERS_RIGHT_LISTBOX]
 	];
 
 

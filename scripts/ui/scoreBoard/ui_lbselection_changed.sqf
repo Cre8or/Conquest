@@ -24,15 +24,15 @@ case "ui_lbselection_changed": {
 	switch (ctrlIDC _ctrl) do {
 
 		// Unit listboxes
-		case MACRO_IDC_SB_SIDE_PLAYERS_LEFT_LISTBOX: {
+		case MACRO_IDC_SB_PLAYERS_LEFT_LISTBOX: {
 			_selectedUIDChanged = true;
 			_selectedSide       = _sideLeft;
 		};
-		case MACRO_IDC_SB_SIDE_PLAYERS_MIDDLE_LISTBOX: {
+		case MACRO_IDC_SB_PLAYERS_MIDDLE_LISTBOX: {
 			_selectedUIDChanged = true;
 			_selectedSide       = _sideMiddle;
 		};
-		case MACRO_IDC_SB_SIDE_PLAYERS_RIGHT_LISTBOX: {
+		case MACRO_IDC_SB_PLAYERS_RIGHT_LISTBOX: {
 			_selectedUIDChanged = true;
 			_selectedSide       = _sideRight;
 		};

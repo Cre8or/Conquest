@@ -17,6 +17,14 @@ case "ui_init": {
 	MACRO_FNC_INITVAR(GVAR(ui_sm_prevMenu), 0);
 	MACRO_FNC_INITVAR(GVAR(ui_sm_EH_eachFrame), 0);
 
+
+
+
+	// If the scoreboard is open, close it
+	if (!isNull (uiNamespace getVariable [QGVAR(RscScoreBoard), displayNull])) then {
+		["ui_close", true] call FUNC(ui_scoreBoard);
+	};
+
 	// Create the spawn menu display
 	createDialog QGVAR(RscSpawnMenu);
 	_spawnMenu = uiNamespace getVariable [QGVAR(RscSpawnMenu), displayNull];

@@ -63,6 +63,8 @@ class GVAR(RscListNBox) : RscListNBox {
 	colorSelect2[] = CURLY(MACRO_COLOUR_A100_BLACK);
 	colorSelectBackground[] = CURLY(MACRO_COLOUR_A100_WHITE); // First blinking colour (background)
 	colorSelectBackground2[] = CURLY(MACRO_COLOUR_A100_WHITE); // Second blinking colour (background)
+
+	//delete ScrollBar;
 };
 
 class GVAR(RscEdit) : RscEdit {

@@ -78,9 +78,11 @@
 	#define MACRO_IDC_SB_SIDE_TICKETS_MIDDLE_TEXT                   109
 	#define MACRO_IDC_SB_SIDE_TICKETS_RIGHT_TEXT                    110
 
-	#define MACRO_IDC_SB_SIDE_PLAYERS_LEFT_LISTBOX                  200
-	#define MACRO_IDC_SB_SIDE_PLAYERS_MIDDLE_LISTBOX                201
-	#define MACRO_IDC_SB_SIDE_PLAYERS_RIGHT_LISTBOX                 202
+	#define MACRO_IDC_SB_PLAYERS_LEFT_LISTBOX                       200
+	#define MACRO_IDC_SB_PLAYERS_MIDDLE_LISTBOX                     201
+	#define MACRO_IDC_SB_PLAYERS_RIGHT_LISTBOX                      202
+
+	#define MACRO_IDC_SB_EMPTY_FOCUS_FRAME                          1000
 
 	// Spawn Menu                                                   // IDCs 0 to 2 are reserved for buttons and will cause the display to close when used! (hardcoded engine behaviour) - DO NOT USE THEM!
 	#define MACRO_IDC_SM_CTRLGROUP                                  100
@@ -260,14 +262,15 @@
 	#define MACRO_POS_SB_SIDE_NAME_TEXTSIZE                         MACRO_UI_TEXTSIZE_2
 	#define MACRO_POS_SB_SIDE_FLAG_WIDTH                            ((3 / 2) * MACRO_POS_SB_SIDE_HEADER_HEIGHT)
 	#define MACRO_POS_SB_LISTBOX_WIDTH                              (MACRO_POS_SB_WIDTH_COLUMN - 2 * pixelW * MACRO_POS_SPACER_X)
+	#define MACRO_POS_SB_LISTBOX_HEIGHT                             (MACRO_POS_SB_HEIGHT - MACRO_UI_TEXTSIZE_1 - MACRO_POS_SB_SIDE_HEADER_HEIGHT - 4 * pixelH * MACRO_POS_SPACER_Y)
+	#define MACRO_POS_SB_LISTBOX_TEXTSIZE                           MACRO_UI_TEXTSIZE_1
 	#define MACRO_POS_SB_IMAGE_WIDTH                                0.05
 	#define MACRO_POS_SB_COLUMN_X_NAME                              0.07
-	#define MACRO_POS_SB_COLUMN_X_SCORE                             0.47
-	#define MACRO_POS_SB_COLUMN_X_KILLS                             0.59
-	#define MACRO_POS_SB_COLUMN_X_DEATHS                            0.68
-	#define MACRO_POS_SB_COLUMN_X_REVIVES                           0.77
-	#define MACRO_POS_SB_COLUMN_X_PING                              0.86
-	#define MACRO_POS_SB_COLUMN_X_SCROLLBAR                         0.95
+	#define MACRO_POS_SB_COLUMN_X_SCORE                             0.52
+	#define MACRO_POS_SB_COLUMN_X_KILLS                             0.64
+	#define MACRO_POS_SB_COLUMN_X_DEATHS                            0.73
+	#define MACRO_POS_SB_COLUMN_X_REVIVES                           0.82
+	#define MACRO_POS_SB_COLUMN_X_PING                              0.91
 
 	// Score Feed
 	#define MACRO_POS_SF_WIDTH                                      (0.33 * safeZoneW)
@@ -519,7 +522,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.18.885" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.18.889" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

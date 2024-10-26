@@ -84,10 +84,14 @@ if (_disabled) then {
 				if (_key == DIK_ESCAPE) then {
 					private _dialogMainMenu = createDialog [["RscDisplayInterrupt", "RscDisplayMPInterrupt"] select isMultiplayer, true];
 
+					["ui_close", true] call FUNC(ui_scoreBoard);
+
 					// Restore the "Abort" button
 					private _ctrlAbort = _dialogMainMenu displayctrl 104;
 					_ctrlAbort ctrlRemoveAllEventHandlers "buttonClick";
 					_ctrlAbort ctrlAddEventHandler ["buttonClick", {
+						["ui_close", true] call FUNC(ui_scoreBoard);
+						["ui_close", true] call FUNC(ui_spawnMenu);
 						endMission "END1";
 					}];
 					_ctrlAbort ctrlEnable true;

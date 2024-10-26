@@ -1,7 +1,7 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
-		[GA][GE]
+		[LA][GE]
 		Called whenever a local unit's "Killed" EH is executed.
 		Used to handle various gamemode aspects, such as player respawning (in singleplayer), and increasing
 		the danger level of an AI's currently travelled edge.

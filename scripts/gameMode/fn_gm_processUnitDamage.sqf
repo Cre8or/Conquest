@@ -53,6 +53,8 @@ if (_damage < 0) then {
 	_health = _health - _damage;
 };
 
+_unit setVariable [QGVAR(health), _health, true];
+
 // Edge case 2: in singleplayer, the player is immediately respawned upon dying, so the instigator
 // may point to their corpse. If this is the case, we reassign the instigator to the "new" player
 // unit.
@@ -97,8 +99,6 @@ if (_health > 0) then {
 		_unit setVariable [QGVAR(addHitDetection_assistTimes), _assistTimes, false];
 		_unit setVariable [QGVAR(addHitDetection_assistDamages), _assistDamages, false];
 	};
-
-	_unit setVariable [QGVAR(health), _health, true];
 
 // Unit is unconscious / dead
 } else {

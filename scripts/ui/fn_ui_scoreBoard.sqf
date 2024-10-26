@@ -44,6 +44,7 @@ switch (_event) do {
 	#include "scoreBoard\ui_init.sqf"
 	#include "scoreBoard\ui_lbselection_changed.sqf"
 	#include "scoreBoard\ui_request_cursor.sqf"
+	#include "scoreBoard\ui_reset_focus.sqf"
 	#include "scoreBoard\ui_update.sqf"
 };
 

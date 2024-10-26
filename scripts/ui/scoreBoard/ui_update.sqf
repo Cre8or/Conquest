@@ -75,24 +75,6 @@ case "ui_update": {
 
 	} forEach GVAR(cl_AIIdentities);
 
-	// Append a dummy entry to every sideUnits array. This is to pad the bottom of the listbox,
-	// as currently using the scrollwheel doesn't move the scrollbar to the very bottom, cliping
-	// off the last entry.
-	{
-		_x pushback [
-			"", // UID
-			"", // squadIcon (AI)
-			"", // name
-			0, // score
-			0, // kills
-			0, // deaths
-			0, // revives
-			0, // ping
-			grpNull, // group
-			false // isAlive
-		];
-	} forEach _allSideUnits;
-
 
 
 
@@ -113,7 +95,7 @@ case "ui_update": {
 		// Update the tickets count and bleedout indicator
 		_tickets = [_sideX] call FUNC(gm_getSideTickets);
 		if (_tickets <= 0) then {
-			_colour = SQUARE(MACRO_COLOUR_A25_WHITE);
+			_colour = SQUARE(MACRO_COLOUR_A50_WHITE);
 		} else {
 			if ([_sideX] call FUNC(gm_getTicketBleed) > 0) then {
 				_colour = SQUARE(MACRO_COLOUR_A100_RED);
@@ -127,8 +109,10 @@ case "ui_update": {
 
 
 
-		// Ensure the listbox's rows count matches the units count. This prevents the vertical scrollbar
-		// from jumping back to 0% after every update.
+		// Clearing the listbox would cause the vertical scroll position to jump
+		// back to 0% after every update.
+		// Instead, ensure the listbox's rows count matches the units count, as
+		// this doesn't modify the scroll position.
 		_sideUnits    = _allSideUnits param [_forEachIndex, []];
 		_isPlayerSide = (_sideX == GVAR(side));
 
@@ -145,68 +129,63 @@ case "ui_update": {
 			};
 		};
 
+		// Since the listbox resizes inside a controls group (to circumvent the hardcoded
+		// scrollbar from nudging all columns when it appears), we must resize it to
+		// prevent being able to infinitely scroll to the bottom.
+		private _ctrlPos = ctrlPosition _ctrlListBox;
+		_ctrlPos set [3, MACRO_POS_SB_LISTBOX_TEXTSIZE * (_unitsCount + 1)];
+		_ctrlListBox ctrlSetPosition _ctrlPos;
+		_ctrlListBox ctrlCommit 0;
+
 		// Fill out the listbox rows with actual data
 		{
 			_x params ["_UID", "_squadIcon", "_name", "_score", "_kills", "_deaths", "_revives", "_ping", "_group", "_isAlive", "_isPlayer"];
 
-			if (_name != "") then {
-				// Differentiate players from AI units
-				if (_isPlayer) then {
-					_ctrlListBox lnbSetText [[_forEachIndex, 0], ""];
-					_ctrlListBox lnbSetPicture [[_forEachIndex, 0], _squadIcon];
-					_ctrlListBox lnbSetColor [[_forEachIndex, 0], SQUARE(MACRO_COLOUR_A100_WHITE)];
-					_ctrlListBox lnbSetTextRight [[_forEachIndex, 6], str _ping];
+			// Differentiate players from AI units
+			if (_isPlayer) then {
+				_ctrlListBox lnbSetText [[_forEachIndex, 0], ""];
+				_ctrlListBox lnbSetPicture [[_forEachIndex, 0], _squadIcon];
+				_ctrlListBox lnbSetColor [[_forEachIndex, 0], SQUARE(MACRO_COLOUR_A100_WHITE)];
+				_ctrlListBox lnbSetTextRight [[_forEachIndex, 6], str _ping];
 
-				} else {
-					_ctrlListBox lnbSetPicture [[_forEachIndex, 0], ""];
-					_ctrlListBox lnbSetText [[_forEachIndex, 0], "AI"];
-					_ctrlListBox lnbSetColor [[_forEachIndex, 0], SQUARE(MACRO_COLOUR_A25_WHITE)];
-					_ctrlListBox lnbSetTextRight [[_forEachIndex, 6], ""];
-				};
-
-				// Fill out the remaining columns
-				_ctrlListBox lnbSetText [[_forEachIndex, 1], _name];
-				_ctrlListBox lnbSetTextRight [[_forEachIndex, 2], str _score];
-				_ctrlListBox lnbSetValue [[_forEachIndex, 2], _score];
-				_ctrlListBox lnbSetTextRight [[_forEachIndex, 3], str _kills];
-				_ctrlListBox lnbSetTextRight [[_forEachIndex, 4], str _deaths];
-				_ctrlListBox lnbSetTextRight [[_forEachIndex, 5], str _revives];
-
-				_ctrlListBox lnbSetData [[_forEachIndex, 1], _UID];
-
-				// Handle row colours
-				_colour = (switch (true) do {
-					case (!_isAlive): {
-						SQUARE(MACRO_COLOUR_A100_GREY);
-					};
-					case (_group == _plyGroup): {
-						SQUARE(MACRO_COLOUR_A100_SQUAD);
-					};
-					case (_isPlayerSide): {
-						SQUARE(MACRO_COLOUR_A100_FRIENDLY);
-					};
-					default {
-						SQUARE(MACRO_COLOUR_A100_ENEMY);
-					};
-				});
-
-				for "_column" from 1 to 6 do {
-					_ctrlListBox lnbSetColor [[_forEachIndex, _column], _colour];
-					_ctrlListBox lnbSetColorRight [[_forEachIndex, _column], _colour];
-				};
-
-			// Blank entry
 			} else {
 				_ctrlListBox lnbSetPicture [[_forEachIndex, 0], ""];
-				_ctrlListBox lnbSetText [[_forEachIndex, 1], ""];
-				_ctrlListBox lnbSetTextRight [[_forEachIndex, 2], ""];
-				_ctrlListBox lnbSetValue [[_forEachIndex, 2], -9e9];
-				_ctrlListBox lnbSetTextRight [[_forEachIndex, 3], ""];
-				_ctrlListBox lnbSetTextRight [[_forEachIndex, 4], ""];
-				_ctrlListBox lnbSetTextRight [[_forEachIndex, 5], ""];
+				_ctrlListBox lnbSetText [[_forEachIndex, 0], "AI"];
+				_ctrlListBox lnbSetColor [[_forEachIndex, 0], SQUARE(MACRO_COLOUR_A50_WHITE)];
 				_ctrlListBox lnbSetTextRight [[_forEachIndex, 6], ""];
-			}
+			};
 
+			// Fill out the remaining columns
+			_ctrlListBox lnbSetText [[_forEachIndex, 1], _name];
+			_ctrlListBox lnbSetTextRight [[_forEachIndex, 2], str _score];
+			_ctrlListBox lnbSetValue [[_forEachIndex, 2], _score];
+			_ctrlListBox lnbSetTextRight [[_forEachIndex, 3], str _kills];
+			_ctrlListBox lnbSetTextRight [[_forEachIndex, 4], str _deaths];
+			_ctrlListBox lnbSetTextRight [[_forEachIndex, 5], str _revives];
+
+			_ctrlListBox lnbSetValue [[_forEachIndex, 0], parseNumber _isPlayer];
+			_ctrlListBox lnbSetData [[_forEachIndex, 1], _UID];
+
+			// Handle row colours
+			_colour = (switch (true) do {
+				case (!_isAlive): {
+					SQUARE(MACRO_COLOUR_A50_WHITE);
+				};
+				case (_group == _plyGroup): {
+					SQUARE(MACRO_COLOUR_A100_SQUAD);
+				};
+				case (_isPlayerSide): {
+					SQUARE(MACRO_COLOUR_A100_FRIENDLY);
+				};
+				default {
+					SQUARE(MACRO_COLOUR_A100_ENEMY);
+				};
+			});
+
+			for "_column" from 1 to 6 do {
+				_ctrlListBox lnbSetColor [[_forEachIndex, _column], _colour];
+				_ctrlListBox lnbSetColorRight [[_forEachIndex, _column], _colour];
+			};
 		} forEach _sideUnits;
 
 		// Sort by score
@@ -233,6 +212,14 @@ case "ui_update": {
 						_ctrlListBox lnbSetColor [[_i, _column], SQUARE(MACRO_COLOUR_A100_BLACK)];
 						_ctrlListBox lnbSetColorRight [[_i, _column], SQUARE(MACRO_COLOUR_A100_BLACK)];
 					};
+
+					// Properly handle the colour of the squad icon/AI text
+					if ((_ctrlListBox lnbValue [_i, 0]) > 0) then {
+						_ctrlListBox lnbSetColor [[_i, 0], SQUARE(MACRO_COLOUR_A100_WHITE)];
+					} else {
+						_ctrlListBox lnbSetColor [[_i, 0], SQUARE(MACRO_COLOUR_A100_BLACK)];
+					};
+
 					breakTo QGVAR(ui_scoreBoard_side);
 				};
 			};
@@ -241,8 +228,13 @@ case "ui_update": {
 		_ctrlListBox setVariable [QGVAR(prevUnitsCount), _unitsCount];
 
 	} forEach [
-		[_sideLeft,   MACRO_IDC_SB_SIDE_TICKETS_LEFT_TEXT,   MACRO_IDC_SB_SIDE_PLAYERS_LEFT_LISTBOX],
-		[_sideMiddle, MACRO_IDC_SB_SIDE_TICKETS_MIDDLE_TEXT, MACRO_IDC_SB_SIDE_PLAYERS_MIDDLE_LISTBOX],
-		[_sideRight,  MACRO_IDC_SB_SIDE_TICKETS_RIGHT_TEXT,  MACRO_IDC_SB_SIDE_PLAYERS_RIGHT_LISTBOX]
+		[_sideLeft,   MACRO_IDC_SB_SIDE_TICKETS_LEFT_TEXT,   MACRO_IDC_SB_PLAYERS_LEFT_LISTBOX],
+		[_sideMiddle, MACRO_IDC_SB_SIDE_TICKETS_MIDDLE_TEXT, MACRO_IDC_SB_PLAYERS_MIDDLE_LISTBOX],
+		[_sideRight,  MACRO_IDC_SB_SIDE_TICKETS_RIGHT_TEXT,  MACRO_IDC_SB_PLAYERS_RIGHT_LISTBOX]
 	];
+
+
+
+	// Reset the focus to prevent keyboard input from selecting random rows
+	["ui_reset_focus"] call FUNC(ui_scoreBoard);
 };
