@@ -34,7 +34,7 @@ params [
 	["_invincibleHitPoints", [], [[]]]
 ];
 
-if (!isServer or {!alive _veh}) exitWith {};
+if (!isServer or {!alive _veh} or {_side == sideEmpty}) exitWith {};
 
 
 

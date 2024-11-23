@@ -1,5 +1,11 @@
 TO DO:
-	- Fix player deaths not being registered in multiplayer
+	- Move vehicle definitions into faction data files
+		- Define a set of vehicle classes (similar to UI icon classes), e.g. car, APC, tank, truck, etc.
+		- Allow custom textures to be used (allows filling in factions that don't have unique vehicles)
+		- Allow defining aircraft pylons to help with balancing
+	- Rework init3DEN vehicle spawnpoints to preview the faction's vehicle kind
+	- Implement vehicle attack points (distinct from infantry attack points)
+	- Rework driver AI to be more cooperative when transporting passengers
 	- Fix endMission screen not showing the correct amount of tickets (e.g. 11 vs 1)
 	- Fix flag animations (setFlagAnimationPhase) not being done on the client (flag level is not broadcast)
 	- Increase AI aggressivity:
@@ -24,6 +30,7 @@ UNCONFIRMED:
 	- Investigate Joe's isssue with being able to spawn when no sectors are owned
 
 DONE:
+	- Fix player deaths not being registered in multiplayer
 	- Fix occasional multi-kill registration for an individual unit
 		- Can kill units that are already unconscious (health is != 0); potential race condition?
 	- Add ACRE2 compatibility:

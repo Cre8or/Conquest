@@ -13,7 +13,6 @@ case "ui_init": {
 	MACRO_FNC_INITVAR(GVAR(ui_scoreBoard_selectedUID), "");
 	MACRO_FNC_INITVAR(GVAR(ui_scoreBoard_selectedSide), sideEmpty);
 
-
 	private _shouldSelectPlayer = false;
 
 

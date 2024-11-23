@@ -17,7 +17,6 @@ GVAR(ticketsEast)       = 0;
 GVAR(ticketsResistance) = 0;
 GVAR(ticketsWest)       = 0;
 
-
 // Define global server variables
 GVAR(AIUnits)  = [];
 GVAR(sv_stats) = createHashMap;
@@ -167,7 +166,7 @@ private ["_veh"];
 
 // Initialise the sectors
 private ["_sector", "_side", "_level"];
-private ["_flag", "_spawnPoints", "_attackPoints", "_vehicleSpawns", "_vehicleTypes"];
+private ["_flag", "_spawnPointsInf", "_attackPointsInf", "_attackPointsVeh", "_vehicleSpawns", "_vehicleTypes"];
 private ["_spawnPoint", "_spawnData", "_typeData", "_vehSide", "_index", "_vehSpawn", "_sideX"];
 
 {
@@ -179,34 +178,36 @@ private ["_spawnPoint", "_spawnData", "_typeData", "_vehSide", "_index", "_vehSp
 	// Initialise the sector (irreversibly modifies the mission state, so we can only do it once)
 	if !(_sector getVariable [QGVAR(isInitialised), false]) then {
 
-		_spawnPoints   = [];
-		_attackPoints  = [];
-		_vehicleSpawns = [];
-		_vehicleTypes  = [];
+		_attackPointsInf = [];
+		_attackPointsVeh = [];
+		_spawnPointsInf  = [];
+		_vehicleSpawns   = [];
+		_vehicleTypes    = [];
 
 		// Iterate through the sector's synchronised objects
 		{
 			switch (typeOf _x) do {
 
-				// If it's a flag, link it
 				case MACRO_CLASS_FLAG: {
 					_flag = _x;
 				};
 
-				// If it's a unit spawnpoint, add it to the list
-				case MACRO_CLASS_SPAWNPOINT_UNIT: {
-					_spawnPoints pushBack _x;
-					_x hideObjectGlobal true;
-				};
-
-				// If it's an attack point, add its position to the list
-				case MACRO_CLASS_ATTACKPOINT: {
-					_attackPoints pushBack (getPosWorld _x);
+				case MACRO_CLASS_ATTACKPOINT_INF: {
+					_attackPointsInf pushBack (getPosWorld _x);
 					deleteVehicle _x;
 				};
 
-				// If it's a vehicle spawnpoint, setup its spawn data
-				case MACRO_CLASS_SPAWNPOINT_VEHICLE: {
+				case MACRO_CLASS_ATTACKPOINT_VEH: {
+					_attackPointsVeh pushBack (getPosWorld _x);
+					deleteVehicle _x;
+				};
+
+				case MACRO_CLASS_SPAWNPOINT_INF: {
+					_spawnPointsInf pushBack _x;
+					_x hideObjectGlobal true;
+				};
+
+				case MACRO_CLASS_SPAWNPOINT_VEH: {
 					_spawnPoint = _x;
 					_spawnData  = [];
 					_typeData   = [];
@@ -256,7 +257,8 @@ private ["_spawnPoint", "_spawnData", "_typeData", "_vehSide", "_index", "_vehSp
 		// Save the sector's shared variables
 		_sector setVariable [QGVAR(flagPole), _flag, !isNull _flag];
 		_sector setVariable [QGVAR(vehicleTypes), _vehicleTypes, _vehicleTypes isNotEqualTo []];
-		_sector setVariable [QGVAR(attackPoints), _attackPoints, _attackPoints isNotEqualTo []];
+		_sector setVariable [QGVAR(attackPointsInf), _attackPointsInf, _attackPointsInf isNotEqualTo []];
+		_sector setVariable [QGVAR(attackPointsVeh), _attackPointsVeh, _attackPointsVeh isNotEqualTo []];
 
 		{
 			_sideX = _x;
@@ -264,7 +266,7 @@ private ["_spawnPoint", "_spawnData", "_typeData", "_vehSide", "_index", "_vehSp
 			if (_sideX != sideEmpty) then {
 				_sector setVariable [
 					format [QGVAR(spawnPoints_%1), _sideX],
-					_spawnPoints select {[position _x, _sideX] call FUNC(ca_isInCombatArea)},
+					_spawnPointsInf select {[position _x, _sideX] call FUNC(ca_isInCombatArea)},
 					true
 				];
 			};

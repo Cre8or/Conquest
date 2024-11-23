@@ -153,7 +153,7 @@ GVAR(ai_sys_commander_EH) = addMissionEventHandler ["EachFrame", {
 	// All groups have been polled, now we crunch the sector data and dispatch orders
 	if (_allGroupsPolled) then {
 		private _strategicValues = GVAR(ai_sys_commander_sectors) apply {_x getVariable [QGVAR(strategicValue), 1]};
-		private ["_sector", "_indexBest", "_canReceiveOrders", "_distBest", "_attackPoints", "_waypointPos", "_newWaypointPos"];
+		private ["_sector", "_indexBest", "_canReceiveOrders", "_distBest", "_attackPointsInf", "_waypointPos", "_newWaypointPos"];
 
 		#ifdef MACRO_DEBUG_AI_COMMANDER
 			GVAR(debug_ai_commander_data) set [GVAR(ai_sys_commander_side_index), []];
@@ -200,24 +200,24 @@ GVAR(ai_sys_commander_EH) = addMissionEventHandler ["EachFrame", {
 
 				// Determine whether the group should go to the best sector, or an inherited goal position
 				if (_inheritedGoalPos isEqualTo []) then {
-					_sector         = GVAR(ai_sys_commander_sectors) # _indexBest;
-					_attackPoints   = _sector getVariable [QGVAR(attackPoints), []];
-					_newWaypointPos = getPosWorld _sector;
+					_sector          = GVAR(ai_sys_commander_sectors) # _indexBest;
+					_attackPointsInf = _sector getVariable [QGVAR(attackPointsInf), []];
+					_newWaypointPos  = getPosWorld _sector;
 				} else {
 					_sector           = objNull;
-					_attackPoints     = [];
+					_attackPointsInf  = [];
 					_newWaypointPos   = +_inheritedGoalPos;
 					_canReceiveOrders = true;
 				};
 
 				if (_canReceiveOrders) then {
-					if (_attackPoints isEqualTo []) then {
+					if (_attackPointsInf isEqualTo []) then {
 						if !(_waypointPos distanceSqr _newWaypointPos < MACRO_AI_COMMANDER_WAYPOINT_MINDISTANCE ^ 2) then {
 							_group addWaypoint [_newWaypointPos, -1, 1]; // Exact placement in format ASL
 						};
 					} else {
-						if ((_attackPoints findIf {_waypointPos distanceSqr _x < MACRO_AI_COMMANDER_WAYPOINT_MINDISTANCE ^ 2}) < 0) then {
-							_group addWaypoint [selectRandom _attackPoints, -1, 1]; // Exact placement in format ASL
+						if ((_attackPointsInf findIf {_waypointPos distanceSqr _x < MACRO_AI_COMMANDER_WAYPOINT_MINDISTANCE ^ 2}) < 0) then {
+							_group addWaypoint [selectRandom _attackPointsInf, -1, 1]; // Exact placement in format ASL
 						};
 					};
 

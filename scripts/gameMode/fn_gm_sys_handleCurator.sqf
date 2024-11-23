@@ -15,7 +15,7 @@
 
 #include "..\..\res\macros\fnc_initVar.inc"
 
-if (!isServer or {!isMultiplayer}) exitWith {};
+if (!isServer) exitWith {};
 
 
 
@@ -34,6 +34,8 @@ removeMissionEventHandler ["EachFrame", GVAR(gm_sys_handleCurator_EH)];
 GVAR(gm_sys_handleCurator_EH) = addMissionEventHandler ["EachFrame", {
 
 	if (isGamePaused) exitWith {};
+
+	if (GVAR(missionState) < MACRO_ENUM_MISSION_LIVE) exitWith {};
 
 	private _time = time;
 	if (_time > GVAR(gm_sys_handleCurator_nextUpdate)) then {

@@ -5,23 +5,6 @@ diag_log "[CONQUEST] Client initialisation (stage 2) starting...";
 
 
 
-// Player whitelist for closed testing (TODO: to be removed in beta version)
-if (isMultiplayer and {!(getPlayerUID player in [
-	"76561197990033729",
-	"76561198906648345",
-	"76561197970677684",
-	"76561198030888670",
-	"76561198043936460",
-	"76561197997583060",
-	"76561198821259924"
-])}) exitWith {
-	endMission "Not_Whitelisted";
-};
-
-
-
-
-
 // Define shared global variables (broadcast by the server)
 MACRO_FNC_INITVAR(GVAR(sides), []);
 MACRO_FNC_INITVAR(GVAR(safeStart), false);
@@ -158,6 +141,7 @@ if (!isServer) then {
 	reverse _sidesRev;
 	GVAR(side) = _sidesRev param [_sidesRev findIf {_x != sideEmpty}, sideEmpty];
 	GVAR(role) = MACRO_ENUM_ROLE_MEDIC;
+	GVAR(ui_sm_role) = GVAR(role);
 	GVAR(spawnSector) = GVAR(allSectors) param [GVAR(allSectors) findIf {
 		_x getVariable [QGVAR(side), sideEmpty] == GVAR(side)
 		and {_x getVariable [format [QGVAR(spawnPoints_%1), GVAR(side)], []] isNotEqualTo []}

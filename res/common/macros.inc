@@ -402,10 +402,10 @@
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	// Actions
-	#define MACRO_ACT_SPOTTING_MINVISIBILITY                        0.5 // The minimum threshold that visibility checks must exceed for a target to be considered spottable (return value of checkVisibility)
-	#define MACRO_ACT_SPOTTING_DURATION                             6 // How long, in seconds, a hostile unit/vehicle is visible for when spotted
+	#define MACRO_ACT_SPOTTING_MINVISIBILITY                        0.25 // The minimum threshold that visibility checks must exceed for a target to be considered spottable (return value of checkVisibility)
+	#define MACRO_ACT_SPOTTING_DURATION                             8 // How long, in seconds, a hostile unit/vehicle is visible for when spotted
 	#define MACRO_ACT_SPOTTING_COOLDOWNDURATION                     15 // How long the spotting action remains blocked for, in seconds, when in cooldown
-	#define MACRO_ACT_SPOTTING_COSTPERUSE                           2 // How much it costs to use the spotting action. Divice the cooldown duration by this value to determine how often the action may be triggered (at once) before entering cooldown
+	#define MACRO_ACT_SPOTTING_COSTPERUSE                           2.5 // How much it costs to use the spotting action. Divice the cooldown duration by this value to determine how often the action may be triggered (at once) before entering cooldown
 
 	#define MACRO_ACT_RESUPPLYUNIT_MAXDISTANCE                      2.5 // The distance, in meters, below which support units must be to friendly units in order to resupply them
 	#define MACRO_ACT_RESUPPLYUNIT_AMOUNT                           0.1 // The amount of ammunition that is added to friendly units upon resupplying, expressed as fraction of their loadout's maximum ammunition
@@ -480,13 +480,13 @@
 
 	// Nodemesh Settings
 	#define MACRO_NM_DEFAULTRADIUS_INF                              3 // Minimum completion radius, in meters, of pathfind nodes for infantry
-	#define MACRO_NM_DEFAULTRADIUS_VEH                              2 // Minimum completion radius, in meters, of pathfind nodes for vehicles
+	#define MACRO_NM_DEFAULTRADIUS_VEH                              5 // Minimum completion radius, in meters, of pathfind nodes for vehicles
 	#define MACRO_NM_SEARCHRADIUS_NODES_INF                         50 // How big, in meters, the search radius for start/end nodes around the query's origin/destination should be (for infantry pathfinding)
 	#define MACRO_NM_SEARCHRADIUS_NODES_VEH                         50 // Same as above, but for vehicle pathfinding
 	#define MACRO_NM_COSTMULTIPLIER_OFFMESH_INF                     1.5 // By how much the node cost is multiplied when travelling to/from points outside of the nodemesh (such as the origin/destination), for infantry
 	#define MACRO_NM_COSTMULTIPLIER_OFFMESH_VEH                     3 // By how much the node cost is multiplied when travelling to/from points outside of the nodemesh (such as the origin/destination), for vehicles
 	#define MACRO_NM_MAXCOUNT_NODES                                 10 // How many start/end nodes may be considered in each findPath query (more may yield better results, but impacts performance)
-	#define MACRO_NM_DANGERLEVEL_INF_DECREASERATE                   2 // By how much the danger level of all infantry node edges should decrease, per second
+	#define MACRO_NM_DANGERLEVEL_INF_DECREASERATE                   1 // By how much the danger level of all infantry node edges should decrease, per second
 	#define MACRO_NM_DANGERLEVEL_VEH_DECREASERATE                   3 // By how much the danger level of all vehicle node edges should decrease, per second
 	#define MACRO_NM_DANGERLEVEL_INF_GAIN                           100 // By how much an edge's danger level increases if an infantry unit dies on it
 	#define MACRO_NM_DANGERLEVEL_VEH_GAIN                           600 // By how much an edge's danger level increases if a vehicle is destroyed on it (does not account for the crew!)
@@ -526,7 +526,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.18.893" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.18.899" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -550,19 +550,17 @@
 //	CLASS NAMES
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
-	#define MACRO_CLASS_SPAWNPOINT_UNIT                             "Sign_Arrow_Direction_Blue_F"
-	#define MACRO_CLASS_SPAWNPOINT_VEHICLE                          "Logic"
-	#define MACRO_CLASS_ATTACKPOINT                                 "Sign_Arrow_Green_F"
+	#define MACRO_CLASS_SPAWNPOINT_INF                              "Sign_Arrow_Direction_Green_F"
+	#define MACRO_CLASS_SPAWNPOINT_VEH                              "Logic"
+	#define MACRO_CLASS_ATTACKPOINT_INF                             "Sign_Arrow_Green_F"
+	#define MACRO_CLASS_ATTACKPOINT_VEH                             "Sign_Arrow_Pink_F"
 	#define MACRO_CLASS_FLAG                                        "Flag_White_F"
 
 	#define MACRO_CLASS_COMBATAREA_NODE                             "VR_3DSelector_01_incomplete_F"
 	#define MACRO_CLASS_NODEMESH_NODE_INF                           "Sign_Sphere100cm_F" // Must be unique!
 	#define MACRO_CLASS_NODEMESH_NODE_VEH                           "Sign_Sphere200cm_F" // Must be unique!
 	#define MACRO_CLASS_NODEMESH_OCCLUDER_INF                       "Sign_Arrow_Large_Green_F" // Must be unique!
-	#define MACRO_CLASS_NODEMESH_OCCLUDER_VEH                       "Sign_Arrow_Large_Cyan_F" // Must be unique!
-
-
-
+	#define MACRO_CLASS_NODEMESH_OCCLUDER_VEH                       "Sign_Arrow_Large_Blue_F" // Must be unique!
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
