@@ -172,7 +172,8 @@ class MACRO_PROJECT_PREFIX {
 		class ui_focusMapOnArea {};
 		class ui_getAbilityIcon {};
 		class ui_getFillBarIcon {};
-		class ui_getVehTypeIcon {};
+		class ui_getVehicleIcon {};
+		class ui_getVehiclePicture {};
 		class ui_handleGPSScale {};
 		class ui_hookUnitInfoCtrls {};
 		class ui_processKillFeedEvent {};
@@ -224,7 +225,6 @@ class MACRO_PROJECT_PREFIX {
 		class veh_handleDamage {};
 		class veh_getAvoidanceForce {};
 		class veh_getRoles {};
-		class veh_getType {};
 		class veh_getUnitByRole {};
 		class veh_isClaimable {};
 		class veh_isOperable {};

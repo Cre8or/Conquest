@@ -41,7 +41,8 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 	if (dialog or {!([_player, true] call FUNC(unit_isAlive))}) exitWith {};
 
 	// Set up some constants
-	private _c_maxDistSqr         = MACRO_UI_ICONS3D_MAXDISTANCE_INF ^ 2;
+	private _c_maxDistInfSqr      = MACRO_UI_ICONS3D_MAXDISTANCE_INF ^ 2;
+	private _c_maxDistVehSqr      = MACRO_UI_ICONS3D_MAXDISTANCE_VEH ^ 2;
 	private _c_maxAngleSqr        = (0.2 * getObjectFOV cameraOn) ^ 2; // Minimum angle within which unit names should be displayed
 	private _c_uiScale            = getResolution # 5;
 	private _c_spottedTimeVarName = format [QGVAR(spottedTime_%1), GVAR(side)];

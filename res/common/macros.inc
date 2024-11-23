@@ -346,7 +346,7 @@
 
 	// Unit Icons
 	#define MACRO_UI_ICONS3D_MAXDISTANCE_INF                        500 // The maximum distance, in meters, at which infantry 3D icons are visible
-	#define MACRO_UI_ICONS3D_MAXDISTANCE_VEH                        1500 // The maximum distance, in meters, at which vehicle 3D icons are visible
+	#define MACRO_UI_ICONS3D_MAXDISTANCE_VEH                        1000 // The maximum distance, in meters, at which vehicle 3D icons are visible
 	#define MACRO_UI_ICONS3D_MAXDISTANCE_ROLEACTION                 80 // The maximum distance, in meters, at which role-specific infantry icons (healing/resupplying/repairing) are visible
 
 	// Combat Area
@@ -526,7 +526,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.18.899" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.18.904" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -561,6 +561,9 @@
 	#define MACRO_CLASS_NODEMESH_NODE_VEH                           "Sign_Sphere200cm_F" // Must be unique!
 	#define MACRO_CLASS_NODEMESH_OCCLUDER_INF                       "Sign_Arrow_Large_Green_F" // Must be unique!
 	#define MACRO_CLASS_NODEMESH_OCCLUDER_VEH                       "Sign_Arrow_Large_Blue_F" // Must be unique!
+
+
+
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -693,21 +696,30 @@
 
 	#define MACRO_ENUM_VEHICLETYPE_UNKNOWN                          -1
 
-	#define MACRO_ENUM_VEHICLETYPE_CAR                              0
-	#define MACRO_ENUM_VEHICLETYPE_MRAP                             1
-	#define MACRO_ENUM_VEHICLETYPE_TRUCK                            2
+	#define MACRO_ENUM_VEHICLETYPE_BIKE                             0
+	#define MACRO_ENUM_VEHICLETYPE_CAR_UNARMED_LIGHT                1
+	#define MACRO_ENUM_VEHICLETYPE_CAR_UNARMED_HEAVY                2
+	#define MACRO_ENUM_VEHICLETYPE_CAR_ARMED_LIGHT                  3
+	#define MACRO_ENUM_VEHICLETYPE_CAR_ARMED_HEAVY                  4
+	#define MACRO_ENUM_VEHICLETYPE_TRUCK                            5
 
-	#define MACRO_ENUM_VEHICLETYPE_APC                              10
-	#define MACRO_ENUM_VEHICLETYPE_AA                               11
-	#define MACRO_ENUM_VEHICLETYPE_TANK                             12
+	#define MACRO_ENUM_VEHICLETYPE_APC_LIGHT                        10
+	#define MACRO_ENUM_VEHICLETYPE_APC_HEAVY                        11
+	#define MACRO_ENUM_VEHICLETYPE_AA_LIGHT                         12
+	#define MACRO_ENUM_VEHICLETYPE_AA_HEAVY                         13
+	#define MACRO_ENUM_VEHICLETYPE_TANK_LIGHT                       14
+	#define MACRO_ENUM_VEHICLETYPE_TANK_HEAVY                       15
 
-	#define MACRO_ENUM_VEHICLETYPE_HELI_TRANSPORT                   100
-	#define MACRO_ENUM_VEHICLETYPE_HELI_ATTACK                      101
+	#define MACRO_ENUM_VEHICLETYPE_HELI_TRANSPORT_LIGHT             100
+	#define MACRO_ENUM_VEHICLETYPE_HELI_TRANSPORT_HEAVY             101
+	#define MACRO_ENUM_VEHICLETYPE_HELI_ATTACK_LIGHT                103
+	#define MACRO_ENUM_VEHICLETYPE_HELI_ATTACK_HEAVY                104
 
-	#define MACRO_ENUM_VEHICLETYPE_JET                              110
+	#define MACRO_ENUM_VEHICLETYPE_JET_LIGHT                        110
+	#define MACRO_ENUM_VEHICLETYPE_JET_HEAVY                        111
 
-	#define MACRO_ENUM_VEHICLETYPE_BOAT_TRANSPORT                   200
-	#define MACRO_ENUM_VEHICLETYPE_BOAT_ATTACK                      201
+	#define MACRO_ENUM_VEHICLETYPE_BOAT_LIGHT                       200
+	#define MACRO_ENUM_VEHICLETYPE_BOAT_HEAVY                       201
 
 
 

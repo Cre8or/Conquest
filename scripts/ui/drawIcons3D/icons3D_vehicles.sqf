@@ -14,17 +14,17 @@ _renderData = [];
 
 
 
-private ["_posXASL", "_pos2D", "_nameX", "_angle", "_distMul", "_typeEnum", "_icon"];
+private ["_posXASL", "_pos2D", "_nameX", "_angle", "_distMul", "_class", "_icon"];
 {
 	_x params ["_veh", "_unit", "_colour", "_alwaysShown", "_showCrewCount"];
 
-	_posX    = unitAimPositionVisual _veh;
+	_posX    = _veh modelToWorld getCenterOfMass _veh;
 	_posXASL = AGLtoASL _posX;
 	_distX   = _posPly distanceSqr _posXASL;
 
 	// Optimisation: don't continue if the position is too far away, or if the icon is off-screem
 	if (!_alwaysShown) then {
-		if (_distX > _c_maxDistSqr) then {
+		if (_distX > _c_maxDistVehSqr) then {
 			continue;
 		};
 
@@ -57,17 +57,36 @@ private ["_posXASL", "_pos2D", "_nameX", "_angle", "_distMul", "_typeEnum", "_ic
 	_distMul = 1 - 0.75 * (sqrt _distX / MACRO_UI_ICONS3D_MAXDISTANCE_VEH);
 	_colour set [3, _distMul];
 
-	_typeEnum = [typeOf _veh] call FUNC(veh_getType);
-	_icon = [_typeEnum] call FUNC(ui_getVehTypeIcon);
+	_class = typeOf _veh;
+	_icon  = [_class] call FUNC(ui_getVehiclePicture);
 
+	// Name + icon
 	_iconsQueue pushBack [
 		_icon,
 		_colour,
 		_posX,
 		0.8,
-		0.8,
+		0.4,
 		0,
 		_nameX,
+		2,
+		0.03,
+		MACRO_FONT_UI_THIN,
+		"center",
+		_alwaysShown,
+		0,
+		-0.08 * _c_uiScale
+	];
+
+	// Shadow
+	_iconsQueue pushBack [
+		_icon,
+		[0, 0, 0, _distMul],
+		_posX,
+		0.85,
+		0.45,
+		0,
+		"",
 		2,
 		0.03,
 		MACRO_FONT_UI_THIN,

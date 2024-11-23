@@ -71,7 +71,7 @@ private ["_pos2D", "_nameX", "_colour", "_posXASL", "_angle", "_distMul"];
 
 	// Optimisation: don't continue if the position is too far away, or if the icon is off-screem
 	if (!_alwaysShown) then {
-		if (_dist > _c_maxDistSqr) then {
+		if (_dist > _c_maxDistInfSqr) then {
 			continue;
 		};
 

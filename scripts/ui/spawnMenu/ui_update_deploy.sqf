@@ -45,8 +45,7 @@ case "ui_update_deploy": {
 			private _originX = _pos # 0 + _pixelW * MACRO_POS_SPACER_X;
 			private _originY = _pos # 1 + _pixelH * MACRO_POS_SPACER_Y;
 			private _width = _pos # 2 - _pixelW * (MACRO_POS_SPACER_X * 2 + 1);
-			private _cfgVehicles = configFile >> "CfgVehicles";
-			private ["_vehIcons", "_typeX", "_iconX", "_iconPlaneX", "_vehicleRows", "_height"];
+			private ["_vehIcons", "_typeX", "_vehicleRows", "_height"];
 			private ["_ctrlBackground", "_ctrlSideFlag", "_ctrlSideFlagGradient", "_ctrlHeader", "_ctrlSectorName", "_ctrlSectorLock", "_vehicleIconCtrls", "_ctrlVehIconX", "_ctrlOutline", "_ctrlButton", "_sectorCtrls"];
 
 			// Iterate over all owned sectors
@@ -57,16 +56,7 @@ case "ui_update_deploy": {
 					_typeX = _x param [_sideIndex, ""];
 
 					if (_typeX != "") then {
-						_iconX = getText (_cfgVehicles >> _typeX >> "picture");
-						_iconPlaneX = getText (_cfgVehicles >> _typeX >> "icon");
-
-						if (_typeX isKindOf "Plane" and {_iconPlaneX != ""}) then {
-							_iconX = _iconPlaneX;
-						};
-
-						if (_iconX != "") then {
-							_vehIcons pushBack _iconX;
-						};
+						_vehIcons pushBack ([_typeX] call FUNC(ui_getVehiclePicture));
 					};
 				} forEach (_x getVariable [QGVAR(vehicleTypes), []]);
 

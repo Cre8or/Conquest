@@ -75,7 +75,7 @@ private _squadVehicles   = [];
 private _spottedVehicles = [];
 private ["_crew", "_unitX", "_groupX", "_groupIndex"];
 {
-	_posX  = getPosWorld _x;
+	_posX  = _x modelToWorld getCenterOfMass _x;
 	_crew  = crew _x select {[_x] call FUNC(unit_isAlive)};
 	_unitX = driver _x;
 
