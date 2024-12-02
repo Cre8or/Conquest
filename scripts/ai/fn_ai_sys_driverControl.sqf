@@ -46,7 +46,7 @@ GVAR(ai_sys_driverControl_EH) = addMissionEventHandler ["EachFrame", {
 	if (GVAR(missionState) != MACRO_ENUM_MISSION_LIVE) exitWith {};
 
 	// Update candidate drivers
-	private ["_unit", "_veh", "_vehPos", "_vehRadius", "_vehVel", "_shouldHalt", "_hasTracks", "_routeIndexChanged", "_routePos", "_pathData", "_pathIndex", "_pathIndexLast"];
+	private ["_unit", "_veh", "_vehPos", "_vehRadius", "_vehVel", "_speed", "_shouldHalt", "_hasTracks", "_routeIndexChanged", "_routePos", "_pathData", "_pathIndex", "_pathIndexLast"];
 	for "_unitIndex" from GVAR(ai_sys_driverControl_index) to 0 step -1 do {
 
 		scopeName QGVAR(ai_sys_driverControl_loop);
@@ -72,6 +72,7 @@ GVAR(ai_sys_driverControl_EH) = addMissionEventHandler ["EachFrame", {
 			_vehPos            = _veh modelToWorldVisualWorld getCenterOfMass _veh; // Some vehicles have strange origin points; this compensates for that
 			_vehRadius         = MACRO_FNC_BOUNDINGRADIUS(_veh); // Approximation
 			_vehVel            = velocity _veh;
+			_speed             = speed _veh;
 			_shouldHalt        = false;
 			_hasTracks         = _veh getVariable QGVAR(hasTracks);
 			_routeIndexChanged = false;

@@ -13,28 +13,37 @@
 -------------------------------------------------------------------------------------------------------------------- */
 
 #include "..\..\res\common\macros.inc"
-
 #include "..\..\res\macros\fnc_boundingRadius.inc"
+#include "..\..\res\macros\fnc_initVar.inc"
 
-params ["_sector", ["_thisList", []]];
+params [
+	"_sector",
+	["_thisList", []]
+];
+
+MACRO_FNC_INITVAR(GVAR(init), false);
+
+if (!GVAR(init)) exitWith {};
 
 
 
 
 
-// Set up some variables
-private _time = time;
-private _countWest = 0;
-private _countEast = 0;
+private _time            = time;
+private _countEast       = 0;
 private _countResistance = 0;
-private _side = _sector getVariable [QGVAR(side), sideEmpty];
+private _countWest       = 0;
+private _side            = _sector getVariable [QGVAR(side), sideEmpty];
 
 
 
 
 
-// Check if the mission is live
-if (GVAR(missionState) == MACRO_ENUM_MISSION_LIVE and {!(_sector getVariable [QGVAR(isLocked), false])}) then {
+// Handle the capturing logic
+if (
+	GVAR(missionState) == MACRO_ENUM_MISSION_LIVE
+	and {!(_sector getVariable [QGVAR(isLocked), false])}
+) then {
 
 	// Validate the units inside the sector's area
 	private _units = [];
@@ -250,128 +259,74 @@ if (GVAR(missionState) == MACRO_ENUM_MISSION_LIVE and {!(_sector getVariable [QG
 
 
 // Handle the sector's vehicle spawning
-private _allVehicleSpawns = _sector getVariable [QGVAR(vehicleSpawns), []];
-private _activeVehicles   = _sector getVariable [QGVAR(activeVehicles), []];
-private _sideIndex = GVAR(sides) find _side;
-
-if (_sideIndex >= 0) then {
-	private ["_veh", "_spawnData", "_isRespawnCandidate", "_vehSide", "_vehPos", "_punishTime", "_damage"];
+if (_side != sideEmpty) then {
+	private _letter       = _sector getVariable [QGVAR(letter), "?"];
+	private _allSpawnData = _sector getVariable [format [QGVAR(sv_spawnDataVeh_%1), _side], []];
+	private ["_veh", "_spawnData", "_isSpawnAreaFree", "_vehSide", "_vehPos", "_punishTime", "_damage"];
 
 	{
-		_veh = _activeVehicles param [_forEachIndex, objNull];
-		_spawnData = _x param [_sideIndex, []];
-		_spawnData params [["_class", ""], "_spawnPos", "_vecDir", "_vecUp", "_respawnDelay", "_playersOnly", "_forbiddenWeapons", "_forbiddenMagazines", "_invincibleHitPoints", "_radius", "_respawnTime"];
+		_veh       = _sector getVariable [format [QGVAR(vehicle_%1), _forEachIndex], objNull];
+		_spawnData = _x;
+		_spawnData params [
+			"_class",        // 0
+			"_respawnTime",  // 1
+			"_spawnPos",     // 2
+			"_vecDir",       // 3
+			"_vecUp",        // 4
+			"_respawnDelay", // 5
+			"_playersOnly",  // 6
+			"_radius",       // 7
+			"_textures",     // 8
+			"_animations",   // 9
+			"_pylons"        // 10
+		];
 
-		scopeName QGVAR(sector_handleServer_vehLoop);
+		if (
+			!alive _veh
+			and {_time > _respawnTime}
+		) then {
 
-		// Check if the vehicle may be respawned
-		_isRespawnCandidate = (
-			_time > _respawnTime
-			and {
-				isNull _veh
-				or {!alive _veh and {_respawnTime >= 0}}
-			}
-		);
-
-		if (_isRespawnCandidate) then {
-
-			// Ensure the class is valid
-			if (_class == "") then {
+			// Set the respawn time
+			if (_respawnTime < 0 and {!isNull _veh}) then {
+				_respawnTime = _time + _respawnDelay;
+				_x set [1, _respawnTime];
+				//systemChat format ["[%1] vehicle destroyed (%2: %3) - respawn in %4", _letter, _forEachIndex, _class, _respawnDelay];
 				continue;
 			};
 
-			// Ensure that the spawn area is empty
-			{
-				if (getPosWorld _x distanceSqr _spawnPos > (_radius + MACRO_FNC_BOUNDINGRADIUS(_x)) ^ 2) then {
-					continue;
-				};
+			scopeName QGVAR(sector_handleServer_vehRespawn);
 
-				if (!alive _x) then {
-					_x setVariable [QGVAR(gm_sys_removeCorpses_removalTime), _time, false]; // Don't use -1
+			// Ensure that the spawn area is empty
+			_isSpawnAreaFree = true;
+			{
+				if (getPosWorld _x distanceSqr _spawnPos < (_radius + MACRO_FNC_BOUNDINGRADIUS(_x)) ^ 2) then {
+					_isSpawnAreaFree = false;
+					breakTo QGVAR(sector_handleServer_vehRespawn);
 				};
 			} forEach GVAR(allVehicles);
 
+			if (!_isSpawnAreaFree) then {continue};
+
+			// The area is clear; spawn the vehicle
 			_veh = createVehicle [_class, _spawnPos, [], 0, "CAN_COLLIDE"];
-			_veh setPosWorld _spawnPos;
+			_veh setPos ASLtoAGL _spawnPos;
 			_veh setVectorDirAndUp [_vecDir, _vecUp];
 
-			if (GVAR(missionState) < MACRO_ENUM_MISSION_LIVE) then {
-				[_veh, GVAR(safeStart)] remoteExec [QFUNC(safeStart_vehicle), 0, false]; // TODO: Handle JIP support after safestart refactor!
-			};
+			[_veh, _textures, _animations, _pylons] call FUNC(veh_setCustomisation);
+			[_veh, _side, _playersOnly] remoteExecCall [QFUNC(veh_onInit), 0, format [QGVAR(veh_onInit_%1_%2), _letter, _forEachIndex]];
 
-			// Update the list of active vehicles
-			_activeVehicles set [_forEachIndex, _veh];
-			_sector setVariable [QGVAR(activeVehicles), _activeVehicles, false];
-			GVAR(allVehicles) pushBack _veh;
+			_sector setVariable [format [QGVAR(vehicle_%1), _forEachIndex], _veh, true];
 
-			// Broadcast the new vehicles list to all clients
-			// TODO: If we ever run into the situation where this array grows very large,
-			// I should consider refactoring this and making separate add/remove functions
-			// to individually manipulate the array. That way every client replicates it
-			// on its own, reducing network traffic from having to send an entire array.
-			// For now, this is probably good enough.
-			publicVariable QGVAR(allVehicles);
+			_spawnData set [1, -1];
 
-			// Clear the vehicle's cargo
-			clearWeaponCargoGlobal _veh;
-			clearMagazineCargoGlobal _veh;
-			clearItemCargoGlobal _veh;
-			clearBackpackCargoGlobal _veh;
-
-			// Save some variables onto the vehicle
-			_veh setVariable [QGVAR(side), _side, true];
-			_veh setVariable [QGVAR(playersOnly), _playersOnly, false];
-
-			// If the vehicle has a custom respawn delay, save it too
-			if (_respawnDelay >= 0) then {
-				_veh setVariable [QGVAR(respawnDelay), _respawnDelay, false];
-			};
-
-			// Remove the forbidden weapons
-			if !(_forbiddenWeapons isEqualTo []) then {
-				{
-					_veh removeWeaponGlobal _x;
-				} forEach _forbiddenWeapons;
-			};
-
-			// Remove the forbidden magazines
-			if !(_forbiddenMagazines isEqualTo []) then {
-				private ["_turretPath"];
-				{
-					_turretPath = _x;
-					{
-						_veh removeMagazinesTurret [_x, _turretPath];
-					} forEach _forbiddenMagazines;
-				} forEach allTurrets [_veh, false];
-			};
-
-			// If any hitpoints should be invincible, we need to add a Hit EH
-			if !(_invincibleHitPoints isEqualTo []) then {
-				[_veh, _invincibleHitPoints] remoteExec [QFUNC(veh_handleDamage), 0, false];	// TODO: Find a way to make this JIP compatible without cluttering the JIP queue up with messages!
-			};
-
-			GVAR(curatorModule) addCuratorEditableObjects [[_veh], false];
-
-			// Reset the respawn time
-			_spawnData set [10, -1];
-
-		// Currently not a candidate for respawning
 		} else {
-
-			if (!alive _veh) then {
-				if (_respawnTime < 0) then {
-					_spawnData set [10, _time + _respawnDelay];
-					//systemChat format ["[%1] vehicle destroyed: %2", _sector getVariable [QGVAR(letter), "???"], _class];
-				};
-				continue;
-			};
 
 			// If the vehicle is in use, clear its punish time
 			if (
 				GVAR(missionState) != MACRO_ENUM_MISSION_LIVE
 				or {crew _veh findIf {[_x] call FUNC(unit_isAlive)} >= 0}
 			) then {
-				_veh setVariable [QGVAR(punishTime), -1, false];
+				_veh setVariable [QGVAR(sv_punishTime), -1, false];
 				continue;
 			};
 
@@ -385,42 +340,41 @@ if (_sideIndex >= 0) then {
 				and {[_veh] call FUNC(veh_isOperable)}
 				and {[_vehPos, _vehSide] call FUNC(ca_isInCombatArea)}	// Inside the combat area
 			) then {
-				_veh setVariable [QGVAR(punishTime), -1, false];
+				_veh setVariable [QGVAR(sv_punishTime), -1, false];
 				continue;
 			};
 
 			// From here on out, we can assume the vehicle is either abandoned or inoperable
-			_punishTime = _veh getVariable [QGVAR(punishTime), -1];
+			_punishTime = _veh getVariable [QGVAR(sv_punishTime), -1];
 
 			if (_punishTime < 0) then {
-				_veh setVariable [QGVAR(punishTime), _time + MACRO_SECTOR_VEH_DELAYUNTILDAMAGE, false];
+				_veh setVariable [QGVAR(sv_punishTime), _time + MACRO_SECTOR_VEH_DELAYUNTILDAMAGE, false];
 				//systemChat format ["[%1] vehicle is abandoned: %2", _sector getVariable [QGVAR(letter), "???"], _class];
 
 			// If the punish time has been exceeded, start damaging the vehicle
 			} else {
-				if (_time > _punishTime) then {
+				if (_time < _punishTime) then {continue};
 
-					// Only continue if the vehicle is local
-					if (local _veh) then {
-						_damage = (_veh getHitPointDamage "HitEngine") + (0.05 * MACRO_SECTOR_TRIGGERINTERVAL);		// 0.05 damage per second
+				// Only continue if the vehicle is local
+				if (!local _veh) then {
+					_veh setOwner clientOwner;
+					continue;
+				};
 
-						if (_damage >= 0.9) then {
-							//systemChat format ["[%1] Destroying abandoned vehicle: %2", _sector getVariable [QGVAR(letter), "???"], _class];
-							clearMagazineCargo _veh;
-							_veh setFuel 0;
-							_veh setVehicleAmmoDef 0;
-							_veh setDamage 1;
-						} else {
-							_veh setHitPointDamage ["HitEngine", _damage, false];
-						};
+				_damage = (_veh getHitPointDamage "HitEngine") + (0.05 * MACRO_SECTOR_TRIGGERINTERVAL);		// 0.05 damage per second
 
-					// Otherwise, assign the locality to the server
-					} else {
-						_veh setOwner clientOwner;
-					};
+				if (_damage >= 0.9) then {
+					//systemChat format ["[%1] Destroying abandoned vehicle: %2", _sector getVariable [QGVAR(letter), "???"], _class];
+					clearMagazineCargo _veh;
+					_veh setFuel 0;
+					_veh setVehicleAmmoDef 0;
+					_veh setDamage 1;
+				} else {
+					// TODO: Revisit for static emplacements
+					_veh setHitPointDamage ["HitEngine", _damage, false];
 				};
 			};
 		};
 
-	} forEach _allVehicleSpawns;
+	} forEach _allSpawnData;
 };

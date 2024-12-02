@@ -9,7 +9,6 @@ diag_log "[CONQUEST] Server initialisation (stage 2) starting...";
 MACRO_FNC_INITVAR(GVAR(sides), []);
 MACRO_FNC_INITVAR(GVAR(allSectors), []);
 MACRO_FNC_INITVAR(GVAR(curatorModule), objNull);
-GVAR(allVehicles) = [];
 
 GVAR(missionState) = MACRO_ENUM_MISSION_INIT;
 GVAR(safeStart)    = false;
@@ -21,14 +20,21 @@ GVAR(ticketsWest)       = 0;
 GVAR(AIUnits)  = [];
 GVAR(sv_stats) = createHashMap;
 
-MACRO_FNC_INITVAR(GVAR(firstInit), true);
+MACRO_FNC_INITVAR(GVAR(sv_firstInit), true);
+
+// NOTE: The index positions used in this array are fixed, and must always remain the same!
+// This simplifies the lookup and handling of side-related data.
+// If only two sides are to be used, the vacant entry remains as sideEmpty.
+private _allSides = [east, resistance, west];
+
+private _firstInit = GVAR(sv_firstInit);
+GVAR(sv_firstInit) = false;
 
 
 
 
 
-if (GVAR(firstInit)) then {
-	GVAR(firstInit) = false;
+if (_firstInit) then {
 
 	private _str_sectorCondition = str {[thisTrigger, thisList] call FUNC(sector_handleServer); true}; // Must return true for the statements to run
 	private _triggerStatements   = [_str_sectorCondition select [1, (count _str_sectorCondition) - 2], "", ""];
@@ -92,12 +98,8 @@ if (GVAR(firstInit)) then {
 		};
 	} forEach ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 
-	// NOTE: The index positions used in this array are fixed, and must always remain the same!
-	// This simplifies the lookup and handling of side-related data.
-	// If only two sides are to be used, the vacant entry remains as sideEmpty.
-	GVAR(sides) = [east, resistance, west];
-
 	// Validate the sides
+	GVAR(sides) = +_allSides;
 	if (!_isValid_east) then {
 		GVAR(sides) set [0, sideEmpty];
 	};
@@ -164,25 +166,19 @@ private ["_veh"];
 
 
 
-// Initialise the sectors
-private ["_sector", "_side", "_level"];
-private ["_flag", "_spawnPointsInf", "_attackPointsInf", "_attackPointsVeh", "_vehicleSpawns", "_vehicleTypes"];
-private ["_spawnPoint", "_spawnData", "_typeData", "_vehSide", "_index", "_vehSpawn", "_sideX"];
-
-{
-	_sector = _x;
-	_side   = _sector getVariable [QGVAR(sideInit), sideEmpty];
-	_level  = [0, 1] select (_side != sideEmpty);
-	_flag   = _sector getVariable [QGVAR(flagPole), objNull];
-
-	// Initialise the sector (irreversibly modifies the mission state, so we can only do it once)
-	if !(_sector getVariable [QGVAR(isInitialised), false]) then {
+// Initialise the detected sectors
+private ["_sector", "_side", "_level", "_flag", "_attackPointsInf", "_attackPointsVeh", "_spawnPointsInf", "_spawnPointsVeh", "_sideX"];
+if (_firstInit) then {
+	{
+		_sector = _x;
+		_side   = _sector getVariable [QGVAR(sideInit), sideEmpty];
+		_level  = [0, 1] select (_side != sideEmpty);
+		_flag   = _sector getVariable [QGVAR(flagPole), objNull];
 
 		_attackPointsInf = [];
 		_attackPointsVeh = [];
 		_spawnPointsInf  = [];
-		_vehicleSpawns   = [];
-		_vehicleTypes    = [];
+		_spawnPointsVeh  = [];
 
 		// Iterate through the sector's synchronised objects
 		{
@@ -194,12 +190,12 @@ private ["_spawnPoint", "_spawnData", "_typeData", "_vehSide", "_index", "_vehSp
 
 				case MACRO_CLASS_ATTACKPOINT_INF: {
 					_attackPointsInf pushBack (getPosWorld _x);
-					deleteVehicle _x;
+					_x hideObjectGlobal true;
 				};
 
 				case MACRO_CLASS_ATTACKPOINT_VEH: {
 					_attackPointsVeh pushBack (getPosWorld _x);
-					deleteVehicle _x;
+					_x hideObjectGlobal true;
 				};
 
 				case MACRO_CLASS_SPAWNPOINT_INF: {
@@ -208,111 +204,128 @@ private ["_spawnPoint", "_spawnData", "_typeData", "_vehSide", "_index", "_vehSp
 				};
 
 				case MACRO_CLASS_SPAWNPOINT_VEH: {
-					_spawnPoint = _x;
-					_spawnData  = [];
-					_typeData   = [];
-
-					// Iterate through its synchronised objects
-					{
-						if (_x isKindOf "AllVehicles") then {
-							_vehSide = _x getVariable [QGVAR(side), sideEmpty];
-							_index   = GVAR(sides) find _vehSide;
-
-							// If the side is valid, add an entry for this vehicle to the spawn data
-							if (_index >= 0) then {
-								_vehSpawn = [
-									typeOf _x,                                                            // 0
-									getPosWorld _x,                                                       // 1
-									vectorDir _x,                                                         // 2
-									vectorUp _x,                                                          // 3
-									_x getVariable [QGVAR(respawnDelay), -1],                             // 4
-									_x getVariable [QGVAR(playersOnly), false],                           // 5
-									_x getVariable [QGVAR(forbiddenWeapons), []],                         // 6
-									_x getVariable [QGVAR(forbiddenMagazines), []],                       // 7
-									(_x getVariable [QGVAR(invincibleHitPoints), []]) apply {toLower _x}, // 8
-									MACRO_FNC_BOUNDINGRADIUS(_x),                                         // 9 (bounding sphere radius)
-									-1                                                                    // 10 (next respawn time)
-								];
-
-								// Add this vehicle spawn to the spawnpoint's data
-								_spawnData set [_index, _vehSpawn];
-								_typeData set [_index, typeOf _x];
-
-								// Delete the vehicle once we're done
-								deleteVehicle _x;
-							};
-						};
-					} forEach synchronizedObjects _spawnPoint;
-
-					if (_spawnData isNotEqualTo []) then {
-						_vehicleSpawns pushBack _spawnData;
-						_vehicleTypes pushBack _typeData;
-					};
-
-					deleteVehicle _spawnPoint;
+					_spawnPointsVeh pushBack _x; // [_allSides find _side, _x]; // [index, spawnPoint]
+					_x hideObjectGlobal true;
 				};
 			};
 		} forEach synchronizedObjects _sector;
 
-		// Save the sector's shared variables
+		// Shared data
 		_sector setVariable [QGVAR(flagPole), _flag, !isNull _flag];
-		_sector setVariable [QGVAR(vehicleTypes), _vehicleTypes, _vehicleTypes isNotEqualTo []];
 		_sector setVariable [QGVAR(attackPointsInf), _attackPointsInf, _attackPointsInf isNotEqualTo []];
 		_sector setVariable [QGVAR(attackPointsVeh), _attackPointsVeh, _attackPointsVeh isNotEqualTo []];
+		_sector setVariable [QGVAR(side), _side, true];
 
 		{
 			_sideX = _x;
+			if (_sideX == sideEmpty) then {continue};
 
-			if (_sideX != sideEmpty) then {
-				_sector setVariable [
-					format [QGVAR(spawnPoints_%1), _sideX],
-					_spawnPointsInf select {[position _x, _sideX] call FUNC(ca_isInCombatArea)},
-					true
-				];
-			};
+			_sector setVariable [
+				format [QGVAR(spawnPoints_%1), _sideX],
+				_spawnPointsInf select {[position _x, _sideX] call FUNC(ca_isInCombatArea)},
+				true
+			];
 		} forEach GVAR(sides);
 
-		// Save the sector's server variables
-		_sector setVariable [QGVAR(vehicleSpawns), _vehicleSpawns, false];
-		_sector setVariable [QGVAR(isInitialised), true, false];
+		// Server data
+		_sector setVariable [QGVAR(sv_spawnPointsVeh), _spawnPointsVeh, false];
+	} forEach GVAR(allSectors);
 
-	} else {
+	// Separately initialise the vehicle definitions on each sector.
+	// This can't be folded into the previous loop, as the spawnpoints must be sorted by captured, then
+	// then uncapted sectors. As such the order of the sectors is different for each side.
+	private ["_sectorsOwned", "_sectorsNeutral", "_sectorsHostile", "_spawnDataVeh", "_spawnPoint", "_enum", "_definition", "_veh", "_radius"];
+	{
+		_side = _x;
+		if (_side == sideEmpty) then {continue};
 
-		// Sector is already initialised; reset the vehicle spawn times
-		_vehicleSpawns = _sector getVariable [QGVAR(vehicleSpawns), []];
-
+		_sectorsOwned   = [];
+		_sectorsNeutral = [];
+		_sectorsHostile = [];
 		{
-			_spawnData = _x;
+			switch (_x getVariable [QGVAR(sideInit), sideEmpty]) do {
+				case _side:     {_sectorsOwned pushBack _x};
+				case sideEmpty: {_sectorsNeutral pushBack _x};
+				default         {_sectorsHostile pushBack _x};
+			};
+		} forEach GVAR(allSectors);
 
+		// Process sectors in order
+		{
+			_sector       = _x;
+			_spawnDataVeh = [];
+
+			 {
+				_spawnPoint = _x;
+				_enum       = toUpper (_spawnPoint getVariable [QGVAR(enum), ""]);
+				_definition = [_side, _enum] call FUNC(veh_getNextDefinition);
+
+				if (_definition isEqualTo []) then {continue};
+
+				// Figure out the size of the concerned vehicle
+				_veh = (_definition # 0) createVehicleLocal [0, 0, 0];
+				_veh enableSimulation false;
+				_radius = MACRO_FNC_BOUNDINGRADIUS(_veh);
+				deleteVehicle _veh;
+
+				_definition insert [1, [
+					0,                                                   // 1
+					getPosWorld _spawnPoint,                             // 2
+					vectorDir _spawnPoint,                               // 3
+					vectorUp _spawnPoint,                                // 4
+					_spawnPoint getVariable [QGVAR(respawnDelay), -1],   // 5
+					_spawnPoint getVariable [QGVAR(playersOnly), false], // 6
+					_radius                                              // 7
+				]];
+
+				_spawnDataVeh pushBack _definition;
+				//diag_log format ["[CONQUEST] (%1) Storing definition for %2 (%3): %4", _sector getVariable [QGVAR(letter), "???"], _side, _enum, _definition];
+
+			 } forEach (_sector getVariable [QGVAR(sv_spawnPointsVeh), []]);
+
+			 // Client data
+			 _sector setVariable [format [QGVAR(cl_spawnDataVeh_%1), _side], _spawnDataVeh apply {_x # 0}, false];
+
+			 // Server data
+			 _sector setVariable [format [QGVAR(sv_spawnDataVeh_%1), _side], _spawnDataVeh, false];
+
+		} forEach (_sectorsOwned + _sectorsNeutral + _sectorsHostile);
+
+	} forEach GVAR(sides);
+
+} else {
+
+	// Reset the sector data
+	{
+		_sector = _x;
+		_side   = _sector getVariable [QGVAR(sideInit), sideEmpty];
+		_level  = [0, 1] select (_side != sideEmpty);
+		_flag   = _sector getVariable [QGVAR(flagPole), objNull];
+
+		// Rehicle respawn times
+		{
+			if (_x == sideEmpty) then {continue};
 			{
-				_vehSpawn = _spawnData param [_forEachIndex, []];
+				_x set [1, 0]; // Respawn time
+			} forEach (_sector getVariable [format [QGVAR(sv_spawnDataVeh_%1), _x], []]);
+		} forEach GVAR(sides);
 
-				if (_vehSpawn isEqualTo []) then {
-					continue;
-				};
+		// Set up the flag
+		_flag setFlagAnimationPhase _level;
+		_flag setFlagTexture ([_side] call FUNC(gm_getFlagTexture));
 
-				_vehSpawn set [10, -1]; // Respawn time
-			} forEach GVAR(sides);
+		// Shared data
+		_sector setVariable [QGVAR(side), _side, true];
+		_sector setVariable [QGVAR(sideCapturing), _side, true];
+		_sector setVariable [QGVAR(level), _level, true];
 
-		} forEach _vehicleSpawns;
-	};
-
-	// Set up the flag
-	_flag setFlagAnimationPhase _level;
-	_flag setFlagTexture ([_side] call FUNC(gm_getFlagTexture));
-
-	// Save the sector's shared variables
-	_sector setVariable [QGVAR(side), _side, true];
-	_sector setVariable [QGVAR(sideCapturing), _side, true];
-	_sector setVariable [QGVAR(level), _level, true];
-
-	// Save the sector's server variables
-	_sector setVariable [QGVAR(sideFlagLast), _side, true];
-	_sector setVariable [QGVAR(lastUpdateTime), nil, false];
-	_sector setVariable [QGVAR(levelLast), _level, false];
-	_sector setVariable [QGVAR(levelNextScore), [MACRO_SECTOR_SCOREINTERVAL, 1 - MACRO_SECTOR_SCOREINTERVAL] select (_level > 0), false];
-
-} forEach GVAR(allSectors);
+		// Server data
+		_sector setVariable [QGVAR(sideFlagLast), _side, true];
+		_sector setVariable [QGVAR(lastUpdateTime), nil, false];
+		_sector setVariable [QGVAR(levelLast), _level, false];
+		_sector setVariable [QGVAR(levelNextScore), [MACRO_SECTOR_SCOREINTERVAL, 1 - MACRO_SECTOR_SCOREINTERVAL] select (_level > 0), false];
+	} forEach GVAR(allSectors);
+};
 
 
 
@@ -346,7 +359,6 @@ if (!isMultiplayer) then {
 // Broadcast shared global variables
 publicVariable QGVAR(sides);
 publicVariable QGVAR(allSectors);
-publicVariable QGVAR(allVehicles);
 publicVariable QGVAR(curatorModule);
 
 publicVariable QGVAR(missionState);

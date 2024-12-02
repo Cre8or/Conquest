@@ -1,5 +1,4 @@
 // Set up some variables
-private _speed     = speed _veh;
 private _velLength = vectorMagnitude _vehVel;
 private _c_maxAvoidanceDistSqr = MACRO_AI_DRIVER_AVOIDANCE_MAXDISTANCE ^ 2;
 
@@ -13,6 +12,12 @@ private _c_maxAvoidanceDistSqr = MACRO_AI_DRIVER_AVOIDANCE_MAXDISTANCE ^ 2;
 #ifdef MACRO_DEBUG_AI_DRIVER_HALT
 	_shouldHalt = true;
 #endif
+
+// Edge case: don't follow waypoints if the effective commander is a player
+private _vehCommander = effectiveCommander _veh;
+if (isPlayer _vehCommander and {[_vehCommander] call FUNC(unit_isAlive)}) then {
+	_shouldHalt = true;
+};
 
 // Edge case: prevent tracked vehicles from reversing uncontrollably
 if (_hasTracks and {!_shouldHalt}) then {

@@ -36,7 +36,6 @@ case "ui_update_deploy": {
 		// Only continue if the player has joined a side
 		if (_playerSideValid) then {
 
-			private _sideIndex = GVAR(sides) find GVAR(side);
 			private _pixelW = pixelW;
 			private _pixelH = pixelH;
 			private _safeZoneW = safeZoneW;
@@ -53,12 +52,8 @@ case "ui_update_deploy": {
 				// Fetch the sector's list of vehicle spawns
 				_vehIcons = [];
 				{
-					_typeX = _x param [_sideIndex, ""];
-
-					if (_typeX != "") then {
-						_vehIcons pushBack ([_typeX] call FUNC(ui_getVehiclePicture));
-					};
-				} forEach (_x getVariable [QGVAR(vehicleTypes), []]);
+					_vehIcons pushBack ([_x] call FUNC(ui_getVehiclePicture));
+				} forEach (_x getVariable [format [QGVAR(cl_spawnDataVeh_%1), GVAR(side)], []]);
 
 				// Determine the required size of this sector's control
 				_vehicleRows = 3 max ceil ((count _vehIcons) / _C_vehicleIconsPerRow);
@@ -223,11 +218,11 @@ case "ui_update_deploy": {
 
 		// Update the sector controls
 		private _groupPly = group player;
-		private ["_IDC", "_activeVehicles", "_ctrlButton", "_vehicleIconCtrls", "_vehX", "_crew", "_driver", "_crewUnit", "_groupX", "_groupIndex"];
+		private ["_sector", "_isSelected", "_IDC", "_ctrlButton", "_vehicleIconCtrls", "_vehX", "_crew", "_driver", "_crewUnit", "_groupX", "_groupIndex"];
 		{
-			_isSelected = (GVAR(spawnSector) == _x);
-			_IDC = _forEachIndex + MACRO_IDC_SM_DEPLOY_SECTOR_START;
-			_activeVehicles = _x getVariable [QGVAR(activeVehicles), []];
+			_sector     = _x;
+			_isSelected = (GVAR(spawnSector) == _sector);
+			_IDC        = _forEachIndex + MACRO_IDC_SM_DEPLOY_SECTOR_START;
 
 			// Fetch our controls
 			_ctrlButton = _spawnMenu displayCtrl _IDC;
@@ -248,7 +243,7 @@ case "ui_update_deploy": {
 
 			// Update the sector's vehicle icons
 			{
-				_vehX = _activeVehicles param [_forEachIndex, objNull];
+				_vehX = _sector getVariable [format [QGVAR(vehicle_%1), _forEachIndex], objNull];
 				if (!alive _vehX or {_vehX getVariable [QGVAR(side), sideEmpty] != GVAR(side)}) then {
 					_x ctrlSetTextColor SQUARE(MACRO_COLOUR_A100_GREY);
 					continue;

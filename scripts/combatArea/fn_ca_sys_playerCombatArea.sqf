@@ -56,6 +56,10 @@ GVAR(ca_sys_playerCombatArea_EH) = addMissionEventHandler ["EachFrame", {
 			_newState = [getPosWorld _player, GVAR(side)] call FUNC(ca_isInCombatArea);
 		};
 
+		#ifdef MACRO_DEBUG_CA_DISABLED
+			_newState = true;
+		#endif
+
 		// Act on state changes (the player left or entered the combat area)
 		if (_newState != GVAR(ca_sys_playerCombatArea_state)) then {
 

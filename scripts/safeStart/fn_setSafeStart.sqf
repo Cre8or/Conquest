@@ -49,11 +49,6 @@ if (isServer) then {
 	civilian setFriend [west, 1];
 };
 
-// Update all vehicles
-{
-	[_x, _enabled] call FUNC(safeStart_vehicle);
-} forEach GVAR(allVehicles);
-
 // Toggle player input
 #ifndef MACRO_DEBUG_GM_NOSAFESTART
 	[MACRO_ENUM_INPUTLOCK_SAFESTART, _enabled] call FUNC(ui_disableUserInput);

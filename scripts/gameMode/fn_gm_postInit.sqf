@@ -16,10 +16,11 @@
 #include "\a3\ui_f\hpp\defineDIKCodes.inc"
 
 #include "..\..\res\common\macros.inc"
-#include "..\..\mission\settings.inc"
-
+#include "..\..\res\macros\fnc_allVehicleTypeEnums.inc"
 #include "..\..\res\macros\fnc_boundingRadius.inc"
 #include "..\..\res\macros\fnc_initVar.inc"
+
+#include "..\..\mission\settings.inc"
 
 // Enforce unscheduled environment
 if (canSuspend) exitWith {
@@ -28,9 +29,7 @@ if (canSuspend) exitWith {
 	};
 };
 
-
-
-
+GVAR(init) = false;
 
 // Shared component (stage 1)
 #include "init\init_s1_shared.sqf"
@@ -55,3 +54,5 @@ if (hasInterface) then {
 
 // Shared component (stage 3)
 #include "init\init_s3_shared.sqf"
+
+GVAR(init) = true;

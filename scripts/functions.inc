@@ -143,7 +143,6 @@ class MACRO_PROJECT_PREFIX {
 		file = "scripts\safeStart";
 
 		class handleSafeStart {};
-		class safeStart_vehicle {};
 		class safeStart_unit {};
 		class setSafeStart {};
 	};
@@ -222,11 +221,14 @@ class MACRO_PROJECT_PREFIX {
 		file = "scripts\vehicles";
 		// Abbreviation:	veh
 
-		class veh_handleDamage {};
 		class veh_getAvoidanceForce {};
+		class veh_getNextDefinition {};
 		class veh_getRoles {};
 		class veh_getUnitByRole {};
+		class veh_handleDamage {};
 		class veh_isClaimable {};
 		class veh_isOperable {};
+		class veh_onInit {};
+		class veh_setCustomisation {};
 	};
 };

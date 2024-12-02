@@ -37,17 +37,17 @@ if (isNil "_roles") then {
 	};
 
 	// Fetch the vehicle's roles
-	_roles = [];
+	_roles               = [];
 	private _rolesTurret = [];
-	private _rolesCargo = [];
+	private _rolesCargo  = [];
 	{
-		_x params ["", "_role", "_cargoIndex", "_turretPath"];
+		_x params ["", "_role", "_cargoIndex", "_turretPath", "_personTurret"];
 
 		switch (toLower _role) do {
 			case "driver":		{_roles pushBack MACRO_ENUM_VEHICLEROLE_DRIVER};
 			case "gunner":		{_roles pushBack MACRO_ENUM_VEHICLEROLE_GUNNER};
 			case "commander":	{_roles pushBack MACRO_ENUM_VEHICLEROLE_COMMANDER};
-			case "turret":		{_rolesTurret pushBack _turretPath};
+			case "turret":		{if (_personTurret) then {_rolesTurret pushBack _turretPath}};
 			case "cargo":		{_rolesCargo pushBack _cargoIndex};
 		};
 	} forEach fullCrew [_veh, "", true];

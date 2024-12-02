@@ -5,6 +5,12 @@ diag_log "[CONQUEST] Shared initialisation (stage 3) starting...";
 
 
 
+GVAR(allVehicles) = [];
+
+
+
+
+
 // Prepare data
 call FUNC(nm_setupNodeMesh);
 

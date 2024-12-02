@@ -248,22 +248,23 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 			if (!isNil "_spawnPoint") then {
 
 				// Determine the unit class (affects the spotting callouts used by AI)
-				_unitClass = format ["%1_%2",
+				_unitClass = format [
+					"%1_%2",
 					switch (_unitSide) do {
-						case east:		{"O"};
-						case resistance:	{"I"};
-						case west:		{"B"};
-						default			{"UNKNOWN_SIDE"};
+						case east:       {"O"};
+						case resistance: {"I"};
+						case west:       {"B"};
+						default          {"UNKNOWN_SIDE"};
 					},
 					switch (_unitRole) do {
-						case MACRO_ENUM_ROLE_SPECOPS:		{"spotter_F"};
-						case MACRO_ENUM_ROLE_SNIPER:		{"sniper_F"};
-						case MACRO_ENUM_ROLE_ASSAULT:		{"Soldier_GL_F"};
-						case MACRO_ENUM_ROLE_SUPPORT:		{"Soldier_AR_F"};
-						case MACRO_ENUM_ROLE_ENGINEER:		{"engineer_F"};
-						case MACRO_ENUM_ROLE_MEDIC:		{"medic_F"};
-						case MACRO_ENUM_ROLE_ANTITANK:		{"Soldier_LAT_F"};
-						default					{"UNKNOWN_ROLE"};
+						case MACRO_ENUM_ROLE_SPECOPS:  {"spotter_F"};
+						case MACRO_ENUM_ROLE_SNIPER:   {"sniper_F"};
+						case MACRO_ENUM_ROLE_ASSAULT:  {"Soldier_GL_F"};
+						case MACRO_ENUM_ROLE_SUPPORT:  {"Soldier_AR_F"};
+						case MACRO_ENUM_ROLE_ENGINEER: {"engineer_F"};
+						case MACRO_ENUM_ROLE_MEDIC:    {"medic_F"};
+						case MACRO_ENUM_ROLE_ANTITANK: {"Soldier_LAT_F"};
+						default                        {"UNKNOWN_ROLE"};
 					}
 				];
 
@@ -294,7 +295,7 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 				// Broadcast the new unit variable (for global fetching)
 				missionNamespace setVariable [format [QGVAR(AIUnit_%1), _unitIndex], _unit, true];
 
-				[_unit] remoteExecCall [QFUNC(unit_onInit), 0, false];
+				[_unit] remoteExecCall [QFUNC(unit_onInit), 0, format [QGVAR(unit_onInit_%1), _unitIndex]];
 
 				// DEBUG
 				if (_unitIndex == 0) then {guy1 = _unit; _unit setVehicleVarName "guy1"};

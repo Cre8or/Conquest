@@ -440,6 +440,7 @@
 	#define MACRO_AI_CHANCE_RESPAWN_CLAIMVEHICLE                    0.25 // The probability (up to 1) that an AI unit will attempt to spawn on a sector that has a claimable vehicle near it (rather than respawning near its leader/waypoint)
 	#define MACRO_AI_DRIVER_MOUNT_DURATION                          15 // How long an AI driver will wait, in seconds, for passengers to mount up before entering cooldown phase
 	#define MACRO_AI_DRIVER_MOUNT_COOLDOWN                          120 // The cooldown duration for AI drivers between mount-up pauses (to prevent getting stuck in a pausing loop)
+	#define MACRO_AI_DRIVER_MOUNT_MAXSPEED                          20 // The speed threshold, in km/h, below which AI drivers will halt to allow units to mount up
 	#define MACRO_AI_DRIVER_LOOKAHEAD_MAXITERATIONS                 10 // The amount of nodes, at most, that AI drivers will look ahead along their route to determine the target speed limit
 	#define MACRO_AI_DRIVER_LOOKAHEAD_MAXDIST                       100 // How far, in meters, AI drivers may look ahead into their route to anticipate sharp turns
 	#define MACRO_AI_DRIVER_MAXSPEED                                80 // The maximum speed, in km/h, that AI drivers are allowed to drive under ideal circumstances (straight path, long distances between nodes)
@@ -477,6 +478,7 @@
 	#define MACRO_SECTOR_SCOREINTERVAL                              0.1 // The level interval between two score events for capturing a sector, in percent (1 being 100%)
 	#define MACRO_SECTOR_VEH_DELAYUNTILDAMAGE                       30 // How long, in seconds, a vehicle must be outside of the combat area (or be disabled) before it starts taking damage (to eventually respawn it)
 	#define MACRO_SECTOR_VEH_MAXSQRDISTFROMSPAWN                    50 ^ 2 // How far, in meters squared, vehicles may be moved from their spawn position before they are marked as abandoned and considered for cleanup
+	#define MACRO_SECTOR_VEH_RESPAWNDELAY                           60 // The default delay, in seconds, after a vehicle has been destroyed before it is respawned
 
 	// Nodemesh Settings
 	#define MACRO_NM_DEFAULTRADIUS_INF                              3 // Minimum completion radius, in meters, of pathfind nodes for infantry
@@ -526,7 +528,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.18.904" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.19.921" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -546,12 +548,13 @@
 
 
 
+
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 //	CLASS NAMES
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	#define MACRO_CLASS_SPAWNPOINT_INF                              "Sign_Arrow_Direction_Green_F"
-	#define MACRO_CLASS_SPAWNPOINT_VEH                              "Logic"
+	#define MACRO_CLASS_SPAWNPOINT_VEH                              "Sign_Arrow_Direction_Blue_F"
 	#define MACRO_CLASS_ATTACKPOINT_INF                             "Sign_Arrow_Green_F"
 	#define MACRO_CLASS_ATTACKPOINT_VEH                             "Sign_Arrow_Pink_F"
 	#define MACRO_CLASS_FLAG                                        "Flag_White_F"
@@ -694,32 +697,32 @@
 //	VEHICLE TYPE ENUMERATIONS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
-	#define MACRO_ENUM_VEHICLETYPE_UNKNOWN                          -1
+	#define MACRO_ENUM_VEHICLETYPE_QUADBIKE                         "QUADBIKE"
+	#define MACRO_ENUM_VEHICLETYPE_CAR_UNARMED_LIGHT                "CAR_UNARMED_LIGHT"
+	#define MACRO_ENUM_VEHICLETYPE_CAR_UNARMED_HEAVY                "CAR_UNARMED_HEAVY"
+	#define MACRO_ENUM_VEHICLETYPE_CAR_ARMED_LIGHT                  "CAR_ARMED_LIGHT"
+	#define MACRO_ENUM_VEHICLETYPE_CAR_ARMED_HEAVY                  "CAR_ARMED_HEAVY"
+	#define MACRO_ENUM_VEHICLETYPE_TRUCK_TRANSPORT                  "TRUCK_TRANSPORT"
 
-	#define MACRO_ENUM_VEHICLETYPE_BIKE                             0
-	#define MACRO_ENUM_VEHICLETYPE_CAR_UNARMED_LIGHT                1
-	#define MACRO_ENUM_VEHICLETYPE_CAR_UNARMED_HEAVY                2
-	#define MACRO_ENUM_VEHICLETYPE_CAR_ARMED_LIGHT                  3
-	#define MACRO_ENUM_VEHICLETYPE_CAR_ARMED_HEAVY                  4
-	#define MACRO_ENUM_VEHICLETYPE_TRUCK                            5
+	#define MACRO_ENUM_VEHICLETYPE_APC_LIGHT                        "APC_LIGHT"
+	#define MACRO_ENUM_VEHICLETYPE_APC_HEAVY                        "APC_HEAVY"
+	#define MACRO_ENUM_VEHICLETYPE_AMPHIBIOUS_LIGHT                 "AMPHIBIOUS_LIGHT"
+	#define MACRO_ENUM_VEHICLETYPE_AMPHIBIOUS_HEAVY                 "AMPHIBIOUS_HEAVY"
+	#define MACRO_ENUM_VEHICLETYPE_AA_LIGHT                         "AA_LIGHT"
+	#define MACRO_ENUM_VEHICLETYPE_AA_HEAVY                         "AA_HEAVY"
+	#define MACRO_ENUM_VEHICLETYPE_TANK_LIGHT                       "TANK_LIGHT"
+	#define MACRO_ENUM_VEHICLETYPE_TANK_HEAVY                       "TANK_HEAVY"
 
-	#define MACRO_ENUM_VEHICLETYPE_APC_LIGHT                        10
-	#define MACRO_ENUM_VEHICLETYPE_APC_HEAVY                        11
-	#define MACRO_ENUM_VEHICLETYPE_AA_LIGHT                         12
-	#define MACRO_ENUM_VEHICLETYPE_AA_HEAVY                         13
-	#define MACRO_ENUM_VEHICLETYPE_TANK_LIGHT                       14
-	#define MACRO_ENUM_VEHICLETYPE_TANK_HEAVY                       15
+	#define MACRO_ENUM_VEHICLETYPE_HELI_TRANSPORT_LIGHT             "HELI_TRANSPORT_LIGHT"
+	#define MACRO_ENUM_VEHICLETYPE_HELI_TRANSPORT_HEAVY             "HELI_TRANSPORT_HEAVY"
+	#define MACRO_ENUM_VEHICLETYPE_HELI_ATTACK_LIGHT                "HELI_ATTACK_LIGHT"
+	#define MACRO_ENUM_VEHICLETYPE_HELI_ATTACK_HEAVY                "HELI_ATTACK_HEAVY"
 
-	#define MACRO_ENUM_VEHICLETYPE_HELI_TRANSPORT_LIGHT             100
-	#define MACRO_ENUM_VEHICLETYPE_HELI_TRANSPORT_HEAVY             101
-	#define MACRO_ENUM_VEHICLETYPE_HELI_ATTACK_LIGHT                103
-	#define MACRO_ENUM_VEHICLETYPE_HELI_ATTACK_HEAVY                104
+	#define MACRO_ENUM_VEHICLETYPE_JET_LIGHT                        "JET_LIGHT"
+	#define MACRO_ENUM_VEHICLETYPE_JET_HEAVY                        "JET_HEAVY"
 
-	#define MACRO_ENUM_VEHICLETYPE_JET_LIGHT                        110
-	#define MACRO_ENUM_VEHICLETYPE_JET_HEAVY                        111
-
-	#define MACRO_ENUM_VEHICLETYPE_BOAT_LIGHT                       200
-	#define MACRO_ENUM_VEHICLETYPE_BOAT_HEAVY                       201
+	#define MACRO_ENUM_VEHICLETYPE_BOAT_LIGHT                       "BOAT_LIGHT"
+	#define MACRO_ENUM_VEHICLETYPE_BOAT_HEAVY                       "BOAT_HEAVY"
 
 
 
@@ -962,6 +965,7 @@
 	//#define MACRO_DEBUG_AI_DODGEVEHICLES
 
 	//#define MACRO_DEBUG_CA
+	//#define MACRO_DEBUG_CA_DISABLED
 
 	//#define MACRO_DEBUG_GM_PRESLOT
 	//#define MACRO_DEBUG_GM_NOSAFESTART

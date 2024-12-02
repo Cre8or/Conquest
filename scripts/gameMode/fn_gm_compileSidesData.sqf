@@ -12,20 +12,19 @@
 -------------------------------------------------------------------------------------------------------------------- */
 
 #include "..\..\res\common\macros.inc"
+#include "..\..\res\macros\fnc_allVehicleTypeEnums.inc"
+
 #include "..\..\mission\settings.inc"
 
 
 
 
-
 // Set up some constants
-private _configPath_weapons = (configFile >> "CfgWeapons");
+private _configPath_weapons   = (configFile >> "CfgWeapons");
 private _configPath_magazines = (configFile >> "CfgMagazines");
-private _configPath_ammo = (configFile >> "CfgAmmo");
-private _allThrowables = [];
-
-// Set up some variables
-private ["_sideData", "_role", "_loadout", "_abilities", "_allMagazines", "_magazinesCache", "_weaponIcon","_magazinePrimary", "_magazinePrimaryAlt", "_magazineSecondary", "_magazineHandgun", "_ammoTypeX", "_isExplosiveX"];
+private _configPath_ammo      = (configFile >> "CfgAmmo");
+private _configPath_vehicles  = (configFile >> "CfgVehicles");
+private _allThrowables        = [];
 
 // Compile the list of throwable magazines
 {
@@ -45,6 +44,8 @@ private _allSides = [ // Fixed order by framework convention
 
 
 // Parse all sides' data files
+private ["_sideData", "_role", "_loadout", "_abilities", "_allMagazines", "_magazinesCache", "_weaponIcon","_magazinePrimary", "_magazinePrimaryAlt", "_magazineSecondary", "_magazineHandgun", "_ammoTypeX", "_isExplosiveX"];
+private ["_vehTypesCache", "_vehTypesIndexCache", "_definitionsXCopy"];
 {
 	_x params ["_side", "_filePath"];
 
@@ -68,7 +69,8 @@ private _allSides = [ // Fixed order by framework convention
 		["_sideFlag", MACRO_TEXTURE_FLAG_EMPTY, [""]],
 		["_sideAIFaces", ["white"], ["", []]],
 		["_sideAISpeakers", ["english_us"], ["", []]],
-		["_sideLoadouts", [], [[]]]
+		["_sideLoadouts", [], [[]]],
+		["_sideVehicleDefinitions", [], [[]]]
 	];
 
 	diag_log format ["[CONQUEST] Compiling side %1 (%2)", _sideNameShort, _side];
@@ -260,6 +262,49 @@ private _allSides = [ // Fixed order by framework convention
 			missionNamespace setVariable [format [QGVAR(magazinesCache_%1_%2), _side, _role], _magazinesCache, false];
 		};
 	} forEach _sideLoadouts;
+
+
+
+	// Iterate over this side's vehicle definitions
+	_vehTypesCache      = createHashMap;
+	_vehTypesIndexCache = createHashMap;
+	{
+		_x params [
+			["_enumX", "", [""]],
+			["_definitionsX", [], [[]]]
+		];
+		_enumX = toUpper _enumX;
+
+		if !(_enumX in MACRO_FNC_ALLVEHICLETYPEENUMS) then {
+			diag_log format ["[CONQUEST] ERROR: Invalid vehicle enumeration type ""%1""!", _enumX];
+			continue;
+		};
+
+		if (_enumX in _vehTypesCache) then {
+			diag_log format ["[CONQUEST] ERROR: Vehicle enumeration type ""%1"" is defined multiple times!", _enumX];
+			continue;
+		};
+
+		_definitionsXCopy = [];
+		{
+			_x params [["_classX", "", [""]]]; // There are more parameters, but we only care about the classname for now
+
+			if !(isClass (_configPath_vehicles >> _classX)) then {
+				diag_log format ["[CONQUEST] ERROR: Vehicle class ""%1"" does not exist!", _classX];
+				systemChat format ["[CONQUEST] ERROR: Vehicle class ""%1"" does not exist!", _classX];
+				continue;
+			};
+
+			_definitionsXCopy pushBack _x;
+		} forEach _definitionsX;
+
+		_vehTypesCache      set [_enumX, _definitionsXCopy];
+		_vehTypesIndexCache set [_enumX, [0, (count _definitionsXCopy) - 1]]; // [indexCurrent, indexLast]
+
+	} forEach _sideVehicleDefinitions;
+
+	missionNamespace setVariable [format [QGVAR(vehTypesCache_%1), _side], _vehTypesCache, false];
+	missionNamespace setVariable [format [QGVAR(vehTypesIndexCache_%1), _side], _vehTypesIndexCache, false];
 
 } forEach _allSides;
 

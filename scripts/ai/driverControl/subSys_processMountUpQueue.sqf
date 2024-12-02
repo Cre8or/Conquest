@@ -17,7 +17,7 @@ if (_time < _mountUpCooldownTime) then {
 	};
 
 } else {
-	if (_mountUpQueue isNotEqualTo []) then {
+	if (_speed < MACRO_AI_DRIVER_MOUNT_MAXSPEED and {_mountUpQueue isNotEqualTo []}) then {
 		_shouldHalt         = true;
 		_mountUpAccumulator = _mountUpAccumulator + MACRO_AI_DRIVERCONTROL_INTERVAL;
 
