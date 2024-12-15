@@ -3,7 +3,8 @@
 	Description:
 		Registers a vehicle spawnpoint. The spawnpoint must be linked to a sector.
 		Vehicle spawnpoints can further be customised by setting a non-default respawn delay, or disallowing AI units
-		from using the spawned vehicle.
+		from using the spawned vehicle. Additionally, an initial spawn delay can be set (in seconds), counting from
+		the mission start.
 
 		Only executed on the server upon initialisation.
 	Arguments:
@@ -11,6 +12,7 @@
 		1:	<STRING>	The vehicle enumeration type to spawn
 		2:	<NUMBER>	The respawn delay, in seconds (optional, default: -1)
 		3:	<BOOLEAN>	Whether or not only players may use this vehicle (optional, default: false)
+		4:	<NUMBER>	Initial spawn delay (optional, default: -1)
 	Returns:
 		(nothing)
 -------------------------------------------------------------------------------------------------------------------- */
@@ -21,7 +23,8 @@ params [
 	["_spawnPoint", objNull, [objNull]],
 	["_enum", "", [""]],
 	["_respawnDelay", -1, [-1]],
-	["_playersOnly", false, [false]]
+	["_playersOnly", false, [false]],
+	["_initialSpawnDelay", -1, [-1]]
 ];
 
 if (!isServer or {isNull _spawnPoint}) exitWith {};
@@ -39,3 +42,4 @@ if (_respawnDelay < 0) then {
 _spawnPoint setVariable [QGVAR(enum), _enum, false];
 _spawnPoint setVariable [QGVAR(respawnDelay), _respawnDelay, false];
 _spawnPoint setVariable [QGVAR(playersOnly), _playersOnly, false];
+_spawnPoint setVariable [QGVAR(initialSpawnDelay), _initialSpawnDelay, false];

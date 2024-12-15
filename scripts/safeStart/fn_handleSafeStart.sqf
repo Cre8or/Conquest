@@ -24,8 +24,8 @@ GVAR(missionState) = MACRO_ENUM_MISSION_SAFESTART;
 [true] remoteExecCall [QFUNC(setSafeStart), 0, QGVAR(safeStart)];
 
 // Wait until the safestart countdown ends
-systemChat format ["Beginning safestart countdown... (%1 seconds)", GVAR(Param_GM_SafeStartDuration)];
-sleep GVAR(Param_GM_SafeStartDuration);
+systemChat format ["Beginning safestart countdown... (%1 seconds)", GVAR(param_gm_safeStartDuration)];
+sleep GVAR(param_gm_safeStartDuration);
 
 
 

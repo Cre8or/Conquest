@@ -12,15 +12,14 @@
 -------------------------------------------------------------------------------------------------------------------- */
 
 #include "..\..\res\common\macros.inc"
-#include "..\..\mission\settings.inc"
-
 #include "..\..\res\macros\fnc_initVar.inc"
 
+#include "..\..\mission\settings.inc"
 
 
 
 
-// Set up some variables
+
 MACRO_FNC_INITVAR(GVAR(ai_sys_unitControl_EH), -1);
 MACRO_FNC_INITVAR(GVAR(ai_sys_unitControl_EH_draw3D_movePos), -1);
 MACRO_FNC_INITVAR(GVAR(ai_sys_unitControl_EH_draw3D_dodgeVehicles), -1);
@@ -52,7 +51,7 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 	private _missionSafeStart = (GVAR(missionState) != MACRO_ENUM_MISSION_LIVE);
 
 	// Update candidate units
-	private ["_unit", "_role", "_side", "_group", "_leader", "_isLeader", "_isLeaderPlayer", "_unitPos", "_unitVeh", "_isInVehicle", "_changedVehicle", "_isDriver", "_isUnconscious", "_isReloading", "_actionPos", "_moveType", "_switchToCareless"];
+	private ["_unit", "_role", "_side", "_group", "_leader", "_isLeader", "_isLeaderPlayer", "_unitPos", "_unitVeh", "_isInVehicle", "_changedVehicle", "_isDriver", "_isUnconscious", "_isReloading", "_accuracyMulCache", "_accuracyMul", "_actionPos", "_moveType", "_switchToCareless"];
 	for "_unitIndex" from GVAR(ai_sys_unitControl_index) to 0 step -1 do {
 
 		scopeName QGVAR(ai_sys_unitControl_loop);
@@ -70,7 +69,7 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 		) then {
 			scopeName QGVAR(ai_sys_unitControl_loop_local);
 
-			_role           = _unit getVariable [QGVAR(role), sideEmpty];
+			_role           = _unit getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID];
 			_side           = _unit getVariable [QGVAR(side), sideEmpty];
 			_group          = group _unit;
 			_leader         = leader _group;
@@ -88,22 +87,22 @@ GVAR(ai_sys_unitControl_EH) = addMissionEventHandler ["EachFrame", {
 			_unit setCombatBehaviour "AWARE";
 			_unit setSpeedMode "FULL";
 			_unit allowFleeing 0;
-			_unit doWatch objNull;
+			//_unit doWatch objNull;
 			_unit setUnitPos "AUTO";
 
 			// Base skills
+			_accuracyMulCache = missionNamespace getVariable [format [QGVAR(accuracyMulCache_%1), _side], createHashMap];
+			_accuracyMul      = _accuracyMulCache getOrDefault [_role, MACRO_AI_SKILL_BASEACCURACY];
+
+			_unit setSkill _accuracyMul;
 			_unit setSkill ["courage", 1];
 			_unit setSkill ["commanding", 1];
-			_unit setSkill ["aimingSpeed", 1];
 			_unit setSkill ["reloadSpeed", 1];
 			_unit setSkill ["spotTime", 1];
-
-			if (_role == MACRO_ENUM_ROLE_SNIPER) then {
-				_unit setSkill ["aimingAccuracy", 1];
-				_unit setSkill ["spotDistance", 1];
-			} else {
-				_unit setSkill ["aimingShake", 1];
-			};
+			_unit setSkill ["aimingSpeed", 1];
+			//_unit setSkill ["aimingAccuracy", (1 + _accuracyMul) / 2];
+			_unit setSkill ["aimingAccuracy", _accuracyMul];
+			_unit setSkill ["aimingShake", _accuracyMul];
 
 			// Safestart
 			#include "unitControl\subSys_enforceSafeStart.sqf"

@@ -27,7 +27,7 @@ if (_loopThroughRoute) then {
 
 			// No more nodes
 			if (!_loopThroughRoute) then {
-				_routePos   = [];
+				_routePos = [];
 
 				_unit setVariable [QGVAR(ai_unitControl_moveToPos_finished), true, false];
 			};
@@ -36,13 +36,13 @@ if (_loopThroughRoute) then {
 		};
 	};
 
-	_unit setVariable [QGVAR(ai_driverControl_currentNodeID), _nodeID, false];
+	_unit setVariable [QGVAR(ai_sys_driverControl_currentNodeID), _nodeID, false];
 
 // No Road Left :chefkiss:
 } else {
 	_routePos = [];
 
-	_unit setVariable [QGVAR(ai_driverControl_currentNodeID), -1, false];
+	_unit setVariable [QGVAR(ai_sys_driverControl_currentNodeID), -1, false];
 };
 
 

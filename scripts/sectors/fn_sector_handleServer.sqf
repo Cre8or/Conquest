@@ -259,7 +259,7 @@ if (
 
 
 // Handle the sector's vehicle spawning
-if (_side != sideEmpty) then {
+if (GVAR(param_gm_enableVehicles) and {_side != sideEmpty}) then {
 	private _letter       = _sector getVariable [QGVAR(letter), "?"];
 	private _allSpawnData = _sector getVariable [format [QGVAR(sv_spawnDataVeh_%1), _side], []];
 	private ["_veh", "_spawnData", "_isSpawnAreaFree", "_vehSide", "_vehPos", "_punishTime", "_damage"];
@@ -268,17 +268,18 @@ if (_side != sideEmpty) then {
 		_veh       = _sector getVariable [format [QGVAR(vehicle_%1), _forEachIndex], objNull];
 		_spawnData = _x;
 		_spawnData params [
-			"_class",        // 0
-			"_respawnTime",  // 1
-			"_spawnPos",     // 2
-			"_vecDir",       // 3
-			"_vecUp",        // 4
-			"_respawnDelay", // 5
-			"_playersOnly",  // 6
-			"_radius",       // 7
-			"_textures",     // 8
-			"_animations",   // 9
-			"_pylons"        // 10
+			"_class",             // 0
+			"_respawnTime",       // 1
+			"_spawnPos",          // 2
+			"_vecDir",            // 3
+			"_vecUp",             // 4
+			"_respawnDelay",      // 5
+			"_playersOnly",       // 6
+			"_initialSpawnDelay", // 7
+			"_radius",            // 8
+			"_textures",          // 9
+			"_animations",        // 10
+			"_pylons"             // 11
 		];
 
 		if (

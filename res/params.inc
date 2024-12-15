@@ -102,6 +102,14 @@ class Param_GM_Sector_CaptureDuration {
 	default = MACRO_GM_SECTOR_CAPTUREDURATION;
 };
 
+class Param_GM_EnableVehicles {
+	title = "Enable vehicles (if applicable):";
+	values[] = { 0, 1 };
+	texts[] = { "No", "Yes" };
+	isBoolean = 1;
+	default = MACRO_GM_ENABLEVEHICLES;
+};
+
 class Param_CA_DelayUntilDeath {
 	title = "Combat area delay until death (in seconds):";
 	values[] = { 3, 5, 10, 15, 20 };

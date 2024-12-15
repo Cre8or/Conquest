@@ -58,6 +58,13 @@ if (_shouldHalt) then {
 	_unit setVariable [QGVAR(ai_sys_driverControl_stuckStartTime), -1, false];
 	_unit setVariable [QGVAR(ai_sys_driverControl_tryUnstuckTime), -1, false];
 
+	#ifdef MACRO_DEBUG_AI_DRIVER
+		if (_routePos isEqualTo []) then {
+			GVAR(debug_ai_driverControl_data) set [_unitIndex, [_veh, [0,0,0], ASLtoAGL (_vehPos vectorAdd [0, 0, 1]), -1, _stuck]];
+		} else {
+			GVAR(debug_ai_driverControl_data) set [_unitIndex, [_veh, [0,0,0], ASLtoAGL _routePos, -1, _stuck]];
+		};
+	#endif
 
 
 // Handle driving
@@ -122,12 +129,12 @@ if (_shouldHalt) then {
 			continue;
 		};
 
-		_radiusX   = 0.6 * (2 boundingBoxReal _x) # 2;
-		_maxRadius = 1.5 * (_vehRadius max _radiusX); // Slightly more radius as an extra safety margin
+		_radiusX   = MACRO_FNC_BOUNDINGRADIUS(_x);
+		_maxRadius = 2 * (_vehRadius max _radiusX); // Extra radius as a safety margin
 
 		_avoidanceForceX = [_vehPos, getPosWorld _x, _vehVel, velocity _x, _maxRadius, 1] call FUNC(veh_getAvoidanceForce);
 		_avoidanceForce  = _avoidanceForce vectorAdd _avoidanceForceX;
-		_avoidanceMul    = 0 max _avoidanceMul * (1 - vectorMagnitude _avoidanceForceX);
+		_avoidanceMul    = 0 max _avoidanceMul * (1 - (vectorMagnitude _avoidanceForceX) / _maxRadius);
 
 	} forEach (GVAR(allVehicles) select {_x distanceSqr _veh < _c_maxAvoidanceDistSqr});
 
@@ -152,7 +159,7 @@ if (_shouldHalt) then {
 
 
 	// Determine the target speed based on route curvature and remaining distance
-	private ["_lookAheadIndex", "_lookAheadIteration", "_posX_0", "_posX_1", "_lookAheadDist", "_maxLookAheadDist", "_mulDot", "_worstTurnMul", "_distX", "_posX_2", "_radiusX", "_mulDotX", "_dotX"];
+	private ["_lookAheadIndex", "_lookAheadIteration", "_posX_0", "_posX_1", "_lookAheadDist", "_maxLookAheadDist", "_mulDot", "_worstTurnMul", "_distX", "_posX_2", "_mulDotX", "_dotX"];
 	_lookAheadIndex     = _pathIndex;
 	_lookAheadIteration = 0;
 	_posX_0             = _vehPos;

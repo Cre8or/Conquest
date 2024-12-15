@@ -167,7 +167,8 @@ private ["_veh"];
 
 
 // Initialise the detected sectors
-private ["_sector", "_side", "_level", "_flag", "_attackPointsInf", "_attackPointsVeh", "_spawnPointsInf", "_spawnPointsVeh", "_sideX"];
+private _time = time;
+private ["_sector", "_side", "_level", "_flag", "_attackPointsInf", "_attackPointsVeh", "_spawnPointsInf", "_spawnPointsVeh", "_sideX", "_initialSpawnDelay"];
 if (_firstInit) then {
 	{
 		_sector = _x;
@@ -215,6 +216,14 @@ if (_firstInit) then {
 		_sector setVariable [QGVAR(attackPointsInf), _attackPointsInf, _attackPointsInf isNotEqualTo []];
 		_sector setVariable [QGVAR(attackPointsVeh), _attackPointsVeh, _attackPointsVeh isNotEqualTo []];
 		_sector setVariable [QGVAR(side), _side, true];
+		_sector setVariable [QGVAR(sideCapturing), _side, true];
+		_sector setVariable [QGVAR(level), _level, true];
+
+		// Server data
+		_sector setVariable [QGVAR(sideFlagLast), sideEmpty, true];
+		_sector setVariable [QGVAR(lastUpdateTime), nil, false];
+		_sector setVariable [QGVAR(levelLast), _level, false];
+		_sector setVariable [QGVAR(levelNextScore), [MACRO_SECTOR_SCOREINTERVAL, 1 - MACRO_SECTOR_SCOREINTERVAL] select (_level > 0), false];
 
 		{
 			_sideX = _x;
@@ -234,7 +243,7 @@ if (_firstInit) then {
 	// Separately initialise the vehicle definitions on each sector.
 	// This can't be folded into the previous loop, as the spawnpoints must be sorted by captured, then
 	// then uncapted sectors. As such the order of the sectors is different for each side.
-	private ["_sectorsOwned", "_sectorsNeutral", "_sectorsHostile", "_spawnDataVeh", "_spawnPoint", "_enum", "_definition", "_veh", "_radius"];
+	private ["_sectorsOwned", "_sectorsNeutral", "_sectorsHostile", "_spawnDataVeh", "_spawnPoint", "_enum", "_definition", "_veh", "_radius", "_respawnTime"];
 	{
 		_side = _x;
 		if (_side == sideEmpty) then {continue};
@@ -255,7 +264,7 @@ if (_firstInit) then {
 			_sector       = _x;
 			_spawnDataVeh = [];
 
-			 {
+			{
 				_spawnPoint = _x;
 				_enum       = toUpper (_spawnPoint getVariable [QGVAR(enum), ""]);
 				_definition = [_side, _enum] call FUNC(veh_getNextDefinition);
@@ -268,26 +277,35 @@ if (_firstInit) then {
 				_radius = MACRO_FNC_BOUNDINGRADIUS(_veh);
 				deleteVehicle _veh;
 
+				// Determine the initial respawn time
+				_initialSpawnDelay = _spawnPoint getVariable [QGVAR(initialSpawnDelay), -1];
+				if (_initialSpawnDelay > 0) then {
+					_respawnTime = _time + GVAR(param_gm_safeStartDuration) + _initialSpawnDelay;
+				} else {
+					_respawnTime = -1;
+				};
+
 				_definition insert [1, [
-					0,                                                   // 1
+					_respawnTime,                                        // 1
 					getPosWorld _spawnPoint,                             // 2
 					vectorDir _spawnPoint,                               // 3
 					vectorUp _spawnPoint,                                // 4
 					_spawnPoint getVariable [QGVAR(respawnDelay), -1],   // 5
 					_spawnPoint getVariable [QGVAR(playersOnly), false], // 6
-					_radius                                              // 7
+					_initialSpawnDelay,                                  // 7
+					_radius                                              // 8
 				]];
 
 				_spawnDataVeh pushBack _definition;
 				//diag_log format ["[CONQUEST] (%1) Storing definition for %2 (%3): %4", _sector getVariable [QGVAR(letter), "???"], _side, _enum, _definition];
 
-			 } forEach (_sector getVariable [QGVAR(sv_spawnPointsVeh), []]);
+			} forEach (_sector getVariable [QGVAR(sv_spawnPointsVeh), []]);
 
-			 // Client data
-			 _sector setVariable [format [QGVAR(cl_spawnDataVeh_%1), _side], _spawnDataVeh apply {_x # 0}, false];
+			// Client data
+			_sector setVariable [format [QGVAR(cl_spawnDataVeh_%1), _side], _spawnDataVeh apply {_x # 0}, false];
 
-			 // Server data
-			 _sector setVariable [format [QGVAR(sv_spawnDataVeh_%1), _side], _spawnDataVeh, false];
+			// Server data
+			_sector setVariable [format [QGVAR(sv_spawnDataVeh_%1), _side], _spawnDataVeh, false];
 
 		} forEach (_sectorsOwned + _sectorsNeutral + _sectorsHostile);
 
@@ -306,7 +324,13 @@ if (_firstInit) then {
 		{
 			if (_x == sideEmpty) then {continue};
 			{
-				_x set [1, 0]; // Respawn time
+				_initialSpawnDelay = _x # 7;
+
+				if (_initialSpawnDelay < 0) then {
+					_x set [1, -1]; // Respawn time
+				} else {
+					_x set [1, _time + GVAR(param_gm_safeStartDuration) + _initialSpawnDelay];
+				};
 			} forEach (_sector getVariable [format [QGVAR(sv_spawnDataVeh_%1), _x], []]);
 		} forEach GVAR(sides);
 
@@ -320,7 +344,7 @@ if (_firstInit) then {
 		_sector setVariable [QGVAR(level), _level, true];
 
 		// Server data
-		_sector setVariable [QGVAR(sideFlagLast), _side, true];
+		_sector setVariable [QGVAR(sideFlagLast), sideEmpty, true];
 		_sector setVariable [QGVAR(lastUpdateTime), nil, false];
 		_sector setVariable [QGVAR(levelLast), _level, false];
 		_sector setVariable [QGVAR(levelNextScore), [MACRO_SECTOR_SCOREINTERVAL, 1 - MACRO_SECTOR_SCOREINTERVAL] select (_level > 0), false];

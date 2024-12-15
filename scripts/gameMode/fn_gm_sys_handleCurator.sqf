@@ -35,9 +35,9 @@ GVAR(gm_sys_handleCurator_EH) = addMissionEventHandler ["EachFrame", {
 
 	if (isGamePaused) exitWith {};
 
-	if (GVAR(missionState) < MACRO_ENUM_MISSION_LIVE) exitWith {};
-
 	private _time = time;
+	if (_time <= 0) exitWith {};
+
 	if (_time > GVAR(gm_sys_handleCurator_nextUpdate)) then {
 
 		// Assign the curator module to whoever is currently admin.

@@ -12,16 +12,14 @@
 -------------------------------------------------------------------------------------------------------------------- */
 
 #include "..\..\res\common\macros.inc"
-#include "..\..\mission\settings.inc"
-
 #include "..\..\res\macros\fnc_boundingRadius.inc"
 #include "..\..\res\macros\fnc_initVar.inc"
 
+#include "..\..\mission\settings.inc"
 
 
 
 
-// Set up some variables
 MACRO_FNC_INITVAR(GVAR(ai_sys_driverControl_EH), -1);
 MACRO_FNC_INITVAR(GVAR(ai_sys_driverControl_EH_draw3D_debug), -1);
 
@@ -70,7 +68,7 @@ GVAR(ai_sys_driverControl_EH) = addMissionEventHandler ["EachFrame", {
 			and {[_unit] call FUNC(unit_isAlive)}
 		) then {
 			_vehPos            = _veh modelToWorldVisualWorld getCenterOfMass _veh; // Some vehicles have strange origin points; this compensates for that
-			_vehRadius         = MACRO_FNC_BOUNDINGRADIUS(_veh); // Approximation
+			_vehRadius         = MACRO_FNC_BOUNDINGRADIUS(_veh);
 			_vehVel            = velocity _veh;
 			_speed             = speed _veh;
 			_shouldHalt        = false;

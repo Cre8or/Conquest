@@ -51,8 +51,8 @@ private _vecUp      = [0, 0, 1];
 private _vecRight   = vectorNormalized (_vecForward vectorCrossProduct _vecUp);
 
 // The resulting avoidance force is a lateral vector that linearily scales with decreasing distance
-private _force = _vecRight vectorMultiply ([1, -1] select (_vecRight vectorDotProduct _velDiff >= 0));
+private _force = _vecRight vectorMultiply ([-1, 1] select (_vecRight vectorDotProduct _velDiff >= 0));
 private _dist = vectorMagnitude (_offset vectorDiff _velDiff);
-_force = _force vectorMultiply ((_dist / 5 - _radius) / _radius min 0);
+_force = _force vectorMultiply ((_radius - _dist) / _radius max 0);
 
 _force;

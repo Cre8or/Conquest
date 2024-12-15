@@ -438,15 +438,15 @@
 	#define MACRO_AI_CLAIMVEHICLE_MAXDIST_MOUNT                     8 // How close a unit must be to a vehicle, in meters, before it is moved into its claimed role
 	#define MACRO_AI_MAXDIST_RESPAWN_CLAIMABLE                      100 // How close an AI-claimable vehicle must be to a sector, in meters, for the AI to consider spawning on that sector (does not guarantee a vehicle claim!)
 	#define MACRO_AI_CHANCE_RESPAWN_CLAIMVEHICLE                    0.25 // The probability (up to 1) that an AI unit will attempt to spawn on a sector that has a claimable vehicle near it (rather than respawning near its leader/waypoint)
-	#define MACRO_AI_DRIVER_MOUNT_DURATION                          15 // How long an AI driver will wait, in seconds, for passengers to mount up before entering cooldown phase
-	#define MACRO_AI_DRIVER_MOUNT_COOLDOWN                          120 // The cooldown duration for AI drivers between mount-up pauses (to prevent getting stuck in a pausing loop)
+	#define MACRO_AI_DRIVER_MOUNT_DURATION                          10 // How long an AI driver will wait, in seconds, for passengers to mount up before entering cooldown phase
+	#define MACRO_AI_DRIVER_MOUNT_COOLDOWN                          60 // The cooldown duration for AI drivers between mount-up pauses (to prevent getting stuck in a pausing loop)
 	#define MACRO_AI_DRIVER_MOUNT_MAXSPEED                          20 // The speed threshold, in km/h, below which AI drivers will halt to allow units to mount up
 	#define MACRO_AI_DRIVER_LOOKAHEAD_MAXITERATIONS                 10 // The amount of nodes, at most, that AI drivers will look ahead along their route to determine the target speed limit
 	#define MACRO_AI_DRIVER_LOOKAHEAD_MAXDIST                       100 // How far, in meters, AI drivers may look ahead into their route to anticipate sharp turns
 	#define MACRO_AI_DRIVER_MAXSPEED                                80 // The maximum speed, in km/h, that AI drivers are allowed to drive under ideal circumstances (straight path, long distances between nodes)
 	#define MACRO_AI_DRIVER_AVOIDANCE_MAXDISTANCE                   100 // The maximum distance, in meters, to another vehicle for AI drivers to consider it in its obstacle avoidance check
 	#define MACRO_AI_DRIVER_FORCEMUL_ROUTEALIGN                     0.6 // Multiplier for AI drivers' goal force to align with the intended route. This force increases the further away the vehicle strays from its intended route
-	#define MACRO_AI_PATHFINDINTERVAL_VEH                           10000 // The maximum delay, in seconds, between recalculations of a vehicle's path
+	#define MACRO_AI_PATHFINDINTERVAL_VEH                           20 // The maximum delay, in seconds, between recalculations of a vehicle's path
 	#define MACRO_AI_PATHFINDINTERVAL_INF                           30 // The maximum delay, in seconds, between recalculations of a vehicle's path
 	#define MACRO_AI_UNITCONTROL_INTERVAL                           0.5 // Interval, in seconds, between two update cycles of the AI unitControl system (each unit gets updated every this often)
 	#define MACRO_AI_DRIVERCONTROL_INTERVAL                         0.25 // Interval, in seconds, between two update cycles of the AI driverControl system (each vehicle driver gets updated every this often)
@@ -462,6 +462,7 @@
 	#define MACRO_AI_COMMANDER_SECTOR_MINLEVELOWNED                 0.8 // The minimum capturing level of owned sectors for them to be considered as candidates
 	#define MACRO_AI_COMMANDER_WAYPOINT_MINDISTANCE                 5 // Minimum distance, in meters, that a potential new waypoint must be from a group's current waypoint to be submitted
 	#define MACRO_AI_COMMANDER_NEWORDER_COOLDOWN                    30 // Average (+/-25%) cooldown, in seconds, between two orders to a group from the AI commander (even if the orders are identical)
+	#define MACRO_AI_SKILL_BASEACCURACY                             0.8 // The default accuracy of AI units. Factions can adjust the overall accuracy as a multiplier of this value
 
 	// Gamemode
 	#define MACRO_GM_KILLASSISTDURATION                             10 // How long (in seconds), after damaging an enemy unit, it is possible to receive a kill assist for
@@ -528,7 +529,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.19.921" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.19.929" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

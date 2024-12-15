@@ -11,6 +11,8 @@
 -------------------------------------------------------------------------------------------------------------------- */
 
 #include "..\..\res\common\macros.inc"
+#include "..\..\res\macros\fnc_allUnitRoleEnums.inc"
+
 #include "..\..\mission\settings.inc"
 
 
@@ -18,30 +20,22 @@
 
 
 // Set up some constants
-private _allFaces = [];
+private _allFaces    = [];
 private _allSpeakers = [];
-private _allRoles = [
-	MACRO_ENUM_ROLE_SPECOPS,
-	MACRO_ENUM_ROLE_SNIPER,
-	MACRO_ENUM_ROLE_ASSAULT,
-	MACRO_ENUM_ROLE_SUPPORT,
-	MACRO_ENUM_ROLE_ENGINEER,
-	MACRO_ENUM_ROLE_MEDIC,
-	MACRO_ENUM_ROLE_ANTITANK
-];
-private _allNames =
+private _allRoles    = MACRO_FNC_ALLUNITROLEENUMS;
+private _allNames    =
 	#include "..\..\res\ai_names.inc"
 ;
-private _maxRolesCount = count _allRoles;
-private _maxNamesCount = count _allNames;
-private _maxFaceCounts = [];
+private _maxRolesCount    = count _allRoles;
+private _maxNamesCount    = count _allNames;
+private _maxFaceCounts    = [];
 private _maxSpeakersCount = [];
 
 // Set up some variables
-private _totalWeight = 0;
+private _totalWeight         = 0;
 private _sideIndexThresholds = [];
-private _prevSideIndex = -1;
-private _allNames_copy = [];
+private _prevSideIndex       = -1;
+private _allNames_copy       = [];
 private ["_faces", "_speakers", "_sideFaces", "_sideSpeakers"];
 private ["_sideIndex", "_unitIndex", "_sideRoles", "_rolesCount", "_namesCount", "_facesCount", "_speakersCount", "_groupIndex", "_isLeader", "_role", "_name", "_face", "_speaker"];
 GVAR(sv_AIIdentities) = [];

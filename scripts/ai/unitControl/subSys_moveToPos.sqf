@@ -34,14 +34,18 @@ if (
 
 		// Special case for drivers: when processing a new route, try to stay on the current route by
 		// enforcing the first node to be the one the driver was currently headed to.
-		// However, if the route's current node is too far away from the vehicle, discard it and start
-		// a new search from scratch.
+		// However, if the route's current node is too far away from the vehicle, or is not infront of
+		// the vehicle, discard it and start a new search from scratch.
 		if (_isDriver and {speed _unitVeh > 15}) then {
 			private _route      = _pathData param [0, []];
 			private _curNodePos = _route param [_unit getVariable [QGVAR(ai_unitControl_moveToPos_pathIndex), -1], _unitPos];
+			private _relDir     = _unitVeh getRelDir _curNodePos;
 
-			if (_unitPos distanceSqr _curNodePos < MACRO_NM_SEARCHRADIUS_NODES_VEH ^ 2) then {
-				_curNodeID = _unit getVariable [QGVAR(ai_driverControl_currentNodeID), -1];
+			if (
+				_unitPos distanceSqr _curNodePos < MACRO_NM_SEARCHRADIUS_NODES_VEH ^ 2
+				and {_relDir < 60 or {_relDir > 300}} // 120° cone infront of the vehicle
+			) then {
+				_curNodeID = _unit getVariable [QGVAR(ai_sys_driverControl_currentNodeID), -1];
 			};
 		};
 
@@ -150,7 +154,7 @@ if (!_isInVehicle) then {
 if (_switchToCareless) then {
 	_unit setCombatBehaviour "CARELESS";
 };
-[_switchToCareless, MACRO_ENUM_AI_PRIO_CARELESSMOVE, _unit, ["TARGET", "AUTOTARGET", "COVER", "CHECKVISIBLE"], false] call FUNC(ai_toggleFeature);
+[_switchToCareless or {_isDriver}, MACRO_ENUM_AI_PRIO_CARELESSMOVE, _unit, ["TARGET", "AUTOTARGET", "COVER", "CHECKVISIBLE"], false] call FUNC(ai_toggleFeature);
 
 
 

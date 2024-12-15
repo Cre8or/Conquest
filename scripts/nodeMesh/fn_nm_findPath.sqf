@@ -138,7 +138,7 @@ if (
 private _startNode = _allNodes param [_startNodeID, objNull];
 
 // Special case: a starting node was passed
-if (alive _startNode) then {
+if (!isNull _startNode) then {
 	_startNodesCount = _startNodesCount + 1;
 
 	// Add it to the queue
@@ -390,7 +390,7 @@ _curKnot  = _namespace_precedents getVariable [str (_bestEndNode getVariable [QG
 _result pushBack _bestEndNode;
 
 //diag_log format ["Reversing path (starting at %1)", _bestEndNode getVariable [QGVAR(nodeID), -1]];
-while {alive _curKnot} do {
+while {!isNull _curKnot} do {
 	_curKnotStr = str (_curKnot getVariable [QGVAR(nodeID), -1]);
 	_lastNodeStr = str (_lastNode getVariable [QGVAR(nodeID), -1]);
 	//diag_log format ["  At node %1...", _curKnotStr];

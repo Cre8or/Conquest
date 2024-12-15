@@ -12,9 +12,11 @@
 -------------------------------------------------------------------------------------------------------------------- */
 
 #include "..\..\res\common\macros.inc"
+#include "..\..\res\macros\fnc_allUnitRoleEnums.inc"
 #include "..\..\res\macros\fnc_allVehicleTypeEnums.inc"
 
 #include "..\..\mission\settings.inc"
+
 
 
 
@@ -44,33 +46,42 @@ private _allSides = [ // Fixed order by framework convention
 
 
 // Parse all sides' data files
-private ["_sideData", "_role", "_loadout", "_abilities", "_allMagazines", "_magazinesCache", "_weaponIcon","_magazinePrimary", "_magazinePrimaryAlt", "_magazineSecondary", "_magazineHandgun", "_ammoTypeX", "_isExplosiveX"];
+private ["_sideData", "_abilities", "_allMagazines", "_magazinesCache", "_weaponIcon","_magazinePrimary", "_magazinePrimaryAlt", "_magazineSecondary", "_magazineHandgun", "_ammoTypeX", "_isExplosiveX"];
 private ["_vehTypesCache", "_vehTypesIndexCache", "_definitionsXCopy"];
+private ["_accuracyMulCache", "_totalAccuracyMul"];
 {
 	_x params ["_side", "_filePath"];
 
 	// Validate the file path
-	_sideData = nil;
 	if (fileExists _filePath) then {
 		_sideData = call compile preprocessFileLineNumbers _filePath;
-	};
 
-	if (isNil "_sideData" or {!(_sideData isEqualType [])}) then {
+		if (isNil "_sideData" or {!(_sideData isEqualType [])} or {_sideData isEqualTo []}) then {
+			_sideData = [];
+			private _str = format ["[CONQUEST] ERROR: Side data file appears to be invalid! (%1)", _filePath];
+			systemChat _str;
+			diag_log _str;
+		};
+
+	} else {
 		_sideData = [];
 
-		private _str = format ["[CONQUEST] ERROR: Side data file is missing or invalid! (%1)", _x];
+		private _str = format ["[CONQUEST] ERROR: Side data file is missing! (%1)", _filePath];
 		systemChat _str;
 		diag_log _str;
 	};
 
+
+
 	_sideData params [
-		["_sideNameShort", "N/A", [""]],
-		["_sideNameLong", "Unknown", [""]],
+		["_sideNameShort", "ERROR", [""]],
+		["_sideNameLong", "ERROR: Unknown Faction", [""]],
 		["_sideFlag", MACRO_TEXTURE_FLAG_EMPTY, [""]],
-		["_sideAIFaces", ["white"], ["", []]],
-		["_sideAISpeakers", ["english_us"], ["", []]],
+		["_sideAIFaces", [], ["", []]],
+		["_sideAISpeakers", [], ["", []]],
 		["_sideLoadouts", [], [[]]],
-		["_sideVehicleDefinitions", [], [[]]]
+		["_sideVehicleDefinitions", [], [[]]],
+		["_sideAIBalancing", [], [[]]]
 	];
 
 	diag_log format ["[CONQUEST] Compiling side %1 (%2)", _sideNameShort, _side];
@@ -96,11 +107,13 @@ private ["_vehTypesCache", "_vehTypesIndexCache", "_definitionsXCopy"];
 
 	// Iterate over this side's loadouts
 	{
-		_role      = _x param [0, MACRO_ENUM_ROLE_INVALID];
-		_loadout   = _x param [1, []];
-		_abilities = [];
+		_x params [
+			["_role", MACRO_ENUM_ROLE_INVALID, [MACRO_ENUM_ROLE_INVALID]],
+			["_loadout", [], [[]]]
+		];
 
 		// Role-based abilities
+		_abilities = [];
 		switch (_role) do {
 			case MACRO_ENUM_ROLE_SUPPORT:  {_abilities pushBack MACRO_ENUM_LOADOUT_ABILITY_RESUPPLY};
 			//case MACRO_ENUM_ROLE_ENGINEER: {_abilities pushBack MACRO_ENUM_LOADOUT_ABILITY_REPAIR};
@@ -305,6 +318,37 @@ private ["_vehTypesCache", "_vehTypesIndexCache", "_definitionsXCopy"];
 
 	missionNamespace setVariable [format [QGVAR(vehTypesCache_%1), _side], _vehTypesCache, false];
 	missionNamespace setVariable [format [QGVAR(vehTypesIndexCache_%1), _side], _vehTypesIndexCache, false];
+
+
+
+	// Parse the side's AI balancing data
+	_accuracyMulCache = createHashMap;
+	_sideAIBalancing params [
+		["_overallAccuracyMul", MACRO_AI_SKILL_BASEACCURACY, [MACRO_AI_SKILL_BASEACCURACY]],
+		["_roleAccuracyMulArr", [], [[]]]
+	];
+
+	{
+		_x params [
+			["_role", MACRO_ENUM_ROLE_INVALID, [MACRO_ENUM_ROLE_INVALID]],
+			["_roleAccuracyMul", 1, [1]]
+		];
+
+		if !(_role in MACRO_FNC_ALLUNITROLEENUMS) then {
+			diag_log format ["[CONQUEST] ERROR: Invalid unit role ""%1""!", _role];
+			continue;
+		};
+
+		if (_role in _accuracyMulCache) then {
+			diag_log format ["[CONQUEST] ERROR: Accuracy multiplier for unit role ""%1"" is defined multiple times!", _role];
+			continue;
+		};
+
+		_totalAccuracyMul = ((_overallAccuracyMul * _roleAccuracyMul) max 0) min 1;
+		_accuracyMulCache set [_role, _totalAccuracyMul];
+	} forEach _roleAccuracyMulArr;
+
+	missionNamespace setVariable [format [QGVAR(accuracyMulCache_%1), _side], _accuracyMulCache, false];
 
 } forEach _allSides;
 
