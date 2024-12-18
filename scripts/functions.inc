@@ -64,6 +64,14 @@ class MACRO_PROJECT_PREFIX {
 		class ca_sys_playerCombatArea {};
 	};
 
+	class factions {
+		file = "scripts\factions";
+		// Abbreviation:	fac
+
+		class fac_getFilePath {};
+		class fac_getData {};
+	};
+
 	class gameMode {
 		file = "scripts\gameMode";
 		// Abbreviation:	gm

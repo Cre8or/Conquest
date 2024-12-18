@@ -1,5 +1,5 @@
 /*
----------------------------------------- SIDE DATA FILE (OPFOR / EAST) ----------------------------------------
+--------------------------------------------------- FACTION DATA FILE ---------------------------------------------------
 
 USAGE:
 
@@ -21,24 +21,27 @@ USAGE:
 
 
 [
-	// Side name (short format, ideally 5 characters or less)
-	"CSAT",
+	// Identity
+	[
+		// Faction name (short format, ideally up to 5 characters)
+		"CSAT",
 
-	// Side name (long format, ideally up to 40 characters)
-	"Canton Protocol Strategic Alliance Treaty",
+		// Faction name (long format, ideally up to 40 characters)
+		"Canton Protocol Strategic Alliance Treaty",
 
-	// Texture path to a flag representing this side (ArmA 3 has many country flags you can use)
-	"a3\data_f\Flags\flag_CSAT_co.paa",
+		// Texture path to a flag representing this faction (tip: ArmA 3 has many country flags you can use)
+		"a3\data_f\Flags\flag_CSAT_co.paa",
 
-	// The sets of faces that AI units on this side should use. Intended for immersion.
-	// Possible values: "african", "african_camo", "asian", "asian_camo", "greek", "greek_camo", "livonian", "persian", "persian_camo", "russian", "tanoan", "white", "white_camo"
-	// NOTE: This setting accepts a single value (e.g. "greek"), or an array of values (e.g. ["african", "african_camo"])
-	["persian", "persian_camo"],
+		// The face presets that AI units of this faction should use.
+		// Possible values: "african", "african_camo", "asian", "asian_camo", "greek", "greek_camo", "livonian", "persian", "persian_camo", "russian", "tanoan", "white", "white_camo"
+		// NOTE: This setting either accepts a single value (e.g. "greek"), or an array of values (e.g. ["african", "african_camo"])
+		["persian", "persian_camo"],
 
-	// The spoken voice presets that AI units on this side should use (for things like automatic call-outs). Intended for immersion.
-	// Possible values: "chinese", "english_fr", "english_gr", "english_uk", "english_us", "farsi", "french", "polish", "russian"
-	// NOTE: This setting accepts a single value (e.g. "farsi"), or an array of values (e.g. ["english_uk", "english_us"])
-	"farsi",
+		// The voice presets that AI units of this faction should use (for things like automatic call-outs).
+		// Possible values: "chinese", "english_fr", "english_gr", "english_uk", "english_us", "farsi", "french", "polish", "russian"
+		// NOTE: This setting accepts a single value (e.g. "farsi"), or an array of values (e.g. ["english_uk", "english_us"])
+		"farsi"
+	],
 
 
 
@@ -78,5 +81,11 @@ USAGE:
 			MACRO_ENUM_ROLE_ANTITANK,
 			[["arifle_Katiba_F","","acc_flashlight","optic_ACO_grn",["30Rnd_65x39_caseless_green_mag_Tracer",30],[],""],["launch_RPG32_F","","","",["RPG32_F",1],[],""],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["U_O_CombatUniform_ocamo",[]],["V_TacVest_khk",[["16Rnd_9x21_green_Mag",2,17],["30Rnd_65x39_caseless_green_mag_Tracer",7,30],["HandGrenade",1,1]]],["B_Kitbag_cbr",[["RPG32_F",2,1]]],"H_HelmetO_ocamo","G_Balaclava_blk",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		]
+	],
+
+
+
+	// Vehicles
+	[
 	]
 ]

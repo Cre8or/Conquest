@@ -10,7 +10,7 @@ if (!_inCombatArea) then {
 
 	// If the unit just left the combat area, determine the punish time
 	if (_prevInCombatArea) then {
-		_unit setVariable [QGVAR(ai_unitControl_combatArea_punishTime), _time + MACRO_CA_DELAYUNTILDEATH, false];
+		_unit setVariable [QGVAR(ai_unitControl_combatArea_punishTime), _time + MACRO_CA_GRACEDURATION, false];
 	};
 
 	private _punishTime = _unit getVariable [QGVAR(ai_unitControl_combatArea_punishTime), 0];

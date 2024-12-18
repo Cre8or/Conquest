@@ -7,6 +7,11 @@
 	#define MACRO_MISSION_OVERVIEW_IMAGE                            ""
 	#define MACRO_MISSION_LOADING_BANNER                            "mission\res\banner.paa"
 
+	// Uncomment if the mission supports an INDFOR faction (at least one sector is owned by INDFOR)
+	// If commented out, the mission will convert any INDFOR sectors to uncaptured ones, and disable any options referencing the INDFOR side
+	// from the mission parameters.
+	//#define MACRO_MISSION_USES_INDFOR
+
 
 
 
@@ -21,7 +26,7 @@
 	#define MACRO_AI_MAXUNITSPERGROUP                               6 // How many AI units are allowed to form up in a group
 
 	#define MACRO_AI_SPAWNWEIGHT_EAST                               1 // The weight towards spawning AI on the "east" (OPFOR) side
-	#define MACRO_AI_SPAWNWEIGHT_RESISTANCE                         0 // The weight towards spawning AI on the "resistance" (INDFOR) side
+	#define MACRO_AI_SPAWNWEIGHT_RESISTANCE                         1 // The weight towards spawning AI on the "resistance" (INDFOR) side
 	#define MACRO_AI_SPAWNWEIGHT_WEST                               1 // The weight towards spawning AI on the "west" (BLUFOR) side
 
 
@@ -36,12 +41,19 @@
 	#define MACRO_MISSION_CAMERADIRECTION                           [0.996809,-0.0793498,0.0157021] // The diorection of the camera when showing the spawn menu. Acquired via: copyToClipboard str vectorDir get3DENCamera
 
 	// Gamemode
+	#define MACRO_GM_FACTIONENUM_BLUFOR                             MACRO_ENUM_FACTION_NATO // The default faction enum for BLUFOR (see macros.inc)
+	#define MACRO_GM_FACTIONENUM_OPFOR                              MACRO_ENUM_FACTION_CSAT // The default faction enum for OPFOR (see macros.inc)
+	#define MACRO_GM_FACTIONENUM_INDFOR                             MACRO_ENUM_FACTION_AAF // The default faction enum for INDFOR (see macros.inc)
+
 	#define MACRO_GM_STARTINGTICKETS                                200 // How many respawn tickets each side should start with
 	#define MACRO_GM_UNIT_RESPAWNDELAY                              15 // How long, in seconds, a unit must wait before being able to respawn
 	#define MACRO_GM_UNIT_REVIVEDURATION                            30 // How long, in seconds, a unit can be revived for after being incapacitated
 	#define MACRO_GM_UNIT_SPAWNPROTECTIONDURATION                   2 // How long, in seconds, the spawn protection (invincibility) for freshly respawned units should last for
 	#define MACRO_GM_SAFESTARTDURATION                              10 // How long the safestart countdown should last, in seconds
 	#define MACRO_GM_SECTOR_CAPTUREDURATION                         30 // How long it takes to neutralise or to capture a sector, in seconds
+
+	// Vehicles
+	#define MACRO_GM_ENABLEVEHICLES                                 true // Whether or not vehicles should be enabled
 
 	// Damage balancing
 	#define MACRO_GM_UNIT_DAMAGEMUL_HEADSHOT                        3 // Multiplier for the damage dealt by headshots
@@ -51,7 +63,7 @@
 	#define MACRO_GM_UNIT_DAMAGEMUL_ROADKILL                        1 // Multiplier for the damage units receive when getting hit/run over by vehicles
 
 	// Combat Area
-	#define MACRO_CA_DELAYUNTILDEATH                                10 // How long, in seconds, a unit may be outside of the combat area before getting killed
+	#define MACRO_CA_GRACEDURATION                                  10 // How long, in seconds, a unit may be outside of the combat area before getting killed
 
 
 

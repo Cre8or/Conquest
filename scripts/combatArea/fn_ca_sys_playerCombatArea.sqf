@@ -72,7 +72,7 @@ GVAR(ca_sys_playerCombatArea_EH) = addMissionEventHandler ["EachFrame", {
 				GVAR(ui_ca_colourFx) ppEffectCommit MACRO_CA_WARNING_ANIMDURATION;
 
 			} else {
-				GVAR(ca_sys_playerCombatArea_punishTime) = _time + GVAR(param_ca_delayUntilDeath);
+				GVAR(ca_sys_playerCombatArea_punishTime) = _time + GVAR(param_ca_graceDuration);
 
 				// Start the combat area warning display
 				QGVAR(RscCombatArea) cutRsc [QGVAR(RscCombatArea), "PLAIN"];
@@ -106,7 +106,7 @@ GVAR(ca_sys_playerCombatArea_EH) = addMissionEventHandler ["EachFrame", {
 		private _ctrlText = _ctrlGrp controlsGroupCtrl MACRO_IDC_CA_TEXT_COUNTDOWN;
 
 		// Perform a fade-in animation
-		private _animEndTime = GVAR(ca_sys_playerCombatArea_punishTime) - GVAR(param_ca_delayUntilDeath) + MACRO_CA_WARNING_ANIMDURATION;
+		private _animEndTime = GVAR(ca_sys_playerCombatArea_punishTime) - GVAR(param_ca_graceDuration) + MACRO_CA_WARNING_ANIMDURATION;
 		private _animPhase   = 1 - MACRO_TWEEN_RAMPDOWN(_time, _animEndTime, MACRO_CA_WARNING_ANIMDURATION);
 		private _ctrlPos     = ctrlPosition _ctrlGrp;
 

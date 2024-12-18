@@ -39,15 +39,27 @@
 
 		private _display = findDisplay 313;
 
+
+
+		// Pick the factions that should be used for visualisation in 3DEN
+		GVAR(param_gm_factionEnum_east)       = MACRO_GM_FACTIONENUM_OPFOR;
+		GVAR(param_gm_factionEnum_resistance) = MACRO_GM_FACTIONENUM_INDFOR;
+		GVAR(param_gm_factionEnum_west)       = MACRO_GM_FACTIONENUM_BLUFOR;
+
 		// Define some functions
 		// We can't use CfgFunctions-defined functions here as the mission description isn't parsed yet
 		// (we're still in 3DEN, after all), and we can't rely on any mods/addons to help us out, since we
 		// don't know if they're present at this stage.
 		// The following solution isn't pretty, but it's the best we can do right now.
-		FUNC(gm_compileSidesData)    = compile preprocessFileLineNumbers "scripts\gamemode\fn_gm_compileSidesData.sqf";
+		FUNC(fac_getData)     = compile preprocessFileLineNumbers "scripts\factions\fn_fac_getData.sqf";
+		FUNC(fac_getFilePath) = compile preprocessFileLineNumbers "scripts\factions\fn_fac_getFilePath.sqf";
+
+		FUNC(gm_compileSidesData) = compile preprocessFileLineNumbers "scripts\gamemode\fn_gm_compileSidesData.sqf";
+
 		FUNC(sector_addVehicleSpawn) = compile preprocessFileLineNumbers "scripts\sectors\fn_sector_addVehicleSpawn.sqf";
-		FUNC(veh_setCustomisation)   = compile preprocessFileLineNumbers "scripts\vehicles\fn_veh_setCustomisation.sqf";
-		FUNC(veh_getNextDefinition)  = compile preprocessFileLineNumbers "scripts\vehicles\fn_veh_getNextDefinition.sqf";
+
+		FUNC(veh_setCustomisation)  = compile preprocessFileLineNumbers "scripts\vehicles\fn_veh_setCustomisation.sqf";
+		FUNC(veh_getNextDefinition) = compile preprocessFileLineNumbers "scripts\vehicles\fn_veh_getNextDefinition.sqf";
 
 		FUNC(eden_moveCameraToObject) = {
 			params [["_obj", objNull, [objNull]]];

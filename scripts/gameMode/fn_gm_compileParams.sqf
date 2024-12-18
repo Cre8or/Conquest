@@ -18,7 +18,6 @@
 
 
 
-// Fetch all mission parameters
 private ["_name", "_value", "_override"];
 {
 	_name = configName _x;

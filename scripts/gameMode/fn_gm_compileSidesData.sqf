@@ -35,77 +35,68 @@ private _allThrowables        = [];
 	} forEach getArray (_x >> "magazines");
 } forEach ("isClass _x" configClasses (_configPath_weapons >> "Throw"));
 
-private _allSides = [ // Fixed order by framework convention
-	[east,       "mission\sides\data_side_east.inc"],
-	[resistance, "mission\sides\data_side_resistance.inc"],
-	[west,       "mission\sides\data_side_west.inc"]
+private _allSideFactions = [ // Fixed order by framework convention
+	[east,       GVAR(param_gm_factionEnum_east)],
+	[resistance, GVAR(param_gm_factionEnum_resistance)],
+	[west,       GVAR(param_gm_factionEnum_west)]
 ];
 
 
 
 
 
-// Parse all sides' data files
-private ["_sideData", "_abilities", "_allMagazines", "_magazinesCache", "_weaponIcon","_magazinePrimary", "_magazinePrimaryAlt", "_magazineSecondary", "_magazineHandgun", "_ammoTypeX", "_isExplosiveX"];
+// Parse each side's faction data file
+private ["_factionData", "_abilities", "_allMagazines", "_magazinesCache", "_weaponIcon","_magazinePrimary", "_magazinePrimaryAlt", "_magazineSecondary", "_magazineHandgun", "_ammoTypeX", "_isExplosiveX"];
 private ["_vehTypesCache", "_vehTypesIndexCache", "_definitionsXCopy"];
 private ["_accuracyMulCache", "_totalAccuracyMul"];
 {
-	_x params ["_side", "_filePath"];
+	_x params ["_side", "_factionEnum"];
 
-	// Validate the file path
-	if (fileExists _filePath) then {
-		_sideData = call compile preprocessFileLineNumbers _filePath;
-
-		if (isNil "_sideData" or {!(_sideData isEqualType [])} or {_sideData isEqualTo []}) then {
-			_sideData = [];
-			private _str = format ["[CONQUEST] ERROR: Side data file appears to be invalid! (%1)", _filePath];
-			systemChat _str;
-			diag_log _str;
-		};
-
-	} else {
-		_sideData = [];
-
-		private _str = format ["[CONQUEST] ERROR: Side data file is missing! (%1)", _filePath];
-		systemChat _str;
-		diag_log _str;
-	};
-
-
-
-	_sideData params [
-		["_sideNameShort", "ERROR", [""]],
-		["_sideNameLong", "ERROR: Unknown Faction", [""]],
-		["_sideFlag", MACRO_TEXTURE_FLAG_EMPTY, [""]],
-		["_sideAIFaces", [], ["", []]],
-		["_sideAISpeakers", [], ["", []]],
-		["_sideLoadouts", [], [[]]],
-		["_sideVehicleDefinitions", [], [[]]],
-		["_sideAIBalancing", [], [[]]]
+	_factionData = [_factionEnum] call FUNC(fac_getData);
+	_factionData params [
+		["_factionIdentity", [], [[]]],
+		["_factionLoadouts", [], [[]]],
+		["_factionVehicles", [], [[]]],
+		["_factionAIBalancing", [], [[]]]
 	];
 
-	diag_log format ["[CONQUEST] Compiling side %1 (%2)", _sideNameShort, _side];
+	// Parse the faction identity
+	_factionIdentity params [
+		["_factionNameShort", "ERROR", [""]],
+		["_factionNameLong", "ERROR: Unknown Faction", [""]],
+		["_factionFlag", "", [""]],
+		["_factionAIFaces", [], ["", []]],
+		["_factionAISpeakers", [], ["", []]]
+	];
+
+	diag_log format ["[CONQUEST] Compiling faction %1 (%2)", _factionNameShort, _side];
 
 	// Validate the parameters
-	if (_sideAIFaces isEqualType "") then {
-		_sideAIFaces = [_sideAIFaces];
+	if (_factionAIFaces isEqualType "") then {
+		_factionAIFaces = [_factionAIFaces];
 	};
-	if (_sideAISpeakers isEqualType "") then {
-		_sideAISpeakers = [_sideAISpeakers];
+	if (_factionAISpeakers isEqualType "") then {
+		_factionAISpeakers = [_factionAISpeakers];
+	};
+	if (!fileExists _factionFlag) then {
+		_factionFlag = [
+			"a3\data_f\flags\flag_red_co.paa",
+			"a3\data_f\flags\flag_green_co.paa",
+			"a3\data_f\flags\flag_blue_co.paa"
+		] select _forEachIndex;
 	};
 
 
-
-	// Expose the common side data as global variables
-	missionNamespace setVariable [format [QGVAR(shortName_%1), _side], _sideNameShort, false];
-	missionNamespace setVariable [format [QGVAR(longName_%1), _side], _sideNameLong, false];
-	missionNamespace setVariable [format [QGVAR(flagTexture_%1), _side], _sideFlag, false];
-	missionNamespace setVariable [format [QGVAR(aiFaces_%1), _side], _sideAIFaces, false];
-	missionNamespace setVariable [format [QGVAR(aiSpeakers_%1), _side], _sideAISpeakers, false];
-
+	// Expose the common faction data as global variables
+	missionNamespace setVariable [format [QGVAR(shortName_%1), _side], _factionNameShort, false];
+	missionNamespace setVariable [format [QGVAR(longName_%1), _side], _factionNameLong, false];
+	missionNamespace setVariable [format [QGVAR(flagTexture_%1), _side], _factionFlag, false];
+	missionNamespace setVariable [format [QGVAR(aiFaces_%1), _side], _factionAIFaces, false];
+	missionNamespace setVariable [format [QGVAR(aiSpeakers_%1), _side], _factionAISpeakers, false];
 
 
-	// Iterate over this side's loadouts
+
+	// Loadouts
 	{
 		_x params [
 			["_role", MACRO_ENUM_ROLE_INVALID, [MACRO_ENUM_ROLE_INVALID]],
@@ -274,11 +265,11 @@ private ["_accuracyMulCache", "_totalAccuracyMul"];
 			missionNamespace setVariable [format [QGVAR(weaponIcon_%1_%2), _side, _role], _weaponIcon, false];
 			missionNamespace setVariable [format [QGVAR(magazinesCache_%1_%2), _side, _role], _magazinesCache, false];
 		};
-	} forEach _sideLoadouts;
+	} forEach _factionLoadouts;
 
 
 
-	// Iterate over this side's vehicle definitions
+	// Vehicle definitions
 	_vehTypesCache      = createHashMap;
 	_vehTypesIndexCache = createHashMap;
 	{
@@ -314,16 +305,16 @@ private ["_accuracyMulCache", "_totalAccuracyMul"];
 		_vehTypesCache      set [_enumX, _definitionsXCopy];
 		_vehTypesIndexCache set [_enumX, [0, (count _definitionsXCopy) - 1]]; // [indexCurrent, indexLast]
 
-	} forEach _sideVehicleDefinitions;
+	} forEach _factionVehicles;
 
 	missionNamespace setVariable [format [QGVAR(vehTypesCache_%1), _side], _vehTypesCache, false];
 	missionNamespace setVariable [format [QGVAR(vehTypesIndexCache_%1), _side], _vehTypesIndexCache, false];
 
 
 
-	// Parse the side's AI balancing data
+	// AI balancing
 	_accuracyMulCache = createHashMap;
-	_sideAIBalancing params [
+	_factionAIBalancing params [
 		["_overallAccuracyMul", MACRO_AI_SKILL_BASEACCURACY, [MACRO_AI_SKILL_BASEACCURACY]],
 		["_roleAccuracyMulArr", [], [[]]]
 	];
@@ -350,10 +341,10 @@ private ["_accuracyMulCache", "_totalAccuracyMul"];
 
 	missionNamespace setVariable [format [QGVAR(accuracyMulCache_%1), _side], _accuracyMulCache, false];
 
-} forEach _allSides;
+} forEach _allSideFactions;
 
 
 
 
 
-diag_log "[CONQUEST] (SHARED) Compiled sides data";
+diag_log "[CONQUEST] (SHARED) Compiled faction data";

@@ -529,7 +529,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.19.929" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.20.935" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -955,12 +955,31 @@
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
+//  FACTION EUMERATIONS
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+
+	#define MACRO_ENUM_FACTION_INVALID                              -1
+
+	// Vanilla factions
+	#define MACRO_ENUM_FACTION_NATO                                 0
+	#define MACRO_ENUM_FACTION_AAF                                  1
+	#define MACRO_ENUM_FACTION_CSAT                                 2
+
+	// CUP factions
+	#define MACRO_ENUM_FACTION_USMC                                 10
+	#define MACRO_ENUM_FACTION_AFRF                                 11
+
+
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------
 //	DEBUG
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
 	//#define MACRO_DEBUG_AI_COMMANDER
 	//#define MACRO_DEBUG_AI_COMMANDER_DISABLED
-	//#define MACRO_DEBUG_AI_DRIVER
+	#define MACRO_DEBUG_AI_DRIVER
 	//#define MACRO_DEBUG_AI_DRIVER_HALT
 	//#define MACRO_DEBUG_AI_MOVEPOS
 	//#define MACRO_DEBUG_AI_DODGEVEHICLES
@@ -969,7 +988,7 @@
 	//#define MACRO_DEBUG_CA_DISABLED
 
 	//#define MACRO_DEBUG_GM_PRESLOT
-	//#define MACRO_DEBUG_GM_NOSAFESTART
+	#define MACRO_DEBUG_GM_NOSAFESTART
 	//#define MACRO_DEBUG_GM_CONTINUEAFTERENDING
 	//#define MACRO_DEBUG_GM_ALLOWINVENTORY
 
