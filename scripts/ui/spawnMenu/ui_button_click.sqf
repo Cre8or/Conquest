@@ -263,6 +263,11 @@ case "ui_button_click": {
 			GVAR(role) = GVAR(ui_sm_role);
 		};
 
+		#ifdef MACRO_DEBUG_GM_INSTANTROLESWITCH
+			GVAR(role) = GVAR(ui_sm_role);
+			[player, GVAR(side), GVAR(role)] call FUNC(lo_setRoleLoadout);
+		#endif
+
 		// Update the selected role
 		["ui_update_role", [true]] call FUNC(ui_spawnMenu);
 	};

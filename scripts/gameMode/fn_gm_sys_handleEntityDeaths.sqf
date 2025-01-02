@@ -22,7 +22,6 @@ if (!isServer) exitWith {};
 
 
 
-// Set up some variables
 MACRO_FNC_INITVAR(GVAR(gm_sys_handleEntityDeaths_EH),-1);
 
 

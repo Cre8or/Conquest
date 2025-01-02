@@ -2,12 +2,15 @@
 	Author:	 	Cre8or
 	Description:
 		Initiates the mission ending sequence and announces the given side as the winner.
+		To prevent race conditions, the function receives the server's final tickets count as arguments, so that every
+		client is seeing the same result.
 
 		This function handles both client and server code, and as such must be executed globally.
 	Arguments:
-		0:      <SIDE>		The side that won the mission
-		!:      <BOOLEAN>	Whether or not the ending should be more dramatic (affects the displayed text,
-					and selected music)
+		0:  <SIDE>      The side that won the mission
+		1:  <BOOLEAN>   Whether or not the ending should be more dramatic (affects the displayed text,
+		                and selected music)
+		2:  <ARRAY>     The side's final tickets count
 	Returns:
 		(nothing)
 -------------------------------------------------------------------------------------------------------------------- */
@@ -19,7 +22,8 @@
 
 params [
 	["_winningSide", sideEmpty, [sideEmpty]],
-	["_isDecisive", false, [false]]
+	["_isDecisive", false, [false]],
+	["_finalTickets", [0,0,0], [[]], [3]]
 ];
 
 
@@ -31,7 +35,6 @@ MACRO_FNC_INITVAR(GVAR(EH_endMission_eachFrame),-1);
 GVAR(gm_endMission_startTime)     = time;
 GVAR(gm_endMission_stage)         = MACRO_ENUM_ENDMISSION_INIT;
 GVAR(gm_endMission_nextStageTime) = 0;
-GVAR(gm_endMission_sides)         = +GVAR(sides);
 
 
 
@@ -104,9 +107,8 @@ if (hasInterface) then {
 	private _endScreen = uiNamespace getVariable [QGVAR(RscEndScreen), displayNull];
 	private _topText    = _endScreen displayCtrl MACRO_IDC_ES_TOP_TEXT;
 	private _bottomText = _endScreen displayCtrl MACRO_IDC_ES_BOTTOM_TEXT;
-	private _sideLeft   = GVAR(sides) # 0;
-	private _sideMiddle = GVAR(sides) # 1;
-	private _sideRight  = GVAR(sides) # 2;
+	GVAR(sides) params ["_sideLeft", "_sideMiddle", "_sideRight"];
+	_finalTickets params ["_ticketsLeft", "_ticketsMiddle", "_ticketsRight"];
 
 	// On a two-sides setup, hide the middle controls
 	private _indexEmpty = GVAR(sides) find sideEmpty;
@@ -114,18 +116,20 @@ if (hasInterface) then {
 
 		switch (_indexEmpty) do {
 			case 0: {
-				_sideLeft = _sideMiddle;
+				_sideLeft    = _sideMiddle;
+				_ticketsLeft = _ticketsMiddle;
 			};
 			case 2: {
 				_sideRight = _sideMiddle;
+				_sideRight = _ticketsMiddle;
 			};
 		};
-		_sideMiddle = sideEmpty;
+		_sideMiddle    = sideEmpty;
+		_ticketsMiddle = 0;
 
 		(_endScreen displayCtrl MACRO_IDC_ES_FLAG_MIDDLE_PICTURE) ctrlShow false;
 		(_endScreen displayCtrl MACRO_IDC_ES_TICKETS_MIDDLE_TEXT) ctrlShow false;
 	};
-	GVAR(gm_endMission_sides) = [_sideLeft, _sideMiddle, _sideRight];
 
 	if (_isWin) then {
 		_topText ctrlSetText (["VICTORY", "DECISIVE VICTORY"] select _isDecisive);
@@ -155,7 +159,16 @@ if (hasInterface) then {
 		[_sideRight,  MACRO_IDC_ES_FLAG_RIGHT_PICTURE,  MACRO_IDC_ES_TICKETS_RIGHT_TEXT]
 	];
 
+	// Update the ticket counts
+	{
+		_x params ["_sideX", "_ticketsX", "_idcTickets"];
 
+		(_endScreen displayCtrl _idcTickets) ctrlSetText str _ticketsX;
+	} forEach [
+		[_sideLeft,   _ticketsLeft,   MACRO_IDC_ES_TICKETS_LEFT_TEXT],
+		[_sideMiddle, _ticketsMiddle, MACRO_IDC_ES_TICKETS_MIDDLE_TEXT],
+		[_sideRight,  _ticketsRight,  MACRO_IDC_ES_TICKETS_RIGHT_TEXT]
+	];
 
 	// ACRE2 compatibility
 	if (GVAR(hasMod_acre)) then {
@@ -202,20 +215,8 @@ GVAR(EH_endMission_eachFrame) = addMissionEventHandler ["EachFrame", {
 	// Update the ticket counts
 	// Sometimes, a publicVariable network packet for a side's ticket is queued after the call to endMission
 	// (so it doesn't make it in time), and so the end screen continues to show a slightly outdated tickets
-	// count. This fixed that.
+	// count. This fixes that.
 	private _endScreen = uiNamespace getVariable [QGVAR(RscEndScreen), displayNull];
-
-	{
-		_x params ["_sideX", "_idcTickets"];
-
-		(_endScreen displayCtrl _idcTickets) ctrlSetText str ([_sideX] call FUNC(gm_getSideTickets));
-	} forEach [
-		[GVAR(gm_endMission_sides) # 0, MACRO_IDC_ES_TICKETS_LEFT_TEXT],
-		[GVAR(gm_endMission_sides) # 1, MACRO_IDC_ES_TICKETS_MIDDLE_TEXT],
-		[GVAR(gm_endMission_sides) # 2, MACRO_IDC_ES_TICKETS_RIGHT_TEXT]
-	];
-
-
 
 	// Handle the state transitions
 	if (_time > GVAR(gm_endMission_nextStageTime)) then {

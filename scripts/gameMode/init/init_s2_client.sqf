@@ -48,6 +48,7 @@ call FUNC(ca_sys_playerCombatArea);
 call FUNC(gm_sys_enforceFPVInCamera);
 call FUNC(gm_sys_updatePlayerVars);
 call FUNC(gm_sys_handlePlayerRespawn);
+call FUNC(gm_sys_handleWeaponRecoil);
 
 call FUNC(sector_handleClient);
 

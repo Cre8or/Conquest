@@ -99,6 +99,7 @@ class MACRO_PROJECT_PREFIX {
 		class gm_sys_handleEntityDeaths {};
 		class gm_sys_handlePlayerRespawn {};
 		class gm_sys_handleServerStats {};
+		class gm_sys_handleWeaponRecoil {};
 		class gm_sys_monitorUnitDamage {};
 		class gm_sys_removeCorpses {};
 		class gm_sys_tickets {};

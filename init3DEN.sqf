@@ -37,6 +37,12 @@
 			MACRO_CLASS_NODEMESH_OCCLUDER_VEH
 		] apply {toLower _x});
 
+		#ifdef MACRO_MISSION_USES_INDFOR
+			GVAR(eden_usesIndfor) = true;
+		#else
+			GVAR(eden_usesIndfor) = false;
+		#endif
+
 		private _display = findDisplay 313;
 
 
@@ -431,7 +437,7 @@
 						_textureIcon = "a3\data_f\flags\flag_red_co.paa";
 					};
 					case "guer": {
-						_side        = resistance;
+						_side        = [sideEmpty, resistance] select GVAR(eden_usesIndfor);
 						_textureIcon = "a3\data_f\flags\flag_green_co.paa";
 					};
 					case "west": {

@@ -529,7 +529,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.20.935" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.20.945" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -719,8 +719,8 @@
 	#define MACRO_ENUM_VEHICLETYPE_HELI_ATTACK_LIGHT                "HELI_ATTACK_LIGHT"
 	#define MACRO_ENUM_VEHICLETYPE_HELI_ATTACK_HEAVY                "HELI_ATTACK_HEAVY"
 
-	#define MACRO_ENUM_VEHICLETYPE_JET_LIGHT                        "JET_LIGHT"
-	#define MACRO_ENUM_VEHICLETYPE_JET_HEAVY                        "JET_HEAVY"
+	#define MACRO_ENUM_VEHICLETYPE_PLANE_AA                         "PLANE_AA"
+	#define MACRO_ENUM_VEHICLETYPE_PLANE_CAS                        "PLANE_CAS"
 
 	#define MACRO_ENUM_VEHICLETYPE_BOAT_LIGHT                       "BOAT_LIGHT"
 	#define MACRO_ENUM_VEHICLETYPE_BOAT_HEAVY                       "BOAT_HEAVY"
@@ -979,7 +979,7 @@
 
 	//#define MACRO_DEBUG_AI_COMMANDER
 	//#define MACRO_DEBUG_AI_COMMANDER_DISABLED
-	#define MACRO_DEBUG_AI_DRIVER
+	//#define MACRO_DEBUG_AI_DRIVER
 	//#define MACRO_DEBUG_AI_DRIVER_HALT
 	//#define MACRO_DEBUG_AI_MOVEPOS
 	//#define MACRO_DEBUG_AI_DODGEVEHICLES
@@ -988,7 +988,8 @@
 	//#define MACRO_DEBUG_CA_DISABLED
 
 	//#define MACRO_DEBUG_GM_PRESLOT
-	#define MACRO_DEBUG_GM_NOSAFESTART
+	//#define MACRO_DEBUG_GM_NOSAFESTART
+	//#define MACRO_DEBUG_GM_INSTANTROLESWITCH
 	//#define MACRO_DEBUG_GM_CONTINUEAFTERENDING
 	//#define MACRO_DEBUG_GM_ALLOWINVENTORY
 

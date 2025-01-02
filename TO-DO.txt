@@ -30,6 +30,8 @@ UNCONFIRMED:
 	- Investigate Joe's isssue with being able to spawn when no sectors are owned
 
 DONE:
+	- Implement per-muzzle recoil multipliers for players in faction definition files
+	- Implement per-role AI skill multipliers in faction definition files
 	- Rework init3DEN vehicle spawnpoints to preview the faction's vehicle kind
 	- Write a dev function to preview faction vehicles in 3DEN
 	- Fix player deaths not being registered in multiplayer

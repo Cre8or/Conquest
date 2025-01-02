@@ -79,7 +79,7 @@ USAGE:
 
 		[	// Anti Tank
 			MACRO_ENUM_ROLE_ANTITANK,
-			[["CUP_smg_MP5A5","","CUP_acc_Flashlight_MP5","CUP_optic_MicroT1_low",["CUP_30Rnd_Red_Tracer_9x19_MP5",30],[],""],["CUP_launch_Mk153Mod0","","","",["CUP_SMAW_HEDP_M",1],[],""],["CUP_hgun_M9","","","",["CUP_15Rnd_9x19_M9",15],[],""],["CUP_U_B_USMC_FROG4_WMARPAT",[]],["CUP_V_B_Eagle_SPC_AT",[["CUP_15Rnd_9x19_M9",2,15],["CUP_30Rnd_Red_Tracer_9x19_MP5",7,30],["HandGrenade",1,1]]],["B_Kitbag_rgr",[["CUP_SMAW_HEDP_M",2,1]]],"CUP_H_USArmy_MICH_GCOVERED_Headset_M81","CUP_G_Grn_Scarf_Shades",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["CUP_smg_MP5A5","","CUP_acc_Flashlight_MP5","CUP_optic_MicroT1_low",["CUP_30Rnd_Red_Tracer_9x19_MP5",30],[],""],["CUP_launch_Mk153Mod0","","","",["CUP_SMAW_HEDP_M",1],[],""],["CUP_hgun_M9","","","",["CUP_15Rnd_9x19_M9",15],[],""],["CUP_U_B_USMC_FROG4_WMARPAT",[]],["CUP_V_B_Eagle_SPC_AT",[["CUP_15Rnd_9x19_M9",2,15],["CUP_30Rnd_Red_Tracer_9x19_MP5",7,30],["HandGrenade",1,1]]],["B_Kitbag_rgr",[["CUP_SMAW_HEDP_M",2,1]]],"CUP_H_USArmy_MICH_GCOVERED_Headset_M81","",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		]
 	],
 
@@ -109,7 +109,8 @@ USAGE:
 
 		[
 			MACRO_ENUM_VEHICLETYPE_CAR_UNARMED_LIGHT,
-			[]
+			[
+			]
 		],
 
 		[
@@ -231,14 +232,14 @@ USAGE:
 		],
 
 		[
-			MACRO_ENUM_VEHICLETYPE_JET_LIGHT,
+			MACRO_ENUM_VEHICLETYPE_PLANE_AA,
 			[
 				["CUP_B_F35B_USMC"]
 			]
 		],
 
 		[
-			MACRO_ENUM_VEHICLETYPE_JET_HEAVY,
+			MACRO_ENUM_VEHICLETYPE_PLANE_CAS,
 			[
 				["CUP_B_A10_DYN_USA","GreyShark"],
 				["CUP_B_AV8B_DYN_USMC"]
@@ -276,5 +277,17 @@ USAGE:
 			[MACRO_ENUM_ROLE_MEDIC,    0.8],
 			[MACRO_ENUM_ROLE_ANTITANK, 0.8]
 		]
+	],
+
+
+
+	// Recoil balancing
+	[
+		["CUP_arifle_M4A1_camo", 1.75],
+		["CUP_arifle_M16A4_GL", 1.25],
+		["CUP_lmg_M249_E2", 2.5],
+		["CUP_arifle_Mk16_CQC", 1.5],
+		["CUP_arifle_M16A4_Base", 1.75],
+		["CUP_smg_MP5A5", 1.25]
 	]
 ]

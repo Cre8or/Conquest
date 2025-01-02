@@ -50,7 +50,7 @@ USAGE:
 	[
 		[	// Spec Ops
 			MACRO_ENUM_ROLE_SPECOPS,
-			[["CUP_arifle_AK104_top_rail","","acc_flashlight","CUP_optic_ZeissZPoint",["CUP_30Rnd_TE1_Green_Tracer_762x39_AK103_bakelite_M",30],[],""],[],["hgun_Rook40_F","muzzle_snds_L","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_EMR_rolled_up_gloves_pads",[]],["CUP_V_O_RUS_6B45_AK_Radio_Summer",[["16Rnd_9x21_green_Mag",2,17],["HandGrenade",1,1],["CUP_30Rnd_TE1_Green_Tracer_762x39_AK103_bakelite_M",7,30]]],["CUP_B_RUS_Backpack",[]],"CUP_H_PMC_Beanie_Headphones_Black","CUP_G_ESS_BLK_Facewrap_Black",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["CUP_arifle_AK104","","acc_flashlight","CUP_optic_Kobra",["CUP_30Rnd_TE1_Green_Tracer_762x39_AK103_bakelite_M",30],[],""],[],["hgun_Rook40_F","muzzle_snds_L","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_EMR_rolled_up_gloves_pads",[]],["CUP_V_O_RUS_6B45_AK_Radio_Summer",[["16Rnd_9x21_green_Mag",2,17],["HandGrenade",1,1],["CUP_30Rnd_TE1_Green_Tracer_762x39_AK103_bakelite_M",7,30]]],["CUP_B_RUS_Backpack",[]],"CUP_H_PMC_Beanie_Headphones_Black","CUP_G_ESS_BLK_Facewrap_Black",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Sniper
@@ -60,27 +60,26 @@ USAGE:
 
 		[	// Assault
 			MACRO_ENUM_ROLE_ASSAULT,
-			[["CUP_arifle_AK74_GL","","CUP_acc_Flashlight","CUP_optic_Kobra",["CUP_30Rnd_TE1_Green_Tracer_545x39_AK74M_M",30],["CUP_1Rnd_HE_GP25_M",1],""],[],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_VSR93_VDV_rolled_up_gloves2",[]],["CUP_V_O_RUS_6B45_SPP_VOG_Summer",[["16Rnd_9x21_green_Mag",2,17],["CUP_30Rnd_TE1_Green_Tracer_545x39_AK_camo_M",7,30],["CUP_1Rnd_HE_GP25_M",4,1]]],[],"CUP_H_RUS_6B47_headset_goggles","CUP_G_PMC_Facewrap_Black_Glasses_Dark",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["CUP_arifle_AK74M_GL","","CUP_acc_Flashlight","",["CUP_30Rnd_TE1_Green_Tracer_545x39_AK74M_M",30],["CUP_1Rnd_HE_GP25_M",1],""],[],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_EMR_gloves_pads",[]],["CUP_V_O_RUS_6B45_SPP_VOG_Summer",[["16Rnd_9x21_green_Mag",2,17],["CUP_30Rnd_TE1_Green_Tracer_545x39_AK74M_M",7,30],["CUP_1Rnd_HE_GP25_M",4,1]]],[],"CUP_H_RUS_6B47_6M2_6B34U_Summer","CUP_G_RUS_Ratnik_Balaclava_Green_1",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Support
 			MACRO_ENUM_ROLE_SUPPORT,
-			[["CUP_lmg_Pecheneg_woodland","","","",["150Rnd_762x54_Box_Tracer",150],[],""],[],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_Soldier_Gorka_EMR_3",[]],["CUP_V_O_RUS_6B45_6Sh117_PKP_Radio_Summer",[["16Rnd_9x21_green_Mag",2,17],["HandGrenade",1,1],["150Rnd_762x54_Box_Tracer",2,150]]],["B_Kitbag_sgg",[]],"CUP_H_RUS_Altyn_Shield_Up_black","CUP_G_RUS_Ratnik_Balaclava_Winter_Green_2",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["CUP_lmg_Pecheneg_woodland","","","",["150Rnd_762x54_Box_Tracer",150],[],""],[],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_Soldier_Gorka_EMR_3",[]],["CUP_V_O_RUS_6B45_6Sh117_PKP_Radio_Summer",[["16Rnd_9x21_green_Mag",2,17],["HandGrenade",1,1],["150Rnd_762x54_Box_Tracer",2,150]]],["B_Carryall_green_F",[]],"CUP_H_RUS_Altyn_Shield_Up_black","CUP_G_RUS_Ratnik_Balaclava_Winter_Green_2",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Engineer
 			MACRO_ENUM_ROLE_ENGINEER,
-			[["CUP_arifle_AKS74U","","","CUP_optic_Kobra",["CUP_30Rnd_TE1_Green_Tracer_545x39_AK74_plum_M",30],[],""],[],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_EMR_VDV_rolled_up_gloves_pads",[]],["CUP_V_O_RUS_6B45_6Sh117_AK_Med_Radio_Summer",[["16Rnd_9x21_green_Mag",2,17],["HandGrenade",1,1],["CUP_30Rnd_TE1_Green_Tracer_545x39_AK74_plum_M",7,30]]],["B_FieldPack_green_F",[]],"CUP_H_RUS_6B47_6M21_6B34C_Summer","CUP_PMC_Facewrap_Black",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["CUP_arifle_AKS74U","","","CUP_optic_Kobra",["CUP_30Rnd_TE1_Green_Tracer_545x39_AK74_plum_M",30],[],""],[],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_EMR_2_VDV",[]],["CUP_V_O_RUS_6B45_6Sh117_AK_Med_Radio_Summer",[["16Rnd_9x21_green_Mag",2,17],["HandGrenade",1,1],["CUP_30Rnd_TE1_Green_Tracer_545x39_AK74_plum_M",7,30]]],["B_Kitbag_sgg",[]],"CUP_H_RUS_6B47_6M21_6B34C_Summer","CUP_G_RUS_Ratnik_Balaclava_EMR_Summer_1",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Medic
 			MACRO_ENUM_ROLE_MEDIC,
-			[["CUP_arifle_AK74M_camo","","CUP_acc_Flashlight","CUP_optic_ekp_8_02",["CUP_30Rnd_TE1_Green_Tracer_545x39_AK_camo_M",30],[],""],[],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_EMR_VDV_gloves_pads",[]],["CUP_V_O_RUS_6B45_6Sh117_SPP_AK_Med_Summer",[["16Rnd_9x21_green_Mag",2,17],["CUP_30Rnd_TE1_Green_Tracer_545x39_AK_camo_M",7,30],["SmokeShell",2,1]]],["B_FieldPack_oli",[]],"CUP_H_RUS_6B47_NV_6M21_6B34C_Summer","CUP_G_RUS_Ratnik_Balaclava_A_Tacs_1",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["CUP_arifle_AK74M_camo","","CUP_acc_Flashlight","CUP_optic_ekp_8_02",["CUP_30Rnd_TE1_Green_Tracer_545x39_AK_camo_M",30],[],""],[],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_EMR_VDV_gloves_pads",[]],["CUP_V_O_RUS_6B45_6Sh117_SPP_AK_Med_Summer",[["16Rnd_9x21_green_Mag",2,17],["CUP_30Rnd_TE1_Green_Tracer_545x39_AK_camo_M",7,30],["SmokeShell",2,1]]],["B_FieldPack_green_F",[]],"CUP_H_RUS_6B47_NV_6M21_6B34C_Summer","CUP_PMC_Facewrap_Black",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Anti Tank
 			MACRO_ENUM_ROLE_ANTITANK,
-			//[["CUP_arifle_SR3M_Vikhr","","","CUP_optic_Kobra",["CUP_30Rnd_9x39_SP5_VIKHR_M",30],[],""],["CUP_launch_RPG7V","","","",["CUP_PG7VL_M",1],[],""],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_VSR93_MSV",[]],["CUP_V_O_RUS_6B45_AK_Med_Summer",[["16Rnd_9x21_green_Mag",2,17],["CUP_30Rnd_9x39_SP5_VIKHR_M",6,30],["HandGrenade",1,1]]],["CUP_B_RUS_Backpack",[["CUP_PG7VL_M",2,1]]],"CUP_H_RUS_6B47_6M2_6B34D_Summer","G_Balaclava_blk",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 			[["CUP_smg_bizon","","","CUP_optic_ekp_8_02",["CUP_64Rnd_Green_Tracer_9x19_Bizon_M",64],[],""],["CUP_launch_RPG7V","","","",["CUP_PG7VL_M",1],[],""],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_VSR93_MSV",[]],["CUP_V_O_RUS_6B45_AK_Med_Summer",[["16Rnd_9x21_green_Mag",2,17],["CUP_64Rnd_Green_Tracer_9x19_Bizon_M",3,64],["HandGrenade",1,1]]],["CUP_B_RUS_Backpack",[["CUP_PG7VL_M",2,1]]],"CUP_H_RUS_6B47_6M2_6B34D_Summer","G_Balaclava_blk",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		]
 	],
@@ -241,16 +240,16 @@ USAGE:
 		],
 
 		[
-			MACRO_ENUM_VEHICLETYPE_JET_LIGHT,
+			MACRO_ENUM_VEHICLETYPE_PLANE_AA,
 			[
-				["CUP_O_Su25_Dyn_RU","Russia1"]
+				["CUP_O_SU34_RU","SLA"]
 			]
 		],
 
 		[
-			MACRO_ENUM_VEHICLETYPE_JET_HEAVY,
+			MACRO_ENUM_VEHICLETYPE_PLANE_CAS,
 			[
-				["CUP_O_SU34_RU","SLA"]
+				["CUP_O_Su25_Dyn_RU","Russia1"]
 			]
 		],
 
@@ -285,5 +284,17 @@ USAGE:
 			[MACRO_ENUM_ROLE_MEDIC,    1.0],
 			[MACRO_ENUM_ROLE_ANTITANK, 1.0]
 		]
+	],
+
+
+
+	// Recoil balancing
+	[
+		["CUP_srifle_SVD_top_rail", 1.25],
+		["CUP_arifle_AK74M_GL", 1.25],
+		["CUP_lmg_Pecheneg_woodland", 0.5],
+		["CUP_arifle_AKS74U", 1.25],
+		["CUP_arifle_AK74M_camo", 1.25],
+		["CUP_smg_bizon", 1.5]
 	]
 ]

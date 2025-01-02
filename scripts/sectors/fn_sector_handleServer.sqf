@@ -310,7 +310,7 @@ if (GVAR(param_gm_enableVehicles) and {_side != sideEmpty}) then {
 
 			// The area is clear; spawn the vehicle
 			_veh = createVehicle [_class, _spawnPos, [], 0, "CAN_COLLIDE"];
-			_veh setPos ASLtoAGL _spawnPos;
+			_veh setPosASL _spawnPos; // Do not use setPosWorld here!
 			_veh setVectorDirAndUp [_vecDir, _vecUp];
 
 			[_veh, _textures, _animations, _pylons] call FUNC(veh_setCustomisation);

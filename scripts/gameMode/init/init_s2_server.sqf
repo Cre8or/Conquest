@@ -30,6 +30,12 @@ private _allSides = [east, resistance, west];
 private _firstInit = GVAR(sv_firstInit);
 GVAR(sv_firstInit) = false;
 
+#ifdef MACRO_MISSION_USES_INDFOR
+	private _sv_usesIndfor = true;
+#else
+	private _sv_usesIndfor = false;
+#endif
+
 
 
 
@@ -67,6 +73,12 @@ if (_firstInit) then {
 				case "EAST SEIZED": {_side = east};
 				case "GUER SEIZED": {_side = resistance};
 				case "WEST SEIZED": {_side = west};
+			};
+
+			// Revert to the empty side if the mission doesn't support INDFOR
+			if (_side == resistance and {!_sv_usesIndfor}) then {
+				_side     = sideEmpty;
+				_isLocked = false;
 			};
 
 			// If the sector is not locked, determine its strategic value (set via trigger condition)
