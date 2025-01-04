@@ -161,7 +161,7 @@ class MACRO_PROJECT_PREFIX {
 
 		class sector_addVehicleSpawn {};
 		class sector_handleServer {};
-		class sector_handleClient {};
+		class sector_sys_handleClient {};
 	};
 
 	class ui {

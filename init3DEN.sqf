@@ -9,7 +9,7 @@
 
 [] spawn {
 
-	systemChat format ["Display found: %1", !isNull findDisplay 313];
+	//systemChat format ["Display found: %1", !isNull findDisplay 313];
 	waitUntil {time > 1};
 
 	// Escape schedule environment again

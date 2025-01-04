@@ -38,9 +38,10 @@ GVAR(ai_sys_commander_index)      = -1;
 
 // Reset all groups' states
 {
-	_x setVariable [QGVAR(ai_unitControl_waypointPos), [0,0,0], false];
 	_x setVariable [QGVAR(ai_sys_commander_nextUpdate), 0, false];
-	_x setVariable [QGVAR(ai_sys_commander_sector), objNull, false];
+	_x setVariable [QGVAR(ai_sys_commander_commandedSector), objNull, false];
+	_x setVariable [QGVAR(ai_sys_commander_commandedPos), [], false];
+	_x setVariable [QGVAR(ai_sys_commander_waypointPos), [0,0,0], false];
 } forEach allGroups;
 
 
@@ -60,7 +61,7 @@ GVAR(ai_sys_commander_EH) = addMissionEventHandler ["EachFrame", {
 
 	// Update candidate groups
 	private _allGroupsPolled = false;
-	private ["_group", "_units", "_leader","_count", "_centerPos", "_totalWeight", "_weight", "_groupData", "_distScore", "_inheritedGoalPos", "_leaderVeh", "_crew", "_passenger", "_groupX"];
+	private ["_group", "_units", "_leader", "_isLeaderPlayer", "_count", "_centerPos", "_totalWeight", "_weight", "_groupData", "_distScore", "_inheritedSector", "_inheritedGoalPos", "_leaderVehicle", "_isVehicleGroup", "_crew", "_passenger", "_groupX", "_commandedPos"];
 	for "_groupIndex" from GVAR(ai_sys_commander_index) to 0 step -1 do {
 
 		scopeName QGVAR(ai_sys_commander_loop);
@@ -76,20 +77,18 @@ GVAR(ai_sys_commander_EH) = addMissionEventHandler ["EachFrame", {
 			!isNull _group
 			and {local _group}
 		) then {
-			_units  = units _group select {[_x] call FUNC(unit_isAlive)};
-			_leader = leader _group;
+			_units          = units _group select {[_x] call FUNC(unit_isAlive)};
+			_leader         = leader _group;
+			_isLeaderPlayer = isPlayer _leader;
 
 			// Ignore groups with no alive units, or with a player leader
-			if (_units isEqualTo [] or {isPlayer _leader}) then {
+			if (_units isEqualTo [] or {_isLeaderPlayer}) then {
 				breakTo QGVAR(ai_sys_commander_loop);
 			};
 
 			_count       = count _units;
 			_centerPos   = [];
 			_totalWeight = 0;
-			if !(_leader in _units) then {
-				_leader = objNull;
-			};
 
 			// Get the center position of the group (average of all units, with extra weight for the leader)
 			{
@@ -108,26 +107,57 @@ GVAR(ai_sys_commander_EH) = addMissionEventHandler ["EachFrame", {
 			_distScore = 0;
 
 			// AI drivers copy their crew's waypoints, if there is one
+			_inheritedSector  = objNull;
 			_inheritedGoalPos = [];
+			_leaderVehicle    = vehicle _leader;
+			_isVehicleGroup   = (
+				_group getVariable [QGVAR(isVehicleGroup), false] // Easy case
+				or { // Slightly more complex case
+					_leader != _leaderVehicle
+					and {_leader == driver _leaderVehicle}
+				}
+			);
+			//systemChat format ["%1 vehicle group: %2", _group, _isVehicleGroup];
 
-			if ([_leader] call FUNC(unit_isAlive) and {_group getVariable [QGVAR(isVehicleGroup), false]}) then {
-				_leaderVeh = vehicle _leader;
-				_crew      = (fullCrew [_leaderVeh, "cargo", false]) apply {_x # 0};
+			if (_isVehicleGroup) then {
+				_crew      = [[effectiveCommander _leaderVehicle]] + (fullCrew [_leaderVehicle, "cargo", false]) apply {_x # 0}; // Start with the effective commander
 				_passenger = _crew param [_crew findIf {
 					_groupX = group _x;
 
-					(_groupX != _group
+					_groupX != _group // Exclude the driver (obviously)
 					and {alive _x} // Ignore dead units
-					and {!isPlayer _x}) // Ignore players
+					and {!isPlayer _x} // Ignore players
 				}, objNull];
 
-				_inheritedGoalPos = _passenger getVariable [QGVAR(ai_sys_unitControl_goalPos), []];
+				if (alive _passenger) then { // !isNull
+					_groupX = group _passenger;
+					_inheritedSector  = _groupX getVariable [QGVAR(ai_sys_commander_commandedSector), objNull];
+					_inheritedGoalPos = _groupX getVariable [QGVAR(ai_sys_commander_waypointPos), []];
+					//systemChat format ["(%1) %2 passenger (%3): %4 / %5", _time, _group, _passenger, _commandedSectorX, _waypointPosX];
+
+					// From the commander system, assigning a waypoint to a group results in every unit setting its goalPos
+					// to the commanded waypoint (via subSys_planNextMovePos). Likewise, manually giving waypoints to units
+					// also writes to that variable, but the commander system is never made aware of this. This causes the
+					// commander system to plan incorrectly!
+					// In order to detect this special case, we keep track of the commanded waypoint position, and compare it
+					// with the unit's goal pos. If they diverge, we prioritise the latter.
+					if (alive _inheritedSector) then {
+						_inheritedGoalPos = [];
+						//systemChat format ["(%1) %2 received sector from %3: %4", _time, _group, _groupX, _inheritedSector];
+					} else {
+						//systemChat format ["(%1) %2 received waypoint from %3: %4", _time, _group, _groupX, _inheritedGoalPos];
+					};
+				};
 			};
+			_group setVariable [QGVAR(ai_sys_commander_inheritedSector), _inheritedSector, false];
 			_group setVariable [QGVAR(ai_sys_commander_inheritedGoalPos), _inheritedGoalPos, false];
 
-			if (_inheritedGoalPos isEqualTo []) then {
+			// If no sectors or goal positions were inherited from any vehicle passengers, we'll pick a goal from the attackable sectors.
+			// For this, we need to compute a score for every attackable sector that this group can head to.
+			if (isNull _inheritedSector and {_inheritedGoalPos isEqualTo []}) then {
 
-				// Make a list of the group's candidate sectors, sorted by distance
+				// The score is simply set to the distance to the sector.
+				// We then sort the candidate sectors by increasing score.
 				_groupData = GVAR(ai_sys_commander_sectors) apply {_centerPos distance getPosWorld _x};
 				{
 					_distScore = _distScore + _x; // Distance score (lower is better)
@@ -152,8 +182,9 @@ GVAR(ai_sys_commander_EH) = addMissionEventHandler ["EachFrame", {
 
 	// All groups have been polled, now we crunch the sector data and dispatch orders
 	if (_allGroupsPolled) then {
-		private _strategicValues = GVAR(ai_sys_commander_sectors) apply {_x getVariable [QGVAR(strategicValue), 1]};
-		private ["_sector", "_indexBest", "_canReceiveOrders", "_distBest", "_attackPointsInf", "_waypointPos", "_newWaypointPos"];
+		private _c_newOrder_minDistSqr = MACRO_AI_COMMANDER_WAYPOINT_MINDISTANCE ^ 2;
+		private _strategicValues       = GVAR(ai_sys_commander_sectors) apply {_x getVariable [QGVAR(strategicValue), 1]};
+		private ["_sector", "_curWaypointPos", "_newWaypointPos", "_canReceiveOrders", "_attackPoints", "_distBest", "_indexBest", "_newSector", "_shouldBroadcast"];
 
 		#ifdef MACRO_DEBUG_AI_COMMANDER
 			GVAR(debug_ai_commander_data) set [GVAR(ai_sys_commander_side_index), []];
@@ -166,18 +197,56 @@ GVAR(ai_sys_commander_EH) = addMissionEventHandler ["EachFrame", {
 		{
 			_x params ["", "_group", "_centerPos", "_groupData"];
 
+			_inheritedSector  = _group getVariable [QGVAR(ai_sys_commander_inheritedSector), objNull];
 			_inheritedGoalPos = _group getVariable [QGVAR(ai_sys_commander_inheritedGoalPos), []];
-			_sector           = _group getVariable [QGVAR(ai_sys_commander_sector), objNull];
-			_indexBest        = -1;
+			_sector           = _group getVariable [QGVAR(ai_sys_commander_commandedSector), objNull];
+			_commandedPos     = _group getVariable [QGVAR(ai_sys_commander_commandedPos), []];
+			_isVehicleGroup   = _group getVariable [QGVAR(isVehicleGroup), false];
+			_curWaypointPos   = _group getVariable [QGVAR(ai_sys_commander_waypointPos), [0,0,0]];
+			_newWaypointPos   = [];
 			_canReceiveOrders = (
 				_time > _group getVariable [QGVAR(ai_sys_commander_nextUpdate), 0] // Cooldown expired
-				or {!(GVAR(ai_sys_commander_sectorLookup) getVariable [str _sector, false])} // Sector is no longer a candidate
+				or {alive _sector and {!(GVAR(ai_sys_commander_sectorLookup) getVariable [str _sector, false])}} // Sector is no longer a candidate
 			);
+			//systemChat format ["(%1) Testing group %2 (%3, %4)", _time, _group, _inheritedSector, _inheritedGoalPos];
 
-			if (_canReceiveOrders) then {
+			// Special case 1: drivers should prioritise sectors/goal positions from vehicle passengers over their own
+			if (alive _inheritedSector and {_sector != _inheritedSector}) then {
+				//systemChat format ["(%1) %2 inherited %3", _time, _group, _inheritedSector];
+
+				// As only drivers may inherit sectors/move positions, choose vehicle attack points over infantry ones
+				_sector       = _inheritedSector;
+				_attackPoints = _sector getVariable [QGVAR(attackPointsVeh), []];
+
+				if (_attackPoints isNotEqualTo []) then {
+					_newWaypointPos = selectRandom _attackPoints;
+				} else {
+					_newWaypointPos = getPosWorld _sector;
+				};
+			} else {
+				if (_inheritedGoalPos isNotEqualTo []) then {
+					//systemChat format ["(%1) %2 inherited position %3", _time, _group, _inheritedGoalPos];
+					_sector         = objNull;
+					_newWaypointPos = _inheritedGoalPos;
+				};
+			};
+
+			// Special case 2: blank out the commanded sector on groups that have received a new waypoint from outside the
+			// AI commander system
+			if (_commandedPos isNotEqualTo [] and {_commandedPos isNotEqualTo _curWaypointPos}) then {
+				//systemChat format ["(%1) %2: Removed commanded waypoint (%3 / %4)", _time, _group, _sector, _commandedPos];
+				_commandedPos = [];
+				_sector       = objNull;
+				_group setVariable [QGVAR(ai_sys_commander_commandedPos), [], true];
+				_group setVariable [QGVAR(ai_sys_commander_commandedSector), objNull, true];
+			};
+
+			// Fallback: only continue if the group can receive a new waypoint, pick one from the candidates list
+			if (_canReceiveOrders and {_newWaypointPos isEqualTo []}) then {
 				_distBest  = 1e38;
+				_indexBest = -1;
 
-				// Pick the best candidate sector, factoring in strategic value, and how many other groups are already headed there
+				// Pick the best candidate sector, factoring in strategic value
 				{
 					_x params ["_dist", "_index"];
 					_dist = _dist / (_strategicValues # _index);
@@ -188,60 +257,68 @@ GVAR(ai_sys_commander_EH) = addMissionEventHandler ["EachFrame", {
 					};
 				} forEach _groupData;
 
-			} else {
-				_indexBest = GVAR(ai_sys_commander_sectors) find _sector;
-			};
+				if (_indexBest >= 0) then {
+					_newSector = GVAR(ai_sys_commander_sectors) # _indexBest;
+					//systemChat format ["  Best candidate: %1 (%2)", _newSector, sqrt _distBest];
 
-			// Order the group to the best candidate sector
-			if (_indexBest >= 0 or {_inheritedGoalPos isNotEqualTo []}) then {
-				_strategicValues set [_indexBest, (_strategicValues # _indexBest) / MACRO_AI_COMMANDER_STRATEGICVALUE_DECREASEPERGROUP];
+					// Pick an attack point
+					if (_sector != _newSector) then {
+						_sector = _newSector;
 
-				_waypointPos = _group getVariable [QGVAR(ai_unitControl_waypointPos), [0,0,0]];
-
-				// Determine whether the group should go to the best sector, or an inherited goal position
-				if (_inheritedGoalPos isEqualTo []) then {
-					_sector          = GVAR(ai_sys_commander_sectors) # _indexBest;
-					_attackPointsInf = _sector getVariable [QGVAR(attackPointsInf), []];
-					_newWaypointPos  = getPosWorld _sector;
-				} else {
-					_sector           = objNull;
-					_attackPointsInf  = [];
-					_newWaypointPos   = +_inheritedGoalPos;
-					_canReceiveOrders = true;
-				};
-
-				if (_canReceiveOrders) then {
-					if (_attackPointsInf isEqualTo []) then {
-						if !(_waypointPos distanceSqr _newWaypointPos < MACRO_AI_COMMANDER_WAYPOINT_MINDISTANCE ^ 2) then {
-							_group addWaypoint [_newWaypointPos, -1, 1]; // Exact placement in format ASL
+						if (_isVehicleGroup) then {
+							_attackPoints = _sector getVariable [QGVAR(attackPointsVeh), []];
+						} else {
+							_attackPoints = _sector getVariable [QGVAR(attackPointsInf), []];
 						};
-					} else {
-						if ((_attackPointsInf findIf {_waypointPos distanceSqr _x < MACRO_AI_COMMANDER_WAYPOINT_MINDISTANCE ^ 2}) < 0) then {
-							_group addWaypoint [selectRandom _attackPointsInf, -1, 1]; // Exact placement in format ASL
+
+						if (_attackPoints isNotEqualTo []) then {
+							_newWaypointPos = selectRandom _attackPoints;
+						} else {
+							_newWaypointPos = getPosWorld _sector;
 						};
 					};
 
-					_group setVariable [QGVAR(ai_sys_commander_sector), _sector, true]; // Must be broadcast to allow remote AI commanders to make the right decisions
-					_group setVariable [QGVAR(ai_sys_commander_nextUpdate), _time + (0.75 + random 0.5) * MACRO_AI_COMMANDER_NEWORDER_COOLDOWN, false];
+					// Decrease the strategic value of the selected sector, to discourage other groups from piling up on it
+					_strategicValues set [_indexBest, (_strategicValues # _indexBest) / MACRO_AI_COMMANDER_STRATEGICVALUE_DECREASEPERGROUP];
 				};
-
-				#ifdef MACRO_DEBUG_AI_COMMANDER
-					private _debug_colour = (switch (GVAR(ai_sys_commander_side)) do {
-						case east:       {[0.8, 0,   0,   1]};
-						case resistance: {[0,   0.6, 0,   1]};
-						case west:       {[0,   0.4, 0.9, 1]};
-						default          {[0.5, 0,   0.8, 1]};
-					});
-
-					(GVAR(debug_ai_commander_data) # GVAR(ai_sys_commander_side_index)) set [_forEachIndex, [
-						groupId _group,
-						_debug_colour,
-						ASLtoAGL _centerPos,
-						ASLtoAGL _waypointPos,
-						[GVAR(ai_sys_commander_side)] call FUNC(gm_getFlagTexture)
-					]];
-				#endif
 			};
+
+			#ifdef MACRO_DEBUG_AI_COMMANDER
+				private _debug_colour = (switch (GVAR(ai_sys_commander_side)) do {
+					case east:       {[0.8, 0,   0,   1]};
+					case resistance: {[0,   0.6, 0,   1]};
+					case west:       {[0,   0.4, 0.9, 1]};
+					default          {[0.5, 0,   0.8, 1]};
+				});
+
+				(GVAR(debug_ai_commander_data) # GVAR(ai_sys_commander_side_index)) set [_forEachIndex, [
+					groupId _group,
+					_debug_colour,
+					ASLtoAGL _centerPos,
+					ASLtoAGL (if (_newWaypointPos isEqualTo []) then {_curWaypointPos} else {_newWaypointPos}),
+					[GVAR(ai_sys_commander_side)] call FUNC(gm_getFlagTexture)
+				]];
+			#endif
+
+			// Don't do any broadcasting if the waypoint doesn't need changing
+			if (
+				_newWaypointPos isEqualTo []
+				or {_commandedPos isEqualTo _newWaypointPos}
+			) then {
+				continue;
+			};
+
+			// Assign the new waypoint
+			if (_curWaypointPos distanceSqr _newWaypointPos > _c_newOrder_minDistSqr) then {
+				_group addWaypoint [_newWaypointPos, -1, 1]; // Exact placement in format ASL
+			};
+
+			//systemChat format ["Ordered %1 to %2: %3", _group, _sector, _newWaypointPos];
+
+			_shouldBroadcast = (_newWaypointPos isNotEqualTo (_group getVariable [QGVAR(ai_sys_commander_commandedPos), []]));
+			_group setVariable [QGVAR(ai_sys_commander_commandedSector), _sector, true];
+			_group setVariable [QGVAR(ai_sys_commander_commandedPos), _newWaypointPos, true];
+			_group setVariable [QGVAR(ai_sys_commander_nextUpdate), _time + (0.75 + random 0.5) * MACRO_AI_COMMANDER_NEWORDER_COOLDOWN, false];
 
 		} forEach GVAR(ai_sys_commander_groupData);
 	};

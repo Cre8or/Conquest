@@ -25,9 +25,9 @@
 	#define MACRO_AI_PEACEFULMODE                                   false // Whether or not the AI is allowed to engage other units.
 	#define MACRO_AI_MAXUNITSPERGROUP                               6 // How many AI units are allowed to form up in a group
 
-	#define MACRO_AI_SPAWNWEIGHT_EAST                               1 // The weight towards spawning AI on the "east" (OPFOR) side
-	#define MACRO_AI_SPAWNWEIGHT_RESISTANCE                         1 // The weight towards spawning AI on the "resistance" (INDFOR) side
-	#define MACRO_AI_SPAWNWEIGHT_WEST                               1 // The weight towards spawning AI on the "west" (BLUFOR) side
+	#define MACRO_AI_SPAWNWEIGHT_OPFOR                              1 // The weight towards spawning AI on the "east" (OPFOR) side
+	#define MACRO_AI_SPAWNWEIGHT_INDFOR                             1 // The weight towards spawning AI on the "resistance" (INDFOR) side
+	#define MACRO_AI_SPAWNWEIGHT_BLUFOR                             1 // The weight towards spawning AI on the "west" (BLUFOR) side
 
 
 

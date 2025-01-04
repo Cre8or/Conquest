@@ -49,7 +49,7 @@ USAGE:
 	[
 		[	// Spec Ops
 			MACRO_ENUM_ROLE_SPECOPS,
-			[["arifle_ARX_blk_F","","acc_flashlight","optic_Holosight_blk_F",["30Rnd_65x39_caseless_green_mag_Tracer",30],[],""],[],["hgun_Pistol_heavy_01_F","muzzle_snds_acp","acc_flashlight_pistol","",["11Rnd_45ACP_Mag",11],[],""],["U_O_CombatUniform_ocamo",[]],["V_TacVest_brn",[["11Rnd_45ACP_Mag",2,11],["30Rnd_65x39_caseless_green_mag_Tracer",7,30],["HandGrenade",1,1]]],["B_ViperHarness_hex_F",[]],"H_ShemagOpen_tan","",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["arifle_ARX_blk_F","","acc_flashlight","optic_Holosight_smg_blk_F",["30Rnd_65x39_caseless_green_mag_Tracer",30],[],""],[],["hgun_Pistol_heavy_01_F","muzzle_snds_acp","acc_flashlight_pistol","",["11Rnd_45ACP_Mag",15],[],""],["U_O_CombatUniform_ocamo",[]],["V_TacVest_brn",[["11Rnd_45ACP_Mag",2,15],["30Rnd_65x39_caseless_green_mag_Tracer",7,30],["HandGrenade",1,1]]],["B_ViperHarness_hex_F",[]],"H_ShemagOpen_tan","",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Sniper
@@ -79,7 +79,7 @@ USAGE:
 
 		[	// Anti Tank
 			MACRO_ENUM_ROLE_ANTITANK,
-			[["arifle_Katiba_C_F","","acc_flashlight","optic_Holosight_blk_F",["30Rnd_65x39_caseless_green_mag_Tracer",30],[],""],["launch_RPG32_F","","","",["RPG32_F",1],[],""],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["U_O_CombatUniform_ocamo",[]],["V_TacVest_khk",[["16Rnd_9x21_green_Mag",2,17],["30Rnd_65x39_caseless_green_mag_Tracer",7,30],["HandGrenade",1,1]]],["B_Kitbag_cbr",[["RPG32_F",2,1]]],"H_HelmetO_ocamo","G_Balaclava_blk",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["arifle_Katiba_C_F","","acc_flashlight","optic_Holosight_smg_blk_F",["30Rnd_65x39_caseless_green_mag_Tracer",30],[],""],["launch_RPG32_F","","","",["RPG32_F",1],[],""],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["U_O_CombatUniform_ocamo",[]],["V_TacVest_khk",[["16Rnd_9x21_green_Mag",2,17],["30Rnd_65x39_caseless_green_mag_Tracer",7,30],["HandGrenade",1,1]]],["B_Kitbag_cbr",[["RPG32_F",2,1]]],"H_HelmetO_ocamo","G_Balaclava_blk",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		]
 	],
 
@@ -288,5 +288,9 @@ USAGE:
 
 	// Recoil balancing
 	[
+		["arifle_ARX_blk_F", 1.75],
+		["LMG_Zafir_F", 1.25],
+		["SMG_01_F", 0.5],
+		["arifle_CTAR_hex_F", 1.75]
 	]
 ]

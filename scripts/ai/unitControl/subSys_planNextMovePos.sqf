@@ -35,7 +35,8 @@ if (_orderedMovePos # 0 != 0 and {_orderedMovePos # 1 != 0}) then {
 	} forEach units _group;
 
 	// Store the waypoint on the group (interfaces with ai_sys_commander)
-	_group setVariable [QGVAR(ai_unitControl_waypointPos), _waypointPos, true];
+	//systemChat format ["(%1) %2 received waypoint: %3", _time, _unit, _waypointPos];
+	_group setVariable [QGVAR(ai_sys_commander_waypointPos), _waypointPos, true];
 };
 
 

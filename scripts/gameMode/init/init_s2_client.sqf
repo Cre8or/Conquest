@@ -26,7 +26,6 @@ GVAR(spawnSector) = objNull;
 
 MACRO_FNC_INITVAR(GVAR(cam_panorama), objNull);
 MACRO_FNC_INITVAR(GVAR(STHUD_UIMode), 0);
-MACRO_FNC_INITVAR(GVAR(UI_prevPlayerSide), GVAR(side)); // Used to update sector colours if the player changes sides
 
 
 
@@ -50,7 +49,7 @@ call FUNC(gm_sys_updatePlayerVars);
 call FUNC(gm_sys_handlePlayerRespawn);
 call FUNC(gm_sys_handleWeaponRecoil);
 
-call FUNC(sector_handleClient);
+call FUNC(sector_sys_handleClient);
 
 call FUNC(ui_setupPPEffects); // Executes first, to initialise the handles
 call FUNC(ui_hookUnitInfoCtrls);

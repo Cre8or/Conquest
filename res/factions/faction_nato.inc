@@ -49,7 +49,7 @@ USAGE:
 	[
 		[	// Spec Ops
 			MACRO_ENUM_ROLE_SPECOPS,
-			[["arifle_MX_Black_F","","acc_flashlight","optic_Aco",["30Rnd_65x39_caseless_black_mag_Tracer",30],[],""],[],["hgun_Pistol_heavy_01_F","muzzle_snds_acp","acc_flashlight_pistol","",["11Rnd_45ACP_Mag",11],[],""],["U_B_CombatUniform_mcam",[]],["V_PlateCarrier2_rgr",[["30Rnd_65x39_caseless_black_mag_Tracer",7,30],["HandGrenade",1,1],["11Rnd_45ACP_Mag",2,11]]],[],"H_Cap_headphones","G_Combat",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["arifle_MX_Black_F","","acc_flashlight","optic_Aco",["30Rnd_65x39_caseless_black_mag_Tracer",30],[],""],[],["hgun_Pistol_heavy_01_F","muzzle_snds_acp","acc_flashlight_pistol","",["11Rnd_45ACP_Mag",15],[],""],["U_B_CombatUniform_mcam",[]],["V_PlateCarrier2_rgr",[["30Rnd_65x39_caseless_black_mag_Tracer",7,30],["HandGrenade",1,1],["11Rnd_45ACP_Mag",2,15]]],[],"H_Cap_headphones","G_Combat",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Sniper

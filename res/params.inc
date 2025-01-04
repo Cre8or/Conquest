@@ -158,20 +158,20 @@ class Param_AI_MaxUnitsPerGroup {
 class Param_AI_SpawnWeight_West {
 	title = "2.5 - AI spawn bias for BLUFOR:";
 	values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
-	default = MACRO_AI_SPAWNWEIGHT_WEST;
+	default = MACRO_AI_SPAWNWEIGHT_BLUFOR;
 };
 
 class Param_AI_SpawnWeight_East {
 	title = "2.6 - AI spawn bias for OPFOR:";
 	values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
-	default = MACRO_AI_SPAWNWEIGHT_EAST;
+	default = MACRO_AI_SPAWNWEIGHT_OPFOR;
 };
 
 #ifdef MACRO_MISSION_USES_INDFOR
 	class Param_AI_SpawnWeight_Resistance {
 		title = "2.7 - AI spawn bias for INDFOR:";
 		values[] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
-		default = MACRO_AI_SPAWNWEIGHT_RESISTANCE;
+		default = MACRO_AI_SPAWNWEIGHT_INDFOR;
 	};
 #else
 	class Param_AI_SpawnWeight_Resistance {

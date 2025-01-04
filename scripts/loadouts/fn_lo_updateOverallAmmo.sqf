@@ -49,10 +49,11 @@ private "_ammoPerMagazine";
 			if (_magazineType in [1, 2, 4]) then {
 				_loadedAmmoCache set [_magazine, (_loadedAmmoCache get _magazine) + _ammoCount];
 				_loadedMuzzles set [_magazine, _muzzle];
+				//systemChat format ["Loaded: %1 (%2)", _magazine, _ammoCount];
 			};
-		} else {
 
-			// Keep track of how many magazines are not at full capacity
+		// Keep track of how many stored magazines are not at full capacity
+		} else {
 			_ammoPerMagazine = (_defaultMagazines get _magazine) # 0;
 			if (_ammoCount < _ammoPerMagazine and {_ammoPerMagazine > 1}) then {
 				_magRepackCache set [_magazine, (_magRepackCache get _magazine) + 1];
@@ -102,6 +103,7 @@ private ["_partialMagazinesCount", "_canSkipRepack", "_loadedAmmoCount", "_repac
 	// Check if this magazine classname should be repacked
 	_partialMagazinesCount = _magRepackCache get _x;
 	if (_partialMagazinesCount < 1) then {
+		//systemChat format ["Marking magazine %1 as repackable (%2 pieces)", _x, _partialMagazinesCount];
 		continue;
 	};
 
@@ -159,8 +161,6 @@ private ["_partialMagazinesCount", "_canSkipRepack", "_loadedAmmoCount", "_repac
 	if (_totalAmmoCount > 0) then {
 		_unit addMagazine [_x, _totalAmmoCount];
 	};
-
-
 } forEach _ammoCountCache;
 
 

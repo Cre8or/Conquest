@@ -461,7 +461,7 @@
 	#define MACRO_AI_COMMANDER_STRATEGICVALUE_DECREASEPERGROUP      4 // By how much a sector's current strategic value is divided, for each group ordered to it (per iteration of the commander system)
 	#define MACRO_AI_COMMANDER_SECTOR_MINLEVELOWNED                 0.8 // The minimum capturing level of owned sectors for them to be considered as candidates
 	#define MACRO_AI_COMMANDER_WAYPOINT_MINDISTANCE                 5 // Minimum distance, in meters, that a potential new waypoint must be from a group's current waypoint to be submitted
-	#define MACRO_AI_COMMANDER_NEWORDER_COOLDOWN                    30 // Average (+/-25%) cooldown, in seconds, between two orders to a group from the AI commander (even if the orders are identical)
+	#define MACRO_AI_COMMANDER_NEWORDER_COOLDOWN                    10 // Average (+/-25%) cooldown, in seconds, between two orders to a group from the AI commander (even if the orders are identical)
 	#define MACRO_AI_SKILL_BASEACCURACY                             0.8 // The default accuracy of AI units. Factions can adjust the overall accuracy as a multiplier of this value
 
 	// Gamemode
@@ -529,7 +529,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.20.945" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.20.952" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

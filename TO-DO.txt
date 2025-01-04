@@ -1,13 +1,11 @@
 TO DO:
+	- Fix AI identities overwriting facewear item
 	- Move vehicle definitions into faction data files
 		+ Define a set of vehicle classes (similar to UI icon classes), e.g. car, APC, tank, truck, etc.
 		+ Allow custom textures to be used (allows filling in factions that don't have unique vehicles)
 		+ Allow custom animation states to be used (doors, antennas, etc)
 		- Allow defining aircraft pylons to help with balancing
-	- Implement vehicle attack points (distinct from infantry attack points)
 	- Rework driver AI to be more cooperative when transporting passengers
-	- Fix endMission screen not showing the correct amount of tickets (e.g. 11 vs 1)
-	- Fix flag animations (setFlagAnimationPhase) not being done on the client (flag level is not broadcast)
 	- Increase AI aggressivity:
 		+ Make AI more keen on moving into incoming fire to reach move positions
 		- Make AI increase their use of suppressive fire on targets
@@ -30,6 +28,10 @@ UNCONFIRMED:
 	- Investigate Joe's isssue with being able to spawn when no sectors are owned
 
 DONE:
+	- Implement vehicle attack points (distinct from infantry attack points)
+	- Improve sector flag animation to be smooth (decoupled from handleServer interval)
+	- Fix sector flag animations (setFlagAnimationPhase) not being done on the client
+	- Fix endMission screen not showing the correct amount of tickets (e.g. 11 vs 1)
 	- Implement per-muzzle recoil multipliers for players in faction definition files
 	- Implement per-role AI skill multipliers in faction definition files
 	- Rework init3DEN vehicle spawnpoints to preview the faction's vehicle kind

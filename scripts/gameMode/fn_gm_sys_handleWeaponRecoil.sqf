@@ -45,5 +45,5 @@ GVAR(gm_sys_handleWeaponRecoil_EH) = addMissionEventHandler ["EachFrame", {
 	private _recoilMul = _muzzleRecoilMulCache getOrDefault [_muzzle, 1];
 
 	_player setUnitRecoilCoefficient _recoilMul;
-	systemChat format ["Recoil multiplier: %1 (%2)", _recoilMul, GVAR(gm_sys_handleWeaponRecoil_prevMuzzle)];
+	//systemChat format ["Recoil multiplier: %1 (%2)", _recoilMul, GVAR(gm_sys_handleWeaponRecoil_prevMuzzle)];
 }];

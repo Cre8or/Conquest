@@ -13,6 +13,7 @@
 -------------------------------------------------------------------------------------------------------------------- */
 
 #include "..\..\res\common\macros.inc"
+
 #include "..\..\res\macros\fnc_boundingRadius.inc"
 #include "..\..\res\macros\fnc_initVar.inc"
 
@@ -23,6 +24,7 @@ params [
 
 MACRO_FNC_INITVAR(GVAR(init), false);
 
+// Wait for gm_postInit to finish
 if (!GVAR(init)) exitWith {};
 
 
@@ -239,7 +241,7 @@ if (
 	};
 
 	// Update the flag's animation phase
-	// TODO: Move this into sector_handleClient!
+	// TODO: Move this into sector_sys_handleClient!
 	if (_level != _levelLast) then {
 		_flag setFlagAnimationPhase _levelLast;
 	};
