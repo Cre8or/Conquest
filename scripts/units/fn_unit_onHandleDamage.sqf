@@ -20,9 +20,10 @@
 
 // Define some macros
 #define MACRO_GM_UNIT_MINDAMAGETHRESHOLD 0.005
-#define MACRO_GM_UNIT_INDIRECTDAMAGE_MAXRDISTOFFSET 2
+#define MACRO_GM_UNIT_INDIRECTDAMAGE_MAXDISTOFFSET 2
 #define MACRO_GM_UNIT_INDIRECTDAMAGE_MAXREFERENCEDAMAGE 10
 #define MACRO_GM_UNIT_WORLDDAMAGE_IMMUNEDURATION 2
+#define MACRO_GM_UNIT_DAMAGERATIO_PROCESSEDTORAW 1 // Lower values lean damage towards arcade-y settings (more flat damage, less variation), higher numbers lean damage towards vanilla Arma 3 handling
 
 
 
@@ -144,7 +145,7 @@ _this call {
 				private _damageMul = MACRO_GM_UNIT_DAMAGEMUL_EXPLOSIVE * 0.15;
 				private _damageIndirectCalc = sqrt _damageIndirect;
 				private _distMultiplier = 100 * _damageProcessed / _damageIndirect;
-				private _distOffset = (MACRO_GM_UNIT_INDIRECTDAMAGE_MAXREFERENCEDAMAGE ^ 2 - _damageIndirect max 0) * MACRO_GM_UNIT_INDIRECTDAMAGE_MAXRDISTOFFSET / MACRO_GM_UNIT_INDIRECTDAMAGE_MAXREFERENCEDAMAGE ^ 2;
+				private _distOffset = (MACRO_GM_UNIT_INDIRECTDAMAGE_MAXREFERENCEDAMAGE ^ 2 - _damageIndirect max 0) * MACRO_GM_UNIT_INDIRECTDAMAGE_MAXDISTOFFSET / MACRO_GM_UNIT_INDIRECTDAMAGE_MAXREFERENCEDAMAGE ^ 2;
 
 				if (_unitInVehicle) then {
 					if (getNumber (configFile >> "CfgVehicles" >> typeOf vehicle _unit >> "crewVulnerable") > 0) then {
@@ -157,9 +158,7 @@ _this call {
 
 		} else {
 			_damageEnum = MACRO_ENUM_DAMAGE_BULLET;
-
 			private _damageMul = 0;
-			private _ratioProcessedToRaw = 2; // Lower values lean damage towards arcade-y settings (more flat damage, less variation)
 
 			switch (_hitPoint) do {
 				// Head
@@ -194,7 +193,7 @@ _this call {
 				_unit setVariable [QGVAR(damage_storedProcessed), _damageProcessed, false];
 			};
 
-			_newDamage = MACRO_GM_UNIT_DAMAGEMUL_BULLET * _damageMul * (_damageProcessed * _ratioProcessedToRaw + _damageDirect) / (_ratioProcessedToRaw + 1);
+			_newDamage = MACRO_GM_UNIT_DAMAGEMUL_BULLET * _damageMul * (_damageProcessed * MACRO_GM_UNIT_DAMAGERATIO_PROCESSEDTORAW + _damageDirect) / (MACRO_GM_UNIT_DAMAGERATIO_PROCESSEDTORAW + 1);
 		};
 	};
 

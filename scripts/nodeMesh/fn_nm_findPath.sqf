@@ -29,6 +29,7 @@
 
 #include "..\..\res\common\macros.inc"
 
+#include "..\..\res\macros\fnc_boundingRadius.inc"
 #include "..\..\res\macros\fnc_initVar.inc"
 
 params [
@@ -63,7 +64,7 @@ private _originAGL            = ASLtoAGL _origin;
 private _destinationAGL       = ASLtoAGL _destination;
 private _isDestinationInCA    = [_destination, _side] call FUNC(ca_isInCombatArea);
 private _allNodes             = [GVAR(nm_nodesInf), GVAR(nm_nodesVeh)] select _isVehicle;
-private _defaultRadius        = [MACRO_NM_DEFAULTRADIUS_INF, MACRO_NM_DEFAULTRADIUS_VEH] select _isVehicle;
+private _defaultRadius        = 3; // [MACRO_NM_DEFAULTRADIUS_INF, MACRO_FNC_BOUNDINGRADIUS(_unit)] select _isVehicle;
 private _nodeClass            = [MACRO_CLASS_NODEMESH_NODE_INF, MACRO_CLASS_NODEMESH_NODE_VEH] select _isVehicle;
 private _occluderClass        = [MACRO_CLASS_NODEMESH_OCCLUDER_INF, MACRO_CLASS_NODEMESH_OCCLUDER_VEH] select _isVehicle;
 private _nodeSearchRadius     = [MACRO_NM_SEARCHRADIUS_NODES_INF, MACRO_NM_SEARCHRADIUS_NODES_VEH] select _isVehicle;

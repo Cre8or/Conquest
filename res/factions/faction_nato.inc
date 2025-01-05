@@ -268,17 +268,17 @@ USAGE:
 
 	// AI Balancing
 	[
-		MACRO_AI_SKILL_BASEACCURACY, // Overall accuracy multiplier
+		0.8 * MACRO_AI_SKILL_BASEACCURACY, // Overall accuracy multiplier
 
 		// Per-role accuracy multipliers (cumulative with the overall multiplier)
 		[
-			[MACRO_ENUM_ROLE_SPECOPS,  1.0],
+			[MACRO_ENUM_ROLE_SPECOPS,  0.8],
 			[MACRO_ENUM_ROLE_SNIPER,   2.0],
-			[MACRO_ENUM_ROLE_ASSAULT,  1.0],
+			[MACRO_ENUM_ROLE_ASSAULT,  0.8],
 			[MACRO_ENUM_ROLE_SUPPORT,  1.0],
 			[MACRO_ENUM_ROLE_ENGINEER, 1.0],
 			[MACRO_ENUM_ROLE_MEDIC,    1.0],
-			[MACRO_ENUM_ROLE_ANTITANK, 1.0]
+			[MACRO_ENUM_ROLE_ANTITANK, 0.8]
 		]
 	],
 
@@ -287,6 +287,6 @@ USAGE:
 	// Recoil balancing
 	[
 		["LMG_03_F", 2.0],
-		["arifle_SPAR_01_blk_F", 1.25]
+		["arifle_SPAR_01_blk_F", 1.75]
 	]
 ]
