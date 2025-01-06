@@ -60,7 +60,7 @@ class Param_GM_FactionEnum_East {
 		title = "1.3 - INDFOR faction (disabled):";
 		values[] = {MACRO_ENUM_FACTION_INVALID};
 		texts[] = {"-"};
-		default = MACRO_GM_FACTIONENUM_INDFOR;
+		default = 0;
 	};
 #endif
 

@@ -518,7 +518,7 @@
 	#define MACRO_TICKETBLEED_FAST                                  60 // The bleed rate, in tickets per minute, of fast ticket bleed. Fast ticket bleed only occurs when a side owns no sectors, but still has units which are alive.
 
 	#define MACRO_TICKETS_WARNINGTHRESHOLD                          50 // When 2 out of 3 sides have fewer than this many tickets, a warning is broadcast to build up suspense (the mission will likely be over soon)
-	#define MACRO_TICKETS_DECISIVETHRESHOLD                         100 // If the round ends, and the winning side has at least this many tickets left, the end counts as a decisive victory/crushing defeat
+	#define MACRO_TICKETS_DECISIVEPERCENTAGE                        0.5 // The ratio of tickets that the winning side must still have (to the starting tickets count) at the end of the mision for the victory to count as decisive
 
 	// Health
 	#define MACRO_UNIT_HEALTH_FALLDAMAGEHEIGHT                      3 // The height in meters beyond which units receive fall damage when jumping off of surfaces (assuming no initial velocity)
@@ -529,7 +529,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.20.955" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.20.966" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -968,6 +968,22 @@
 	// CUP factions
 	#define MACRO_ENUM_FACTION_USMC                                 10
 	#define MACRO_ENUM_FACTION_AFRF                                 11
+
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+//  ITEM CONFIG TYPES
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+
+	// These values are set by Arma 3 and should not be modified
+	#define MACRO_ENUM_CFG_ITEMTYPE_HEADGEAR                        605
+	#define MACRO_ENUM_CFG_ITEMTYPE_HMD                             616
+	#define MACRO_ENUM_CFG_ITEMTYPE_VEST                            701
+	#define MACRO_ENUM_CFG_ITEMTYPE_UNIFORM                         801
+	#define MACRO_ENUM_CFG_ITEMTYPE_BACKPACK                        901
+
+
 
 
 

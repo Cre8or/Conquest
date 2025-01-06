@@ -24,6 +24,8 @@
 #define MACRO_GM_UNIT_INDIRECTDAMAGE_MAXREFERENCEDAMAGE 10
 #define MACRO_GM_UNIT_WORLDDAMAGE_IMMUNEDURATION 2
 #define MACRO_GM_UNIT_DAMAGERATIO_PROCESSEDTORAW 1 // Lower values lean damage towards arcade-y settings (more flat damage, less variation), higher numbers lean damage towards vanilla Arma 3 handling
+#define MACRO_GM_UNIT_RAWDAMAGE_EXPONENT 0.6 // Higher numbers make the raw damage curve more exponential (bigger calibers do far more damage than smaller ones), lower numbers flatten the curve (bigger calibers do similar damage to smaller ones)
+#define MACRO_GM_UNIT_RAWDAMAGE_BASEAMOUNT 12 // Reference value for base damage that will be remapped to y=1 for the exponential curve
 
 
 
@@ -44,12 +46,13 @@ _this call {
 		"",
 		"_instigator",
 		"_hitPoint",
-		"_isDirect"
+		"_isDirect",
+		"_context"
 	];
 	_hitPoint = toLower _hitPoint;
 
-	// Filter out head-damage events triggering one frame ahead of time (no idea what's causing this)
-	if (_damageProcessed <= 0 or {_hitPoint == "hithead" and {isNull _instigator}}) exitWith {0};
+	// Filter out fake head hits
+	if (_damageProcessed <= 0 or {_context == 3}) exitWith {0};
 
 	// Filter out special hit points
 	if (_hitPoint == "incapacitated" or {_hitPoint select [0, 4] == "ace_"}) exitWith {0};
@@ -62,10 +65,14 @@ _this call {
 		_unit getHitPointDamage _hitPoint;
 	};
 
-	private _newDamage = 0;
-	private _isPhysicsDamage = false;
-	private _damageEnum = MACRO_ENUM_DAMAGE_UNKNOWN;
-	private _unitInVehicle = (_unit != vehicle _unit);
+	private _side                = _unit getVariable [QGVAR(side), sideEmpty];
+	private _damageEnum          = MACRO_ENUM_DAMAGE_UNKNOWN;
+	private _unitInVehicle       = (_unit != vehicle _unit);
+	private _isPhysicsDamage     = false;
+	private _newDamage           = 0;
+	private _damageProcessedReal = _damageProcessed;
+
+
 
 
 
@@ -95,7 +102,7 @@ _this call {
 			if (
 				!isNull _driver
 				and {_driver != _unit}
-				and {_driver getVariable [QGVAR(side), sideEmpty] == _unit getVariable [QGVAR(side), sideEmpty]}
+				and {_driver getVariable [QGVAR(side), sideEmpty] == _side}
 			) then {
 				_unit setVariable [QGVAR(worldDamage_immuneTime), _time + MACRO_GM_UNIT_WORLDDAMAGE_IMMUNEDURATION, false];
 
@@ -125,11 +132,8 @@ _this call {
 		};
 
 	} else {
-
-		private _config         = configFile >> "CfgAmmo" >> _ammoType;
-		private _explosive      = getNumber (_config >> "explosive");
-		private _damageDirect   = getNumber (_config >> "hit");
-		private _damageIndirect = getNumber (_config >> "indirectHit");
+		private _damageData = [_ammoType] call FUNC(proj_getDamageData);
+		_damageData params ["_damageDirect", "_damageIndirect", "_explosive"];
 
 		if (!_isDirect) then {
 
@@ -163,7 +167,7 @@ _this call {
 			switch (_hitPoint) do {
 				// Head
 				case "hithead";
-				case "hitface":		{_damageMul = 0.15}; // Headshot multiplier is applied at a later stage (ontop of this value)
+				case "hitface":		{_damageMul = 0.1}; // Headshot multiplier is applied at a later stage (ontop of this value)
 
 				// Torso
 				case "hitneck"; // Extends too far down to be registered as "head"
@@ -171,29 +175,43 @@ _this call {
 				case "hitdiaphragm";
 				case "hitabdomen";
 				case "hitpelvis";
-				case "hitbody":		{_damageMul = 0.1};
+				case "hitbody":		{_damageMul = 0.05};
 
 				// Legs
 				case "hitleftleg";
 				case "hitrightleg";
-				case "hitlegs":		{_damageMul = 0.06};
+				case "hitlegs":		{_damageMul = 0.04};
 
 				// Arms
 				case "hitleftarm";
 				case "hitrightarm";
-				case "hitarms":		{_damageMul = 0.04};
+				case "hitarms":		{_damageMul = 0.03};
 
 				// Hands
-				case "hithands":	{_damageMul = 0.025};
+				case "hithands":	{_damageMul = 0.02};
 			};
 
-			// Store the largest raw damage, and the selection it occured on
-			if (_damageProcessed > (_unit getVariable [QGVAR(damage_storedProcessed), 0])) then {
-				_unit setVariable [QGVAR(damage_storedHitPoint), _hitPoint, false];
-				_unit setVariable [QGVAR(damage_storedProcessed), _damageProcessed, false];
+			// Revert the processed damage into the real damage by accounting for the total armour value of the affected hitpoint
+			if (_hitPoint != "") then {
+				private _role        = _unit getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID];
+				private _armourCache = missionNamespace getVariable [format [QGVAR(armourCache_%1_%2), _side, _role], createHashMap];
+				private _armour      = 1 max (_armourCache getOrDefault [_hitPoint, 0]);
+				_damageProcessedReal = _damageProcessed * _armour; // Undo the armour damage negation by multiplying
+
+				// Store the largest raw damage, and the selection it occured on
+				private _prevDamageProcessedReal = _unit getVariable [QGVAR(damage_storedProcessed), 0];
+				if (
+					_damageProcessedReal > _prevDamageProcessedReal
+					or {_damageProcessedReal > 0.999 * _prevDamageProcessedReal and {_hitPoint in ["hithead", "hitface"]}} // Upgrade to headshot (usually happens on hitneck anyway)
+				) then {
+					_unit setVariable [QGVAR(damage_storedProcessed), _damageProcessedReal, false];
+					_unit setVariable [QGVAR(damage_storedHitPoint), _hitPoint, false];
+				};
 			};
 
-			_newDamage = MACRO_GM_UNIT_DAMAGEMUL_BULLET * _damageMul * (_damageProcessed * MACRO_GM_UNIT_DAMAGERATIO_PROCESSEDTORAW + _damageDirect) / (MACRO_GM_UNIT_DAMAGERATIO_PROCESSEDTORAW + 1);
+			// Remap the raw damage by exponent
+			_damageDirect = MACRO_GM_UNIT_RAWDAMAGE_BASEAMOUNT * ((_damageDirect / MACRO_GM_UNIT_RAWDAMAGE_BASEAMOUNT) ^ MACRO_GM_UNIT_RAWDAMAGE_EXPONENT);
+			_newDamage    = MACRO_GM_UNIT_DAMAGEMUL_BULLET * _damageMul * (_damageProcessed * MACRO_GM_UNIT_DAMAGERATIO_PROCESSEDTORAW + _damageDirect) / (MACRO_GM_UNIT_DAMAGERATIO_PROCESSEDTORAW + 1);
 		};
 	};
 
@@ -207,39 +225,10 @@ _this call {
 		_unit setVariable [QGVAR(damage_instigator), _instigator, false];
 		_unit setVariable [QGVAR(damage_ammoType), _ammoType, false];
 
-/*
-		if (!GVAR(gm_sys_monitorUnitDamage_update)) then {
-			systemChat format ["(%1) damage :%2", diag_frameNo, _newDamage];
-
-			private _fnc_padStr = {
-				params ["_val", "_length"];
-				private _str = [str _val, _val] select (_val isEqualType "");
-				private _pad = "";
-
-				for "_i" from 1 to _length - count _str do {
-					_pad = _pad + " ";
-				};
-
-				_pad + _str;
-			};
-
-			systemChat str cre_debug;
-
-			diag_log format ["%1: %2 / %3 / %4 / %5 / %6",
-				diag_frameNo,
-				[_hitPoint, 14] call _fnc_padStr,
-				[(round (10 * _damageProcessed * 100)) / 10, 8] call _fnc_padStr,
-				[_damageIndirect, 4] call _fnc_padStr,
-				[(round (1000 * cre_debug)) / 1000, 8] call _fnc_padStr,
-				[(round (_newDamage * 1000)) / 10, 8] call _fnc_padStr
-			];
-		};
-*/
 	};
 /*
 	// DEBUG
-	systemChat format ["(%1) damage :%2", diag_frameNo, _newDamage];
-
+	//systemChat format ["(%1) damage :%2", diag_frameNo, _newDamage];
 	private _fnc_padStr = {
 		params ["_val", "_length"];
 		private _str = [str _val, _val] select (_val isEqualType "");
@@ -252,14 +241,13 @@ _this call {
 		_pad + _str;
 	};
 
-	systemChat str _distMultiplier;
-
 	diag_log format ["%1: %2 / %3 / %4 / %5 / %6",
 		diag_frameNo,
 		[_hitPoint, 14] call _fnc_padStr,
-		[(round (10 * _damageProcessed * 100)) / 10, 8] call _fnc_padStr,
-		[_damageIndirect, 4] call _fnc_padStr,
-		[(round (1000 * _distMultiplier)) / 1000, 8] call _fnc_padStr,
+		[(round (1000 * _damageProcessed)) / 1000, 8] call _fnc_padStr,
+		[(round (1000 * _damageProcessedReal)) / 1000, 8] call _fnc_padStr,
+		//[_damageIndirect, 4] call _fnc_padStr,
+		"-",
 		[(round (_newDamage * 1000)) / 10, 8] call _fnc_padStr
 	];
 */

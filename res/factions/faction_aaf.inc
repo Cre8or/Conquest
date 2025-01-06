@@ -54,7 +54,7 @@ USAGE:
 
 		[	// Sniper
 			MACRO_ENUM_ROLE_SNIPER,
-			[["srifle_DMR_03_woodland_F","","","optic_SOS",["20Rnd_762x51_Mag",20],[],"bipod_03_F_blk"],[],["hgun_P07_khk_F","","","",["16Rnd_9x21_Mag",17],[],""],["U_I_FullGhillie_lsh",[]],["V_Chestrig_oli",[["HandGrenade",1,1],["20Rnd_762x51_Mag",5,20]]],[],"","G_Bandanna_oli",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["srifle_DMR_03_woodland_F","","","optic_SOS",["20Rnd_762x51_Mag",20],[],"bipod_03_F_blk"],[],["hgun_P07_khk_F","","","",["16Rnd_9x21_yellow_Mag",17],[],""],["U_I_FullGhillie_lsh",[]],["V_Chestrig_oli",[["HandGrenade",1,1],["16Rnd_9x21_yellow_Mag",2,17],["20Rnd_762x51_Mag",5,20]]],[],"","G_Bandanna_oli",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 
 		],
 
@@ -70,7 +70,7 @@ USAGE:
 
 		[	// Engineer
 			MACRO_ENUM_ROLE_ENGINEER,
-			[["SMG_03C_TR_khaki","","","optic_Yorris",["CUP_50Rnd_570x28_Yellow_Tracer_P90_M",50],[],""],[],["hgun_P07_blk_F","","","",["16Rnd_9x21_yellow_Mag",17],[],""],["U_I_CombatUniform",[["MineDetector",1]]],["V_PlateCarrierIA2_dgtl",[["HandGrenade",1,1],["CUP_50Rnd_570x28_Yellow_Tracer_P90_M",7,50]]],["B_AssaultPack_sgg",[]],"H_HelmetCrew_I","G_Combat_Goggles_tna_F",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["SMG_03C_TR_khaki","","","optic_Yorris",["50Rnd_570x28_SMG_03",50],[],""],[],["hgun_P07_blk_F","","","",["16Rnd_9x21_yellow_Mag",17],[],""],["U_I_CombatUniform",[["MineDetector",1]]],["V_PlateCarrierIA2_dgtl",[["HandGrenade",1,1],["16Rnd_9x21_yellow_Mag",2,17],["50Rnd_570x28_SMG_03",7,50]]],["B_AssaultPack_sgg",[]],"H_HelmetCrew_I","G_Combat_Goggles_tna_F",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Medic
@@ -130,8 +130,8 @@ USAGE:
 		[
 			MACRO_ENUM_VEHICLETYPE_CAR_ARMED_HEAVY,
 			[
-				["I_MRAP_03_gmg_F"],
-				["I_MRAP_03_hmg_F"]
+				["I_MRAP_03_hmg_F"],
+				["I_MRAP_03_gmg_F"]
 			]
 		],
 

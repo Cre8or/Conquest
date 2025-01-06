@@ -21,7 +21,7 @@
 // ----------------------------------------------------------------------------------------------------------------------------------
 	#define MACRO_AI_MAXCOUNT                                       64 // How many AI units can exist at most at any given time
 	#define MACRO_AI_INCLUDEPLAYERS                                 false // Whether or not players are counted towards the AI limit
-	#define MACRO_AI_ALLOWVEHICLES                                  false // Whether or not the AI is allowed to use any vehicles at all. Only affects vehicles that would otherwise be allowed for AI use
+	#define MACRO_AI_ALLOWVEHICLES                                  true // Whether or not the AI is allowed to use any vehicles at all. Only affects vehicles that would otherwise be allowed for AI use
 	#define MACRO_AI_PEACEFULMODE                                   false // Whether or not the AI is allowed to engage other units.
 	#define MACRO_AI_MAXUNITSPERGROUP                               6 // How many AI units are allowed to form up in a group
 
@@ -56,8 +56,8 @@
 	#define MACRO_GM_ENABLEVEHICLES                                 true // Whether or not vehicles should be enabled
 
 	// Damage balancing
-	#define MACRO_GM_UNIT_DAMAGEMUL_HEADSHOT                        3 // Multiplier for the damage dealt by headshots
-	#define MACRO_GM_UNIT_DAMAGEMUL_BULLET                          1.5 // Multiplier for the damage units receive from that bullet hits
+	#define MACRO_GM_UNIT_DAMAGEMUL_HEADSHOT                        2 // Multiplier for the damage dealt by headshots
+	#define MACRO_GM_UNIT_DAMAGEMUL_BULLET                          1 // Multiplier for the damage units receive from that bullet hits
 	#define MACRO_GM_UNIT_DAMAGEMUL_EXPLOSIVE                       1 // Multiplier for the damage units receive from explosions
 	#define MACRO_GM_UNIT_DAMAGEMUL_FALLDAMAGE                      1 // Multiplier for the damage units receive from falling
 	#define MACRO_GM_UNIT_DAMAGEMUL_ROADKILL                        1 // Multiplier for the damage units receive when getting hit/run over by vehicles

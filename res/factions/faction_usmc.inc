@@ -131,9 +131,9 @@ USAGE:
 		[
 			MACRO_ENUM_VEHICLETYPE_CAR_ARMED_HEAVY,
 			[
-				["CUP_B_nM1025_Mk19_USMC_WDL","Woodland",[["hide_front_right_antenna",1],["hide_rear_right_antenna",0],["hide_radio_small",1]]],
+				["CUP_B_nM1151_ogpk_m2_USA_WDL","Woodland",[["hide_overhead_protection",1],["hide_mudflaps",0],["hide_rear_left_antenna",1],["hide_spare_tire",1],["hide_spare_tire_mount",1],["hide_heavy_bumper",0]]],
 				["CUP_B_nM1036_TOW_USMC_WDL","Woodland",[["hide_front_right_antenna",1],["hide_rear_right_antenna",0],["hide_radio_small",1]]],
-				["CUP_B_nM1151_ogpk_m2_USA_WDL","Woodland",[["hide_overhead_protection",1],["hide_mudflaps",0],["hide_rear_left_antenna",1],["hide_spare_tire",1],["hide_spare_tire_mount",1],["hide_heavy_bumper",0]]]
+				["CUP_B_nM1025_Mk19_USMC_WDL","Woodland",[["hide_front_right_antenna",1],["hide_rear_right_antenna",0],["hide_radio_small",1]]]
 			]
 		],
 

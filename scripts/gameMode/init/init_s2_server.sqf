@@ -199,6 +199,7 @@ if (_firstInit) then {
 
 				case MACRO_CLASS_FLAG: {
 					_flag = _x;
+					_flag setFlagTexture ([_side] call FUNC(gm_getFlagTexture));
 				};
 
 				case MACRO_CLASS_ATTACKPOINT_INF: {
@@ -255,7 +256,7 @@ if (_firstInit) then {
 	// Separately initialise the vehicle definitions on each sector.
 	// This can't be folded into the previous loop, as the spawnpoints must be sorted by captured, then
 	// then uncapted sectors. As such the order of the sectors is different for each side.
-	private ["_sectorsOwned", "_sectorsNeutral", "_sectorsHostile", "_spawnDataVeh", "_spawnPoint", "_enum", "_definition", "_veh", "_radius", "_respawnTime"];
+	private ["_sectorsOwned", "_sectorsNeutral", "_sectorsHostile", "_spawnDataVeh", "_spawnPoint", "_enums", "_definition", "_veh", "_radius", "_respawnTime"];
 	{
 		_side = _x;
 		if (_side == sideEmpty) then {continue};
@@ -278,8 +279,12 @@ if (_firstInit) then {
 
 			{
 				_spawnPoint = _x;
-				_enum       = toUpper (_spawnPoint getVariable [QGVAR(enum), ""]);
-				_definition = [_side, _enum] call FUNC(veh_getNextDefinition);
+				_enums      = (_spawnPoint getVariable [QGVAR(enums), []]) apply {toUpper _x};
+
+				_enums findIf {
+					_definition = [_side, _x] call FUNC(veh_getNextDefinition);
+					(_definition isNotEqualTo []); // Stop at the first valid result
+				};
 
 				if (_definition isEqualTo []) then {continue};
 
@@ -309,7 +314,7 @@ if (_firstInit) then {
 				]];
 
 				_spawnDataVeh pushBack _definition;
-				//diag_log format ["[CONQUEST] (%1) Storing definition for %2 (%3): %4", _sector getVariable [QGVAR(letter), "???"], _side, _enum, _definition];
+				//diag_log format ["[CONQUEST] (%1) Storing definition for %2 (%3): %4", _sector getVariable [QGVAR(letter), "???"], _side, _enums, _definition];
 
 			} forEach (_sector getVariable [QGVAR(sv_spawnPointsVeh), []]);
 

@@ -134,9 +134,9 @@ USAGE:
 		[
 			MACRO_ENUM_VEHICLETYPE_CAR_ARMED_HEAVY,
 			[
+				["CUP_O_Tigr_M_233114_GREEN_KORD_RU",[[5,""],[6,""]],[["hide_tow_rope",1],["hide_tools",1],["hide_roof_rung",1],["hide_reseve_wheel_mount",1],["hide_ReserveWheel",1]]],
 				["CUP_O_GAZ_Vodnik_AGS_RU"],
 				["CUP_O_UAZ_METIS_RU","Green_Soviet"],
-				["CUP_O_Tigr_M_233114_GREEN_KORD_RU",[[5,""],[6,""]],[["hide_tow_rope",1],["hide_tools",1],["hide_roof_rung",1],["hide_reseve_wheel_mount",1],["hide_ReserveWheel",1]]],
 				["CUP_O_GAZ_Vodnik_KPVT_RU"]
 			]
 		],

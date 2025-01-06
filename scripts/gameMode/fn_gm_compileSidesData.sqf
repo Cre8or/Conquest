@@ -33,7 +33,7 @@ private _allThrowables        = [];
 	{
 		_allThrowables pushBackUnique _x;
 	} forEach getArray (_x >> "magazines");
-} forEach ("isClass _x" configClasses (_configPath_weapons >> "Throw"));
+} forEach configProperties [_configPath_weapons >> "Throw", "isClass _x"];
 
 private _allSideFactions = [ // Fixed order by framework convention
 	[east,       GVAR(param_gm_factionEnum_east)],
@@ -46,7 +46,7 @@ private _allSideFactions = [ // Fixed order by framework convention
 
 
 // Parse each side's faction data file
-private ["_factionData", "_loadoutsCache", "_abilities", "_allMagazines", "_magazinesCache", "_weaponIcon","_magazinePrimary", "_magazinePrimaryAlt", "_magazineSecondary", "_magazineHandgun", "_ammoTypeX", "_isExplosiveX"];
+private ["_factionData", "_loadoutsCache", "_abilities", "_allMagazines", "_magazinesCache", "_weaponIcon","_magazinePrimary", "_magazinePrimaryAlt", "_magazineSecondary", "_magazineHandgun", "_ammoTypeX", "_isExplosiveX", "_armourCache", "_hitPointsArmour"];
 private ["_vehTypesCache", "_vehTypesIndexCache", "_definitionsXCopy"];
 private ["_accuracyMulCache", "_totalAccuracyMul"];
 private ["_muzzleRecoilMulCache"];
@@ -87,7 +87,6 @@ private ["_muzzleRecoilMulCache"];
 			"a3\data_f\flags\flag_blue_co.paa"
 		] select _forEachIndex;
 	};
-
 
 	// Expose the common faction data as global variables
 	missionNamespace setVariable [format [QGVAR(shortName_%1), _side], _factionNameShort, false];
@@ -144,7 +143,7 @@ private ["_muzzleRecoilMulCache"];
 			["_uniformArray", []],
 			["_vestArray", []],
 			["_backpackArray", []],
-			"", // headgear
+			"_headGear",
 			"", // goggles
 			["_binocularArray", []],
 			["_itemsArray", []]
@@ -279,11 +278,29 @@ private ["_muzzleRecoilMulCache"];
 			]];
 		} forEach _magazinesCache;
 
-		// Save the loadout, abilities and weapon icon data as global variables
+		// Determine the total armour of every hitpoint
+		_armourCache = createHashMap;
+		{
+			_hitPointsArmour = [_x] call FUNC(lo_getAllHitPointsArmour);
+			{
+				_x params ["_hitPoint", "_armour", "_passThrough"];
+
+				_armourCache set [
+					_hitPoint,
+					(_armourCache getOrDefault [_hitPoint, 0]) + (_armour * (1 - _passThrough))
+				];
+			} forEach _hitPointsArmour;
+		} forEach [
+			_uniformArray param [0, ""],
+			_vestArray    param [0, ""],
+			_headGear
+		];
+
 		missionNamespace setVariable [format [QGVAR(loadout_%1_%2), _side, _role], _loadout, false];
 		missionNamespace setVariable [format [QGVAR(abilities_%1_%2), _side, _role], _abilities, false];
 		missionNamespace setVariable [format [QGVAR(weaponIcon_%1_%2), _side, _role], _weaponIcon, false];
 		missionNamespace setVariable [format [QGVAR(magazinesCache_%1_%2), _side, _role], _magazinesCache, false];
+		missionNamespace setVariable [format [QGVAR(armourCache_%1_%2), _side, _role], _armourCache, false];
 
 		_loadoutsCache set [_role, true];
 	} forEach _factionLoadouts;

@@ -110,10 +110,11 @@ class MACRO_PROJECT_PREFIX {
 		file = "scripts\loadouts";
 		// Abbreviation:	lo
 
-		class lo_updateOverallAmmo {};
 		class lo_addOverallAmmo {};
+		class lo_getAllHitPointsArmour {};
 		class lo_getOverallAmmo {};
 		class lo_setRoleLoadout {};
+		class lo_updateOverallAmmo {};
 	};
 
 	class math {
@@ -145,6 +146,7 @@ class MACRO_PROJECT_PREFIX {
 		file = "scripts\projectiles";
 		// Abbreviation:	proj
 
+		class proj_getDamageData {};
 		class proj_onInit {};
 	};
 

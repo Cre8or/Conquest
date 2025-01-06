@@ -175,14 +175,11 @@ if (_health > 0) then {
 				if (_isHeadShot) then {
 					_iconEnum = MACRO_ENUM_KF_ICON_HEADSHOT;
 				} else {
-					if (
-						_ammoType isKindOf "PipeBombCore"
-						or {_ammoType isKindOf "G_40mm_HE"}
-					) then {
-						_iconEnum = MACRO_ENUM_KF_ICON_EXPLOSIVE;
+					if (_ammoType isKindOf "TimeBombCore") then {
+						_iconEnum = MACRO_ENUM_KF_ICON_MINE;
 					} else {
-						if (_ammoType isKindOf "TimeBombCore") then {
-							_iconEnum = MACRO_ENUM_KF_ICON_MINE;
+						if (_damageEnum == MACRO_ENUM_DAMAGE_EXPLOSIVE) then {
+							_iconEnum = MACRO_ENUM_KF_ICON_EXPLOSIVE;
 						};
 					};
 				};

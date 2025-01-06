@@ -26,7 +26,7 @@ private ["_name", "_value", "_override"];
 
 		_value    = [_name, -9e9] call BIS_fnc_getParamValue;
 		_override = missionNamespace getVariable [format [QGVAR(%1_override), _name], _value];
-		diag_log format ["[CONQUEST] Mission parameter ""%1"": %2 (%3)", _name, _value, _override];
+		diag_log format ["[CONQUEST] Mission parameter %1: %2 (%3)", _name, _value, _override];
 
 		// Enable manual overriding
 		if (_override isNotEqualTo _value) then {
@@ -42,4 +42,4 @@ private ["_name", "_value", "_override"];
 		};
 	};
 
-} forEach ("true" configClasses (missionConfigFile >> "Params"));
+} forEach (configProperties [missionConfigFile >> "Params"]);

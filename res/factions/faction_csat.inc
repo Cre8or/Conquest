@@ -131,9 +131,9 @@ USAGE:
 		[
 			MACRO_ENUM_VEHICLETYPE_CAR_ARMED_HEAVY,
 			[
-				["O_MRAP_02_gmg_F"],
+				["O_MRAP_02_hmg_F"],
 				["O_LSV_02_AT_F"],
-				["O_MRAP_02_hmg_F"]
+				["O_MRAP_02_gmg_F"]
 			]
 		],
 

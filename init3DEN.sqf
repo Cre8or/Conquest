@@ -62,6 +62,8 @@
 
 		FUNC(gm_compileSidesData) = compile preprocessFileLineNumbers "scripts\gamemode\fn_gm_compileSidesData.sqf";
 
+		FUNC(lo_getAllHitPointsArmour) = compile preprocessFileLineNumbers "scripts\loadouts\fn_lo_getAllHitPointsArmour.sqf";
+
 		FUNC(sector_addVehicleSpawn) = compile preprocessFileLineNumbers "scripts\sectors\fn_sector_addVehicleSpawn.sqf";
 
 		FUNC(veh_setCustomisation)  = compile preprocessFileLineNumbers "scripts\vehicles\fn_veh_setCustomisation.sqf";
@@ -482,7 +484,7 @@
 			// Update the sector's vehicle spawnpoints
 			call FUNC(eden_resetVehicleDefinitionIndexes);
 
-			private ["_spawnPoint", "_enum", "_veh", "_curDefinition", "_shouldUpdate", "_newDefinition"];
+			private ["_spawnPoint", "_enums", "_index", "_veh", "_curDefinition", "_shouldUpdate", "_newDefinition"];
 			{
 				_x params ["_letter", "_sector", "_side", "_spawnPointsVeh"];
 				{
@@ -491,11 +493,11 @@
 					// Run the spawnpoint's init field to fetch its type
 					this = _spawnPoint; // Hack; "this" is not defined in this scope
 					call compile (_spawnPoint get3DENAttribute "Init" select 0);
-					_enum = _spawnPoint getVariable [QGVAR(enum), ""];
+					_enums = (_spawnPoint getVariable [QGVAR(enums), []]) apply {toUpper _x};
 
-					if (_enum == "") then {
+					if (_enums isEqualTo []) then {
 						if (_reportErrors) then {
-							systemChat "[CONQUEST] WARNING: Vehicle spawnpoint does not have a valid type set! Is its initialisation field set properly?";
+							systemChat "[CONQUEST] WARNING: Vehicle spawnpoint does not have a valid enumeration type set! Did you remember to fill out the init field?";
 							[_spawnPoint] call FUNC(eden_moveCameraToObject);
 							breakOut QGVAR(eden_eachFrame);
 						} else {
@@ -503,9 +505,10 @@
 						};
 					};
 
-					if !(toUpper _enum in MACRO_FNC_ALLVEHICLETYPEENUMS) then {
+					_index = _enums findIf {!(_x in MACRO_FNC_ALLVEHICLETYPEENUMS)};
+					if (_index >= 0) then {
 						if (_reportErrors) then {
-							systemChat format ["[CONQUEST] WARNING: Vehicle spawnpoint uses an unrecognised vehicle type (""%1"")! Please refer to the list of valid types.", _enum];
+							systemChat format ["[CONQUEST] WARNING: Vehicle spawnpoint uses an unrecognised enumeration type (""%1"")! Please refer to the list of valid types.", _enums # _index];
 							[_spawnPoint] call FUNC(eden_moveCameraToObject);
 							breakOut QGVAR(eden_eachFrame);
 						} else {
@@ -514,9 +517,12 @@
 					};
 
 					// Figure out which vehicle to preview on this sector
-					_veh           = _spawnPoint getVariable [QGVAR(init3DEN_vehicle), objNull];
-					_newDefinition = [_side, _enum] call FUNC(veh_getNextDefinition);
-					_shouldUpdate  = (isNull _veh);
+					_enums findIf {
+						_newDefinition = [_side, _x] call FUNC(veh_getNextDefinition);
+						(_newDefinition isNotEqualTo []); // Stop at the first valid result
+					};
+					_veh          = _spawnPoint getVariable [QGVAR(init3DEN_vehicle), objNull];
+					_shouldUpdate = (isNull _veh);
 
 					if (!_shouldUpdate) then {
 						_curDefinition = _spawnPoint getVariable [QGVAR(init3DEN_definition), []];

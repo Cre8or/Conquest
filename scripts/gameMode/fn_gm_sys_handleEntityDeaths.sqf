@@ -83,7 +83,7 @@ GVAR(gm_sys_handleEntityDeaths_EH) = addMissionEventHandler ["EntityKilled", {
 			_killer,
 			_instigator,
 			false,
-			"",
+			"", // TODO: Fold this system into gm_processUnitDamage so we can detect the used weapon via vehicle HandleDamage EH
 			false
 		] call FUNC(gm_processUnitDamage);
 	} forEach (crew _obj select {alive _x});
