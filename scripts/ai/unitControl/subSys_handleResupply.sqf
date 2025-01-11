@@ -1,4 +1,6 @@
-private _shouldStop = false;
+private _shouldStop        = false;
+private _unitStance        = toUpper unitPos _unit;
+private _stoppedUnitStance = ["MIDDLE", "DOWN"] select (stance _unit == "PRONE");
 
 // Only handle resupply actions if not already doing something else, including driving
 if (!_isInVehicle and {_actionPos isEqualTo []}) then {
@@ -70,14 +72,15 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 
 		// Match their stance
 		if (_recipientDistSqr < _c_changeStanceDistSqr and {stance _recipient != "STAND"}) then {
-			_unit setUnitPos "MIDDLE";
+			_stoppedUnitStance = ["MIDDLE", "DOWN"] select (stance _recipient == "PRONE");
+			_unit setUnitPos _stoppedUnitStance;
 		};
 
 		if (_recipientDistSqr < _c_maxActionDistSqr) then {
 			[_unit, _recipient] call FUNC(act_tryResupplyUnit);
 			_shouldStop = true;
 		} else {
-			_actionPos  = _actionPos vectorAdd [1 - random 2, 1 - random 2, 0]; // Randomness to help the unit get close enough
+			_actionPos        = _actionPos vectorAdd [1 - random 2, 1 - random 2, 0]; // Randomness to help the unit get close enough
 			_switchToCareless = true; // Allows switching to careless mode in order to move
 		};
 
@@ -116,9 +119,9 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 		// Head to the support
 		_actionPos = getPosWorld _support;
 
-		// Crouch while awaiting resupply
 		if (_supportDistSqr < _c_changeStanceDistSqr and {stance _support != "STAND"}) then {
-			_unit setUnitPos "MIDDLE";
+			_stoppedUnitStance = ["MIDDLE", "DOWN"] select (stance _support == "PRONE");
+			_unit setUnitPos _stoppedUnitStance;
 		};
 
 		if (_supportDistSqr < _c_maxActionDistSqr) then {
@@ -137,5 +140,5 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 [_shouldStop, MACRO_ENUM_AI_PRIO_RESUPPLY, _unit, ["PATH"], false] call FUNC(ai_toggleFeature);
 
 if (_shouldStop) then {
-	_unit setUnitPos "MIDDLE";
+	_unit setUnitPos _stoppedUnitStance;
 };

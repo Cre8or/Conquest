@@ -455,7 +455,7 @@
 	#define MACRO_AI_CARELESSDURATION                               5 // The duration, in seconds, during which AI units will be careless when being forced to move
 	#define MACRO_AI_ROLEACTION_MAXDISTANCE_UNIT                    20 // The maximum distance, in meters, below which AI units will consider performing role-specific actions on nearby friendly units (and, for the recipients, to seek out the action-providing units)
 	#define MACRO_AI_ROLEACTION_CHANGESTANCEDISTANCE                8 // The distance to the recipient, in meters, below which units performing role-specific actions will adjust their stance to that of the recipient
-	#define MACRO_AI_ROLEACTION_RECIPIENT_STOPDURATION              1 // For how long an AI unit remains stopped, in seconds, after being healed or resupplied, ontop of the performed action's cooldown duration (prevents them from running away while still being healed/resupplied)
+	#define MACRO_AI_ROLEACTION_RECIPIENT_STOPDURATION              1.5 // For how long an AI unit remains stopped, in seconds, after being healed or resupplied, ontop of the performed action's cooldown duration (prevents them from running away while still being healed/resupplied)
 	#define MACRO_AI_MEDICAL_SELFHEALCOOLDOWN                       3 // The duration, in seconds, that a medic must wait after being injured before being allowed to heal itself (to combat heal-spamming)
 	#define MACRO_AI_MEDICAL_INITIALREVIVEDELAY                     2 // The initial delay, in seconds, after a unit has gone unconscious before AI medics are allowed to revive them (to combat revive-spamming)
 	#define MACRO_AI_COMMANDER_STRATEGICVALUE_DECREASEPERGROUP      4 // By how much a sector's current strategic value is divided, for each group ordered to it (per iteration of the commander system)
@@ -467,12 +467,13 @@
 	// Gamemode
 	#define MACRO_GM_KILLASSISTDURATION                             10 // How long (in seconds), after damaging an enemy unit, it is possible to receive a kill assist for
 	#define MACRO_GM_SYS_TICKETS_INTERVAL                           0.5 // Interval, in seconds, between two update cycles of the tickets system
-	#define MACRO_GM_SYS_ENDCONDITIONS_INTERVAL                     0.25 // Interval, in seconds, between two update cycles of the end conditions system
-	#define MACRO_GM_SYS_HANDLEPLAYERRESPAWN_INTERVAL               0.05 // Interval, in seconds, between two update cycles of the player respawn system (Note: must be less than the MP respawn time!)
-	#define MACRO_GM_SYS_HANDLECURATOR_INTERVAL                     1 // Interval, in seconds, between two update cycles of the end curator handler system
-	#define MACRO_GM_SYS_HANDLESERVERSTATS_INTERVAL                 1 // Interval, in seconds, between two update cycles of the serverside stats handler
+	#define MACRO_GM_SYS_ENDCONDITIONS_INTERVAL                     0.25 // Interval, in seconds, between update cycles of the end conditions system
+	#define MACRO_GM_SYS_HANDLEPLAYERRESPAWN_INTERVAL               0.05 // Interval, in seconds, between update cycles of the player respawn system (Note: must be less than the MP respawn time!)
+	#define MACRO_GM_SYS_HANDLECURATOR_INTERVAL                     1 // Interval, in seconds, between update cycles of the end curator handler system
+	#define MACRO_GM_SYS_HANDLESERVERSTATS_INTERVAL                 1 // Interval, in seconds, between update cycles of the serverside stats handler
 	#define MACRO_GM_SYS_HANDLESERVERSTATS_PING_INTERVAL            10 // Interval, in seconds, between updates of players' ping stat. Intended to reduce network clutter as the ping constantly changes
 	#define MACRO_GM_SYS_REMOVECORPSES_INTERVAL                     0.5 // The interval, in seconds, between two consecutive corpse removal cycles
+	#define MACRO_GM_SYS_TUTORIALHINTS_INTERVAL                     0.5 // The interval, in seconds, between update cycles of the tutorial hints generation system
 
 	// Sectors
 	#define MACRO_SECTOR_TRIGGERINTERVAL                            0.5 // The interval between two trigger executions, in seconds
@@ -529,7 +530,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.20.966" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.20.971" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -565,6 +566,7 @@
 	#define MACRO_CLASS_NODEMESH_NODE_VEH                           "Sign_Sphere200cm_F" // Must be unique!
 	#define MACRO_CLASS_NODEMESH_OCCLUDER_INF                       "Sign_Arrow_Large_Green_F" // Must be unique!
 	#define MACRO_CLASS_NODEMESH_OCCLUDER_VEH                       "Sign_Arrow_Large_Blue_F" // Must be unique!
+	#define MACRO_CLASS_SOUNDEMITTER                                "Sign_Sphere10cm_F"
 
 
 

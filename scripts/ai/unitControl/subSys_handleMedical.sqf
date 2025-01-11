@@ -1,4 +1,6 @@
-private _shouldStop = false;
+private _shouldStop        = false;
+private _unitStance        = toUpper unitPos _unit;
+private _stoppedUnitStance = ["MIDDLE", "DOWN"] select (stance _unit == "PRONE");
 
 // Only handle medical actions if not already doing something else, including driving
 if (!_isInVehicle and {_actionPos isEqualTo []}) then {
@@ -100,14 +102,15 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 			_patientDistSqr < _c_changeStanceDistSqr
 			and {_patient getVariable [QGVAR(isUnconscious), false] or {stance _patient != "STAND"}}
 		) then {
-			_unit setUnitPos "MIDDLE";
+			_stoppedUnitStance = ["MIDDLE", "DOWN"] select (stance _patient == "PRONE");
+			_unit setUnitPos _stoppedUnitStance;
 		};
 
 		if (_patientDistSqr < _c_maxActionDistSqr) then {
 			[_unit, _patient] call FUNC(act_tryHealUnit);
 			_shouldStop = true;
 		} else {
-			_actionPos  = _actionPos vectorAdd [1 - random 2, 1 - random 2, 0]; // Randomness to help the unit get close enough
+			_actionPos        = _actionPos vectorAdd [1 - random 2, 1 - random 2, 0]; // Randomness to help the unit get close enough
 			_switchToCareless = true; // Allows switching to careless mode in order to move
 		};
 
@@ -147,7 +150,8 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 		_actionPos = getPosWorld _medic;
 
 		if (_medicDistSqr < _c_changeStanceDistSqr and {stance _medic != "STAND"}) then {
-			_unit setUnitPos "MIDDLE";
+			_stoppedUnitStance = ["MIDDLE", "DOWN"] select (stance _medic == "PRONE");
+			_unit setUnitPos _stoppedUnitStance;
 		};
 
 		if (_medicDistSqr < _c_maxActionDistSqr) then {
@@ -166,5 +170,5 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 [_shouldStop, MACRO_ENUM_AI_PRIO_MEDICAL, _unit, ["PATH"], false] call FUNC(ai_toggleFeature);
 
 if (_shouldStop) then {
-	_unit setUnitPos "MIDDLE";
+	_unit setUnitPos _stoppedUnitStance;
 };

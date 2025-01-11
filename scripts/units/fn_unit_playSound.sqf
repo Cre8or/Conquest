@@ -83,9 +83,22 @@ if (_isVoice) then {
 	deleteVehicle (_unit getVariable [QGVAR(unit_soundObj_voice), objNull]);
 };
 
-// Play the new sound
-private _soundObj = _unit say3D _soundData;
+// Spawn the sound emitter (dummy object to prevent conflicting with engine-created VO sounds)
+private _soundEmitter = _unit getVariable [QGVAR(unit_soundEmitter), objNull];
+if (isNull _soundEmitter) then {
+	_soundEmitter = MACRO_CLASS_SOUNDEMITTER createVehicleLocal [0, 0, 0];
+	_soundEmitter attachTo [_unit, [0, 0, 1]];
+	_soundEmitter hideObject true;
 
+	_unit setVariable [QGVAR(unit_soundEmitter), _soundEmitter, false];
+	_unit addEventhandler ["Deleted", {
+		params ["_unit"];
+		deleteVehicle (_unit getVariable [QGVAR(unit_soundEmitter), objNull]);
+	}];
+};
+
+// Play the new sound
+private _soundObj = _soundEmitter say3D _soundData;
 _unit setVariable [_soundObjName, _soundObj, false];
 
 if (_isVoice) then {

@@ -15,15 +15,13 @@
 #include "..\..\res\macros\fnc_initVar.inc"
 #include "..\..\res\macros\fnc_leaveGroup.inc"
 
-// If this machine doesn't have an interface, do nothing
 if (!hasInterface) exitWith {};
 
 
 
 
 
-// Set up some variales
-MACRO_FNC_INITVAR(GVAR(gm_sys_updatePlayerVars_EH),-1);
+MACRO_FNC_INITVAR(GVAR(gm_sys_updatePlayerVars_EH), -1);
 
 
 

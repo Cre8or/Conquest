@@ -139,16 +139,18 @@ if (!_isInVehicle) then {
 	// For the first couple seconds after computing a path, the unit is made careless to get it moving.
 	// Also move while reloading, as the unit is combat ineffective during that time.
 	// Finally, also move post-reloading for a brief time
-	_switchToCareless = (!_isInVehicle and {
-		_isReloading
-		or {
-			(stance _unit) in ["STAND", "CROUCH"]
-			and {
-				_time < (_unit getVariable [QGVAR(ai_unitControl_moveToPos_nextUpdate), 0]) + MACRO_AI_CARELESSDURATION - MACRO_AI_PATHFINDINTERVAL_INF
-				or {_time < _unit getVariable [QGVAR(ai_unitControl_moveToPos_reloadTime), 0]}
-			}
-		}}
-	);
+	if (!_switchToCareless) then {
+		_switchToCareless = (!_isInVehicle and {
+			_isReloading
+			or {
+				(stance _unit) in ["STAND", "CROUCH"]
+				and {
+					_time < (_unit getVariable [QGVAR(ai_unitControl_moveToPos_nextUpdate), 0]) + MACRO_AI_CARELESSDURATION - MACRO_AI_PATHFINDINTERVAL_INF
+					or {_time < _unit getVariable [QGVAR(ai_unitControl_moveToPos_reloadTime), 0]}
+				}
+			}}
+		);
+	};
 };
 
 if (_switchToCareless) then {

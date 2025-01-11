@@ -74,7 +74,7 @@ USAGE:
 
 		[	// Medic
 			MACRO_ENUM_ROLE_MEDIC,
-			[["arifle_SPAR_01_blk_F","","acc_flashlight","optic_Holosight_blk_F",["30Rnd_556x45_Stanag_Tracer_Red",30],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam",[]],["V_PlateCarrier1_rgr",[["16Rnd_9x21_red_Mag",2,17],["30Rnd_556x45_Stanag_Tracer_Red",7,30],["SmokeShell",2,1]]],["B_AssaultPack_mcamo",[]],"H_HelmetB_camo","G_Combat",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["arifle_SPAR_02_blk_F","","acc_flashlight","optic_Holosight_blk_F",["30Rnd_556x45_Stanag_Tracer_Red",30],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam",[]],["V_PlateCarrier1_rgr",[["16Rnd_9x21_red_Mag",2,17],["30Rnd_556x45_Stanag_Tracer_Red",7,30],["SmokeShell",2,1]]],["B_AssaultPack_mcamo",[]],"H_HelmetB_camo","G_Combat",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Anti Tank
@@ -286,7 +286,8 @@ USAGE:
 
 	// Recoil balancing
 	[
-		["LMG_03_F", 2.0],
-		["arifle_SPAR_01_blk_F", 1.75]
+		["LMG_03_F", 2.5],
+		["arifle_SPAR_02_blk_F", 2.0],
+		["SMG_02_F", 0.75]
 	]
 ]
