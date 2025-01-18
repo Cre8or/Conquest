@@ -228,10 +228,13 @@ case "ui_button_click": {
 		_spawnMenu setVariable [QGVAR(nextUpdateTime), 0];
 	};
 
+
 	// Check if the player wants to switch team
 	if (
 		_newSide != GVAR(side)
+	#ifndef MACRO_DEBUG_GM_INSTANTROLESWITCH
 		and {!_alive}
+	#endif
 		and {[_newSide] call FUNC(gm_isSidePlayable)}
 	) then {
 		GVAR(side) = _newSide;
@@ -240,6 +243,10 @@ case "ui_button_click": {
 		MACRO_FNC_LEAVEGROUP(_groupPly);
 
 		["ui_update_side"] call FUNC(ui_spawnMenu);
+
+		#ifdef MACRO_DEBUG_GM_INSTANTROLESWITCH
+			[player, GVAR(side), GVAR(role)] call FUNC(lo_setRoleLoadout);
+		#endif
 
 		// Reset the eachFrame update time to match the new menu
 		_spawnMenu setVariable [QGVAR(nextUpdateTime), 0];

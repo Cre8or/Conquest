@@ -1,11 +1,11 @@
 TO DO:
-	- Fix AI identities overwriting facewear item
+	- Prevent inventory interaction with weaponHolders using the action menu ("Take xxx")
+	- Prevent inventory interaction with weaponHolders using the ACE interaction menu
 	- Move vehicle definitions into faction data files
 		+ Define a set of vehicle classes (similar to UI icon classes), e.g. car, APC, tank, truck, etc.
 		+ Allow custom textures to be used (allows filling in factions that don't have unique vehicles)
 		+ Allow custom animation states to be used (doors, antennas, etc)
 		- Allow defining aircraft pylons to help with balancing
-	- Rework driver AI to be more cooperative when transporting passengers
 	- Increase AI aggressivity:
 		+ Make AI more keen on moving into incoming fire to reach move positions
 		- Make AI increase their use of suppressive fire on targets
@@ -28,6 +28,9 @@ UNCONFIRMED:
 	- Investigate Joe's isssue with being able to spawn when no sectors are owned
 
 DONE:
+	- Fix identities always overwriting loadout-defined goggles
+	- Fix overwriting custom player goggles when no loadout-defined goggles are set
+	- Rework driver AI to be more cooperative when transporting passengers
 	- Implement vehicle attack points (distinct from infantry attack points)
 	- Improve sector flag animation to be smooth (decoupled from handleServer interval)
 	- Fix sector flag animations (setFlagAnimationPhase) not being done on the client

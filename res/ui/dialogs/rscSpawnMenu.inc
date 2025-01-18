@@ -60,7 +60,7 @@ class GVAR(RscSpawnMenu) {
 				// Side Button
 				class Side_Button : GVAR(RscButton) {
 					idc = MACRO_IDC_SM_SIDE_BUTTON;
-					text = "SIDE";
+					text = __EVAL(toUpper localize LSTRING(ui_spawnMenu_side));
 					x = pixelW * MACRO_POS_SPACER_X;
 					y = MACRO_POS_SM_MENU_HEIGHT + pixelH * (MACRO_POS_SPACER_Y * 2 + 1);
 					w = safeZoneW * 0.1 - pixelW * MACRO_POS_SPACER_X;
@@ -79,7 +79,7 @@ class GVAR(RscSpawnMenu) {
 				// Role Button
 				class Role_Button : Side_Button {
 					idc = MACRO_IDC_SM_ROLE_BUTTON;
-					text = "ROLE";
+					text = __EVAL(toUpper localize LSTRING(ui_spawnMenu_role));
 					x = safeZoneW * 0.1 + pixelW * MACRO_POS_SPACER_X;
 				};
 
@@ -92,7 +92,7 @@ class GVAR(RscSpawnMenu) {
 				// Deploy Button
 				class Deploy_Button : Side_Button {
 					idc = MACRO_IDC_SM_DEPLOY_BUTTON;
-					text = "DEPLOYMENT";
+					text = __EVAL(toUpper localize LSTRING(ui_spawnMenu_deploy));
 					x = safeZoneW * 0.2 + pixelW * MACRO_POS_SPACER_X;
 				};
 
@@ -106,7 +106,7 @@ class GVAR(RscSpawnMenu) {
 				// Spawn Button
 				class Spawn_Button : Side_Button {
 					idc = MACRO_IDC_SM_SPAWN_BUTTON;
-					text = "SPAWN";
+					text = __EVAL(toUpper localize LSTRING(ui_spawnMenu_spawn));
 					x = MACRO_POS_SM_WIDTH - safeZoneW * 0.1;
 				};
 			};
@@ -266,7 +266,7 @@ class GVAR(RscSpawnMenu) {
 					shadow = 0;
 					sizeEx = MACRO_POS_SM_SIDE_TICKETS_TEXTSIZE;
 					style = ST_LEFT;
-					text = "200";
+					text = "-1";
 					x = MACRO_POS_SM_WIDTH * (1 / 6) + pixelW * MACRO_POS_SPACER_X * 1;
 					y = MACRO_POS_SM_MENU_HEIGHT * (0.32 - 0.05) + pixelH * MACRO_POS_SPACER_Y;
 					w = MACRO_POS_SM_WIDTH * (1 / 6) - pixelW * (MACRO_POS_SPACER_X * 2 + 1);
@@ -369,7 +369,7 @@ class GVAR(RscSpawnMenu) {
 				// Join Button, Left
 				class Join_Button_Left : GVAR(RscButton) {
 					idc = MACRO_IDC_SM_SIDE_JOIN_LEFT_BUTTON;
-					text = "CLICK TO SELECT";
+					text = __EVAL(toUpper localize LSTRING(ui_spawnMenu_side_clicktoselect));
 					x = pixelW * MACRO_POS_SPACER_X;
 					y = MACRO_POS_SM_MENU_HEIGHT * 0.92;
 					w = MACRO_POS_SM_WIDTH / 3 - pixelW * (MACRO_POS_SPACER_X * 2 + 1);
@@ -483,7 +483,6 @@ class GVAR(RscSpawnMenu) {
 							w = MACRO_POS_SM_WIDTH;
 							h = MACRO_POS_SM_MENU_HEIGHT - pixelH * MACRO_POS_SPACER_Y;
 							onMouseMoving = __EVAL(format ["['ui_mouse_moving', _this] call %1", QFUNC(ui_spawnMenu)]);
-
 						};
 
 						// Controls Text
@@ -492,7 +491,7 @@ class GVAR(RscSpawnMenu) {
 							style = ST_MULTI;
 							sizeEx = MACRO_UI_TEXTSIZE_1;
 							shadow = 2;
-							text = "Hold LMB to pan/rotate\nScroll to zoom\nPress N to toggle NVG";
+							text = "CAMERA CONTROLS";
 							x = 0;
 							y = 0;
 							w = MACRO_POS_SM_WIDTH / 3 - pixelW * MACRO_POS_SPACER_X * 2;
@@ -514,32 +513,32 @@ class GVAR(RscSpawnMenu) {
 
 				// ------------------------------------------------------------------------------------------------------------------------------------------------
 				// Specops Role
-				MACRO_FNC_ADDROLECTRLS(0,"SPECIAL FORCES")
+				MACRO_FNC_ADDROLECTRLS(0, __EVAL(toUpper localize LSTRING(role_specops)))
 
 				// Sniper
-				MACRO_FNC_ADDROLECTRLS(1,"SNIPER")
+				MACRO_FNC_ADDROLECTRLS(1, __EVAL(toUpper localize LSTRING(role_sniper)))
 
 				// Assault
-				MACRO_FNC_ADDROLECTRLS(2,"ASSAULT")
+				MACRO_FNC_ADDROLECTRLS(2, __EVAL(toUpper localize LSTRING(role_assault)))
 
 				// Support
-				MACRO_FNC_ADDROLECTRLS(3,"SUPPORT")
+				MACRO_FNC_ADDROLECTRLS(3, __EVAL(toUpper localize LSTRING(role_support)))
 
 				// Engineer
-				MACRO_FNC_ADDROLECTRLS(4,"ENGINEER")
+				MACRO_FNC_ADDROLECTRLS(4, __EVAL(toUpper localize LSTRING(role_engineer)))
 
 				// Medic
-				MACRO_FNC_ADDROLECTRLS(5,"MEDIC")
+				MACRO_FNC_ADDROLECTRLS(5, __EVAL(toUpper localize LSTRING(role_medic)))
 
 				// Anti-Tank
-				MACRO_FNC_ADDROLECTRLS(6,"ANTI-TANK")
+				MACRO_FNC_ADDROLECTRLS(6, __EVAL(toUpper localize LSTRING(role_antitank)))
 
 				// ------------------------------------------------------------------------------------------------------------------------------------------------
 				// Groups Listbox Text
 				class Groups_Listbox_Text : GVAR(RscText) {
 					shadow = 0;
 					sizeEx = MACRO_POS_SM_GROUP_LISTBOX_TEXTSIZE;
-					text = "GROUPS";
+					text = __EVAL(toUpper localize LSTRING(ui_spawnMenu_role_groups));
 					x = MACRO_POS_SM_WIDTH * (2 / 3) + pixelW * (MACRO_POS_SPACER_X + 1);
 					y = pixelH * MACRO_POS_SPACER_Y;
 					w = MACRO_POS_SM_WIDTH / 6 - pixelW * (MACRO_POS_SPACER_X + 2);
@@ -555,7 +554,7 @@ class GVAR(RscSpawnMenu) {
 				};
 
 				class Members_Listbox_Text : Groups_Listbox_Text {
-					text = "MEMBERS";
+					text = __EVAL(toUpper localize LSTRING(ui_spawnMenu_role_members));
 					x = MACRO_POS_SM_WIDTH * (5 / 6) + pixelW * 2;
 					w = MACRO_POS_SM_WIDTH / 6 - pixelW * (MACRO_POS_SPACER_X + 2);
 				};
@@ -627,7 +626,7 @@ class GVAR(RscSpawnMenu) {
 				// Group Join Button
 				class Group_Join_Button : GVAR(RscButton) {
 					idc = MACRO_IDC_SM_GROUP_JOIN_BUTTON;
-					text = "JOIN";
+					text = __EVAL(toUpper localize LSTRING(ui_spawnMenu_group_join));
 					x = MACRO_POS_SM_WIDTH * (6 / 9) + pixelW * (MACRO_POS_SPACER_X + 1);
 					y = MACRO_POS_SM_MENU_HEIGHT * 0.92;
 					w = MACRO_POS_SM_WIDTH / 9 - pixelW * (MACRO_POS_SPACER_X * (4 / 3));
@@ -647,7 +646,7 @@ class GVAR(RscSpawnMenu) {
 				// Group Create Button
 				class Group_Create_Button : Group_Join_Button {
 					idc = MACRO_IDC_SM_GROUP_CREATE_BUTTON;
-					text = "CREATE";
+					text = __EVAL(toUpper localize LSTRING(ui_spawnMenu_group_create));
 					x = MACRO_POS_SM_WIDTH * (7 / 9) + pixelW * (MACRO_POS_SPACER_X * (2 / 3) + 1);
 					w = MACRO_POS_SM_WIDTH / 9 - pixelW * (MACRO_POS_SPACER_X * (4 / 3) + 1);
 				};
@@ -661,7 +660,7 @@ class GVAR(RscSpawnMenu) {
 				// Group Leave Button
 				class Group_Leave_Button : Group_Join_Button {
 					idc = MACRO_IDC_SM_GROUP_LEAVE_BUTTON;
-					text = "LEAVE";
+					text = __EVAL(toUpper localize LSTRING(ui_spawnMenu_group_leave));
 					x = MACRO_POS_SM_WIDTH * (8 / 9) + pixelW * (MACRO_POS_SPACER_X * (1 / 3));
 				};
 			};

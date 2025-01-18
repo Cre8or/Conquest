@@ -51,8 +51,8 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 	if (GVAR(missionState) <= MACRO_ENUM_MISSION_LIVE and {_time > GVAR(ai_sys_handleRespawn_nextUpdate)}) then {
 
 		private ["_unit", "_identity"];
-		private ["_side", "_sideIndex"];
-		private ["_unitIndex", "_unitSide", "_sideGroups", "_group", "_groupID", "_unitIndexes", "_sector", "_spawnableSectors", "_leader", "_leaderIsPlayer", "_claimableVehicles", "_sectorX", "_groupWP", "_spawnableSectors_sorted", "_leaderPos", "_spawnPoint", "_unitClass"];
+		private ["_AICounts", "_playerCounts"];
+		private ["_unitIndex", "_sideIndex", "_unitGroupIndex", "_unitIsLeader", "_unitRole", "_unitSide", "_sideGroups", "_group", "_groupID", "_unitIndexes", "_sector", "_spawnableSectors", "_leader", "_leaderIsPlayer", "_claimableVehicles", "_sectorX", "_groupWP", "_spawnableSectors_sorted", "_leaderPos", "_spawnPoint", "_unitClass"];
 
 		// Check up on the recently spawned units that don't have an identity yet
 		for "_i" from count GVAR(ai_sys_handleRespawn_newSpawns) - 1 to 0 step -1 do {
@@ -80,9 +80,8 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 
 
 		if (GVAR(ai_sys_handleRespawn_queue) isEqualTo []) then {
-
-			private _AICounts     = [];
-			private _playerCounts = [];
+			_AICounts     = [];
+			_playerCounts = [];
 
 			// Determine the AI and player counts on each side
 			{

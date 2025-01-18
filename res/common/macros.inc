@@ -12,7 +12,7 @@
 	#define QGVAR(VARNAME)                                          QUOTE(GVAR(VARNAME))
 	#define FUNC(VARNAME)                                           DOUBLE(DOUBLE(MACRO_PROJECT_PREFIX,fnc),VARNAME)
 	#define QFUNC(VARNAME)                                          QUOTE(FUNC(VARNAME))
-	//#define MACRO_FNC_LOG(DATA)                                     diag_log format ["[CONQUEST] %1", DATA]
+	#define LSTRING(VARNAME)                                        QUOTE(DOUBLE($STR,GVAR(VARNAME)))
 
 
 
@@ -453,7 +453,7 @@
 	#define MACRO_AI_COMMANDER_INTERVAL                             0.25 // Interval, in seconds, between two update cycles of the AI commander system (per side; * 3 for a full cycle)
 	#define MACRO_AI_DOMOVEINTERVAL                                 5 // The interval, in seconds, between two doMove commands being issued to AI units (as they sometimes need to be rescheduled to move)
 	#define MACRO_AI_CARELESSDURATION                               5 // The duration, in seconds, during which AI units will be careless when being forced to move
-	#define MACRO_AI_ROLEACTION_MAXDISTANCE_UNIT                    20 // The maximum distance, in meters, below which AI units will consider performing role-specific actions on nearby friendly units (and, for the recipients, to seek out the action-providing units)
+	#define MACRO_AI_ROLEACTION_MAXDISTANCE_UNIT                    25 // The maximum distance, in meters, below which AI units will consider performing role-specific actions on nearby friendly units (and, for the recipients, to seek out the action-providing units), such as reviving, healing and resupplying
 	#define MACRO_AI_ROLEACTION_CHANGESTANCEDISTANCE                8 // The distance to the recipient, in meters, below which units performing role-specific actions will adjust their stance to that of the recipient
 	#define MACRO_AI_ROLEACTION_RECIPIENT_STOPDURATION              1.5 // For how long an AI unit remains stopped, in seconds, after being healed or resupplied, ontop of the performed action's cooldown duration (prevents them from running away while still being healed/resupplied)
 	#define MACRO_AI_MEDICAL_SELFHEALCOOLDOWN                       3 // The duration, in seconds, that a medic must wait after being injured before being allowed to heal itself (to combat heal-spamming)
@@ -530,7 +530,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.20.971" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.21.981" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

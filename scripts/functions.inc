@@ -103,6 +103,7 @@ class MACRO_PROJECT_PREFIX {
 		class gm_sys_monitorUnitDamage {};
 		class gm_sys_removeCorpses {};
 		class gm_sys_tickets {};
+		class gm_sys_tutorialHints {};
 		class gm_sys_updatePlayerVars {};
 	};
 
@@ -180,6 +181,7 @@ class MACRO_PROJECT_PREFIX {
 		class ui_drawSpawnSector {};
 		class ui_focusMap {};
 		class ui_focusMapOnArea {};
+		class ui_getAbilityDescription {};
 		class ui_getAbilityIcon {};
 		class ui_getFillBarIcon {};
 		class ui_getVehicleIcon {};

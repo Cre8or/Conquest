@@ -110,7 +110,7 @@ case "ui_update_role": {
 			GVAR(cam_role) camSetFov GVAR(cam_role_curFov);
 
 			// Set up the controls text
-			(_spawnMenu displayCtrl MACRO_IDC_SM_ROLE_PREVIEW_CONTROLS_TEXT) ctrlSetText format ["Hold RMB to pan/rotate\nScroll to zoom\nPress %1 to toggle NVG", (actionKeysNamesArray "nightVision") param [0, "<Night vision (UNBOUND)>"]];
+			(_spawnMenu displayCtrl MACRO_IDC_SM_ROLE_PREVIEW_CONTROLS_TEXT) ctrlSetText format [LSTRING(ui_spawnMenu_role_cameraControls) call BIS_fnc_localize, (actionKeysNamesArray "nightVision") param [0, "<Night vision (UNBOUND)>"]];
 			(_spawnMenu displayCtrl MACRO_IDC_SM_ROLE_PREVIEW_CONTROLS_TEXT) ctrlSetTextColor SQUARE(MACRO_COLOUR_A0);
 
 		// Otherwise, hide the preview controls group

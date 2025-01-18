@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="cre8ive_conquest">
+
+	<Key ID="STR_cre8ive_conquest_placeholder">
+	    <Original>PLACEHOLDER</Original>
+	    <German>MISSING_TRANSLATION</German>
+	    <French>MISSING_TRANSLATION</French>
+	</Key>
+
+
+
+
+
+	<Package name="common">
+		<!-- ================================================================================ -->
+		<!-- Role names -->
+		<!-- ================================================================================ -->
+		<Key ID="STR_cre8ive_conquest_role_specops">
+		    <Original>special forces</Original>
+		    <German>Spezialkräfte</German>
+		    <French>forces spéciales</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_role_sniper">
+		    <Original>sniper</Original>
+		    <German>Scharfschütze</German>
+		    <French>tireur de précision</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_role_assault">
+		    <Original>assault</Original>
+		    <German>Stürmer</German>
+		    <French>assaut</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_role_support">
+		    <Original>support</Original>
+		    <German>Versorger</German>
+		    <French>soutien</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_role_engineer">
+		    <Original>engineer</Original>
+		    <German>Pionier</German>
+		    <French>sapeur</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_role_medic">
+		    <Original>medic</Original>
+		    <German>Sanitäter</German>
+		    <French>médecin</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_role_antitank">
+		    <Original>anti-tank</Original>
+		    <German>Panzerabwehr</German>
+		    <French>antichar</French>
+		</Key>
+
+		<!-- ================================================================================ -->
+		<!-- Loadout abilities -->
+		<!-- ================================================================================ -->
+		<!-- Role-based abilities -->
+		<Key ID="STR_cre8ive_conquest_ability_resupply">
+		    <Original>Resupply friendly units</Original>
+		    <German>Eigene Kräfte versorgen</German>
+		    <French>Réapprovisionner les alliés</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ability_repair">
+		    <Original>Repair friendly vehicles</Original>
+		    <German>Eigene Fahrzeuge reparieren</German>
+		    <French>Réparer les véhicules alliés</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ability_heal">
+		    <Original>Heal/revive friendly units</Original>
+		    <German>Eigene Kräfte heilen/wiederbeleben</German>
+		    <French>Soigner/revivre les alliés</French>
+		</Key>
+
+		<!-- Loadout-based abilities -->
+		<Key ID="STR_cre8ive_conquest_ability_binocular">
+		    <Original>Binoculars</Original>
+		    <German>Fernglas</German>
+		    <French>Jumelles</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ability_nvgs">
+		    <Original>Night vision goggles</Original>
+		    <German>Nachtsichtgerät</German>
+		    <French>Lunettes de vision nocturne</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ability_minedetector">
+		    <Original>Mine detector</Original>
+		    <German>Minendetektor</German>
+		    <French>Détecteur de mines</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ability_antitank">
+		    <Original>Anti-tank launcher</Original>
+		    <German>Panzerfaust</German>
+		    <French>Lance-missiles</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ability_handgrenade_frag">
+		    <Original>Fragmentation grenade</Original>
+		    <German>Handgranate</German>
+		    <French>Grenade à fragmentation</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ability_handgrenade_smoke">
+		    <Original>Smoke grenade</Original>
+		    <German>Rauchgranate</German>
+		    <French>Grenade fumigène</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ability_grenadelauncher">
+		    <Original>Grenade launcher</Original>
+		    <German>Granatwerfer</German>
+		    <French>Lance-grenades</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ability_explosives">
+		    <Original>Explosives</Original>
+		    <German>Sprengstoff</German>
+		    <French>Explosifs</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ability_mine_ap">
+		    <Original>Anti-personnel mine</Original>
+		    <German>Personenabwehrmine</German>
+		    <French>Mine antipersonnelle</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ability_mine_at">
+		    <Original>Anti-tank mine(s)</Original>
+		    <German>Panzerabwehrmine</German>
+		    <French>Mine antichar</French>
+		</Key>
+
+	</Package>
+
+
+
+
+
+	<!-- ================================================================================ -->
+	<!-- UI/Spawn Menu -->
+	<!-- ================================================================================ -->
+	<Package name="ui_spawnMenu">
+		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_side">
+		    <Original>Faction</Original>
+		    <German>Faktion</German>
+		    <French>Faction</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_role">
+		    <Original>Role</Original>
+		    <German>Rolle</German>
+		    <French>Rôle</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_deploy">
+		    <Original>Deployment</Original>
+		    <German>Einsatz</German>
+		    <French>Déploiement</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_spawn">
+		    <Original>Spawn</Original>
+		    <German>Erscheinen</German>
+		    <French>Apparaître</French>
+		</Key>
+
+		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_side_clicktoselect">
+		    <Original>Click to select</Original>
+		    <German>Zum Auswählen klicken</German>
+		    <French>Cliquer pour sélectionner</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_side_selected">
+		    <Original>Selected</Original>
+		    <German>Ausgewählt</German>
+		    <French>Sélectionnée</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_role_cameraControls">
+		    <Original>Hold the left mouse button to pan/rotate\nScroll to zoom\nPress %1 to toggle nightvision</Original>
+		    <German>Halte die linke Maustaste zum bewegen/drehen\nSkrolle zum zoomen\nDrücke %1 um Nachtsicht zu nutzen</German>
+		    <French>Maintiens le clique gauche pour bouger/tourner\nScrolle pour zoomer\nAppuies %1 pour utiliser la vision nocturne</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_role_groups">
+		    <Original>Groups</Original>
+		    <German>Gruppen</German>
+		    <French>Groupes</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_role_members">
+		    <Original>Members</Original>
+		    <German>Mitglieder</German>
+		    <French>Membres</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_group_join">
+		    <Original>Join</Original>
+		    <German>Beitreten</German>
+		    <French>Rejoindre</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_group_create">
+		    <Original>Create</Original>
+		    <German>Erstellen</German>
+		    <French>Créer</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_group_leave">
+		    <Original>Leave</Original>
+		    <German>Verlassen</German>
+		    <French>Quitter</French>
+		</Key>
+
+	</Package>
+
+
+
+
+
+	<!-- ================================================================================ -->
+	<!-- Tutorial hints -->
+	<!-- ================================================================================ -->
+	<Key ID="STR_cre8ive_conquest_tutorialHints_roleAbilities">
+	    <Original>As %1, you have the following abilities:</Original>
+	    <German>Als %1 hast du folgende Fähigkeiten:</German>
+	    <French>En tant que %1, tu as les capacités suivantes:</French>
+	</Key>
+
+
+
+
+
+</Project>

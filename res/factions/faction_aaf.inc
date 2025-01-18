@@ -49,13 +49,12 @@ USAGE:
 	[
 		[	// Spec Ops
 			MACRO_ENUM_ROLE_SPECOPS,
-			[["arifle_Mk20C_F","","acc_flashlight","optic_ACO_grn_smg",["30Rnd_556x45_Stanag_Tracer_Yellow",30],[],""],[],["hgun_Pistol_heavy_01_green_F","muzzle_snds_acp","acc_flashlight_pistol","",["11Rnd_45ACP_Mag",15],[],""],["U_I_CombatUniform",[]],["V_PlateCarrierIA2_dgtl",[["30Rnd_556x45_Stanag_Tracer_Yellow",7,30],["HandGrenade",1,1],["11Rnd_45ACP_Mag",2,15]]],["B_AssaultPack_dgtl",[]],"H_MilCap_dgtl","G_Bandanna_oli",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["arifle_Mk20C_F","","acc_flashlight","optic_ACO_grn_smg",["30Rnd_556x45_Stanag_Tracer_Yellow",30],[],""],[],["hgun_Pistol_heavy_01_green_F","muzzle_snds_acp","acc_flashlight_pistol","",["11Rnd_45ACP_Mag",15],[],""],["U_I_CombatUniform",[]],["V_PlateCarrierIA2_dgtl",[["30Rnd_556x45_Stanag_Tracer_Yellow",7,30],["HandGrenade",1,1],["11Rnd_45ACP_Mag",2,15]]],["B_AssaultPack_dgtl",[]],"H_MilCap_dgtl","G_Bandanna_oli",["Binocular","","","",[],[],""],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Sniper
 			MACRO_ENUM_ROLE_SNIPER,
-			[["srifle_DMR_03_woodland_F","","","optic_SOS",["20Rnd_762x51_Mag",20],[],"bipod_03_F_blk"],[],["hgun_P07_khk_F","","","",["16Rnd_9x21_yellow_Mag",17],[],""],["U_I_FullGhillie_lsh",[]],["V_Chestrig_oli",[["HandGrenade",1,1],["16Rnd_9x21_yellow_Mag",2,17],["20Rnd_762x51_Mag",5,20]]],[],"","G_Bandanna_oli",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
-
+			[["srifle_DMR_06_olive_F","","","optic_KHS_blk",["20Rnd_762x51_Mag",20],[],"bipod_02_F_blk"],[],["hgun_P07_khk_F","","","",["16Rnd_9x21_yellow_Mag",17],[],""],["U_I_FullGhillie_lsh",[]],["V_Chestrig_oli",[["HandGrenade",1,1],["16Rnd_9x21_yellow_Mag",2,17],["20Rnd_762x51_Mag",5,20]]],[],"","G_Bandanna_oli",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Assault
@@ -80,7 +79,7 @@ USAGE:
 
 		[	// Anti Tank
 			MACRO_ENUM_ROLE_ANTITANK,
-			[["arifle_Mk20_F","","acc_flashlight","optic_Holosight_lush_F",["30Rnd_556x45_Stanag_Tracer_Yellow",30],[],""],["launch_MRAWS_olive_rail_F","","","",["MRAWS_HEAT_F",1],[],""],["hgun_P07_blk_F","","","",["16Rnd_9x21_yellow_Mag",17],[],""],["U_I_CombatUniform_shortsleeve",[]],["V_PlateCarrierIA1_dgtl",[["16Rnd_9x21_yellow_Mag",2,17],["30Rnd_556x45_Stanag_Tracer_Yellow",7,30]]],["B_Kitbag_sgg",[["MRAWS_HEAT_F",2,1]]],"H_HelmetIA","",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["arifle_Mk20_F","","acc_flashlight","optic_Holosight_lush_F",["30Rnd_556x45_Stanag_Tracer_Yellow",30],[],""],["launch_MRAWS_olive_rail_F","","","",["MRAWS_HEAT_F",1],[],""],["hgun_P07_blk_F","","","",["16Rnd_9x21_yellow_Mag",17],[],""],["U_I_CombatUniform_shortsleeve",[]],["V_PlateCarrierIA1_dgtl",[["16Rnd_9x21_yellow_Mag",2,17],["30Rnd_556x45_Stanag_Tracer_Yellow",7,30],["HandGrenade",1,1]]],["B_Kitbag_sgg",[["MRAWS_HEAT_F",2,1]]],"H_HelmetIA","",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		]
 	],
 
@@ -287,7 +286,6 @@ USAGE:
 
 	// Recoil balancing
 	[
-		["srifle_DMR_03_woodland_F", 1.5],
 		["LMG_Mk200_black_F", 1.5],
 		["SMG_03C_TR_khaki", 1.25]
 	]

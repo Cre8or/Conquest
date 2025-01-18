@@ -50,12 +50,12 @@ USAGE:
 	[
 		[	// Spec Ops
 			MACRO_ENUM_ROLE_SPECOPS,
-			[["CUP_arifle_AK104","","acc_flashlight","CUP_optic_Kobra",["CUP_30Rnd_TE1_Green_Tracer_762x39_AK103_bakelite_M",30],[],""],[],["hgun_Rook40_F","muzzle_snds_L","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_EMR_rolled_up_gloves_pads",[]],["CUP_V_O_RUS_6B45_AK_Radio_Summer",[["16Rnd_9x21_green_Mag",2,17],["HandGrenade",1,1],["CUP_30Rnd_TE1_Green_Tracer_762x39_AK103_bakelite_M",7,30]]],["CUP_B_RUS_Backpack",[]],"CUP_H_PMC_Beanie_Headphones_Black","CUP_G_ESS_BLK_Facewrap_Black",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["CUP_arifle_AK104","","acc_flashlight","CUP_optic_Kobra",["CUP_30Rnd_TE1_Green_Tracer_762x39_AK103_bakelite_M",30],[],""],[],["hgun_Rook40_F","muzzle_snds_L","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_EMR_rolled_up_gloves_pads",[]],["CUP_V_O_RUS_6B45_AK_Radio_Summer",[["16Rnd_9x21_green_Mag",2,17],["HandGrenade",1,1],["CUP_30Rnd_TE1_Green_Tracer_762x39_AK103_bakelite_M",7,30]]],["CUP_B_RUS_Backpack",[]],"CUP_H_PMC_Beanie_Headphones_Black","CUP_G_ESS_BLK_Facewrap_Black",["Binocular","","","",[],[],""],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Sniper
 			MACRO_ENUM_ROLE_SNIPER,
-			[["CUP_srifle_SVD_top_rail","","CUP_SVD_camo_g_half","optic_MRCO",["CUP_10Rnd_762x54_SVD_M",10],[],""],[],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_VSR93_worn_VDV_rolled_up_gloves2",[]],["CUP_V_O_RUS_6B45_6Sh117_SVD_2_Summer",[["16Rnd_9x21_green_Mag",2,17],["CUP_10Rnd_762x54_SVD_M",7,10],["HandGrenade",1,1]]],[],"CUP_H_RUS_Ratnik_Balaclava_6M21_Green_1","",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["CUP_srifle_G22_wdl","","","optic_DMS",["CUP_5Rnd_762x67_G22",5],[],""],[],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_VSR93_worn_VDV_rolled_up_gloves2",[]],["CUP_V_O_RUS_6B45_6Sh117_SVD_2_Summer",[["16Rnd_9x21_green_Mag",2,17],["CUP_5Rnd_762x67_G22",9,5],["HandGrenade",1,1]]],[],"CUP_H_RUS_Ratnik_Balaclava_6M21_Green_1","",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Assault
@@ -294,7 +294,7 @@ USAGE:
 		["CUP_arifle_AK74M_GL", 1.25],
 		["CUP_lmg_Pecheneg_woodland", 0.5],
 		["CUP_arifle_AKS74U", 1.25],
-		["CUP_arifle_AK74M_camo", 1.25],
-		["CUP_smg_bizon", 1.5]
+		["CUP_arifle_AK74M_camo", 1.25]
+		//["CUP_smg_bizon", 1.5]
 	]
 ]

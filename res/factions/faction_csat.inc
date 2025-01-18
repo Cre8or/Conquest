@@ -49,7 +49,7 @@ USAGE:
 	[
 		[	// Spec Ops
 			MACRO_ENUM_ROLE_SPECOPS,
-			[["arifle_ARX_blk_F","","acc_flashlight","optic_Holosight_smg_blk_F",["30Rnd_65x39_caseless_green_mag_Tracer",30],[],""],[],["hgun_Pistol_heavy_01_F","muzzle_snds_acp","acc_flashlight_pistol","",["11Rnd_45ACP_Mag",15],[],""],["U_O_CombatUniform_ocamo",[]],["V_TacVest_brn",[["11Rnd_45ACP_Mag",2,15],["30Rnd_65x39_caseless_green_mag_Tracer",7,30],["HandGrenade",1,1]]],["B_ViperHarness_hex_F",[]],"H_ShemagOpen_tan","",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["arifle_ARX_blk_F","","acc_flashlight","optic_Holosight_smg_blk_F",["30Rnd_65x39_caseless_green_mag_Tracer",30],[],""],[],["hgun_Pistol_heavy_01_F","muzzle_snds_acp","acc_flashlight_pistol","",["11Rnd_45ACP_Mag",15],[],""],["U_O_CombatUniform_ocamo",[]],["V_TacVest_brn",[["11Rnd_45ACP_Mag",2,15],["30Rnd_65x39_caseless_green_mag_Tracer",7,30],["HandGrenade",1,1]]],["B_ViperHarness_hex_F",[]],"H_ShemagOpen_tan","",["Binocular","","","",[],[],""],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Sniper

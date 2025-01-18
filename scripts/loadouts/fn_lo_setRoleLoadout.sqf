@@ -27,11 +27,21 @@ if (!alive _unit or {!local _unit}) exitWith {};
 
 
 // Apply the loadout onto the unit
-private _loadout = missionNamespace getVariable [format [QGVAR(loadout_%1_%2), _side, _role], []];
+private _loadout = +(missionNamespace getVariable [format [QGVAR(loadout_%1_%2), _side, _role], []]);
 
 // Fallback loadout on erroneous side data files
 if (_loadout isEqualTo []) then {
 	_loadout = [[],[],[],[],[],[],"","",[],["ItemMap","ItemGPS","","ItemCompass","ItemWatch",""]];
+};
+
+// Reuse the player's profile-defined custom goggles if the laodout doesn't override them
+if (_unit == player) then {
+	private _goggles = _loadout param [7, ""];
+
+	if (_goggles == "") then {
+		_goggles = GVAR(customGoggles);
+		_loadout set [7, _goggles];
+	};
 };
 
 _unit setUnitLoadout _loadout;

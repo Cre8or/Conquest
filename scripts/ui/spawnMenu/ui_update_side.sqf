@@ -130,27 +130,32 @@ case "ui_update_side": {
 	];
 
 	// Update the side join buttons
-	private ["_isSelected", "_isPlayable", "_ctrlButton"];
+	private ["_isSelected", "_isPlayable", "_ctrlFrame", "_ctrlButton"];
 	private _alive = [player] call FUNC(unit_isAlive);
 	{
 		_x params ["_side", "_idcFrame", "_idcButton"];
 		_isSelected   = (GVAR(side) == _side);
 		_isPlayable   = [_side] call FUNC(gm_isSidePlayable);
 		_isSelectable = !_alive and {_isPlayable};
-		_ctrlButton   = _spawnMenu displayCtrl _idcFrame;
+		_ctrlFrame    = _spawnMenu displayCtrl _idcFrame;
+		_ctrlButton   = _spawnMenu displayCtrl _idcButton;
 
 		if (_isSelected and {_isSelectable}) then {
-			_ctrlButton ctrlSetBackgroundColor SQUARE(MACRO_COLOUR_BUTTON_ACTIVE_PRESSED);
+			_ctrlFrame ctrlSetBackgroundColor SQUARE(MACRO_COLOUR_BUTTON_ACTIVE_PRESSED);
 		} else {
-			_ctrlButton ctrlSetBackgroundColor ([SQUARE(MACRO_COLOUR_BUTTON_INACTIVE), SQUARE(MACRO_COLOUR_BUTTON_ACTIVE)] select _isSelectable);
+			_ctrlFrame ctrlSetBackgroundColor ([SQUARE(MACRO_COLOUR_BUTTON_INACTIVE), SQUARE(MACRO_COLOUR_BUTTON_ACTIVE)] select _isSelectable);
 		};
 
-		(_spawnMenu displayCtrl _idcButton) ctrlSetText (["CLICK TO SELECT", "SELECTED"] select _isSelected);
+		if (_isSelected) then {
+			_ctrlButton ctrlSetText toUpper (LSTRING(ui_spawnMenu_side_selected) call BIS_fnc_localize);
+		} else {
+			_ctrlButton ctrlSetText toUpper (LSTRING(ui_spawnMenu_side_clicktoselect) call BIS_fnc_localize);
+		};
 
 	} forEach [
-		[_sideLeft,	MACRO_IDC_SM_SIDE_JOIN_LEFT_FRAME,	MACRO_IDC_SM_SIDE_JOIN_LEFT_BUTTON],
-		[_sideMiddle,	MACRO_IDC_SM_SIDE_JOIN_MIDDLE_FRAME,	MACRO_IDC_SM_SIDE_JOIN_MIDDLE_BUTTON],
-		[_sideRight,	MACRO_IDC_SM_SIDE_JOIN_RIGHT_FRAME,	MACRO_IDC_SM_SIDE_JOIN_RIGHT_BUTTON]
+		[_sideLeft,	  MACRO_IDC_SM_SIDE_JOIN_LEFT_FRAME,   MACRO_IDC_SM_SIDE_JOIN_LEFT_BUTTON],
+		[_sideMiddle, MACRO_IDC_SM_SIDE_JOIN_MIDDLE_FRAME, MACRO_IDC_SM_SIDE_JOIN_MIDDLE_BUTTON],
+		[_sideRight,  MACRO_IDC_SM_SIDE_JOIN_RIGHT_FRAME,  MACRO_IDC_SM_SIDE_JOIN_RIGHT_BUTTON]
 	];
 
 	// Update the names lists

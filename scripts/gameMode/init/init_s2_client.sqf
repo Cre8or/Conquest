@@ -21,8 +21,9 @@ MACRO_FNC_INITVAR(GVAR(cl_AIIdentities),[]);
 
 // Define global client variables
 MACRO_FNC_INITVAR(GVAR(side), sideEmpty);
-GVAR(role)        = MACRO_ENUM_ROLE_INVALID;
-GVAR(spawnSector) = objNull;
+MACRO_FNC_INITVAR(GVAR(customGoggles), goggles player);
+GVAR(role)          = MACRO_ENUM_ROLE_INVALID;
+GVAR(spawnSector)   = objNull;
 
 MACRO_FNC_INITVAR(GVAR(cam_panorama), objNull);
 MACRO_FNC_INITVAR(GVAR(STHUD_UIMode), 0);
@@ -48,6 +49,7 @@ call FUNC(gm_sys_enforceFPVInCamera);
 call FUNC(gm_sys_updatePlayerVars);
 call FUNC(gm_sys_handlePlayerRespawn);
 call FUNC(gm_sys_handleWeaponRecoil);
+call FUNC(gm_sys_tutorialHints);
 
 call FUNC(sector_sys_handleClient);
 
