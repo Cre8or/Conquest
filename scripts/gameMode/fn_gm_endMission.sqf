@@ -46,7 +46,7 @@ if (isServer) then {
 	GVAR(missionState) = MACRO_ENUM_MISSION_ENDING;
 	publicVariable QGVAR(missionState);
 
-	[true] remoteExecCall [QFUNC(setSafeStart), 0, QGVAR(safeStart)];
+	[true] remoteExecCall [QFUNC(gm_onSafeStartChanged), 0, QGVAR(safeStart)];
 };
 
 

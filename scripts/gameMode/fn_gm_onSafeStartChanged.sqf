@@ -1,6 +1,7 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
+		[GE]
 		Handles the execution of local commands on a client machine whenever the safestart status has changed.
 
 		Remotely executed on all machines by the server.
@@ -53,6 +54,3 @@ if (isServer) then {
 #ifndef MACRO_DEBUG_GM_NOSAFESTART
 	[MACRO_ENUM_INPUTLOCK_SAFESTART, _enabled] call FUNC(ui_disableUserInput);
 #endif
-
-// Update the safeStart variable
-GVAR(safeStart) = _enabled;

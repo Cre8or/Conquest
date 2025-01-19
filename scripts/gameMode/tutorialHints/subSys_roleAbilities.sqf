@@ -15,9 +15,9 @@ if (_alive) then {
 		[_x] call FUNC(ui_getAbilityDescription)
 	]};
 
+	// Prepare the hint sentence
 	if (_abilitiesText isNotEqualTo []) then {
 
-		// Prepare the hint sentence
 		private _roleName = (switch (GVAR(role)) do {
 			case MACRO_ENUM_ROLE_SPECOPS:  {LSTRING(role_specops) call BIS_fnc_localize};
 			case MACRO_ENUM_ROLE_SNIPER:   {LSTRING(role_sniper) call BIS_fnc_localize};

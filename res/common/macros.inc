@@ -480,7 +480,6 @@
 	#define MACRO_SECTOR_SCOREINTERVAL                              0.1 // The level interval between two score events for capturing a sector, in percent (1 being 100%)
 	#define MACRO_SECTOR_VEH_DELAYUNTILDAMAGE                       30 // How long, in seconds, a vehicle must be outside of the combat area (or be disabled) before it starts taking damage (to eventually respawn it)
 	#define MACRO_SECTOR_VEH_MAXSQRDISTFROMSPAWN                    50 ^ 2 // How far, in meters squared, vehicles may be moved from their spawn position before they are marked as abandoned and considered for cleanup
-	#define MACRO_SECTOR_VEH_RESPAWNDELAY                           60 // The default delay, in seconds, after a vehicle has been destroyed before it is respawned
 
 	// Nodemesh Settings
 	#define MACRO_NM_DEFAULTRADIUS_INF                              3 // Minimum completion radius, in meters, of pathfind nodes for infantry
@@ -530,7 +529,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.21.981" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.21.985" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

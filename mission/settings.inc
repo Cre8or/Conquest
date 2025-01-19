@@ -54,6 +54,7 @@
 
 	// Vehicles
 	#define MACRO_GM_ENABLEVEHICLES                                 true // Whether or not vehicles should be enabled
+	#define MACRO_GM_VEH_RESPAWNDELAY                               60 // The default delay, in seconds, after a vehicle has been destroyed before it is respawned
 
 	// Damage balancing
 	#define MACRO_GM_UNIT_DAMAGEMUL_HEADSHOT                        2 // Multiplier for the damage dealt by headshots

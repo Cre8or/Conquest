@@ -26,6 +26,7 @@
 -------------------------------------------------------------------------------------------------------------------- */
 
 #include "..\..\res\common\macros.inc"
+#include "..\..\mission\settings.inc"
 
 params [
 	["_spawnPoint", objNull, [objNull]],
@@ -47,7 +48,7 @@ if (_enums isEqualType "") then {
 
 // Default value
 if (_respawnDelay < 0) then {
-	_respawnDelay = MACRO_SECTOR_VEH_RESPAWNDELAY;
+	_respawnDelay = MACRO_GM_VEH_RESPAWNDELAY;
 };
 
 // Save the passed parameters onto the spawnpoint for processing by gm_postInit

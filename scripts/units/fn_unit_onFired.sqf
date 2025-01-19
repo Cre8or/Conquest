@@ -27,6 +27,11 @@ params [
 
 if (!local _unit) exitWith {};
 
+// Enforce safestart
+if (GVAR(missionState) < MACRO_ENUM_MISSION_LIVE) exitWith {
+	deleteVehicle _projectile;
+};
+
 
 
 

@@ -84,7 +84,9 @@ class MACRO_PROJECT_PREFIX {
 		class gm_getSideName {};
 		class gm_getSideTickets {};
 		class gm_getTicketBleed {};
+		class gm_handleSafeStart {};
 		class gm_isSidePlayable {};
+		class gm_onSafeStartChanged {};
 		class gm_playRadioMsg {};
 		class gm_postInit {
 			postInit = 1;
@@ -149,14 +151,6 @@ class MACRO_PROJECT_PREFIX {
 
 		class proj_getDamageData {};
 		class proj_onInit {};
-	};
-
-	class safeStart {
-		file = "scripts\safeStart";
-
-		class handleSafeStart {};
-		class safeStart_unit {};
-		class setSafeStart {};
 	};
 
 	class sectors {

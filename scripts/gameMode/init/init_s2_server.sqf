@@ -10,8 +10,7 @@ MACRO_FNC_INITVAR(GVAR(sides), []);
 MACRO_FNC_INITVAR(GVAR(allSectors), []);
 MACRO_FNC_INITVAR(GVAR(curatorModule), objNull);
 
-GVAR(missionState) = MACRO_ENUM_MISSION_INIT;
-GVAR(safeStart)    = false;
+GVAR(missionState)      = MACRO_ENUM_MISSION_INIT;
 GVAR(ticketsEast)       = 0;
 GVAR(ticketsResistance) = 0;
 GVAR(ticketsWest)       = 0;
@@ -20,6 +19,7 @@ GVAR(ticketsWest)       = 0;
 GVAR(AIUnits)  = [];
 GVAR(sv_stats) = createHashMap;
 
+MACRO_FNC_INITVAR(GVAR(sv_handleSafeStart_handle), scriptNull);
 MACRO_FNC_INITVAR(GVAR(sv_firstInit), true);
 
 // NOTE: The index positions used in this array are fixed, and must always remain the same!
@@ -403,7 +403,6 @@ publicVariable QGVAR(allSectors);
 publicVariable QGVAR(curatorModule);
 
 publicVariable QGVAR(missionState);
-publicVariable QGVAR(safeStart);
 publicVariable QGVAR(ticketsEast);
 publicVariable QGVAR(ticketsResistance);
 publicVariable QGVAR(ticketsWest);
@@ -432,8 +431,8 @@ call FUNC(gm_sys_removeCorpses);
 call FUNC(gm_sys_tickets);
 
 // Start the safestart handler
-if (!isNil QGVAR(handle_safeStart)) then {terminate GVAR(handle_safeStart)};
-GVAR(handle_safeStart) = [] spawn FUNC(handleSafeStart);
+terminate GVAR(sv_handleSafeStart_handle);
+GVAR(sv_handleSafeStart_handle) = [] spawn FUNC(gm_handleSafeStart);
 
 
 

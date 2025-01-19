@@ -1,6 +1,7 @@
 TO DO:
 	- Prevent inventory interaction with weaponHolders using the action menu ("Take xxx")
 	- Prevent inventory interaction with weaponHolders using the ACE interaction menu
+	- Add function to prevent terrain objects (buildings) from being fully destroyed
 	- Move vehicle definitions into faction data files
 		+ Define a set of vehicle classes (similar to UI icon classes), e.g. car, APC, tank, truck, etc.
 		+ Allow custom textures to be used (allows filling in factions that don't have unique vehicles)
@@ -14,10 +15,12 @@ TO DO:
 		- Implement looping action logic
 		- Play a short unit gesture/animation
 		- Notify the crew they are being repaired (via UI element/sounds)?
-	- Rewrite safestart system
-		- it's super ugly and weird
-		+ Freeze players in an animation that prevents them from moving (rotation is fine, though)
-		+ Prevent AI units from firing (using combat mode)
+	- Localise all UI elements:
+		- Spawnmenu
+		- Player respawn instructions
+		- Combat area warning
+		- Score feed
+		- End game screen
 	- Search for "DEBUG" and "TODO" keywords
 
 UNCONFIRMED:
@@ -28,6 +31,9 @@ UNCONFIRMED:
 	- Investigate Joe's isssue with being able to spawn when no sectors are owned
 
 DONE:
+	- Rewrite safestart system
+		+ Freeze players in an animation that prevents them from moving (rotation is fine, though)
+		+ Prevent AI units from firing (using combat mode)
 	- Fix identities always overwriting loadout-defined goggles
 	- Fix overwriting custom player goggles when no loadout-defined goggles are set
 	- Rework driver AI to be more cooperative when transporting passengers

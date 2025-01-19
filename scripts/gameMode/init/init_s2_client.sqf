@@ -7,7 +7,6 @@ diag_log "[CONQUEST] Client initialisation (stage 2) starting...";
 
 // Define shared global variables (broadcast by the server)
 MACRO_FNC_INITVAR(GVAR(sides), []);
-MACRO_FNC_INITVAR(GVAR(safeStart), false);
 MACRO_FNC_INITVAR(GVAR(missionState), MACRO_ENUM_MISSION_INIT);
 
 MACRO_FNC_INITVAR(GVAR(ticketsEast),       GVAR(param_gm_startingTickets));
