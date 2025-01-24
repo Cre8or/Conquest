@@ -684,7 +684,7 @@ class GVAR(RscSpawnMenu) {
 
 				// ------------------------------------------------------------------------------------------------------------------------------------------------
 				// Sectors Controls Group
-				class Sectors_CtrlGrp : RscControlsGroupNoHScrollbars {
+				class Sectors_CtrlGrp : RscControlsGroupNoScrollbars {
 					idc = MACRO_IDC_SM_DEPLOY_SECTORS_CTRLGROUP;
 					x = 0;
 					y = 0;

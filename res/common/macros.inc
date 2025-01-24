@@ -469,8 +469,8 @@
 	#define MACRO_GM_SYS_TICKETS_INTERVAL                           0.5 // Interval, in seconds, between two update cycles of the tickets system
 	#define MACRO_GM_SYS_ENDCONDITIONS_INTERVAL                     0.25 // Interval, in seconds, between update cycles of the end conditions system
 	#define MACRO_GM_SYS_HANDLEPLAYERRESPAWN_INTERVAL               0.05 // Interval, in seconds, between update cycles of the player respawn system (Note: must be less than the MP respawn time!)
-	#define MACRO_GM_SYS_HANDLECURATOR_INTERVAL                     1 // Interval, in seconds, between update cycles of the end curator handler system
-	#define MACRO_GM_SYS_HANDLESERVERSTATS_INTERVAL                 1 // Interval, in seconds, between update cycles of the serverside stats handler
+	#define MACRO_GM_SYS_HANDLECURATOR_INTERVAL                     1.0 // Interval, in seconds, between update cycles of the end curator handler system
+	#define MACRO_GM_SYS_HANDLESERVERSTATS_INTERVAL                 1.0 // Interval, in seconds, between update cycles of the serverside stats handler
 	#define MACRO_GM_SYS_HANDLESERVERSTATS_PING_INTERVAL            10 // Interval, in seconds, between updates of players' ping stat. Intended to reduce network clutter as the ping constantly changes
 	#define MACRO_GM_SYS_REMOVECORPSES_INTERVAL                     0.5 // The interval, in seconds, between two consecutive corpse removal cycles
 	#define MACRO_GM_SYS_TUTORIALHINTS_INTERVAL                     0.5 // The interval, in seconds, between update cycles of the tutorial hints generation system
@@ -529,7 +529,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.21.989" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.21.992" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

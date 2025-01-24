@@ -42,6 +42,10 @@ if (_unit == player) then {
 		_goggles = GVAR(customGoggles);
 		_loadout set [7, _goggles];
 	};
+
+// AI units: remove binoculars from the loadout, because they favour using them over their actual weapons during combat...
+} else {
+	_loadout set [8, []];
 };
 
 _unit setUnitLoadout _loadout;

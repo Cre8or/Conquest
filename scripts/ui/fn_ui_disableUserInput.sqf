@@ -82,21 +82,11 @@ if (_disabled) then {
 
 				// Process keys
 				if (_key == DIK_ESCAPE) then {
-					private _dialogMainMenu = createDialog [["RscDisplayInterrupt", "RscDisplayMPInterrupt"] select isMultiplayer, true];
-
 					["ui_close", true] call FUNC(ui_scoreBoard);
 
-					// Restore the "Abort" button
-					private _ctrlAbort = _dialogMainMenu displayctrl 104;
-					_ctrlAbort ctrlRemoveAllEventHandlers "buttonClick";
-					_ctrlAbort ctrlAddEventHandler ["buttonClick", {
-						["ui_close", true] call FUNC(ui_scoreBoard);
-						["ui_close", true] call FUNC(ui_spawnMenu);
-						endMission "END1";
-					}];
-					_ctrlAbort ctrlEnable true;
-					_ctrlAbort ctrlSetText "ABORT";
-					_ctrlAbort ctrlSetTooltip "Abort the mission and return to the slotting screen.";
+					// Don't open the escape menu as dialog, or the buttons won't work! Instead, open as display.
+					private _displayClass   = (["RscDisplayInterrupt", "RscDisplayMPInterrupt"] select isMultiplayer);
+					private _dialogMainMenu = (findDisplay 46) createDisplay _displayClass;
 
 					_consumed = true;
 				};

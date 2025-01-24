@@ -17,8 +17,8 @@ TO DO:
 		- Notify the crew they are being repaired (via UI element/sounds)?
 	- Localise all UI elements:
 		- Spawnmenu
-		- Player respawn instructions
-		- Combat area warning
+		- Spawn status
+		- Combat area
 		- Score feed
 		- End game screen
 	- Search for "DEBUG" and "TODO" keywords
@@ -31,6 +31,7 @@ UNCONFIRMED:
 	- Investigate Joe's isssue with being able to spawn when no sectors are owned
 
 DONE:
+	- Fix escape menu buttons not working when initialised via RscUserInputBlocker
 	- Rewrite safestart system
 		+ Freeze players in an animation that prevents them from moving (rotation is fine, though)
 		+ Prevent AI units from firing (using combat mode)
