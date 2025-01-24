@@ -24,7 +24,7 @@ USAGE:
 	// Identity
 	[
 		// Faction name (short format, ideally up to 5 characters)
-		"NATO",
+		"NATO", // Woodland variant
 
 		// Faction name (long format, ideally up to 40 characters)
 		"North Atlantic Treaty Organisation",
@@ -49,37 +49,37 @@ USAGE:
 	[
 		[	// Spec Ops
 			MACRO_ENUM_ROLE_SPECOPS,
-			[["arifle_MX_Black_F","","acc_flashlight","optic_Aco",["30Rnd_65x39_caseless_black_mag_Tracer",30],[],""],[],["hgun_Pistol_heavy_01_F","muzzle_snds_acp","acc_flashlight_pistol","",["11Rnd_45ACP_Mag",15],[],""],["U_B_CombatUniform_mcam",[]],["V_PlateCarrier2_rgr",[["30Rnd_65x39_caseless_black_mag_Tracer",7,30],["HandGrenade",1,1],["11Rnd_45ACP_Mag",2,15]]],[],"H_Cap_headphones","G_Combat",["Binocular","","","",[],[],""],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["arifle_MX_Black_F","","acc_flashlight","optic_Aco",["30Rnd_65x39_caseless_black_mag_Tracer",30],[],""],[],["hgun_Pistol_heavy_01_F","muzzle_snds_acp","acc_flashlight_pistol","",["11Rnd_45ACP_Mag",15],[],""],["U_B_CombatUniform_mcam_wdl_f",[]],["V_PlateCarrier2_wdl",[["30Rnd_65x39_caseless_black_mag_Tracer",7,30],["HandGrenade",1,1],["11Rnd_45ACP_Mag",2,15]]],[],"H_Cap_headphones","G_Combat_Goggles_tna_F",["Binocular","","","",[],[],""],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Sniper
 			MACRO_ENUM_ROLE_SNIPER,
-			[["srifle_DMR_02_camo_F","","acc_flashlight","optic_AMS",["10Rnd_338_Mag",10],[],"bipod_01_F_blk"],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_FullGhillie_sard",[]],["V_Chestrig_rgr",[["HandGrenade",1,1],["16Rnd_9x21_red_Mag",2,17],["10Rnd_338_Mag",5,10]]],[],"","G_Bandanna_tan",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["srifle_DMR_02_camo_F","","acc_flashlight","optic_AMS",["10Rnd_338_Mag",10],[],"bipod_01_F_blk"],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_T_FullGhillie_tna_F",[]],["V_Chestrig_rgr",[["HandGrenade",1,1],["16Rnd_9x21_red_Mag",2,17],["10Rnd_338_Mag",5,10]]],[],"","G_Bandanna_tan",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Assault
 			MACRO_ENUM_ROLE_ASSAULT,
-			[["arifle_MX_GL_Black_F","","acc_flashlight","optic_Aco",["30Rnd_65x39_caseless_black_mag_Tracer",30],["1Rnd_HE_Grenade_shell",1],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam",[]],["V_PlateCarrier1_rgr",[["30Rnd_65x39_caseless_black_mag_Tracer",7,30],["16Rnd_9x21_red_Mag",2,17],["1Rnd_HE_Grenade_shell",4,1]]],["B_TacticalPack_mcamo",[]],"H_HelmetB_sand","",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["arifle_MX_GL_Black_F","","acc_flashlight","optic_Aco",["30Rnd_65x39_caseless_black_mag_Tracer",30],["1Rnd_HE_Grenade_shell",1],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam_wdl_f",[]],["V_PlateCarrier1_wdl",[["30Rnd_65x39_caseless_black_mag_Tracer",7,30],["16Rnd_9x21_red_Mag",2,17],["1Rnd_HE_Grenade_shell",4,1]]],["B_TacticalPack_oli",[]],"H_HelmetB_light_wdl","",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Support
 			MACRO_ENUM_ROLE_SUPPORT,
-			[["LMG_03_F","","acc_flashlight","",["200Rnd_556x45_Box_Tracer_Red_F",200],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam_vest",[]],["V_PlateCarrier1_rgr",[["200Rnd_556x45_Box_Tracer_Red_F",2,200],["HandGrenade",1,1],["16Rnd_9x21_red_Mag",2,17]]],["B_Kitbag_mcamo",[]],"H_HelmetSpecB","G_Combat",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["LMG_03_F","","acc_flashlight","",["200Rnd_556x45_Box_Tracer_Red_F",200],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_vest_mcam_wdl_f",[]],["V_PlateCarrier1_wdl",[["200Rnd_556x45_Box_Tracer_Red_F",2,200],["HandGrenade",1,1],["16Rnd_9x21_red_Mag",2,17]]],["B_Carryall_wdl_F",[]],"H_HelmetSpecB","G_Combat_Goggles_tna_F",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Engineer
 			MACRO_ENUM_ROLE_ENGINEER,
-			[["SMG_02_F","","acc_flashlight","optic_Aco",["30Rnd_9x21_Mag_SMG_02_Tracer_Red",30],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam",[["MineDetector",1]]],["V_PlateCarrier2_rgr",[["16Rnd_9x21_red_Mag",2,17],["HandGrenade",1,1],["30Rnd_9x21_Mag_SMG_02_Tracer_Red",9,30]]],["B_AssaultPack_khk",[]],"H_HelmetB_grass","G_Balaclava_TI_blk_F",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["SMG_02_F","","acc_flashlight","optic_Aco",["30Rnd_9x21_Mag_SMG_02_Tracer_Red",30],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam_wdl_f",[["MineDetector",1]]],["V_PlateCarrier2_wdl",[["16Rnd_9x21_red_Mag",2,17],["HandGrenade",1,1],["30Rnd_9x21_Mag_SMG_02_Tracer_Red",9,30]]],["B_AssaultPack_khk",[]],"H_HelmetSpecB_wdl","G_Bandanna_oli",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Medic
 			MACRO_ENUM_ROLE_MEDIC,
-			[["arifle_SPAR_02_blk_F","","acc_flashlight","optic_Holosight_blk_F",["30Rnd_556x45_Stanag_Tracer_Red",30],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam",[]],["V_PlateCarrier1_rgr",[["16Rnd_9x21_red_Mag",2,17],["30Rnd_556x45_Stanag_Tracer_Red",7,30],["SmokeShell",2,1]]],["B_AssaultPack_mcamo",[]],"H_HelmetB_camo","G_Combat",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["arifle_SPAR_02_blk_F","","acc_flashlight","optic_Holosight_blk_F",["30Rnd_556x45_Stanag_Tracer_Red",30],[],""],[],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam_wdl_f",[]],["V_PlateCarrier1_wdl",[["16Rnd_9x21_red_Mag",2,17],["30Rnd_556x45_Stanag_Tracer_Red",7,30],["SmokeShell",2,1]]],["B_AssaultPack_wdl_F",[]],"H_HelmetB_light","G_Combat_Goggles_tna_F",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Anti Tank
 			MACRO_ENUM_ROLE_ANTITANK,
-			[["arifle_MX_Black_F","","acc_flashlight","optic_Aco",["30Rnd_65x39_caseless_black_mag_Tracer",30],[],""],["launch_MRAWS_sand_rail_F","","","",["MRAWS_HEAT_F",1],[],""],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_mcam_vest",[]],["V_PlateCarrier_Kerry",[["16Rnd_9x21_red_Mag",2,17],["30Rnd_65x39_caseless_black_mag_Tracer",7,30],["HandGrenade",1,1]]],["B_Kitbag_rgr",[["MRAWS_HEAT_F",2,1]]],"H_HelmetB_snakeskin","",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["arifle_MX_Black_F","","acc_flashlight","optic_Aco",["30Rnd_65x39_caseless_black_mag_Tracer",30],[],""],["launch_MRAWS_green_rail_F","","","",["MRAWS_HEAT_F",1],[],""],["hgun_P07_F","","","",["16Rnd_9x21_red_Mag",17],[],""],["U_B_CombatUniform_vest_mcam_wdl_f",[]],["V_PlateCarrier2_wdl",[["16Rnd_9x21_red_Mag",2,17],["30Rnd_65x39_caseless_black_mag_Tracer",7,30],["HandGrenade",1,1]]],["B_Kitbag_rgr",[["MRAWS_HEAT_F",2,1]]],"H_HelmetB_plain_wdl","",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		]
 	],
 
@@ -103,104 +103,104 @@ USAGE:
 		[
 			MACRO_ENUM_VEHICLETYPE_QUADBIKE,
 			[
-				["B_Quadbike_01_F"]
+				["B_T_Quadbike_01_F"]
 			]
 		],
 
 		[
 			MACRO_ENUM_VEHICLETYPE_CAR_UNARMED_LIGHT,
 			[
-				["B_LSV_01_unarmed_F"]
+				["B_T_LSV_01_unarmed_F"]
 			]
 		],
 
 		[
 			MACRO_ENUM_VEHICLETYPE_CAR_UNARMED_HEAVY,
 			[
-				["B_MRAP_01_F"]
+				["B_T_MRAP_01_F"]
 			]
 		],
 
 		[
 			MACRO_ENUM_VEHICLETYPE_CAR_ARMED_LIGHT,
 			[
-				["B_LSV_01_armed_F"]
+				["B_T_LSV_01_armed_F"]
 			]
 		],
 
 		[
 			MACRO_ENUM_VEHICLETYPE_CAR_ARMED_HEAVY,
 			[
-				["B_MRAP_01_hmg_F"],
-				["B_LSV_01_AT_F"],
-				["B_MRAP_01_gmg_F"]
+				["B_T_MRAP_01_hmg_F"],
+				["B_T_LSV_01_AT_F"],
+				["B_T_MRAP_01_gmg_F"]
 			]
 		],
 
 		[
 			MACRO_ENUM_VEHICLETYPE_TRUCK_TRANSPORT,
 			[
-				["B_Truck_01_covered_F"],
-				["B_Truck_01_transport_F"]
+				["B_T_Truck_01_covered_F"],
+				["B_T_Truck_01_transport_F"]
 			]
 		],
 
 		[
 			MACRO_ENUM_VEHICLETYPE_APC_LIGHT,
 			[
-				["B_APC_Wheeled_01_cannon_F"],
-				["B_APC_Tracked_01_rcws_F"]
+				["B_T_APC_Wheeled_01_cannon_F"],
+				["B_T_APC_Tracked_01_rcws_F"]
 			]
 		],
 
 		[
 			MACRO_ENUM_VEHICLETYPE_APC_HEAVY,
 			[
-				["B_APC_Wheeled_01_cannon_F","",[["showSLATHull",1],["showSLATTurret",1]]],
-				["B_AFV_Wheeled_01_up_cannon_F","",[["showSLATHull",1]]],
-				["B_APC_Wheeled_01_cannon_F","",[["showCamonetHull",1],["showCamonetTurret",1],["showSLATHull",1],["showSLATTurret",1]]]
+				["B_T_APC_Wheeled_01_cannon_F","",[["showSLATHull",1],["showSLATTurret",1]]],
+				["B_T_AFV_Wheeled_01_up_cannon_F","",[["showSLATHull",1]]],
+				["B_T_APC_Wheeled_01_cannon_F","",[["showCamonetHull",1],["showCamonetTurret",1],["showSLATHull",1],["showSLATTurret",1]]]
 			]
 		],
 
 		[
 			MACRO_ENUM_VEHICLETYPE_AMPHIBIOUS_LIGHT,
 			[
-				["B_APC_Wheeled_01_cannon_F"]
+				["B_T_APC_Wheeled_01_cannon_F"]
 			]
 		],
 
 		[
 			MACRO_ENUM_VEHICLETYPE_AMPHIBIOUS_HEAVY,
 			[
-				["B_APC_Wheeled_01_cannon_F","",[["showSLATHull",1],["showSLATTurret",1]]]
+				["B_T_APC_Wheeled_01_cannon_F","",[["showSLATHull",1],["showSLATTurret",1]]]
 			]
 		],
 
 		[
 			MACRO_ENUM_VEHICLETYPE_AA_LIGHT,
 			[
-				["B_APC_Tracked_01_AA_F"]
+				["B_T_APC_Tracked_01_AA_F"]
 			]
 		],
 
 		[
 			MACRO_ENUM_VEHICLETYPE_AA_HEAVY,
 			[
-				["B_APC_Tracked_01_AA_F","",[["showCamonetTurret",1],["showCamonetHull",1]]]
+				["B_T_APC_Tracked_01_AA_F","",[["showCamonetTurret",1],["showCamonetHull",1]]]
 			]
 		],
 
 		[
 			MACRO_ENUM_VEHICLETYPE_TANK_LIGHT,
 			[
-				["B_MBT_01_cannon_F"]
+				["B_T_MBT_01_cannon_F"]
 			]
 		],
 
 		[
 			MACRO_ENUM_VEHICLETYPE_TANK_HEAVY,
 			[
-				["B_MBT_01_TUSK_F","",[["showCamonetTurret",1],["showCamonetHull",1]]]
+				["B_T_MBT_01_TUSK_F","",[["showCamonetTurret",1],["showCamonetHull",1]]]
 			]
 		],
 

@@ -43,7 +43,8 @@ force ace_scopes_simplifiedZeroing = true;
 
 // ACE Uncategorized
 force ace_hitreactions_minDamageToTrigger = 1;
-force ace_overpressure_distanceCoefficient = 0;
+force ace_overpressure_backblastDistanceCoefficient = 0;
+force ace_overpressure_overpressureDistanceCoefficient = 0;
 
 // ACE User Interface
 force ace_ui_ammoCount = true;

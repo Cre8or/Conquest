@@ -1,7 +1,8 @@
 // Common defines (needs to match fac_getFilePath)
 // Both values and texts arrays must always be in the same order!
 #define MACRO_FACTIONS_VALUES { \
-	MACRO_ENUM_FACTION_NATO, \
+	MACRO_ENUM_FACTION_NATO_DES, \
+	MACRO_ENUM_FACTION_NATO_WDL, \
 	MACRO_ENUM_FACTION_AAF, \
 	MACRO_ENUM_FACTION_CSAT, \
  \
@@ -10,9 +11,10 @@
 }
 
 #define MACRO_FACTIONS_TEXTS { \
-	"[A3] - NATO", \
-	"[A3] - AAF", \
-	"[A3] - CSAT", \
+	"[A3] - NATO (North Atlantic Treaty Organisation) - Desert", \
+	"[A3] - NATO (North Atlantic Treaty Organisation) - Woodland", \
+	"[A3] - AAF (Altis Armed Forces)", \
+	"[A3] - CSAT (Canton Protocol Strategic Alliance Treaty)", \
  \
 	"[CUP] - USMC (United States Marines Corps)", \
 	"[CUP] - AFRF (Armed Forces of the Russian Federation)" \
@@ -72,7 +74,7 @@ class Param_GM_StartingTickets {
 
 class Param_GM_SafeStartDuration {
 	title = "1.5 - Safe-start duration (in seconds):";
-	values[] = { 5, 10, 20, 30, 60, 120, 180, 300, 99999 };
+	values[] = { 5, 10, 15, 20, 30, 60, 120, 180, 240, 300 };
 	default = MACRO_GM_SAFESTARTDURATION;
 };
 
@@ -110,7 +112,7 @@ class Param_GM_EnableVehicles {
 
 class Param_CA_GraceDuration {
 	title = "1.11 - Combat area grace duration (in seconds):";
-	values[] = { 3, 5, 10, 15, 20 };
+	values[] = { 3, 5, 10, 15, 20, 25, 30 };
 	default = MACRO_CA_GRACEDURATION;
 };
 

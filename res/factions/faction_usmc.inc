@@ -54,14 +54,14 @@ USAGE:
 
 		[	// Sniper
 			MACRO_ENUM_ROLE_SNIPER,
-			//[["CUP_srifle_M14_DMR","","CUP_acc_Flashlight","optic_MRCO",["CUP_20Rnd_TE1_Red_Tracer_762x51_DMR",20],[],"CUP_bipod_Harris_1A2_L_BLK"],[],["CUP_hgun_M9","","","",["CUP_15Rnd_9x19_M9",15],[],""],["CUP_U_B_USMC_MCCUU_MARPAT_M81_roll_gloves",[]],["CUP_V_B_Eagle_SPC_DMR",[["HandGrenade",1,1],["CUP_20Rnd_TE1_Red_Tracer_762x51_DMR",3,20],["CUP_15Rnd_9x19_M9",2,15]]],[],"CUP_H_FR_BoonieMARPAT","CUP_FR_NeckScarf2",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 			//[["CUP_srifle_m110_kac_black","","CUP_acc_Flashlight","optic_KHS_blk",["CUP_20Rnd_TE1_Red_Tracer_762x51_M110",20],[],"CUP_bipod_Harris_1A2_L_BLK"],[],["CUP_hgun_M9","","","",["CUP_15Rnd_9x19_M9",15],[],""],["CUP_U_B_USMC_MCCUU_MARPAT_M81_roll_gloves",[]],["CUP_V_B_Eagle_SPC_DMR",[["HandGrenade",1,1],["CUP_20Rnd_TE1_Red_Tracer_762x51_M110",4,20],["CUP_15Rnd_9x19_M9",2,15]]],[],"CUP_H_FR_BoonieMARPAT","CUP_FR_NeckScarf2",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
-			[["CUP_srifle_CZ750","","","optic_AMS",["CUP_10Rnd_762x51_CZ750_Tracer",10],[],"bipod_01_F_blk"],[],["CUP_hgun_M9","","","",["CUP_15Rnd_9x19_M9",15],[],""],["CUP_U_B_USMC_MCCUU_MARPAT_M81_roll_gloves",[]],["CUP_V_B_Eagle_SPC_DMR",[["HandGrenade",1,1],["CUP_15Rnd_9x19_M9",2,15],["CUP_10Rnd_762x51_CZ750_Tracer",7,10]]],[],"CUP_H_FR_BoonieMARPAT","CUP_FR_NeckScarf2",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["CUP_srifle_M24_blk","","","optic_AMS",["CUP_5Rnd_762x51_M24",5],[],"CUP_bipod_Harris_1A2_L_BLK"],[],["CUP_hgun_M9","","","",["CUP_15Rnd_9x19_M9",15],[],""],["CUP_U_B_USMC_MCCUU_MARPAT_M81_roll_gloves",[]],["CUP_V_B_Eagle_SPC_DMR",[["HandGrenade",1,1],["CUP_15Rnd_9x19_M9",2,15],["CUP_5Rnd_762x51_M24",9,5]]],[],"CUP_H_FR_BoonieMARPAT","CUP_G_Scarf_Face_Tan",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			//[["CUP_srifle_CZ750","","","optic_AMS",["CUP_10Rnd_762x51_CZ750_Tracer",10],[],"bipod_01_F_blk"],[],["CUP_hgun_M9","","","",["CUP_15Rnd_9x19_M9",15],[],""],["CUP_U_B_USMC_MCCUU_MARPAT_M81_roll_gloves",[]],["CUP_V_B_Eagle_SPC_DMR",[["HandGrenade",1,1],["CUP_15Rnd_9x19_M9",2,15],["CUP_10Rnd_762x51_CZ750_Tracer",7,10]]],[],"CUP_H_FR_BoonieMARPAT","CUP_FR_NeckScarf2",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Assault
 			MACRO_ENUM_ROLE_ASSAULT,
-			[["CUP_arifle_M16A4_GL","","CUP_acc_Flashlight","",["CUP_30Rnd_556x45_Stanag_Tracer_Red",30],["1Rnd_HE_Grenade_shell",1],""],[],["CUP_hgun_M9","","","",["CUP_15Rnd_9x19_M9",15],[],""],["CUP_U_B_USMC_MCCUU_pads_gloves",[]],["CUP_V_B_Eagle_SPC_GL",[["CUP_30Rnd_556x45_Stanag_Tracer_Red",7,30],["CUP_15Rnd_9x19_M9",2,15],["1Rnd_HE_Grenade_shell",4,1]]],[],"CUP_H_CZ_Helmet10","CUP_G_ESS_KHK_Dark",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["CUP_arifle_M16A4_GL","","CUP_acc_Flashlight","",["CUP_30Rnd_556x45_Stanag_Tracer_Red",30],["1Rnd_HE_Grenade_shell",1],""],[],["CUP_hgun_M9","","","",["CUP_15Rnd_9x19_M9",15],[],""],["CUP_U_B_USMC_MCCUU_pads_gloves",[]],["CUP_V_B_Eagle_SPC_GL",[["CUP_30Rnd_556x45_Stanag_Tracer_Red",7,30],["CUP_15Rnd_9x19_M9",2,15],["1Rnd_HE_Grenade_shell",4,1]]],[],"CUP_H_LWHv2_MARPAT_NVG_gog_cov2","CUP_FR_NeckScarf2",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Support
@@ -71,12 +71,12 @@ USAGE:
 
 		[	// Engineer
 			MACRO_ENUM_ROLE_ENGINEER,
-			[["CUP_arifle_Mk16_CQC","","","CUP_optic_Aimpoint_5000",["CUP_30Rnd_556x45_Stanag_Mk16_Tracer_Red",30],[],""],[],["CUP_hgun_M9","","","",["CUP_15Rnd_9x19_M9",15],[],""],["CUP_U_B_USMC_MCCUU_M81_MARPAT_roll_gloves",[]],["CUP_V_B_Eagle_SPC_RTO",[["CUP_15Rnd_9x19_M9",2,15],["HandGrenade",1,1],["CUP_30Rnd_556x45_Stanag_Mk16_Tracer_Red",7,30]]],["CUP_B_USMC_MOLLE_WDL",[]],"CUP_H_LWHv2_MARPAT","",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["CUP_arifle_Mk16_CQC","","","CUP_optic_Aimpoint_5000",["CUP_30Rnd_556x45_Stanag_Mk16_Tracer_Red",30],[],""],[],["CUP_hgun_M9","","","",["CUP_15Rnd_9x19_M9",15],[],""],["CUP_U_B_USMC_MCCUU_M81_MARPAT_roll_gloves",[]],["CUP_V_B_Eagle_SPC_RTO",[["CUP_15Rnd_9x19_M9",2,15],["HandGrenade",1,1],["CUP_30Rnd_556x45_Stanag_Mk16_Tracer_Red",7,30]]],["CUP_B_USMC_MOLLE_WDL",[]],"CUP_H_CZ_Helmet10","CUP_G_ESS_KHK_Dark",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Medic
 			MACRO_ENUM_ROLE_MEDIC,
-			[["CUP_arifle_M16A4_Base","","CUP_acc_Flashlight","CUP_optic_CompM2_Black",["CUP_30Rnd_556x45_Stanag_Tracer_Red",30],[],""],[],["CUP_hgun_M9","","","",["CUP_15Rnd_9x19_M9",15],[],""],["CUP_U_B_USMC_FROG3_WMARPAT",[]],["CUP_V_B_Eagle_SPC_Corpsman",[["CUP_15Rnd_9x19_M9",2,15],["CUP_30Rnd_556x45_Stanag_Tracer_Red",7,30],["SmokeShell",2,1]]],["B_Kitbag_rgr",[]],"CUP_H_LWHv2_MARPAT_NVG_gog_cov2","CUP_FR_NeckScarf2",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["CUP_arifle_M16A4_Base","","CUP_acc_Flashlight","CUP_optic_CompM2_Black",["CUP_30Rnd_556x45_Stanag_Tracer_Red",30],[],""],[],["CUP_hgun_M9","","","",["CUP_15Rnd_9x19_M9",15],[],""],["CUP_U_B_USMC_FROG3_WMARPAT",[]],["CUP_V_B_Eagle_SPC_Corpsman",[["CUP_15Rnd_9x19_M9",2,15],["CUP_30Rnd_556x45_Stanag_Tracer_Red",7,30],["SmokeShell",2,1]]],["B_Kitbag_rgr",[]],"CUP_H_LWHv2_MARPAT","CUP_G_ESS_KHK_Scarf_Tan",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Anti Tank

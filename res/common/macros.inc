@@ -529,7 +529,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.21.985" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.21.989" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -962,9 +962,10 @@
 	#define MACRO_ENUM_FACTION_INVALID                              -1
 
 	// Vanilla factions
-	#define MACRO_ENUM_FACTION_NATO                                 0
-	#define MACRO_ENUM_FACTION_AAF                                  1
-	#define MACRO_ENUM_FACTION_CSAT                                 2
+	#define MACRO_ENUM_FACTION_NATO_DES                             0
+	#define MACRO_ENUM_FACTION_NATO_WDL                             1
+	#define MACRO_ENUM_FACTION_AAF                                  2
+	#define MACRO_ENUM_FACTION_CSAT                                 3
 
 	// CUP factions
 	#define MACRO_ENUM_FACTION_USMC                                 10

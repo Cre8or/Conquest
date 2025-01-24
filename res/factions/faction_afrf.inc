@@ -60,7 +60,7 @@ USAGE:
 
 		[	// Assault
 			MACRO_ENUM_ROLE_ASSAULT,
-			[["CUP_arifle_AK74M_GL","","CUP_acc_Flashlight","",["CUP_30Rnd_TE1_Green_Tracer_545x39_AK74M_M",30],["CUP_1Rnd_HE_GP25_M",1],""],[],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_EMR_gloves_pads",[]],["CUP_V_O_RUS_6B45_SPP_VOG_Summer",[["16Rnd_9x21_green_Mag",2,17],["CUP_30Rnd_TE1_Green_Tracer_545x39_AK74M_M",7,30],["CUP_1Rnd_HE_GP25_M",4,1]]],[],"CUP_H_RUS_6B47_6M2_6B34U_Summer","CUP_G_RUS_Ratnik_Balaclava_Green_1",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["CUP_arifle_AK74M_GL","","CUP_acc_Flashlight","",["CUP_30Rnd_TE1_Green_Tracer_545x39_AK74M_M",30],["CUP_1Rnd_HE_GP25_M",1],""],[],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_EMR_gloves_pads",[]],["CUP_V_O_RUS_6B45_SPP_VOG_Summer",[["16Rnd_9x21_green_Mag",2,17],["CUP_30Rnd_TE1_Green_Tracer_545x39_AK74M_M",7,30],["CUP_1Rnd_HE_GP25_M",4,1]]],[],"CUP_H_RUS_6B47_6M2_6B34D_Summer","CUP_G_RUS_Ratnik_Balaclava_Green_1",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Support

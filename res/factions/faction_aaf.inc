@@ -74,12 +74,12 @@ USAGE:
 
 		[	// Medic
 			MACRO_ENUM_ROLE_MEDIC,
-			[["arifle_Mk20_plain_F","","acc_flashlight","optic_ACO_grn_smg",["30Rnd_556x45_Stanag_Tracer_Yellow",30],[],""],[],["hgun_P07_blk_F","","","",["16Rnd_9x21_yellow_Mag",17],[],""],["U_I_CombatUniform",[]],["V_PlateCarrierIA2_dgtl",[["16Rnd_9x21_yellow_Mag",2,17],["SmokeShell",2,1],["30Rnd_556x45_Stanag_Tracer_Yellow",7,30]]],["B_AssaultPack_dgtl",[]],"H_HelmetIA","G_Combat_Goggles_tna_F",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["arifle_Mk20_F","","acc_flashlight","optic_ACO_grn_smg",["30Rnd_556x45_Stanag_Tracer_Yellow",30],[],""],[],["hgun_P07_blk_F","","","",["16Rnd_9x21_yellow_Mag",17],[],""],["U_I_CombatUniform",[]],["V_PlateCarrierIA2_dgtl",[["16Rnd_9x21_yellow_Mag",2,17],["SmokeShell",2,1],["30Rnd_556x45_Stanag_Tracer_Yellow",7,30]]],["B_AssaultPack_dgtl",[]],"H_HelmetIA","G_Combat_Goggles_tna_F",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Anti Tank
 			MACRO_ENUM_ROLE_ANTITANK,
-			[["arifle_Mk20_F","","acc_flashlight","optic_Holosight_lush_F",["30Rnd_556x45_Stanag_Tracer_Yellow",30],[],""],["launch_MRAWS_olive_rail_F","","","",["MRAWS_HEAT_F",1],[],""],["hgun_P07_blk_F","","","",["16Rnd_9x21_yellow_Mag",17],[],""],["U_I_CombatUniform_shortsleeve",[]],["V_PlateCarrierIA1_dgtl",[["16Rnd_9x21_yellow_Mag",2,17],["30Rnd_556x45_Stanag_Tracer_Yellow",7,30],["HandGrenade",1,1]]],["B_Kitbag_sgg",[["MRAWS_HEAT_F",2,1]]],"H_HelmetIA","",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["arifle_Mk20_plain_F","","acc_flashlight","optic_Holosight_lush_F",["30Rnd_556x45_Stanag_Tracer_Yellow",30],[],""],["launch_MRAWS_olive_rail_F","","","",["MRAWS_HEAT_F",1],[],""],["hgun_P07_blk_F","","","",["16Rnd_9x21_yellow_Mag",17],[],""],["U_I_CombatUniform_shortsleeve",[]],["V_PlateCarrierIA1_dgtl",[["16Rnd_9x21_yellow_Mag",2,17],["30Rnd_556x45_Stanag_Tracer_Yellow",7,30],["HandGrenade",1,1]]],["B_Kitbag_sgg",[["MRAWS_HEAT_F",2,1]]],"H_HelmetIA","G_Bandanna_oli",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		]
 	],
 

@@ -41,7 +41,7 @@
 	#define MACRO_MISSION_CAMERADIRECTION                           [0.996809,-0.0793498,0.0157021] // The diorection of the camera when showing the spawn menu. Acquired via: copyToClipboard str vectorDir get3DENCamera
 
 	// Gamemode
-	#define MACRO_GM_FACTIONENUM_BLUFOR                             MACRO_ENUM_FACTION_NATO // The default faction enum for BLUFOR (see macros.inc)
+	#define MACRO_GM_FACTIONENUM_BLUFOR                             MACRO_ENUM_FACTION_NATO_DES // The default faction enum for BLUFOR (see macros.inc)
 	#define MACRO_GM_FACTIONENUM_OPFOR                              MACRO_ENUM_FACTION_CSAT // The default faction enum for OPFOR (see macros.inc)
 	#define MACRO_GM_FACTIONENUM_INDFOR                             MACRO_ENUM_FACTION_AAF // The default faction enum for INDFOR (see macros.inc)
 

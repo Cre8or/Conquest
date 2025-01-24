@@ -22,11 +22,13 @@ params [
 private _prefix = "res\factions\";
 
 switch (_enum) do {
-	case MACRO_ENUM_FACTION_NATO: {_prefix + "faction_nato.inc"};
-	case MACRO_ENUM_FACTION_AAF:  {_prefix + "faction_aaf.inc"};
-	case MACRO_ENUM_FACTION_CSAT: {_prefix + "faction_csat.inc"};
-	case MACRO_ENUM_FACTION_USMC: {_prefix + "faction_usmc.inc"};
-	case MACRO_ENUM_FACTION_AFRF: {_prefix + "faction_afrf.inc"};
+	case MACRO_ENUM_FACTION_NATO_DES: {_prefix + "faction_nato_des.inc"};
+	case MACRO_ENUM_FACTION_NATO_WDL: {_prefix + "faction_nato_wdl.inc"};
+	case MACRO_ENUM_FACTION_AAF:      {_prefix + "faction_aaf.inc"};
+	case MACRO_ENUM_FACTION_CSAT:     {_prefix + "faction_csat.inc"};
+
+	case MACRO_ENUM_FACTION_USMC:     {_prefix + "faction_usmc.inc"};
+	case MACRO_ENUM_FACTION_AFRF:     {_prefix + "faction_afrf.inc"};
 
 	// Not an error, but we still need to return an empty string
 	case MACRO_ENUM_FACTION_INVALID: {""};
