@@ -50,6 +50,7 @@ GVAR(ui_sys_drawTutorialHints_EH) = addMissionEventHandler ["EachFrame", {
 	private _strBody  = "";
 	switch (GVAR(gm_sys_tutorialHints_activeHint)) do {
 
+		#include "drawTutorialHints\hint_reopenSpawnMenu.sqf"
 		#include "drawTutorialHints\hint_roleAbilities.sqf"
 	};
 
@@ -101,6 +102,13 @@ GVAR(ui_sys_drawTutorialHints_EH) = addMissionEventHandler ["EachFrame", {
 		_ctrlGrp ctrlSetPositionH (_animPhase * GVAR(ui_sys_drawTutorialHints_height));
 		_ctrlGrp ctrlCommit 0;
 
+		// Scale the progress fill bar
+		private _duration    = GVAR(gm_sys_tutorialHints_expiration) - GVAR(gm_sys_tutorialHints_startTime) max 0.1;
+		private _fill        = (_time - GVAR(gm_sys_tutorialHints_startTime)) / _duration;
+		private _ctrlFillBar = _UI displayCtrl MACRO_IDC_TH_PROGRESS_BAR;
+		_ctrlFillBar ctrlSetPositionW (_fill * MACRO_POS_TH_WIDTH);
+		_ctrlFillBar ctrlCommit 0;
+
 	// Fade out the UI if no hint is active
 	} else {
 
@@ -109,7 +117,7 @@ GVAR(ui_sys_drawTutorialHints_EH) = addMissionEventHandler ["EachFrame", {
 
 			if (_fade > 0) then {
 				private _ctrlBackground     = _UI displayCtrl MACRO_IDC_TH_BACKGROUND;
-				private _ctrlIconBackground = _UI displayCtrl MACRO_IDC_TH_ICON_BACKGROUND;
+				private _ctrlFillBar        = _UI displayCtrl MACRO_IDC_TH_PROGRESS_BAR;
 				private _ctrlIconPicture    = _UI displayCtrl MACRO_IDC_TH_ICON_PICTURE;
 				private _ctrlTitle          = _UI displayCtrl MACRO_IDC_TH_TITLE_TEXT;
 				private _ctrlTitleSeparator = _UI displayCtrl MACRO_IDC_TH_TITLE_SEPARATOR;
@@ -117,7 +125,7 @@ GVAR(ui_sys_drawTutorialHints_EH) = addMissionEventHandler ["EachFrame", {
 				private ["_col", "_alpha"];
 
 				MACRO_FNC_FADECTRL_FILL(_ctrlBackground, _col, _alpha, _fade);
-				MACRO_FNC_FADECTRL_FILL(_ctrlIconBackground, _col, _alpha, _fade);
+				MACRO_FNC_FADECTRL_FILL(_ctrlFillBar, _col, _alpha, _fade);
 				MACRO_FNC_FADECTRL_FILL(_ctrlTitleSeparator, _col, _alpha, _fade);
 
 				MACRO_FNC_FADECTRL_TEXT(_ctrlIconPicture, _col, _alpha, _fade);

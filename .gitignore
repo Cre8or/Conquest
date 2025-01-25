@@ -3,3 +3,4 @@
 *.desktop
 .directory
 dev
+res/factions/faction_bw.inc

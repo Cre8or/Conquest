@@ -22,12 +22,14 @@ if (!hasInterface) exitWith {};
 
 MACRO_FNC_INITVAR(GVAR(gm_sys_tutorialHints_EH), -1);
 
+MACRO_FNC_INITVAR(GVAR(gm_sys_handlePlayerRespawn_state), MACRO_ENUM_RESPAWN_INIT); // Interfaces with gm_sys_handlePlayerRespawn
+
 GVAR(gm_sys_tutorialHints_nextUpdate) = -1;
 GVAR(gm_sys_tutorialHints_activeHint) = MACRO_ENUM_TUTORIALHINT_INVALID;
 GVAR(gm_sys_tutorialHints_startTime)  = -1;
 GVAR(gm_sys_tutorialHints_expiration) = -1;
 
-GVAR(gm_sys_tutorialHints_roleAbilities_hashmap) = createHashMap;
+GVAR(gm_sys_tutorialHints_hashmap) = createHashMap;
 
 
 
@@ -60,5 +62,8 @@ GVAR(gm_sys_tutorialHints_EH) = addMissionEventHandler ["EachFrame", {
 
 	// Role-specific ability hints (upon respawn)
 	#include "tutorialHints\subSys_roleAbilities.sqf";
+
+	// Spawn menu toggling
+	#include "tutorialHints\subSys_reopenSpawnMenu.sqf";
 
 }];

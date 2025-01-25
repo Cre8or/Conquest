@@ -18,9 +18,11 @@ TO DO:
 	- Localise all UI elements:
 		+ Spawnmenu
 		- Spawn status
+		- Unconscious UI
 		- Combat area
 		- Score feed
-		- End game screen
+		- End game UI
+		- Keybindings
 	- Search for "DEBUG" and "TODO" keywords
 
 UNCONFIRMED:

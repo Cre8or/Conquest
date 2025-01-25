@@ -51,6 +51,7 @@ class MACRO_PROJECT_PREFIX {
 		file = "scripts\cba";
 
 		class cba_addKeybindExtended {};
+		class cba_getKeybindStr {};
 		class cba_initDisplay {};
 	};
 

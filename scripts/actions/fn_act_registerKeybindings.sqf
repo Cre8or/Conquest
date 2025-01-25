@@ -33,7 +33,8 @@ if (GVAR(hasMod_ace_finger)) then {
 	[
 		MACRO_MISSION_FRAMEWORK_GAMEMODE,
 		QGVAR(kb_spotTarget),
-		"Spot target",
+//		"Spot target",
+		localize LSTRING(kb_spotTarget),
 		{call FUNC(act_spotTarget)},
 		"",
 		_keyBinds,
@@ -54,7 +55,7 @@ if (GVAR(hasMod_ace_finger)) then {
 	[
 		MACRO_MISSION_FRAMEWORK_GAMEMODE,
 		QGVAR(kb_spotTarget),
-		"Spot target",
+		localize LSTRING(kb_spotTarget),
 		{call FUNC(act_spotTarget)},
 		"",
 		_keyBinds # 0,
@@ -70,7 +71,7 @@ if (GVAR(hasMod_ace_finger)) then {
 [
 	MACRO_MISSION_FRAMEWORK_GAMEMODE,
 	QGVAR(kb_toggleSpawnMenu),
-	"Open/close spawn menu",
+	localize LSTRING(kb_toggleSpawnMenu),
 	{call FUNC(act_toggleSpawnMenu)},
 	"",
 	[MACRO_KEYBIND_TOGGLESPAWNMENU, [true, false, false]],
@@ -85,7 +86,7 @@ if (GVAR(hasMod_ace_finger)) then {
 [
 	MACRO_MISSION_FRAMEWORK_GAMEMODE,
 	QGVAR(kb_showScoreBoard),
-	"Show scoreboard",
+	localize LSTRING(kb_showScoreBoard),
 	{[true] call FUNC(act_toggleScoreBoard)},
 	{[false] call FUNC(act_toggleScoreBoard)},
 	[MACRO_KEYBIND_SHOWSCOREBOARD, [false, false, false]],
@@ -100,7 +101,7 @@ if (GVAR(hasMod_ace_finger)) then {
 [
 	MACRO_MISSION_FRAMEWORK_GAMEMODE,
 	QGVAR(kb_showScoreBoard_cursor),
-	"Show cursor on scoreboard",
+	localize LSTRING(kb_showScoreBoard_cursor),
 	{["ui_request_cursor"] call FUNC(ui_scoreBoard)},
 	"",
 	[MACRO_KEYBIND_SHOWSCOREBOARD_CURSOR, [false, false, false]],
@@ -111,11 +112,11 @@ if (GVAR(hasMod_ace_finger)) then {
 
 
 
-// Role action: resupplying
+// Role action: Resupplying
 [
 	MACRO_MISSION_FRAMEWORK_GAMEMODE,
 	QGVAR(kb_resupplyUnit),
-	"Resupply unit/self",
+	localize LSTRING(kb_resupplyUnit),
 	{([player] call FUNC(act_tryResupplyUnit)) param [0, false]},
 	"",
 	[MACRO_KEYBIND_RESUPPLY, [false, false, false]],
@@ -130,7 +131,7 @@ if (GVAR(hasMod_ace_finger)) then {
 [
 	MACRO_MISSION_FRAMEWORK_GAMEMODE,
 	QGVAR(kb_repairVehicle),
-	"Repair vehicle",
+	localize LSTRING(kb_repairVehicle),
 	{([player] call FUNC(act_tryHealUnit)) param [0, false]},
 	"",
 	[MACRO_KEYBIND_REPAIR, [false, false, false]],
@@ -145,7 +146,7 @@ if (GVAR(hasMod_ace_finger)) then {
 [
 	MACRO_MISSION_FRAMEWORK_GAMEMODE,
 	QGVAR(kb_healUnit),
-	"Heal unit/self",
+	localize LSTRING(kb_healUnit),
 	{([player] call FUNC(act_tryHealUnit)) param [0, false]},
 	"",
 	[MACRO_KEYBIND_HEAL, [false, false, false]],
@@ -161,7 +162,7 @@ GVAR(kb_act_pressed_giveUp) = false;
 [
 	MACRO_MISSION_FRAMEWORK_GAMEMODE,
 	QGVAR(kb_giveUp),
-	"Give up (unconscious)",
+	localize LSTRING(kb_giveUp),
 	{GVAR(kb_act_pressed_giveUp) = true},
 	{GVAR(kb_act_pressed_giveUp) = false},
 	[MACRO_KEYBIND_GIVEUP, [false, false, false]],

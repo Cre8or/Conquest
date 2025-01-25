@@ -1,10 +1,10 @@
-// State transition
 if (
 	GVAR(gm_sys_tutorialHints_activeHint) == MACRO_ENUM_TUTORIALHINT_INVALID
 	and {_alive}
 ) then {
-	private _key       = format ["%1_%2", GVAR(side), GVAR(role)];
-	private _hintShown = GVAR(gm_sys_tutorialHints_roleAbilities_hashmap) getOrDefault [_key, false];
+
+	private _key       = format ["%1_%2_%3", MACRO_ENUM_TUTORIALHINT_ROLEABILITIES, GVAR(side), GVAR(role)];
+	private _hintShown = GVAR(gm_sys_tutorialHints_hashmap) getOrDefault [_key, false];
 
 	if (!_hintShown) then {
 		GVAR(gm_sys_tutorialHints_activeHint) = MACRO_ENUM_TUTORIALHINT_ROLEABILITIES;
@@ -14,6 +14,6 @@ if (
 		GVAR(ui_sys_drawTutorialHints_update) = true;
 		GVAR(ui_sys_drawTutorialHints_data)   = [GVAR(side), GVAR(role)];
 
-		GVAR(gm_sys_tutorialHints_roleAbilities_hashmap) set [_key, true];
+		GVAR(gm_sys_tutorialHints_hashmap) set [_key, true];
 	};
 };

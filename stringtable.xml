@@ -13,6 +13,56 @@
 
 	<Package name="common">
 		<!-- ================================================================================ -->
+		<!-- Key bindings -->
+		<!-- ================================================================================ -->
+		<Key ID="STR_cre8ive_conquest_kb_unassignedKey">
+		    <Original>No key assigned</Original>
+		    <German>Unzugewiesene Taste</German>
+		    <French>Touche non assignée</French>
+		</Key>
+
+		<Key ID="STR_cre8ive_conquest_kb_spotTarget">
+		    <Original>Spot enemy</Original>
+		    <German>Feind markieren</German>
+		    <French>Reṕerer un ennemi</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_kb_toggleSpawnMenu">
+		    <Original>Open/close spawn menu</Original>
+		    <German>Spielmenü öffnen/schließen</German>
+		    <French>Ouvrir/fermer menu du jeu</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_kb_showScoreBoard">
+		    <Original>Show scoreboard</Original>
+		    <German>Punktetafel anzeigen</German>
+		    <French>Afficher tableau des scores</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_kb_showScoreBoard_cursor">
+		    <Original>Show cursor on scoreboard</Original>
+		    <German>Mauszeiger auf Punktetafel anzeigen</German>
+		    <French>Afficher curseur sur tableau des scores</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_kb_resupplyUnit">
+		    <Original>Resupply friendly/self</Original>
+		    <German>Eigenen/sich selbst versorgen</German>
+		    <French>Ravitailler un allié/soi-même</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_kb_repairVehicle">
+		    <Original>Repair vehicle</Original>
+		    <German>Fahrzeug reparieren</German>
+		    <French>Réparer un véhicule</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_kb_healUnit">
+		    <Original>Heal friendly/self</Original>
+		    <German>Eigenen/sich selbst heilen</German>
+		    <French>Soigner un allié/soi-même</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_kb_giveUp">
+		    <Original>Give up (when unconscious)</Original>
+		    <German>Aufgeben (wenn bewusstlos)</German>
+		    <French>Abandonner (quand inconscient)</French>
+		</Key>
+
+		<!-- ================================================================================ -->
 		<!-- Role names -->
 		<!-- ================================================================================ -->
 		<Key ID="STR_cre8ive_conquest_role_specops">
@@ -209,10 +259,31 @@
 	<!-- ================================================================================ -->
 	<!-- Tutorial hints -->
 	<!-- ================================================================================ -->
-	<Key ID="STR_cre8ive_conquest_tutorialHints_roleAbilities">
+	<Key ID="STR_cre8ive_conquest_tutorialHints_roleAbilities_title">
+	    <Original>Role abilities</Original>
+	    <German>Rollenfähigkeiten</German>
+	    <French>Capacités du rôle</French>
+	</Key>
+	<Key ID="STR_cre8ive_conquest_tutorialHints_roleAbilities_body">
 	    <Original>As %1, you have the following abilities:</Original>
 	    <German>Als %1 hast du folgende Fähigkeiten:</German>
 	    <French>En tant que %1, tu as les capacités suivantes:</French>
+	</Key>
+	<Key ID="STR_cre8ive_conquest_tutorialHints_roleAbilities_body_alt">
+	    <Original>As %1, you don't have any additional abilities in this faction.</Original>
+	    <German>Als %1 hast du in dieser Faktion keine erweiterten Fähigkeiten.</German>
+	    <French>En tant que %1, tu n'as pas de capacités additionelles dans cette faction.</French>
+	</Key>
+
+	<Key ID="STR_cre8ive_conquest_tutorialHints_reopenSpawnMenu_title">
+	    <Original>Spawn menu</Original>
+	    <German>Spielmenü</German>
+	    <French>Menu du jeu</French>
+	</Key>
+	<Key ID="STR_cre8ive_conquest_tutorialHints_reopenSpawnMenu_body">
+	    <Original>You can reopen the spawn menu at any time by pressing %1.</Original>
+	    <German>Du kannst das Spielmenü jederzeit öffnen indem du %1 drückst.</German>
+	    <French>Tu peux reouvrir le menu du jeu à tout moment en appuyant %1.</French>
 	</Key>
 
 

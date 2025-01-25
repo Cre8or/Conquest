@@ -47,7 +47,7 @@
 	// Tutorial hints
 	#define MACRO_IDC_TH_CTRLGRP                                    100
 	#define MACRO_IDC_TH_BACKGROUND                                 101
-	#define MACRO_IDC_TH_ICON_BACKGROUND                            102
+	#define MACRO_IDC_TH_PROGRESS_BAR                               102
 	#define MACRO_IDC_TH_ICON_PICTURE                               103
 	#define MACRO_IDC_TH_TITLE_TEXT                                 104
 	#define MACRO_IDC_TH_TITLE_SEPARATOR                            105
@@ -416,6 +416,8 @@
 
 	#define MACRO_COLOUR_SECTOR_LOCKED                              1.0, 0.8, 0.0, 1.0
 
+	#define MACRO_COLOUR_HTML_GREEN                                 "00FF00"
+
 
 
 
@@ -523,7 +525,8 @@
 	#define MACRO_NM_BITFLAG_SIDE_WEST                              1 // 2^0
 
 	// Tutorial hints
-	#define MACRO_TH_EXPIRATION_ROLEABILITIES                       10 // The duration, in seconds, that a role abilities hint remains visible before expiring and being hidden
+	#define MACRO_TH_EXPIRATION_ROLEABILITIES                       15 // The duration, in seconds, that a role abilities hint remains visible before expiring and being hidden
+	#define MACRO_TH_EXPIRATION_REOPENSPAWNMENU                     15
 
 	// Scoreboard
 	#define MACRO_SB_SYS_UPDATEINTERVAL                             1 // Interval, in seconds, between updates of the scoreboard contents
@@ -555,7 +558,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.22.1004" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.22.1009" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -949,10 +952,10 @@
 	#define MACRO_ENUM_SOUNDSET_SIDEDEFEATED_WIN                    10
 	#define MACRO_ENUM_SOUNDSET_SIDEDEFEATED_LOSE                   11
 
-	#define MACRO_ENUM_SOUNDSET_ENDMISSION_WIN                      20
-	#define MACRO_ENUM_SOUNDSET_ENDMISSION_WIN_DECISIVE             21
-	#define MACRO_ENUM_SOUNDSET_ENDMISSION_LOSE                     22
-	#define MACRO_ENUM_SOUNDSET_ENDMISSION_LOSE_DECISIVE            23
+	#define MACRO_ENUM_SOUNDSET_ENDING_VICTORY                      20
+	#define MACRO_ENUM_SOUNDSET_ENDING_VICTORY_DECISIVE             21
+	#define MACRO_ENUM_SOUNDSET_ENDING_DEFEAT                       22
+	#define MACRO_ENUM_SOUNDSET_ENDING_DEFEAT_DECISIVE              23
 
 
 

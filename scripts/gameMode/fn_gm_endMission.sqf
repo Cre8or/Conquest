@@ -67,15 +67,15 @@ if (hasInterface) then {
 
 	if (_isWin) then {
 		if (_isDecisive) then {
-			[MACRO_ENUM_SOUNDSET_ENDMISSION_WIN_DECISIVE] call FUNC(gm_playSoundset);
+			[MACRO_ENUM_SOUNDSET_ENDING_VICTORY_DECISIVE] call FUNC(gm_playSoundset);
 		} else {
-			[MACRO_ENUM_SOUNDSET_ENDMISSION_WIN] call FUNC(gm_playSoundset);
+			[MACRO_ENUM_SOUNDSET_ENDING_VICTORY] call FUNC(gm_playSoundset);
 		};
 	} else {
 		if (_isDecisive) then {
-			[MACRO_ENUM_SOUNDSET_ENDMISSION_LOSE_DECISIVE] call FUNC(gm_playSoundset);
+			[MACRO_ENUM_SOUNDSET_ENDING_DEFEAT_DECISIVE] call FUNC(gm_playSoundset);
 		} else {
-			[MACRO_ENUM_SOUNDSET_ENDMISSION_LOSE] call FUNC(gm_playSoundset);
+			[MACRO_ENUM_SOUNDSET_ENDING_DEFEAT] call FUNC(gm_playSoundset);
 		};
 	};
 

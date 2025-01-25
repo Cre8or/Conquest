@@ -371,15 +371,7 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 							};
 
 							// Show the keybinding to give up
-							private _keyBind = [MACRO_MISSION_FRAMEWORK_GAMEMODE, QGVAR(kb_giveUp)] call CBA_fnc_getKeybind;
-							private ["_keyBindStr"];
-
-							if (isNil "_keyBind" or {_keyBind isEqualTo []}) then {
-								_keyBindStr = "No Key Assigned";
-							} else {
-								_keyBindStr = (_keyBind param [5, [MACRO_KEYBIND_GIVEUP]]) call CBA_fnc_localizeKey;
-							};
-
+							private _keyBindStr = [MACRO_MISSION_FRAMEWORK_GAMEMODE, QGVAR(kb_giveUp)] call FUNC(cba_getKeybindStr);
 							_ctrlGiveUp ctrlSetText format ["Hold [%1] to give up", _keyBindStr];
 
 						// Detect revival

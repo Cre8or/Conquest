@@ -27,8 +27,8 @@ class GVAR(RscTutorialHints) {
 					colorBackground[] = CURLY(MACRO_COLOUR_A75_BLACK);
 				};
 
-				class Icon_Background : GVAR(RscFrame) {
-					idc = MACRO_IDC_TH_ICON_BACKGROUND;
+				class Progress_Bar : Background {
+					idc = MACRO_IDC_TH_PROGRESS_BAR;
 					colorBackground[] = CURLY(MACRO_COLOUR_A100_FRIENDLY);
 					w = MACRO_POS_TH_TITLE_TEXTSIZE;
 					h = MACRO_POS_TH_TITLE_TEXTSIZE;
@@ -38,17 +38,15 @@ class GVAR(RscTutorialHints) {
 					idc = MACRO_IDC_TH_ICON_PICTURE;
 					text = "a3\ui_f\data\GUI\Rsc\RscDisplayMain\menu_tutorials_ca.paa";
 					shadow = 1;
-					w = MACRO_POS_TH_TITLE_TEXTSIZE;
+					w = MACRO_POS_TH_TITLE_TEXTSIZE * (3 / 4);
 					h = MACRO_POS_TH_TITLE_TEXTSIZE;
 				};
 
 				class Title : GVAR(RscText) {
 					idc = MACRO_IDC_TH_TITLE_TEXT;
 					text = "HINT";
-					//style = ST_LEFT;
 					sizeEx = MACRO_POS_TH_TITLE_TEXTSIZE;
-					x = MACRO_POS_TH_TITLE_TEXTSIZE;
-					w = MACRO_POS_TH_WIDTH - MACRO_POS_TH_TITLE_TEXTSIZE;
+					w = MACRO_POS_TH_WIDTH;
 					h = MACRO_POS_TH_TITLE_TEXTSIZE;
 				};
 

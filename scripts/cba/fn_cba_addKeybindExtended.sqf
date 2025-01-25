@@ -67,8 +67,6 @@ _keybinds = _keybinds select {_x # 0 > DIK_ESCAPE};
 for "_i" from 1 to (count _keyBinds) - 1 do {
 	_keyBind = _keyBinds # _i;
 
-
-
 	// Add this action to all keybinds
     if (_downCode isNotEqualTo {}) then {
         [_keyBind # 0, _keybind # 1, _downCode, "keyDown", format ["%1_down_%2", _action, _i], _isRepeatable, _repeatDelay] call CBA_fnc_addKeyHandler;

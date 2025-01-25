@@ -54,25 +54,27 @@ switch (_enum) do {
 		// AmbientTrack02_F_Orange
 	};
 
-	case MACRO_ENUM_SOUNDSET_ENDMISSION_WIN: {
+
+
+	case MACRO_ENUM_SOUNDSET_ENDING_VICTORY: {
 		0 fadeMusic 0;
 		playMusic ["LeadTrack01_F_Jets", 117];
 		1 fadeMusic 1;
 	};
 
-	case MACRO_ENUM_SOUNDSET_ENDMISSION_WIN_DECISIVE: {
+	case MACRO_ENUM_SOUNDSET_ENDING_VICTORY_DECISIVE: {
 		0 fadeMusic 0;
 		playMusic ["LeadTrack01_F_Mark", 137];
 		1 fadeMusic 1;
 	};
 
-	case MACRO_ENUM_SOUNDSET_ENDMISSION_LOSE: {
+	case MACRO_ENUM_SOUNDSET_ENDING_DEFEAT: {
 		0 fadeMusic 0;
 		playMusic ["Leadtrack06_F_Tank", 0];
 		1 fadeMusic 1;
 	};
 
-	case MACRO_ENUM_SOUNDSET_ENDMISSION_LOSE_DECISIVE: {
+	case MACRO_ENUM_SOUNDSET_ENDING_DEFEAT_DECISIVE: {
 		0 fadeMusic 0;
 		playMusic ["EventTrack01_F_EPC", 19.6];
 		1 fadeMusic 1;
