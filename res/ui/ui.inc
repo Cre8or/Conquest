@@ -41,6 +41,21 @@ class GVAR(RscText) : RscText {
 	style = ST_CENTER;
 	font = MACRO_FONT_UI_MEDIUM;
 	sizeEx = MACRO_UI_TEXTSIZE_1;
+	x = 0;
+	y = 0;
+	w = 1;
+	h = 1;
+};
+
+class GVAR(RscStructuredText) : RscStructuredText {
+	shadow = 2;
+	style = ST_CENTER;
+	font = MACRO_FONT_UI_MEDIUM;
+	sizeEx = MACRO_UI_TEXTSIZE_1;
+	x = 0;
+	y = 0;
+	w = 1;
+	h = 1;
 };
 
 class GVAR(RscTextHeader) : GVAR(RscText) {
@@ -103,12 +118,12 @@ class GVAR(RscKillFeed_Name_Victim) : GVAR(RscKillFeed_Name_Killer) {
 class RscTitles {
 
 	// Empty display
-        class Default {
-                idd = -1;
-                fadeIn = 0;
-                fadeOut = 0;
-                duration = 999999;
-        };
+    class Default {
+            idd = -1;
+            fadeIn = 0;
+            fadeOut = 0;
+            duration = 999999;
+    };
 
 	// Displays
 	#include "rscTitles\rscBlackScreen.inc"
@@ -121,6 +136,7 @@ class RscTitles {
 	#include "rscTitles\rscHealthBar.inc"
 	#include "rscTitles\rscHitEffect.inc"
 	#include "rscTitles\rscSpawnStatus.inc"
+	#include "rscTitles\rscTutorialHints.inc"
 	#include "rscTitles\rscUnconsciousHUD.inc"
 };
 

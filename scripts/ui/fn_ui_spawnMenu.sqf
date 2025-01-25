@@ -52,9 +52,9 @@ switch (_event) do {
 	#include "spawnMenu\ui_listbox_changed.sqf"
 	#include "spawnMenu\ui_mouse_moving.sqf"
 	#include "spawnMenu\ui_mousez_changed.sqf"
-	#include "spawnMenu\ui_update_deploy.sqf"
+	#include "spawnMenu\ui_update_deployment.sqf"
+	#include "spawnMenu\ui_update_faction.sqf"
 	#include "spawnMenu\ui_update_role.sqf"
-	#include "spawnMenu\ui_update_side.sqf"
 	#include "spawnMenu\ui_update_spawn.sqf"
 };
 

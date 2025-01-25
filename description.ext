@@ -95,6 +95,14 @@ class CfgSounds {
 
 
 
+class CfgMusic {
+	#include "res\sounds\music.inc"
+};
+
+
+
+
+
 class Header {
 	gameType   = MACRO_MISSION_FRAMEWORK_MP_GAMETYPE_ENUM;
 	minPlayers = MACRO_MISSION_FRAMEWORK_MP_MINPLAYERS;

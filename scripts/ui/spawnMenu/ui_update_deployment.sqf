@@ -1,5 +1,5 @@
 // Deployment menu
-case "ui_update_deploy": {
+case "ui_update_deployment": {
 	_eventExists = true;
 
 	// Set up some constants
@@ -18,20 +18,20 @@ case "ui_update_deploy": {
 
 	// Perform the initial setup (or redraw if the sectors array has changed)
 	if (
-		!(_spawnMenu getVariable [QGVAR(menuDeploy_isInit), false])
-		or {_sectors isNotEqualTo (_spawnMenu getVariable [QGVAR(menuDeploy_sectorsPrev), []])}
+		!(_spawnMenu getVariable [QGVAR(menuDeployment_isInit), false])
+		or {_sectors isNotEqualTo (_spawnMenu getVariable [QGVAR(menuDeployment_sectorsPrev), []])}
 	) then {
-		_spawnMenu setVariable [QGVAR(menuDeploy_isInit), true];
-		_spawnMenu setVariable [QGVAR(menuDeploy_sectorsPrev), _sectors];
+		_spawnMenu setVariable [QGVAR(menuDeployment_isInit), true];
+		_spawnMenu setVariable [QGVAR(menuDeployment_sectorsPrev), _sectors];
 
 		// Set up some variables
 		private _ctrls = [];
-		private _ctrlGrp = _spawnMenu displayCtrl MACRO_IDC_SM_DEPLOY_SECTORS_CTRLGROUP;
+		private _ctrlGrp = _spawnMenu displayCtrl MACRO_IDC_SM_DEPLOYMENT_SECTORS_CTRLGROUP;
 
 		// Delete the previous controls
 		{
 			ctrlDelete _x;
-		} forEach (_spawnMenu getVariable [QGVAR(menuDeploy_ctrls), []]);
+		} forEach (_spawnMenu getVariable [QGVAR(menuDeployment_ctrls), []]);
 
 		// Only continue if the player has joined a side
 		if (_playerSideValid) then {
@@ -161,7 +161,7 @@ case "ui_update_deploy": {
 
 					// ------------------------------------------------------------------------------------------------------------------------------------------------
 					// Button
-					_ctrlButton = _spawnMenu ctrlCreate [QGVAR(RscFrameFocused), MACRO_IDC_SM_DEPLOY_SECTOR_START + _forEachIndex, _ctrlGrp];
+					_ctrlButton = _spawnMenu ctrlCreate [QGVAR(RscFrameFocused), MACRO_IDC_SM_DEPLOYMENT_SECTOR_START + _forEachIndex, _ctrlGrp];
 					_ctrlButton ctrlSetPosition [
 						_originX,
 						_originY,
@@ -201,7 +201,7 @@ case "ui_update_deploy": {
 		};
 
 		// Save the new controls
-		_spawnMenu setVariable [QGVAR(menuDeploy_ctrls), _ctrls];
+		_spawnMenu setVariable [QGVAR(menuDeployment_ctrls), _ctrls];
 	};
 
 	// Perform the initial setup (or redraw if the sectors array has changed)
@@ -209,7 +209,7 @@ case "ui_update_deploy": {
 		_spawnMenu setVariable [QGVAR(menu_isOpen), true];
 
 		// Focus the map
-		[_spawnMenu displayCtrl MACRO_IDC_SM_DEPLOY_MAP, MACRO_UI_MAPFOCUS_PADDING_SM] call FUNC(ui_focusMap);
+		[_spawnMenu displayCtrl MACRO_IDC_SM_DEPLOYMENT_MAP, MACRO_UI_MAPFOCUS_PADDING_SM] call FUNC(ui_focusMap);
 	};
 
 
@@ -222,7 +222,7 @@ case "ui_update_deploy": {
 		{
 			_sector     = _x;
 			_isSelected = (GVAR(spawnSector) == _sector);
-			_IDC        = _forEachIndex + MACRO_IDC_SM_DEPLOY_SECTOR_START;
+			_IDC        = _forEachIndex + MACRO_IDC_SM_DEPLOYMENT_SECTOR_START;
 
 			// Fetch our controls
 			_ctrlButton = _spawnMenu displayCtrl _IDC;

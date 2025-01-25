@@ -6,7 +6,7 @@
 		Refer to macros.inc for a list of possible sound enumerations.
 	Arguments:
 		0:	<OBJECT>	The unit in question
-		1:	<NUMBER>	The sound enum (optional, default: MACRO_ENUM_SOUND_INVALID)
+		1:	<NUMBER>	The sound enum (optional, default: MACRO_ENUM_OBJSOUND_INVALID)
 	Returns:
 		(nothing)
 -------------------------------------------------------------------------------------------------------------------- */
@@ -15,7 +15,7 @@
 
 params [
 	["_unit", objNull, [objNull]],
-	["_enum", MACRO_ENUM_SOUND_INVALID, [MACRO_ENUM_SOUND_INVALID]]
+	["_enum", MACRO_ENUM_OBJSOUND_INVALID, [MACRO_ENUM_OBJSOUND_INVALID]]
 ];
 
 
@@ -32,11 +32,11 @@ private _isVoice   = false;
 // Fetch the requested sound data
 switch (_enum) do {
 
-	case MACRO_ENUM_SOUND_RESUPPLY: {
+	case MACRO_ENUM_OBJSOUND_RESUPPLY: {
 		_soundData = [format [QGVAR(Unit_Resupply_%1), 1 + floor random 2], 20, 1, 0];
 	};
 
-	case MACRO_ENUM_SOUND_HEAL: {
+	case MACRO_ENUM_OBJSOUND_HEAL: {
 		_soundData = selectRandom [
 			[QGVAR(Unit_Heal_1), 2.5],
 			[QGVAR(Unit_Heal_2), 4.15],
@@ -51,7 +51,7 @@ switch (_enum) do {
 		_soundData = [_soundData # 0, 20, 1, 0, _soundData # 1];
 	};
 
-	case MACRO_ENUM_SOUND_VO_DEATH: {
+	case MACRO_ENUM_OBJSOUND_VO_DEATH: {
 		if (0.5 < random 1) then {
 			_soundData = [format [QGVAR(Unit_VO_Death_Loud_%1), 1 + floor random 16], 200, 1, 0];
 		} else {
@@ -61,7 +61,7 @@ switch (_enum) do {
 		_isVoice = true;
 	};
 
-	case MACRO_ENUM_SOUND_VO_REVIVE: {
+	case MACRO_ENUM_OBJSOUND_VO_REVIVE: {
 		_soundData = [format [QGVAR(Unit_VO_Revive_%1), 1 + floor random 10], 50, 1, 0];
 		_isVoice = true;
 	};

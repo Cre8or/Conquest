@@ -16,9 +16,8 @@
 #include "\a3\editor_f\Data\Scripts\dikCodes.h"
 
 #include "..\..\res\common\macros.inc"
-
 #include "..\..\res\macros\fnc_initVar.inc"
-#include "..\..\res\macros\tween_rampDown.inc"
+#include "..\..\res\macros\fnc_tweens.inc"
 
 if (!hasInterface) exitWith {};
 
@@ -191,7 +190,7 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 									["ui_init"] call FUNC(ui_spawnMenu);
 
 									if (GVAR(side) != sideEmpty) then {
-										["ui_button_click", [MACRO_IDC_SM_DEPLOY_BUTTON]] call FUNC(ui_spawnMenu);
+										["ui_button_click", [MACRO_IDC_SM_DEPLOYMENT_BUTTON]] call FUNC(ui_spawnMenu);
 									};
 
 									GVAR(gm_sys_handlePlayerRespawn_nextShowMenu) = _time + MACRO_SM_RESPAWN_OPENINTERVAL;
@@ -435,11 +434,9 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 
 		// Handle the unconscious HUD's fade-in animation
 		if (!isNull _unconsciousHUD) then {
-			private _ctrlGrp = _unconsciousHUD displayCtrl MACRO_IDC_UHUD_CTRLGRP;
-
-			private _animEndTime = GVAR(gm_sys_handlePlayerRespawn_unconsciousTime) + MACRO_UHUD_FADEIN_ANIMDURATION;
-			private _animPhase   = 1 - MACRO_TWEEN_RAMPDOWN(_time, _animEndTime, MACRO_UHUD_FADEIN_ANIMDURATION);
-			private _ctrlPos     = ctrlPosition _ctrlGrp;
+			private _ctrlGrp   = _unconsciousHUD displayCtrl MACRO_IDC_UHUD_CTRLGRP;
+			private _ctrlPos   = ctrlPosition _ctrlGrp;
+			private _animPhase = MACRO_TWEEN_CUBIC_OUT(GVAR(gm_sys_handlePlayerRespawn_unconsciousTime), _time, MACRO_UHUD_FADEIN_ANIMDURATION);
 
 			// Start centered, expand up and down
 			_ctrlGrp ctrlSetPositionY (safeZoneY + safezoneH / 2 - MACRO_POS_UHUD_HEIGHT * (0.5 + 0.5 * _animPhase));

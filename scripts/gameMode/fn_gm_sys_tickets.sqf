@@ -24,13 +24,10 @@
 
 
 
-// Set up some variables
-MACRO_FNC_INITVAR(GVAR(gm_sys_tickets_EH_eachFrame),-1);
-MACRO_FNC_INITVAR(GVAR(gm_sys_tickets_EH_killed),-1);
+MACRO_FNC_INITVAR(GVAR(gm_sys_tickets_EH_eachFrame), -1);
+MACRO_FNC_INITVAR(GVAR(gm_sys_tickets_EH_killed), -1);
 
-GVAR(gm_sys_tickets_nextTime) = -1;
-GVAR(gm_sys_tickets_canBeWarned) = GVAR(sides) apply {_x != sideEmpty};
-GVAR(gm_sys_tickets_remainingWarnings) = ({_x} count GVAR(gm_sys_tickets_canBeWarned)) - 1;
+GVAR(gm_sys_tickets_nextUpdate) = -1;
 
 GVAR(ticketsEast_last)       = -1;
 GVAR(ticketsResistance_last) = -1;
@@ -83,107 +80,83 @@ GVAR(gm_sys_tickets_EH_eachFrame) = addMissionEventHandler ["EachFrame", {
 	if (isGamePaused) exitWith {};
 
 	private _time = time;
-	if (GVAR(missionState) == MACRO_ENUM_MISSION_LIVE and {_time > GVAR(gm_sys_tickets_nextTime)}) then {
+	if (
+		GVAR(missionState) != MACRO_ENUM_MISSION_LIVE
+		or {_time < GVAR(gm_sys_tickets_nextUpdate)}
+	) exitWith {};
 
-		// NOTE: The order *MUST* match that of GVAR(sides)!
-		private ["_sideX", "_validX", "_sectorsX", "_sectorCountX", "_ratioX"];
-		private _capturableSectors = GVAR(allSectors) select {!(_x getVariable [QGVAR(isLocked), false])};
-		private _totalSectorCount  = count _capturableSectors;
-		private _freeSectorCount   = {_x getVariable [QGVAR(side), sideEmpty] == sideEmpty} count _capturableSectors;
-		private _sideTickets       = [GVAR(ticketsEast), GVAR(ticketsResistance), GVAR(ticketsWest)];
-		private _sideSectorCounts  = [0, 0, 0];
-		{
-			_sideX        = _x;
-			_validX       = false;
-			_sectorsX     = GVAR(allSectors) select {_x getVariable [QGVAR(side), sideEmpty] == _sideX};
-			_sectorCountX = count _sectorsX;
+	// NOTE: The order *MUST* match that of GVAR(sides)!
+	private ["_sideX", "_validX", "_sectorsX", "_sectorCountX", "_ratioX"];
+	private _capturableSectors = GVAR(allSectors) select {!(_x getVariable [QGVAR(isLocked), false])};
+	private _totalSectorCount  = count _capturableSectors;
+	private _freeSectorCount   = {_x getVariable [QGVAR(side), sideEmpty] == sideEmpty} count _capturableSectors;
+	private _sideTickets       = [GVAR(ticketsEast), GVAR(ticketsResistance), GVAR(ticketsWest)];
+	private _sideSectorCounts  = [0, 0, 0];
+	{
+		_sideX        = _x;
+		_validX       = false;
+		_sectorsX     = GVAR(allSectors) select {_x getVariable [QGVAR(side), sideEmpty] == _sideX};
+		_sectorCountX = count _sectorsX;
 
-			if (_sideTickets # _forEachIndex > 0) then {
-				if (_sectorsX findIf {_x getVariable [format [QGVAR(spawnPoints_%1), _sideX], []] isNotEqualTo []} >= 0) then { // Exclusively count spawnable sectors
-					_validX = true;
-				} else {
-					if (
-						allPlayers findIf {_x getVariable [QGVAR(side), sideEmpty] == _sideX and {[_x] call FUNC(unit_isAlive)}} >= 0
-						or {GVAR(AIUnits) findIf {_x getVariable [QGVAR(side), sideEmpty] == _sideX and {[_x] call FUNC(unit_isAlive)}} >= 0}
-					) then {
-						_validX = true;
-					};
-				};
-			};
-
-			// If the side is deemed invalid (no tickets left / no sectors and no units left), clear it
-			if (_validX) then {
-				_sideSectorCounts set [_forEachIndex, _sectorCountX];
+		if (_sideTickets # _forEachIndex > 0) then {
+			if (_sectorsX findIf {_x getVariable [format [QGVAR(spawnPoints_%1), _sideX], []] isNotEqualTo []} >= 0) then { // Exclusively count spawnable sectors
+				_validX = true;
 			} else {
-				_freeSectorCount = _freeSectorCount + _sectorCountX;
-				_sideTickets set [_forEachIndex, 0];
-				switch (_sideX) do {
-					case east:       {GVAR(ticketsEast)       = 0};
-					case resistance: {GVAR(ticketsResistance) = 0};
-					case west:       {GVAR(ticketsWest)       = 0};
-				};
-			};
-		} forEach GVAR(sides);
-
-		private _maxRatio         = 0;
-		private _sideSectorRatios = [0, 0, 0];
-		{
-			if (_x == sideEmpty) then {
-				continue;
-			};
-
-			_ratioX   = (_freeSectorCount + (_sideSectorCounts # _forEachIndex)) / _totalSectorCount;
-			_maxRatio = _maxRatio max _ratioX;
-
-			_sideSectorRatios set [_forEachIndex, _ratioX];
-		} forEach GVAR(sides);
-
-
-
-
-
-		// Perform ticket bleed
-		private _c_sectorRatioThresholdInv = 1 - MACRO_TICKETBLEED_SECTORRATIOTHRESHOLD;
-		_sideSectorCounts params ["_sectorCountEast", "_sectorCountResistance", "_sectorCountWest"]; // Needed by the ticket bleed macro
-		_sideSectorRatios params ["_sectorRatioEast", "_sectorRatioResistance", "_sectorRatioWest"]; // Needed by the ticket bleed macro
-
-		MACRO_FNC_PERFORMTICKETBLEED(East);
-		MACRO_FNC_PERFORMTICKETBLEED(Resistance);
-		MACRO_FNC_PERFORMTICKETBLEED(West);
-
-		// Broadcast the ticket counts (and ticket bleed), if they have changed
-		MACRO_FNC_BROADCASTONCHANGE(GVAR(ticketsEast),GVAR(ticketsEast_last));
-		MACRO_FNC_BROADCASTONCHANGE(GVAR(ticketsResistance),GVAR(ticketsResistance_last));
-		MACRO_FNC_BROADCASTONCHANGE(GVAR(ticketsWest),GVAR(ticketsWest_last));
-
-		MACRO_FNC_BROADCASTONCHANGE(GVAR(ticketBleedEast),GVAR(ticketBleedEast_last));
-		MACRO_FNC_BROADCASTONCHANGE(GVAR(ticketBleedResistance),GVAR(ticketBleedResistance_last));
-		MACRO_FNC_BROADCASTONCHANGE(GVAR(ticketBleedWest),GVAR(ticketBleedWest_last));
-
-		// Send a warning if tickets are running low
-		if (GVAR(gm_sys_tickets_remainingWarnings) > 0) then {
-			{
-				_sideX = _x;
 				if (
-					GVAR(gm_sys_tickets_canBeWarned) # _forEachIndex
-					and {_sideTickets # _forEachIndex < MACRO_TICKETS_WARNINGTHRESHOLD}
+					allPlayers findIf {_x getVariable [QGVAR(side), sideEmpty] == _sideX and {[_x] call FUNC(unit_isAlive)}} >= 0
+					or {GVAR(AIUnits) findIf {_x getVariable [QGVAR(side), sideEmpty] == _sideX and {[_x] call FUNC(unit_isAlive)}} >= 0}
 				) then {
-					GVAR(gm_sys_tickets_remainingWarnings) = GVAR(gm_sys_tickets_remainingWarnings) - 1;
-					GVAR(gm_sys_tickets_canBeWarned) set [_forEachIndex, false];
-
-					[MACRO_ENUM_RADIOMSG_TICKETSLOW_LOSE] remoteExecCall [QFUNC(gm_playRadioMsg), _sideX, true];
-					{
-						[MACRO_ENUM_RADIOMSG_TICKETSLOW_WIN] remoteExecCall [QFUNC(gm_playRadioMsg), _x, true];
-					} forEach (GVAR(sides) - [_sideX]);
-
-					[QGVAR(TicketsLow_Siren)] remoteExecCall ["playSound", _sideX, false];
-					["LeadTrack03a_F_EPA"] remoteExecCall ["playMusic", 0, false];
+					_validX = true;
 				};
-			} forEach GVAR(sides);
+			};
 		};
 
-		GVAR(gm_sys_tickets_nextTime) = _time + MACRO_GM_SYS_TICKETS_INTERVAL;
-	};
+		// If the side is deemed invalid (no tickets left / no sectors and no units left), clear it
+		if (_validX) then {
+			_sideSectorCounts set [_forEachIndex, _sectorCountX];
+		} else {
+			_freeSectorCount = _freeSectorCount + _sectorCountX;
+			_sideTickets set [_forEachIndex, 0];
+			switch (_sideX) do {
+				case east:       {GVAR(ticketsEast)       = 0};
+				case resistance: {GVAR(ticketsResistance) = 0};
+				case west:       {GVAR(ticketsWest)       = 0};
+			};
+		};
+	} forEach GVAR(sides);
+
+	private _maxRatio         = 0;
+	private _sideSectorRatios = [0, 0, 0];
+	{
+		if (_x == sideEmpty) then {
+			continue;
+		};
+
+		_ratioX   = (_freeSectorCount + (_sideSectorCounts # _forEachIndex)) / _totalSectorCount;
+		_maxRatio = _maxRatio max _ratioX;
+
+		_sideSectorRatios set [_forEachIndex, _ratioX];
+	} forEach GVAR(sides);
+
+	// Perform ticket bleed
+	private _c_sectorRatioThresholdInv = 1 - MACRO_TICKETBLEED_SECTORRATIOTHRESHOLD;
+	_sideSectorCounts params ["_sectorCountEast", "_sectorCountResistance", "_sectorCountWest"]; // Needed by the ticket bleed macro
+	_sideSectorRatios params ["_sectorRatioEast", "_sectorRatioResistance", "_sectorRatioWest"]; // Needed by the ticket bleed macro
+
+	MACRO_FNC_PERFORMTICKETBLEED(East);
+	MACRO_FNC_PERFORMTICKETBLEED(Resistance);
+	MACRO_FNC_PERFORMTICKETBLEED(West);
+
+	// Broadcast the ticket counts (and ticket bleed), if they have changed
+	MACRO_FNC_BROADCASTONCHANGE(GVAR(ticketsEast),GVAR(ticketsEast_last));
+	MACRO_FNC_BROADCASTONCHANGE(GVAR(ticketsResistance),GVAR(ticketsResistance_last));
+	MACRO_FNC_BROADCASTONCHANGE(GVAR(ticketsWest),GVAR(ticketsWest_last));
+
+	MACRO_FNC_BROADCASTONCHANGE(GVAR(ticketBleedEast),GVAR(ticketBleedEast_last));
+	MACRO_FNC_BROADCASTONCHANGE(GVAR(ticketBleedResistance),GVAR(ticketBleedResistance_last));
+	MACRO_FNC_BROADCASTONCHANGE(GVAR(ticketBleedWest),GVAR(ticketBleedWest_last));
+
+	GVAR(gm_sys_tickets_nextUpdate) = _time + MACRO_GM_SYS_TICKETS_INTERVAL;
 }];
 
 

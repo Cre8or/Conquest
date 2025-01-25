@@ -65,21 +65,17 @@ if (hasInterface) then {
 	private _isTie = (_winningSide == sideEmpty);
 	private _isWin = (!_isTie and {_winningSide == GVAR(side)});
 
-	// Play music
-	0 fadeMusic 0;
-	1 fadeMusic 1;
-
 	if (_isWin) then {
 		if (_isDecisive) then {
-			playMusic ["LeadTrack01_F_Mark", 137];
+			[MACRO_ENUM_SOUNDSET_ENDMISSION_WIN_DECISIVE] call FUNC(gm_playSoundset);
 		} else {
-			playMusic ["LeadTrack01_F_Jets", 117];
+			[MACRO_ENUM_SOUNDSET_ENDMISSION_WIN] call FUNC(gm_playSoundset);
 		};
 	} else {
 		if (_isDecisive) then {
-			playMusic ["EventTrack01_F_EPC", 19.6];
+			[MACRO_ENUM_SOUNDSET_ENDMISSION_LOSE_DECISIVE] call FUNC(gm_playSoundset);
 		} else {
-			playMusic ["Leadtrack06_F_Tank", 0];
+			[MACRO_ENUM_SOUNDSET_ENDMISSION_LOSE] call FUNC(gm_playSoundset);
 		};
 	};
 
@@ -100,6 +96,10 @@ if (hasInterface) then {
 	// Disable the score and kill feeds
 	QGVAR(RscScoreFeed) cutRsc ["Default", "PLAIN"];
 	QGVAR(RscKillFeed) cutRsc ["Default", "PLAIN"];
+
+	// Disable the tutorial hints UI
+	GVAR(gm_sys_tutorialHints_activeHint) = MACRO_ENUM_TUTORIALHINT_INVALID;
+	GVAR(ui_sys_drawTutorialHints_update) = true;
 
 	// Display the end screen
 	QGVAR(RscEndScreen) cutRsc [QGVAR(RscEndScreen), "PLAIN"];

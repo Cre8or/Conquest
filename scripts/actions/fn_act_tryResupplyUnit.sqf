@@ -130,7 +130,7 @@ if (!isPlayer _support) then {
 [_support, _recipient] remoteExecCall [QFUNC(unit_onResupplyUnit), _recipient, false];
 
 // Handle action sounds
-[_support, MACRO_ENUM_SOUND_RESUPPLY] remoteExecCall [QFUNC(unit_playSound), 0, false];
+[_support, MACRO_ENUM_OBJSOUND_RESUPPLY] remoteExecCall [QFUNC(unit_playSound), 0, false];
 
 // Return the unit that was resupplied
 [true, _recipient];

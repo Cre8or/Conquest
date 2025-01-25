@@ -14,8 +14,8 @@ class GVAR(RscKillFeed) {
 		// Background Controls Group
 		class Background_CtrlGrp : RscControlsGroupNoScrollbars {
 			idc = MACRO_IDC_KF_CTRLGRP;
-			x = safeZoneX + safeZoneW - MACRO_POS_KF_WIDTH;
-			y = safeZoneY + MACRO_POS_KF_Y;
+			x = MACRO_POS_KF_X;
+			y = MACRO_POS_KF_Y;
 			w = MACRO_POS_KF_WIDTH;
 			h = MACRO_POS_KF_ENTRY_HEIGHT * MACRO_POS_KF_ENTRY_MAXCOUNT;
 

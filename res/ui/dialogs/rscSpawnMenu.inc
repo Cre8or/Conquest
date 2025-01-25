@@ -47,9 +47,9 @@ class GVAR(RscSpawnMenu) {
 					h = pixelH;
 				};
 
-				// Side Button Frame
-				class Side_Button_Frame : GVAR(RscFrame) {
-					idc = MACRO_IDC_SM_SIDE_FRAME;
+				// Faction Button Frame
+				class Faction_Button_Frame : GVAR(RscFrame) {
+					idc = MACRO_IDC_SM_FACTION_FRAME;
 					colorBackground[] = CURLY(MACRO_COLOUR_BUTTON_ACTIVE);
 					x = pixelW * MACRO_POS_SPACER_X;
 					y = MACRO_POS_SM_MENU_HEIGHT + pixelH * (MACRO_POS_SPACER_Y * 2 + 1);
@@ -57,10 +57,10 @@ class GVAR(RscSpawnMenu) {
 					h = (MACRO_POS_SM_HEIGHT - MACRO_POS_SM_MENU_HEIGHT) - pixelH * (MACRO_POS_SPACER_Y * 3 + 1);
 				};
 
-				// Side Button
-				class Side_Button : GVAR(RscButton) {
-					idc = MACRO_IDC_SM_SIDE_BUTTON;
-					text = __EVAL(toUpper localize LSTRING(ui_spawnMenu_side));
+				// Faction Button
+				class Faction_Button : GVAR(RscButton) {
+					idc = MACRO_IDC_SM_FACTION_BUTTON;
+					text = __EVAL(toUpper localize LSTRING(ui_spawnMenu_faction));
 					x = pixelW * MACRO_POS_SPACER_X;
 					y = MACRO_POS_SM_MENU_HEIGHT + pixelH * (MACRO_POS_SPACER_Y * 2 + 1);
 					w = safeZoneW * 0.1 - pixelW * MACRO_POS_SPACER_X;
@@ -71,40 +71,40 @@ class GVAR(RscSpawnMenu) {
 				};
 
 				// Role Button Frame
-				class Role_Button_Frame : Side_Button_Frame {
+				class Role_Button_Frame : Faction_Button_Frame {
 					idc = MACRO_IDC_SM_ROLE_FRAME;
 					x = safeZoneW * 0.1 + pixelW * MACRO_POS_SPACER_X;
 				};
 
 				// Role Button
-				class Role_Button : Side_Button {
+				class Role_Button : Faction_Button {
 					idc = MACRO_IDC_SM_ROLE_BUTTON;
 					text = __EVAL(toUpper localize LSTRING(ui_spawnMenu_role));
 					x = safeZoneW * 0.1 + pixelW * MACRO_POS_SPACER_X;
 				};
 
-				// Deploy Button Frame
-				class Deploy_Button_Frame : Side_Button_Frame {
-					idc = MACRO_IDC_SM_DEPLOY_FRAME;
+				// Deployment Button Frame
+				class Deployment_Button_Frame : Faction_Button_Frame {
+					idc = MACRO_IDC_SM_DEPLOYMENT_FRAME;
 					x = safeZoneW * 0.2 + pixelW * MACRO_POS_SPACER_X;
 				};
 
-				// Deploy Button
-				class Deploy_Button : Side_Button {
-					idc = MACRO_IDC_SM_DEPLOY_BUTTON;
+				// Deployment Button
+				class Deployment_Button : Faction_Button {
+					idc = MACRO_IDC_SM_DEPLOYMENT_BUTTON;
 					text = __EVAL(toUpper localize LSTRING(ui_spawnMenu_deploy));
 					x = safeZoneW * 0.2 + pixelW * MACRO_POS_SPACER_X;
 				};
 
 				// Spawn Button Frame
-				class Spawn_Button_Frame : Side_Button_Frame {
+				class Spawn_Button_Frame : Faction_Button_Frame {
 					idc = MACRO_IDC_SM_SPAWN_FRAME;
 					colorBackground[] = CURLY(MACRO_COLOUR_BUTTON_INACTIVE);
 					x = MACRO_POS_SM_WIDTH - safeZoneW * 0.1;
 				};
 
 				// Spawn Button
-				class Spawn_Button : Side_Button {
+				class Spawn_Button : Faction_Button {
 					idc = MACRO_IDC_SM_SPAWN_BUTTON;
 					text = __EVAL(toUpper localize LSTRING(ui_spawnMenu_spawn));
 					x = MACRO_POS_SM_WIDTH - safeZoneW * 0.1;
@@ -113,16 +113,16 @@ class GVAR(RscSpawnMenu) {
 				};
 
 		// ------------------------------------------------------------------------------------------------------------------------------------------------
-		// Side Control Group
-		class Side_CtrlGrp : Background_CtrlGrp {
-			idc = MACRO_IDC_SM_SIDE_CTRLGROUP;
+		// Faction Control Group
+		class Faction_CtrlGrp : Background_CtrlGrp {
+			idc = MACRO_IDC_SM_FACTION_CTRLGROUP;
 					h = MACRO_POS_SM_MENU_HEIGHT;
 
 			class controls {
 
 				// Flag, Left
 				class Flag_Picture_Left : GVAR(RscPictureNoAR) {
-					idc = MACRO_IDC_SM_SIDE_FLAG_LEFT_PICTURE;
+					idc = MACRO_IDC_SM_FACTION_FLAG_LEFT_PICTURE;
 					text = MACRO_TEXTURE_FLAG_EMPTY;
 					x = pixelW * MACRO_POS_SPACER_X;
 					y = pixelH * MACRO_POS_SPACER_Y;
@@ -132,7 +132,7 @@ class GVAR(RscSpawnMenu) {
 
 				// Flag Gradient, Left
 				class Flag_Gradient_Left : GVAR(RscPictureNoAR) {
-					idc = MACRO_IDC_SM_SIDE_FLAG_LEFT_GRADIENT;
+					idc = MACRO_IDC_SM_FACTION_FLAG_LEFT_GRADIENT;
 					text = "a3\ui_f\data\GUI\Rsc\RscDisplayFieldManual\gradient_ca.paa";
 					colorText[] = CURLY(MACRO_COLOUR_A100_BLACK);
 					x = pixelW * MACRO_POS_SPACER_X;
@@ -143,7 +143,7 @@ class GVAR(RscSpawnMenu) {
 
 				// Flag Fill, Left
 				class Flag_Fill_Left : GVAR(RscFrame) {
-					idc = MACRO_IDC_SM_SIDE_FLAG_LEFT_FILL;
+					idc = MACRO_IDC_SM_FACTION_FLAG_LEFT_FILL;
 					colorBackground[] = CURLY(MACRO_COLOUR_A100_BLACK);
 					x = pixelW * MACRO_POS_SPACER_X;
 					y = MACRO_POS_SM_MENU_HEIGHT * (0.32 - 0.05);
@@ -153,7 +153,7 @@ class GVAR(RscSpawnMenu) {
 
 				// Flag Fill Separator, Left
 				class Flag_Fill_Separator_Left : GVAR(RscFrame) {
-					idc = MACRO_IDC_SM_SIDE_FLAG_LEFT_SEPARATOR;
+					idc = MACRO_IDC_SM_FACTION_FLAG_LEFT_SEPARATOR;
 					colorBackground[] = CURLY(MACRO_COLOUR_A100_WHITE);
 					x = MACRO_POS_SM_WIDTH * (1 / 6) - pixelW;
 					y = MACRO_POS_SM_MENU_HEIGHT * (0.32 - 0.05);
@@ -172,28 +172,28 @@ class GVAR(RscSpawnMenu) {
 
 				// Flag, Middle
 				class Flag_Picture_Middle : Flag_Picture_Left {
-					idc = MACRO_IDC_SM_SIDE_FLAG_MIDDLE_PICTURE;
+					idc = MACRO_IDC_SM_FACTION_FLAG_MIDDLE_PICTURE;
 					x = MACRO_POS_SM_WIDTH / 3 + pixelW * MACRO_POS_SPACER_X;
 					w = MACRO_POS_SM_WIDTH / 3 - pixelW * MACRO_POS_SPACER_X * 2;
 				};
 
 				// Flag Gradient, Middle
 				class Flag_Gradient_Middle : Flag_Gradient_Left {
-					idc = MACRO_IDC_SM_SIDE_FLAG_MIDDLE_GRADIENT;
+					idc = MACRO_IDC_SM_FACTION_FLAG_MIDDLE_GRADIENT;
 					x = MACRO_POS_SM_WIDTH / 3 + pixelW * MACRO_POS_SPACER_X;
 					w = MACRO_POS_SM_WIDTH / 3 - pixelW * MACRO_POS_SPACER_X * 2;
 				};
 
 				// Flag Fill, Middle
 				class Flag_Fill_Middle : Flag_Fill_Left {
-					idc = MACRO_IDC_SM_SIDE_FLAG_MIDDLE_FILL;
+					idc = MACRO_IDC_SM_FACTION_FLAG_MIDDLE_FILL;
 					x = MACRO_POS_SM_WIDTH / 3 + pixelW * MACRO_POS_SPACER_X;
 					w = MACRO_POS_SM_WIDTH / 3 - pixelW * MACRO_POS_SPACER_X * 2;
 				};
 
 				// Flag Fill Separator, Middle
 				class Flag_Fill_Separator_Middle : Flag_Fill_Separator_Left {
-					idc = MACRO_IDC_SM_SIDE_FLAG_MIDDLE_SEPARATOR;
+					idc = MACRO_IDC_SM_FACTION_FLAG_MIDDLE_SEPARATOR;
 					x = MACRO_POS_SM_WIDTH * (3 / 6) - pixelW;
 				};
 
@@ -208,63 +208,63 @@ class GVAR(RscSpawnMenu) {
 
 				// Flag, Right
 				class Flag_Picture_Right : Flag_Picture_Left {
-					idc = MACRO_IDC_SM_SIDE_FLAG_RIGHT_PICTURE;
+					idc = MACRO_IDC_SM_FACTION_FLAG_RIGHT_PICTURE;
 					x = MACRO_POS_SM_WIDTH * (2 / 3) + pixelW * (MACRO_POS_SPACER_X + 1);
 				};
 
 				// Flag Gradient, Right
 				class Flag_Gradient_Right : Flag_Gradient_Left {
-					idc = MACRO_IDC_SM_SIDE_FLAG_RIGHT_GRADIENT;
+					idc = MACRO_IDC_SM_FACTION_FLAG_RIGHT_GRADIENT;
 					x = MACRO_POS_SM_WIDTH * (2 / 3) + pixelW * (MACRO_POS_SPACER_X + 1);
 				};
 
 				// Flag Fill, Right
 				class Flag_Fill_Right : Flag_Fill_Left {
-					idc = MACRO_IDC_SM_SIDE_FLAG_RIGHT_FILL;
+					idc = MACRO_IDC_SM_FACTION_FLAG_RIGHT_FILL;
 					x = MACRO_POS_SM_WIDTH * (2 / 3) + pixelW * MACRO_POS_SPACER_X;
 				};
 
 				// Flag Fill Separator, Right
 				class Flag_Fill_Separator_Right : Flag_Fill_Separator_Left {
-					idc = MACRO_IDC_SM_SIDE_FLAG_RIGHT_SEPARATOR;
+					idc = MACRO_IDC_SM_FACTION_FLAG_RIGHT_SEPARATOR;
 					x = MACRO_POS_SM_WIDTH * (5 / 6) - pixelW;
 				};
 
 				// ------------------------------------------------------------------------------------------------------------------------------------------------
-				// Side Name, Left
-				class Side_Name_Left : GVAR(RscText) {
-					idc = MACRO_IDC_SM_SIDE_NAME_LEFT_TEXT;
+				// Faction Name, Left
+				class Faction_Name_Left : GVAR(RscText) {
+					idc = MACRO_IDC_SM_FACTION_NAME_LEFT_TEXT;
 					shadow = 0;
-					sizeEx = MACRO_POS_SM_SIDE_NAME_TEXTSIZE;
+					sizeEx = MACRO_POS_SM_FACTION_NAME_TEXTSIZE;
 					style = ST_RIGHT;
-					text = "SIDE 1";
+					text = "FACTION 1";
 					x = pixelW * MACRO_POS_SPACER_X;
 					y = MACRO_POS_SM_MENU_HEIGHT * (0.32 - 0.05) + pixelH * MACRO_POS_SPACER_Y;
 					w = MACRO_POS_SM_WIDTH * (1 / 6) - pixelW * (MACRO_POS_SPACER_X * 2 + 1);
 					h = MACRO_POS_SM_MENU_HEIGHT * 0.05 - pixelH * MACRO_POS_SPACER_Y * 2;
 				};
 
-				// Side Name, Middle
-				class Side_Name_Middle : Side_Name_Left {
-					idc = MACRO_IDC_SM_SIDE_NAME_MIDDLE_TEXT;
-					text = "SIDE 2";
+				// Faction Name, Middle
+				class Faction_Name_Middle : Faction_Name_Left {
+					idc = MACRO_IDC_SM_FACTION_NAME_MIDDLE_TEXT;
+					text = "FACTION 2";
 					x = MACRO_POS_SM_WIDTH / 3 + pixelW * MACRO_POS_SPACER_X;
 					w = MACRO_POS_SM_WIDTH * (1 / 6) - pixelW * MACRO_POS_SPACER_X * 2;
 				};
 
-				// Side Name, Right
-				class Side_Name_Right : Side_Name_Left {
-					idc = MACRO_IDC_SM_SIDE_NAME_RIGHT_TEXT;
-					text = "SIDE 3";
+				// Faction Name, Right
+				class Faction_Name_Right : Faction_Name_Left {
+					idc = MACRO_IDC_SM_FACTION_NAME_RIGHT_TEXT;
+					text = "FACTION 3";
 					x = MACRO_POS_SM_WIDTH * (2 / 3) + pixelW * (MACRO_POS_SPACER_X + 1);
 				};
 
 				// ------------------------------------------------------------------------------------------------------------------------------------------------
-				// Side Tickets, Left
-				class Side_Tickets_Left : GVAR(RscText) {
-					idc = MACRO_IDC_SM_SIDE_TICKETS_LEFT_TEXT;
+				// Faction Tickets, Left
+				class Faction_Tickets_Left : GVAR(RscText) {
+					idc = MACRO_IDC_SM_FACTION_TICKETS_LEFT_TEXT;
 					shadow = 0;
-					sizeEx = MACRO_POS_SM_SIDE_TICKETS_TEXTSIZE;
+					sizeEx = MACRO_POS_SM_FACTION_TICKETS_TEXTSIZE;
 					style = ST_LEFT;
 					text = "-1";
 					x = MACRO_POS_SM_WIDTH * (1 / 6) + pixelW * MACRO_POS_SPACER_X * 1;
@@ -273,23 +273,23 @@ class GVAR(RscSpawnMenu) {
 					h = MACRO_POS_SM_MENU_HEIGHT * 0.05 - pixelH * MACRO_POS_SPACER_Y * 2;
 				};
 
-				// Side Tickets, Middle
-				class Side_Tickets_Middle : Side_Tickets_Left {
-					idc = MACRO_IDC_SM_SIDE_TICKETS_MIDDLE_TEXT;
+				// Faction Tickets, Middle
+				class Faction_Tickets_Middle : Faction_Tickets_Left {
+					idc = MACRO_IDC_SM_FACTION_TICKETS_MIDDLE_TEXT;
 					x = MACRO_POS_SM_WIDTH * (3 / 6) + pixelW * MACRO_POS_SPACER_X;
 					w = MACRO_POS_SM_WIDTH * (1 / 6) - pixelW * MACRO_POS_SPACER_X * 2;
 				};
 
-				// Side Tickets, Right
-				class Side_Tickets_Right : Side_Tickets_Left {
-					idc = MACRO_IDC_SM_SIDE_TICKETS_RIGHT_TEXT;
+				// Faction Tickets, Right
+				class Faction_Tickets_Right : Faction_Tickets_Left {
+					idc = MACRO_IDC_SM_FACTION_TICKETS_RIGHT_TEXT;
 					x = MACRO_POS_SM_WIDTH * (5 / 6) + pixelW * (MACRO_POS_SPACER_X + 1);
 				};
 
 				// ------------------------------------------------------------------------------------------------------------------------------------------------
 				// Players Listbox Background, Left
 				class Players_Listbox_Background_Left : GVAR(RscFrame) {
-					idc = MACRO_IDC_SM_SIDE_PLAYERS_LEFT_BACKGROUND;
+					idc = MACRO_IDC_SM_FACTION_PLAYERS_LEFT_BACKGROUND;
 					colorBackground[] = CURLY(MACRO_COLOUR_A100_BLACK);
 					x = pixelW * MACRO_POS_SPACER_X;
 					y = MACRO_POS_SM_MENU_HEIGHT * 0.32;
@@ -299,7 +299,7 @@ class GVAR(RscSpawnMenu) {
 
 				// Players Listbox Outline, Left
 				class Players_Listbox_Outline_Left : GVAR(RscOutline) {
-					idc = MACRO_IDC_SM_SIDE_PLAYERS_LEFT_OUTLINE;
+					idc = MACRO_IDC_SM_FACTION_PLAYERS_LEFT_OUTLINE;
 					x = pixelW * MACRO_POS_SPACER_X;
 					y = MACRO_POS_SM_MENU_HEIGHT * 0.32;
 					w = MACRO_POS_SM_WIDTH / 3 - pixelW * (MACRO_POS_SPACER_X * 2 + 1);
@@ -308,7 +308,7 @@ class GVAR(RscSpawnMenu) {
 
 				// Players Listbox, Left
 				class Players_Listbox_Left : GVAR(RscListNBox) {
-					idc = MACRO_IDC_SM_SIDE_PLAYERS_LEFT_LISTBOX;
+					idc = MACRO_IDC_SM_FACTION_PLAYERS_LEFT_LISTBOX;
 					columns[] = {0, 0.1};
 					x = pixelW * MACRO_POS_SPACER_X;
 					y = MACRO_POS_SM_MENU_HEIGHT * 0.32;
@@ -318,47 +318,47 @@ class GVAR(RscSpawnMenu) {
 
 				// Players Listbox Background, Middle
 				class Players_Listbox_Background_Middle : Players_Listbox_Background_Left {
-					idc = MACRO_IDC_SM_SIDE_PLAYERS_MIDDLE_BACKGROUND;
+					idc = MACRO_IDC_SM_FACTION_PLAYERS_MIDDLE_BACKGROUND;
 					x = MACRO_POS_SM_WIDTH / 3 + pixelW * MACRO_POS_SPACER_X;
 					w = MACRO_POS_SM_WIDTH / 3 - pixelW * MACRO_POS_SPACER_X * 2;
 				};
 
 				// Players Listbox Outline, Middle
 				class Players_Listbox_Outline_Middle : Players_Listbox_Outline_Left {
-					idc = MACRO_IDC_SM_SIDE_PLAYERS_MIDDLE_OUTLINE;
+					idc = MACRO_IDC_SM_FACTION_PLAYERS_MIDDLE_OUTLINE;
 					x = MACRO_POS_SM_WIDTH / 3 + pixelW * MACRO_POS_SPACER_X;
 					w = MACRO_POS_SM_WIDTH / 3 - pixelW * MACRO_POS_SPACER_X * 2;
 				};
 
 				// Players Listbox, Middle
 				class Players_Listbox_Middle : Players_Listbox_Left {
-					idc = MACRO_IDC_SM_SIDE_PLAYERS_MIDDLE_LISTBOX;
+					idc = MACRO_IDC_SM_FACTION_PLAYERS_MIDDLE_LISTBOX;
 					x = MACRO_POS_SM_WIDTH / 3 + pixelW * MACRO_POS_SPACER_X;
 					w = MACRO_POS_SM_WIDTH / 3 - pixelW * MACRO_POS_SPACER_X * 2;
 				};
 
 				// Players Listbox Background, Right
 				class Players_Listbox_Background_Right : Players_Listbox_Background_Left {
-					idc = MACRO_IDC_SM_SIDE_PLAYERS_RIGHT_BACKGROUND;
+					idc = MACRO_IDC_SM_FACTION_PLAYERS_RIGHT_BACKGROUND;
 					x = MACRO_POS_SM_WIDTH * (2 / 3) + pixelW * (MACRO_POS_SPACER_X + 1);
 				};
 
 				// Players Listbox Outline, Right
 				class Players_Listbox_Outline_Right : Players_Listbox_Outline_Left {
-					idc = MACRO_IDC_SM_SIDE_PLAYERS_RIGHT_OUTLINE;
+					idc = MACRO_IDC_SM_FACTION_PLAYERS_RIGHT_OUTLINE;
 					x = MACRO_POS_SM_WIDTH * (2 / 3) + pixelW * (MACRO_POS_SPACER_X + 1);
 				};
 
 				// Players Listbox, Right
 				class Players_Listbox_Right : Players_Listbox_Left {
-					idc = MACRO_IDC_SM_SIDE_PLAYERS_RIGHT_LISTBOX;
+					idc = MACRO_IDC_SM_FACTION_PLAYERS_RIGHT_LISTBOX;
 					x = MACRO_POS_SM_WIDTH * (2 / 3) + pixelW * (MACRO_POS_SPACER_X + 1);
 				};
 
 				// ------------------------------------------------------------------------------------------------------------------------------------------------
 				// Join Button Frame, Left
 				class Join_Button_Frame_Left : GVAR(RscFrame) {
-					idc = MACRO_IDC_SM_SIDE_JOIN_LEFT_FRAME;
+					idc = MACRO_IDC_SM_FACTION_JOIN_LEFT_FRAME;
 					colorBackground[] = CURLY(MACRO_COLOUR_BUTTON_INACTIVE);
 					x = pixelW * MACRO_POS_SPACER_X;
 					y = MACRO_POS_SM_MENU_HEIGHT * 0.92;
@@ -368,8 +368,8 @@ class GVAR(RscSpawnMenu) {
 
 				// Join Button, Left
 				class Join_Button_Left : GVAR(RscButton) {
-					idc = MACRO_IDC_SM_SIDE_JOIN_LEFT_BUTTON;
-					text = __EVAL(toUpper localize LSTRING(ui_spawnMenu_side_clicktoselect));
+					idc = MACRO_IDC_SM_FACTION_JOIN_LEFT_BUTTON;
+					text = __EVAL(toUpper localize LSTRING(ui_spawnMenu_faction_clicktoselect));
 					x = pixelW * MACRO_POS_SPACER_X;
 					y = MACRO_POS_SM_MENU_HEIGHT * 0.92;
 					w = MACRO_POS_SM_WIDTH / 3 - pixelW * (MACRO_POS_SPACER_X * 2 + 1);
@@ -381,27 +381,27 @@ class GVAR(RscSpawnMenu) {
 
 				// Join Button Frame, Middle
 				class Join_Button_Frame_Middle : Join_Button_Frame_Left {
-					idc = MACRO_IDC_SM_SIDE_JOIN_MIDDLE_FRAME;
+					idc = MACRO_IDC_SM_FACTION_JOIN_MIDDLE_FRAME;
 					x = MACRO_POS_SM_WIDTH / 3 + pixelW * MACRO_POS_SPACER_X;
 					w = MACRO_POS_SM_WIDTH / 3 - pixelW * MACRO_POS_SPACER_X * 2;
 				};
 
 				// Join Button, Middle
 				class Join_Button_Middle : Join_Button_Left {
-					idc = MACRO_IDC_SM_SIDE_JOIN_MIDDLE_BUTTON;
+					idc = MACRO_IDC_SM_FACTION_JOIN_MIDDLE_BUTTON;
 					x = MACRO_POS_SM_WIDTH / 3 + pixelW * MACRO_POS_SPACER_X;
 					w = MACRO_POS_SM_WIDTH / 3 - pixelW * MACRO_POS_SPACER_X * 2;
 				};
 
 				// Join Button Frame, Right
 				class Join_Button_Frame_Right : Join_Button_Frame_Left {
-					idc = MACRO_IDC_SM_SIDE_JOIN_RIGHT_FRAME;
+					idc = MACRO_IDC_SM_FACTION_JOIN_RIGHT_FRAME;
 					x = MACRO_POS_SM_WIDTH * (2 / 3) + pixelW * (MACRO_POS_SPACER_X + 1);
 				};
 
 				// Join Button, Right
 				class Join_Button_Right : Join_Button_Left {
-					idc = MACRO_IDC_SM_SIDE_JOIN_RIGHT_BUTTON;
+					idc = MACRO_IDC_SM_FACTION_JOIN_RIGHT_BUTTON;
 					x = MACRO_POS_SM_WIDTH * (2 / 3) + pixelW * (MACRO_POS_SPACER_X + 1);
 				};
 
@@ -410,7 +410,7 @@ class GVAR(RscSpawnMenu) {
 
 		// ------------------------------------------------------------------------------------------------------------------------------------------------
 		// Role Control Group
-		class Role_CtrlGrp : Side_CtrlGrp {
+		class Role_CtrlGrp : Faction_CtrlGrp {
 			idc = MACRO_IDC_SM_ROLE_CTRLGROUP;
 
 			class controls {
@@ -668,8 +668,8 @@ class GVAR(RscSpawnMenu) {
 
 		// ------------------------------------------------------------------------------------------------------------------------------------------------
 		// Role Control Group
-		class Deploy_CtrlGrp : Side_CtrlGrp {
-			idc = MACRO_IDC_SM_DEPLOY_CTRLGROUP;
+		class Deployment_CtrlGrp : Faction_CtrlGrp {
+			idc = MACRO_IDC_SM_DEPLOYMENT_CTRLGROUP;
 
 			class controls {
 
@@ -685,7 +685,7 @@ class GVAR(RscSpawnMenu) {
 				// ------------------------------------------------------------------------------------------------------------------------------------------------
 				// Sectors Controls Group
 				class Sectors_CtrlGrp : RscControlsGroupNoScrollbars {
-					idc = MACRO_IDC_SM_DEPLOY_SECTORS_CTRLGROUP;
+					idc = MACRO_IDC_SM_DEPLOYMENT_SECTORS_CTRLGROUP;
 					x = 0;
 					y = 0;
 					w = MACRO_POS_SM_WIDTH / 3;
@@ -699,7 +699,7 @@ class GVAR(RscSpawnMenu) {
 
 		// ------------------------------------------------------------------------------------------------------------------------------------------------
 		// Empty Control Group (for focus)
-		class Empty_CtrlGrp : Side_CtrlGrp {
+		class Empty_CtrlGrp : Faction_CtrlGrp {
 			idc = MACRO_IDC_SM_EMPTY_CTRLGROUP;
 			w = 0;
 			h = 0;
@@ -716,7 +716,7 @@ class GVAR(RscSpawnMenu) {
 		// ------------------------------------------------------------------------------------------------------------------------------------------------
 		// Deployment Map
 		class Map : RscMapControl {	// The map may not be created inside a controls group, otherwise strange positioning/offset errors will arise (see https://feedback.bistudio.com/T78273)
-			idc = MACRO_IDC_SM_DEPLOY_MAP;
+			idc = MACRO_IDC_SM_DEPLOYMENT_MAP;
 			x = safeZoneX + (1 - MACRO_POS_SM_WIDTH / safezoneW) * (safezoneW / 2) + MACRO_POS_SM_WIDTH / 3 + pixelW * MACRO_POS_SPACER_X;
 			y = safeZoneY + (1 - MACRO_POS_SM_HEIGHT / safezoneH) * (safezoneH / 2) + pixelH * MACRO_POS_SPACER_Y;
 			w = MACRO_POS_SM_WIDTH * (2 / 3) - pixelW * MACRO_POS_SPACER_X * 2;

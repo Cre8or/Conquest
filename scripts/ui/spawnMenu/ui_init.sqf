@@ -71,12 +71,12 @@ case "ui_init": {
 	) then {
 		switch (GVAR(ui_sm_prevMenu)) do {
 			case MACRO_IDC_SM_ROLE_FRAME:   {["ui_button_click", [MACRO_IDC_SM_ROLE_BUTTON]] call FUNC(ui_spawnMenu)};
-			case MACRO_IDC_SM_DEPLOY_FRAME: {["ui_button_click", [MACRO_IDC_SM_DEPLOY_BUTTON]] call FUNC(ui_spawnMenu)};
-			default                         {["ui_button_click", [MACRO_IDC_SM_SIDE_BUTTON]] call FUNC(ui_spawnMenu)};
+			case MACRO_IDC_SM_DEPLOYMENT_FRAME: {["ui_button_click", [MACRO_IDC_SM_DEPLOYMENT_BUTTON]] call FUNC(ui_spawnMenu)};
+			default                         {["ui_button_click", [MACRO_IDC_SM_FACTION_BUTTON]] call FUNC(ui_spawnMenu)};
 		};
 	} else {
-		// Default to the side menu, forcing the player to pick a side
-		["ui_button_click", [MACRO_IDC_SM_SIDE_BUTTON]] call FUNC(ui_spawnMenu);
+		// Default to the faction menu, forcing the player to pick a side
+		["ui_button_click", [MACRO_IDC_SM_FACTION_BUTTON]] call FUNC(ui_spawnMenu);
 	};
 
 	// Set up the role rendertarget camera
@@ -157,22 +157,22 @@ case "ui_init": {
 
 			// Update the contents of the currently open menu
 			switch (_curMenu) do {
-				case MACRO_IDC_SM_SIDE_FRAME: {
-					["ui_update_side"] call FUNC(ui_spawnMenu);
+				case MACRO_IDC_SM_FACTION_FRAME: {
+					["ui_update_faction"] call FUNC(ui_spawnMenu);
 				};
 
 				case MACRO_IDC_SM_ROLE_FRAME: {
 					["ui_update_role"] call FUNC(ui_spawnMenu);
 				};
 
-				case MACRO_IDC_SM_DEPLOY_FRAME: {
-					["ui_update_deploy"] call FUNC(ui_spawnMenu);
+				case MACRO_IDC_SM_DEPLOYMENT_FRAME: {
+					["ui_update_deployment"] call FUNC(ui_spawnMenu);
 				};
 			};
 
 			// Handle the availability of the role and deploy menu buttons
 			private _ctrlButtonRole   = _spawnMenu displayCtrl MACRO_IDC_SM_ROLE_FRAME;
-			private _ctrlButtonDeploy = _spawnMenu displayCtrl MACRO_IDC_SM_DEPLOY_FRAME;
+			private _ctrlButtonDeploy = _spawnMenu displayCtrl MACRO_IDC_SM_DEPLOYMENT_FRAME;
 			private _curMenu          = _spawnMenu getVariable [QGVAR(currentMenu), 0];
 			private _isSideValid      = [GVAR(side)] call FUNC(gm_isSidePlayable) or {[player] call FUNC(unit_isAlive)};
 
@@ -185,7 +185,7 @@ case "ui_init": {
 
 			// Deploy menu
 			if (_isSideValid and {GVAR(role) != MACRO_ENUM_ROLE_INVALID}) then {
-				_ctrlButtonDeploy ctrlSetBackgroundColor ([SQUARE(MACRO_COLOUR_BUTTON_ACTIVE), SQUARE(MACRO_COLOUR_BUTTON_ACTIVE_PRESSED)] select (_curMenu == MACRO_IDC_SM_DEPLOY_FRAME));
+				_ctrlButtonDeploy ctrlSetBackgroundColor ([SQUARE(MACRO_COLOUR_BUTTON_ACTIVE), SQUARE(MACRO_COLOUR_BUTTON_ACTIVE_PRESSED)] select (_curMenu == MACRO_IDC_SM_DEPLOYMENT_FRAME));
 			} else {
 				_ctrlButtonDeploy ctrlSetBackgroundColor SQUARE(MACRO_COLOUR_BUTTON_INACTIVE);
 			};
@@ -206,7 +206,7 @@ case "ui_init": {
 	}];
 
 	// Draw the sector UI elements and the combat area on the deployment map
-	private _ctrlMap = _spawnMenu displayCtrl MACRO_IDC_SM_DEPLOY_MAP;
+	private _ctrlMap = _spawnMenu displayCtrl MACRO_IDC_SM_DEPLOYMENT_MAP;
 	_ctrlMap setVariable [QGVAR(isSpawnMenu), true];
 	_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawSpawnSector)];
 	_ctrlMap ctrlAddEventHandler ["Draw", FUNC(ui_drawIcons2D)];

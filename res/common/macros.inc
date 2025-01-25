@@ -44,26 +44,14 @@
 	// Kill Feed
 	#define MACRO_IDC_KF_CTRLGRP                                    100
 
-	// Score Feed
-	#define MACRO_IDC_SF_CTRLGRP                                    100
-
-	// Sector HUD
-	#define MACRO_IDC_SHUD_CTRLGRP                                  100
-	#define MACRO_IDC_SHUD_LETTER_TEXT                              101
-	#define MACRO_IDC_SHUD_FLAG_PICTURE                             102
-	#define MACRO_IDC_SHUD_LEVEL_BACK                               103
-	#define MACRO_IDC_SHUD_LEVEL_FRONT                              104
-	#define MACRO_IDC_SHUD_LOCK_ICON                                105
-
-	// Health Bar
-	#define MACRO_IDC_HB_CTRLGRP                                    100
-	#define MACRO_IDC_HB_HEALTH_BACKGROUND                          101
-	#define MACRO_IDC_HB_HEALTH_TEXT                                102
-	#define MACRO_IDC_HB_HEALTH_ICON                                103
-
-	// Hit Effect
-	#define MACRO_IDC_HFX_CTRLGRP                                   100
-	#define MACRO_IDC_HFX_HIT_EFFECT_IMAGE                          101
+	// Tutorial hints
+	#define MACRO_IDC_TH_CTRLGRP                                    100
+	#define MACRO_IDC_TH_BACKGROUND                                 101
+	#define MACRO_IDC_TH_ICON_BACKGROUND                            102
+	#define MACRO_IDC_TH_ICON_PICTURE                               103
+	#define MACRO_IDC_TH_TITLE_TEXT                                 104
+	#define MACRO_IDC_TH_TITLE_SEPARATOR                            105
+	#define MACRO_IDC_TH_BODY_TEXT                                  106
 
 	// Scoreboard
 	#define MACRO_IDC_SB_CTRLGRP                                    100
@@ -88,61 +76,82 @@
 
 	#define MACRO_IDC_SB_EMPTY_FOCUS_FRAME                          1000
 
+	// Score Feed
+	#define MACRO_IDC_SF_CTRLGRP                                    100
+
+	// Sector HUD
+	#define MACRO_IDC_SHUD_CTRLGRP                                  100
+	#define MACRO_IDC_SHUD_LETTER_TEXT                              101
+	#define MACRO_IDC_SHUD_FLAG_PICTURE                             102
+	#define MACRO_IDC_SHUD_LEVEL_BACK                               103
+	#define MACRO_IDC_SHUD_LEVEL_FRONT                              104
+	#define MACRO_IDC_SHUD_LOCK_ICON                                105
+
+	// Health Bar
+	#define MACRO_IDC_HB_CTRLGRP                                    100
+	#define MACRO_IDC_HB_HEALTH_BACKGROUND                          101
+	#define MACRO_IDC_HB_HEALTH_TEXT                                102
+	#define MACRO_IDC_HB_HEALTH_ICON                                103
+
+	// Hit Effect
+	#define MACRO_IDC_HFX_CTRLGRP                                   100
+	#define MACRO_IDC_HFX_HIT_EFFECT_IMAGE                          101
+
 	// Spawn Menu                                                   // IDCs 0 to 2 are reserved for buttons and will cause the display to close when used! (hardcoded engine behaviour) - DO NOT USE THEM!
 	#define MACRO_IDC_SM_CTRLGROUP                                  100
 	#define MACRO_IDC_SM_BACKGROUND                                 101
 	#define MACRO_IDC_SM_MENU_SEPARATOR                             102
 	#define MACRO_IDC_SM_FOCUS_FRAME                                103
-	#define MACRO_IDC_SM_SIDE_FRAME                                 110
-	#define MACRO_IDC_SM_SIDE_BUTTON                                111
+	#define MACRO_IDC_SM_FACTION_FRAME                              110
+	#define MACRO_IDC_SM_FACTION_BUTTON                             111
 	#define MACRO_IDC_SM_ROLE_FRAME                                 112
 	#define MACRO_IDC_SM_ROLE_BUTTON                                113
-	#define MACRO_IDC_SM_DEPLOY_FRAME                               114
-	#define MACRO_IDC_SM_DEPLOY_BUTTON                              115
+	#define MACRO_IDC_SM_DEPLOYMENT_FRAME                           114
+	#define MACRO_IDC_SM_DEPLOYMENT_BUTTON                          115
 	#define MACRO_IDC_SM_SPAWN_FRAME                                116
 	#define MACRO_IDC_SM_SPAWN_BUTTON                               117
 
 	#define MACRO_IDC_SM_EMPTY_CTRLGROUP                            1000
 	#define MACRO_IDC_SM_EMPTY_FOCUS_FRAME                          1001
 
-	#define MACRO_IDC_SM_SIDE_CTRLGROUP                             2000
+	#define MACRO_IDC_SM_FACTION_CTRLGROUP                          2000
 
-	#define MACRO_IDC_SM_SIDE_FLAG_LEFT_PICTURE                     2100
-	#define MACRO_IDC_SM_SIDE_FLAG_LEFT_GRADIENT                    2101
-	#define MACRO_IDC_SM_SIDE_FLAG_LEFT_FILL                        2102
-	#define MACRO_IDC_SM_SIDE_FLAG_LEFT_SEPARATOR                   2103
-	#define MACRO_IDC_SM_SIDE_FLAG_MIDDLE_PICTURE                   2104
-	#define MACRO_IDC_SM_SIDE_FLAG_MIDDLE_GRADIENT                  2105
-	#define MACRO_IDC_SM_SIDE_FLAG_MIDDLE_FILL                      2106
-	#define MACRO_IDC_SM_SIDE_FLAG_MIDDLE_SEPARATOR                 2107
-	#define MACRO_IDC_SM_SIDE_FLAG_RIGHT_PICTURE                    2108
-	#define MACRO_IDC_SM_SIDE_FLAG_RIGHT_GRADIENT                   2109
-	#define MACRO_IDC_SM_SIDE_FLAG_RIGHT_FILL                       2110
-	#define MACRO_IDC_SM_SIDE_FLAG_RIGHT_SEPARATOR                  2111
+	#define MACRO_IDC_SM_FACTION_FLAG_LEFT_PICTURE                  2100
+	#define MACRO_IDC_SM_FACTION_FLAG_LEFT_GRADIENT                 2101
+	#define MACRO_IDC_SM_FACTION_FLAG_LEFT_FILL                     2102
+	#define MACRO_IDC_SM_FACTION_FLAG_LEFT_SEPARATOR                2103
+	#define MACRO_IDC_SM_FACTION_FLAG_MIDDLE_PICTURE                2104
+	#define MACRO_IDC_SM_FACTION_FLAG_MIDDLE_GRADIENT               2105
+	#define MACRO_IDC_SM_FACTION_FLAG_MIDDLE_FILL                   2106
+	#define MACRO_IDC_SM_FACTION_FLAG_MIDDLE_SEPARATOR              2107
+	#define MACRO_IDC_SM_FACTION_FLAG_RIGHT_PICTURE                 2108
+	#define MACRO_IDC_SM_FACTION_FLAG_RIGHT_GRADIENT                2109
+	#define MACRO_IDC_SM_FACTION_FLAG_RIGHT_FILL                    2110
+	#define MACRO_IDC_SM_FACTION_FLAG_RIGHT_SEPARATOR               2111
 
-	#define MACRO_IDC_SM_SIDE_NAME_LEFT_TEXT                        2200
-	#define MACRO_IDC_SM_SIDE_TICKETS_LEFT_TEXT                     2201
-	#define MACRO_IDC_SM_SIDE_NAME_MIDDLE_TEXT                      2202
-	#define MACRO_IDC_SM_SIDE_TICKETS_MIDDLE_TEXT                   2203
-	#define MACRO_IDC_SM_SIDE_NAME_RIGHT_TEXT                       2204
-	#define MACRO_IDC_SM_SIDE_TICKETS_RIGHT_TEXT                    2205
+	#define MACRO_IDC_SM_FACTION_NAME_LEFT_TEXT                     2200
+	#define MACRO_IDC_SM_FACTION_TICKETS_LEFT_TEXT                  2201
+	#define MACRO_IDC_SM_FACTION_NAME_MIDDLE_TEXT                   2202
+	#define MACRO_IDC_SM_FACTION_TICKETS_MIDDLE_TEXT                2203
+	#define MACRO_IDC_SM_FACTION_NAME_RIGHT_TEXT                    2204
+	#define MACRO_IDC_SM_FACTION_TICKETS_RIGHT_TEXT                 2205
 
-	#define MACRO_IDC_SM_SIDE_PLAYERS_LEFT_BACKGROUND               2300
-	#define MACRO_IDC_SM_SIDE_PLAYERS_LEFT_OUTLINE                  2301
-	#define MACRO_IDC_SM_SIDE_PLAYERS_LEFT_LISTBOX                  2302
-	#define MACRO_IDC_SM_SIDE_PLAYERS_MIDDLE_BACKGROUND             2303
-	#define MACRO_IDC_SM_SIDE_PLAYERS_MIDDLE_OUTLINE                2304
-	#define MACRO_IDC_SM_SIDE_PLAYERS_MIDDLE_LISTBOX                2305
-	#define MACRO_IDC_SM_SIDE_PLAYERS_RIGHT_BACKGROUND              2306
-	#define MACRO_IDC_SM_SIDE_PLAYERS_RIGHT_OUTLINE                 2307
-	#define MACRO_IDC_SM_SIDE_PLAYERS_RIGHT_LISTBOX                 2308
+	#define MACRO_IDC_SM_FACTION_PLAYERS_LEFT_BACKGROUND            2300
+	#define MACRO_IDC_SM_FACTION_PLAYERS_LEFT_OUTLINE               2301
+	#define MACRO_IDC_SM_FACTION_PLAYERS_LEFT_LISTBOX               2302
+	#define MACRO_IDC_SM_FACTION_PLAYERS_MIDDLE_BACKGROUND          2303
+	#define MACRO_IDC_SM_FACTION_PLAYERS_MIDDLE_OUTLINE             2304
+	#define MACRO_IDC_SM_FACTION_PLAYERS_MIDDLE_LISTBOX             2305
+	#define MACRO_IDC_SM_FACTION_PLAYERS_RIGHT_BACKGROUND           2306
+	#define MACRO_IDC_SM_FACTION_PLAYERS_RIGHT_OUTLINE              2307
+	#define MACRO_IDC_SM_FACTION_PLAYERS_RIGHT_LISTBOX              2308
 
-	#define MACRO_IDC_SM_SIDE_JOIN_LEFT_FRAME                       2400
-	#define MACRO_IDC_SM_SIDE_JOIN_LEFT_BUTTON                      2401
-	#define MACRO_IDC_SM_SIDE_JOIN_MIDDLE_FRAME                     2402
-	#define MACRO_IDC_SM_SIDE_JOIN_MIDDLE_BUTTON                    2403
-	#define MACRO_IDC_SM_SIDE_JOIN_RIGHT_FRAME                      2404
-	#define MACRO_IDC_SM_SIDE_JOIN_RIGHT_BUTTON                     2405
+	#define MACRO_IDC_SM_FACTION_JOIN_LEFT_FRAME                    2400
+	#define MACRO_IDC_SM_FACTION_JOIN_LEFT_BUTTON                   2401
+	#define MACRO_IDC_SM_FACTION_JOIN_MIDDLE_FRAME                  2402
+	#define MACRO_IDC_SM_FACTION_JOIN_MIDDLE_BUTTON                 2403
+	#define MACRO_IDC_SM_FACTION_JOIN_RIGHT_FRAME                   2404
+	#define MACRO_IDC_SM_FACTION_JOIN_RIGHT_BUTTON                  2405
 
 	#define MACRO_IDC_SM_ROLE_CTRLGROUP                             3000
 
@@ -204,10 +213,10 @@
 	#define MACRO_IDC_SM_GROUP_LEAVE_FRAME                          3314
 	#define MACRO_IDC_SM_GROUP_LEAVE_BUTTON                         3315
 
-	#define MACRO_IDC_SM_DEPLOY_CTRLGROUP                           4000
-	#define MACRO_IDC_SM_DEPLOY_SECTORS_CTRLGROUP                   4001
-	#define MACRO_IDC_SM_DEPLOY_MAP                                 4100
-	#define MACRO_IDC_SM_DEPLOY_SECTOR_START                        4200
+	#define MACRO_IDC_SM_DEPLOYMENT_CTRLGROUP                       4000
+	#define MACRO_IDC_SM_DEPLOYMENT_SECTORS_CTRLGROUP               4001
+	#define MACRO_IDC_SM_DEPLOYMENT_MAP                             4100
+	#define MACRO_IDC_SM_DEPLOYMENT_SECTOR_START                    4200
 
 	// Spawn Status
 	#define MACRO_IDC_SS_CTRLGRP                                    100
@@ -245,19 +254,29 @@
 	// Combat Area
 	#define MACRO_POS_CA_WIDTH                                      0.4
 	#define MACRO_POS_CA_HEIGHT                                     0.3
+	#define MACRO_POS_CA_TITLE_TEXTSIZE                             MACRO_UI_TEXTSIZE_4
+	#define MACRO_POS_CA_BODY_TEXTSIZE                              MACRO_UI_TEXTSIZE_2
 
 	// End Screen
 	#define MACRO_POS_ES_TOP_TEXTSIZE                               MACRO_UI_TEXTSIZE_5
 	#define MACRO_POS_ES_TICKETS_TEXTSIZE                           MACRO_UI_TEXTSIZE_3
 
 	// Kill Feed
-	#define MACRO_POS_KF_Y                                          (0.25 * safeZoneH)
 	#define MACRO_POS_KF_WIDTH                                      (0.2 * safeZoneW)
+	#define MACRO_POS_KF_X                                          (safeZoneX + safeZoneW - MACRO_POS_KF_WIDTH)
+	#define MACRO_POS_KF_Y                                          (safeZoneY + 0.25 * safeZoneH)
 	#define MACRO_POS_KF_WEAPON_WIDTH                               (0.025 * safeZoneW)
 	#define MACRO_POS_KF_ICON_WIDTH                                 (0.015 * safeZoneW)
 	#define MACRO_POS_KF_ENTRY_HEIGHT                               MACRO_UI_TEXTSIZE_2
 	#define MACRO_POS_KF_ENTRY_TEXTSIZE                             MACRO_UI_TEXTSIZE_1
 	#define MACRO_POS_KF_ENTRY_MAXCOUNT                             8
+
+	// Tutorial hints
+	#define MACRO_POS_TH_WIDTH                                      0.4
+	#define MACRO_POS_TH_X                                          (MACRO_POS_KF_X - MACRO_POS_TH_WIDTH)
+	#define MACRO_POS_TH_Y                                          safeZoneY
+	#define MACRO_POS_TH_TITLE_TEXTSIZE                             MACRO_UI_TEXTSIZE_2
+	#define MACRO_POS_TH_BODY_TEXTSIZE                              MACRO_UI_TEXTSIZE_1
 
 	// Scoreboard
 	#define MACRO_POS_SB_WIDTH_COLUMN                               (0.25 * safeZoneW)
@@ -308,8 +327,8 @@
 	#define MACRO_POS_SM_WIDTH                                      (safeZoneW * 0.9)
 	#define MACRO_POS_SM_HEIGHT                                     (safeZoneH * 0.9)
 	#define MACRO_POS_SM_MENU_HEIGHT                                (safeZoneH * 0.85)
-	#define MACRO_POS_SM_SIDE_NAME_TEXTSIZE                         (0.02 * safeZoneW)
-	#define MACRO_POS_SM_SIDE_TICKETS_TEXTSIZE                      (0.02 * safeZoneW)
+	#define MACRO_POS_SM_FACTION_NAME_TEXTSIZE                      (0.02 * safeZoneW)
+	#define MACRO_POS_SM_FACTION_TICKETS_TEXTSIZE                   (0.02 * safeZoneW)
 	#define MACRO_POS_SM_GROUP_LISTBOX_TEXTSIZE                     (0.02 * safeZoneW)
 	#define MACRO_POS_SM_ROLE_PIP_TOP_TEXTSIZE                      (0.05 * safeZoneW)
 	#define MACRO_POS_SM_ROLE_PIP_BOTTOM_TEXTSIZE                   (0.02 * safeZoneW)
@@ -327,6 +346,10 @@
 	#define MACRO_UI_KILLFEED_ENTRYLIFETIME                         20
 	#define MACRO_UI_KILLFEED_ENTRYFADEDURATION                     3
 	#define MACRO_UI_KILLFEED_ANIMDURATION                          0.25
+
+	// Tutorial hints
+	#define MACRO_UI_TUTORIALHINTS_ANIMDURATION                     0.5
+	#define MACRO_UI_TUTORIALHINTS_ENTRYFADEDURATION                3
 
 	// Score Feed
 	#define MACRO_UI_SCOREFEED_ENTRYLIFETIME                        5
@@ -473,7 +496,7 @@
 	#define MACRO_GM_SYS_HANDLESERVERSTATS_INTERVAL                 1.0 // Interval, in seconds, between update cycles of the serverside stats handler
 	#define MACRO_GM_SYS_HANDLESERVERSTATS_PING_INTERVAL            10 // Interval, in seconds, between updates of players' ping stat. Intended to reduce network clutter as the ping constantly changes
 	#define MACRO_GM_SYS_REMOVECORPSES_INTERVAL                     0.5 // The interval, in seconds, between two consecutive corpse removal cycles
-	#define MACRO_GM_SYS_TUTORIALHINTS_INTERVAL                     0.5 // The interval, in seconds, between update cycles of the tutorial hints generation system
+	#define MACRO_GM_SYS_TUTORIALHINTS_INTERVAL                     1.0 // The interval, in seconds, between update cycles of the tutorial hints generation system
 
 	// Sectors
 	#define MACRO_SECTOR_TRIGGERINTERVAL                            0.5 // The interval between two trigger executions, in seconds
@@ -498,6 +521,9 @@
 	#define MACRO_NM_BITFLAG_SIDE_EAST                              4 // 2^2
 	#define MACRO_NM_BITFLAG_SIDE_RESISTANCE                        2 // 2^1
 	#define MACRO_NM_BITFLAG_SIDE_WEST                              1 // 2^0
+
+	// Tutorial hints
+	#define MACRO_TH_EXPIRATION_ROLEABILITIES                       10 // The duration, in seconds, that a role abilities hint remains visible before expiring and being hidden
 
 	// Scoreboard
 	#define MACRO_SB_SYS_UPDATEINTERVAL                             1 // Interval, in seconds, between updates of the scoreboard contents
@@ -529,7 +555,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.21.992" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.22.1004" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -894,17 +920,39 @@
 
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------
-//	UNIT SOUND ENUMERATIONS
+//	OBJECT SOUND ENUMERATIONS
 // ------------------------------------------------------------------------------------------------------------------------------------------------
 
-	#define MACRO_ENUM_SOUND_INVALID                                -1
+	#define MACRO_ENUM_OBJSOUND_INVALID                             -1
 
-	#define MACRO_ENUM_SOUND_RESUPPLY                               0
-	#define MACRO_ENUM_SOUND_REPAIR                                 1
-	#define MACRO_ENUM_SOUND_HEAL                                   2
+	#define MACRO_ENUM_OBJSOUND_RESUPPLY                            0
+	#define MACRO_ENUM_OBJSOUND_REPAIR                              1
+	#define MACRO_ENUM_OBJSOUND_HEAL                                2
 
-	#define MACRO_ENUM_SOUND_VO_DEATH                               10
-	#define MACRO_ENUM_SOUND_VO_REVIVE                              11
+	#define MACRO_ENUM_OBJSOUND_VO_DEATH                            10
+	#define MACRO_ENUM_OBJSOUND_VO_REVIVE                           11
+
+
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+//	SOUNDSET ENUMERATIONS
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+
+	// NOTE: This list is ordered! The ID determines the priority of the sound (higher number = higher priority)
+	#define MACRO_ENUM_SOUNDSET_INVALID                             -1
+
+	#define MACRO_ENUM_SOUNDSET_TICKETSLOW_WIN                      0
+	#define MACRO_ENUM_SOUNDSET_TICKETSLOW_LOSE                     1
+
+	#define MACRO_ENUM_SOUNDSET_SIDEDEFEATED_WIN                    10
+	#define MACRO_ENUM_SOUNDSET_SIDEDEFEATED_LOSE                   11
+
+	#define MACRO_ENUM_SOUNDSET_ENDMISSION_WIN                      20
+	#define MACRO_ENUM_SOUNDSET_ENDMISSION_WIN_DECISIVE             21
+	#define MACRO_ENUM_SOUNDSET_ENDMISSION_LOSE                     22
+	#define MACRO_ENUM_SOUNDSET_ENDMISSION_LOSE_DECISIVE            23
 
 
 
@@ -986,6 +1034,31 @@
 	#define MACRO_ENUM_CFG_ITEMTYPE_BACKPACK                        901
 
 
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+//  TUTORIAL HINT ENUMERATIONS
+// ------------------------------------------------------------------------------------------------------------------------------------------------
+
+	#define MACRO_ENUM_TUTORIALHINT_INVALID                         -1
+
+	// Generic
+	#define MACRO_ENUM_TUTORIALHINT_ROLEABILITIES                   0
+	#define MACRO_ENUM_TUTORIALHINT_REOPENSPAWNMENU                 1
+	#define MACRO_ENUM_TUTORIALHINT_REPOSITIONUI                    2
+	#define MACRO_ENUM_TUTORIALHINT_SPOTENEMY                       3
+
+	// Resupply handling
+	#define MACRO_ENUM_TUTORIALHINT_RESUPPLY_SEEKSUPPORT            10
+	#define MACRO_ENUM_TUTORIALHINT_RESUPPLY_RESUPPLYSELF           11
+	#define MACRO_ENUM_TUTORIALHINT_RESUPPLY_RESUPPLYFRIENDLY       12
+
+	// Medical handling
+	#define MACRO_ENUM_TUTORIALHINT_MEDICAL_SEEKMEDIC               30
+	#define MACRO_ENUM_TUTORIALHINT_MEDICAL_HEALSELF                31
+	#define MACRO_ENUM_TUTORIALHINT_MEDICAL_HEALFRIENDLY            32
+	#define MACRO_ENUM_TUTORIALHINT_MEDICAL_REVIVEFRIENDLY          33
 
 
 

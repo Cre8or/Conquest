@@ -13,8 +13,9 @@
 
 #include "..\..\res\common\macros.inc"
 
+#include "..\..\res\macros\fnc_fadeCtrls.inc"
 #include "..\..\res\macros\fnc_initVar.inc"
-#include "..\..\res\macros\tween_rampDown.inc"
+#include "..\..\res\macros\fnc_tweens.inc"
 
 if (!hasInterface) exitWith {};
 
@@ -40,17 +41,16 @@ GVAR(ui_sys_drawKillFeed_EH) = addMissionEventHandler ["EachFrame", {
 
 	if (isGamePaused) exitWith {};
 
-	private _time = time;
+	private _time          = time;
+	private _UI            = uiNamespace getVariable [QGVAR(RscKillFeed), displayNull];
 	private _indexLastData = count GVAR(ui_sys_drawKillFeed_data) - 1;
 	private _indexLastCtrl = count GVAR(ui_sys_drawKillFeed_ctrls) - 1;
+	private _ctrlGrpMain   = _UI displayCtrl MACRO_IDC_KF_CTRLGRP;
+	private _animStartTime = _UI getVariable [QGVAR(animStartTime), 0];
+	private _animOffset    = _UI getVariable [QGVAR(animOffset), 0];
+	private _animPhase     = 1 - MACRO_TWEEN_CUBIC_OUT(_animStartTime, _time, MACRO_UI_KILLFEED_ANIMDURATION);
 
-	private _UI = uiNamespace getVariable [QGVAR(RscKillFeed), displayNull];
-	private _ctrlGrpMain = _UI displayCtrl MACRO_IDC_KF_CTRLGRP;
-	private _animEndTime = _UI getVariable [QGVAR(animEndTime), 0];
-	private _animOffset  = _UI getVariable [QGVAR(animOffset), 0];
-	private _animPhase   =  MACRO_TWEEN_RAMPDOWN(_time, _animEndTime, MACRO_UI_KILLFEED_ANIMDURATION);
-
-	private ["_ctrls", "_indexRev", "_nameKillerWidth", "_nameVictimWidth", "_weaponIconWidth", "_iconPosX", "_fade", "_col"];
+	private ["_ctrls", "_indexRev", "_nameKillerWidth", "_nameVictimWidth", "_weaponIconWidth", "_iconPosX", "_fade", "_col", "_alpha"];
 
 	// Draw the kill feed
 	for "_index" from _indexLastData to 0 step -1 do {
@@ -80,16 +80,16 @@ GVAR(ui_sys_drawKillFeed_EH) = addMissionEventHandler ["EachFrame", {
 				_ctrlGrp = _UI ctrlCreate ["RscControlsGroupNoScrollbars", -1, _ctrlGrpMain];
 
 				// Reset the animation
-				_animEndTime = _time + MACRO_UI_KILLFEED_ANIMDURATION;
-				_animOffset  = _animOffset * _animPhase + MACRO_POS_KF_ENTRY_HEIGHT;
-				_animPhase   = 1;
+				_animStartTime = _time;
+				_animOffset    = _animOffset * _animPhase + MACRO_POS_KF_ENTRY_HEIGHT;
+				_animPhase     = 1;
 
 				_ctrlSpecialIcon      = controlNull;
 				_ctrlIconRoadKill     = controlNull;
 				_ctrlBackgroundKiller = controlNull;
 				_ctrlNameKiller       = controlNull;
 
-				_UI setVariable [QGVAR(animEndTime), _animEndTime];
+				_UI setVariable [QGVAR(animStartTime), _animStartTime];
 				_UI setVariable [QGVAR(animOffset),  _animOffset];
 
 				// If no killer is assigned, move the victim's name control to the right (treat the entry as suicide)
@@ -120,7 +120,7 @@ GVAR(ui_sys_drawKillFeed_EH) = addMissionEventHandler ["EachFrame", {
 						MACRO_POS_KF_ENTRY_HEIGHT
 					];
 					_ctrlBackgroundKiller ctrlCommit 0;
-					_ctrlBackgroundKiller setVariable [QGVAR(fillColour), SQUARE(MACRO_COLOUR_INGAME_BACKGROUND)];
+					_ctrlBackgroundKiller ctrlSetBackgroundColor SQUARE(MACRO_COLOUR_INGAME_BACKGROUND);
 					_ctrlBackgroundKiller ctrlSetPixelPrecision 2;
 
 					_ctrlNameKiller = _UI ctrlCreate [QGVAR(RscKillFeed_Name_Killer), -1, _ctrlGrp];
@@ -132,7 +132,7 @@ GVAR(ui_sys_drawKillFeed_EH) = addMissionEventHandler ["EachFrame", {
 					];
 					_ctrlNameKiller ctrlCommit 0;
 					_ctrlNameKiller ctrlSetText _nameKiller;
-					_ctrlNameKiller setVariable [QGVAR(textColour), _killerColour];
+					_ctrlNameKiller ctrlSetTextColor _killerColour;
 				};
 
 				// Weapon
@@ -144,7 +144,7 @@ GVAR(ui_sys_drawKillFeed_EH) = addMissionEventHandler ["EachFrame", {
 					MACRO_POS_KF_ENTRY_HEIGHT
 				];
 				_ctrlBackgroundWeapon ctrlCommit 0;
-				_ctrlBackgroundWeapon setVariable [QGVAR(fillColour), SQUARE(MACRO_COLOUR_A50_WHITE)];
+				_ctrlBackgroundWeapon ctrlSetBackgroundColor SQUARE(MACRO_COLOUR_A50_WHITE);
 				_ctrlBackgroundWeapon ctrlSetPixelPrecision 2;
 
 				_ctrlWeapon = _UI ctrlCreate [QGVAR(RscPicture), -1, _ctrlGrp];
@@ -156,7 +156,7 @@ GVAR(ui_sys_drawKillFeed_EH) = addMissionEventHandler ["EachFrame", {
 				];
 				_ctrlWeapon ctrlCommit 0;
 				_ctrlWeapon ctrlSetText _weaponIcon;
-				_ctrlWeapon setVariable [QGVAR(textColour), SQUARE(MACRO_COLOUR_A100_BLACK)];
+				_ctrlWeapon ctrlSetTextColor SQUARE(MACRO_COLOUR_A100_BLACK);
 
 				// Special icon
 				if (_iconEnum != MACRO_ENUM_KF_ICON_NONE) then {
@@ -168,7 +168,7 @@ GVAR(ui_sys_drawKillFeed_EH) = addMissionEventHandler ["EachFrame", {
 						MACRO_POS_KF_ENTRY_HEIGHT
 					];
 					_ctrlSpecialIcon ctrlCommit 0;
-					_ctrlSpecialIcon setVariable [QGVAR(textColour), SQUARE(MACRO_COLOUR_A100_BLACK)];
+					_ctrlSpecialIcon ctrlSetTextColor SQUARE(MACRO_COLOUR_A100_BLACK);
 					_ctrlSpecialIcon ctrlSetText (switch (_iconEnum) do {
 						case MACRO_ENUM_KF_ICON_HEADSHOT:  {MACRO_KF_ICON_HEADSHOT};
 						case MACRO_ENUM_KF_ICON_ROADKILL:  {MACRO_KF_ICON_ROADKILL};
@@ -187,7 +187,7 @@ GVAR(ui_sys_drawKillFeed_EH) = addMissionEventHandler ["EachFrame", {
 					MACRO_POS_KF_ENTRY_HEIGHT
 				];
 				_ctrlBackgroundVictim ctrlCommit 0;
-				_ctrlBackgroundVictim setVariable [QGVAR(fillColour), SQUARE(MACRO_COLOUR_INGAME_BACKGROUND)];
+				_ctrlBackgroundVictim ctrlSetBackgroundColor SQUARE(MACRO_COLOUR_INGAME_BACKGROUND);
 				_ctrlBackgroundVictim ctrlSetPixelPrecision 2;
 
 				_ctrlNameVictim = _UI ctrlCreate [QGVAR(RscKillFeed_Name_Victim), -1, _ctrlGrp];
@@ -199,7 +199,7 @@ GVAR(ui_sys_drawKillFeed_EH) = addMissionEventHandler ["EachFrame", {
 				];
 				_ctrlNameVictim ctrlCommit 0;
 				_ctrlNameVictim ctrlSetText _nameVictim;
-				_ctrlNameVictim setVariable [QGVAR(textColour), _victimColour];
+				_ctrlNameVictim ctrlSetTextColor _victimColour;
 
 				_ctrls = [_ctrlGrp, _ctrlBackgroundVictim, _ctrlNameVictim, _ctrlBackgroundWeapon, _ctrlSpecialIcon, _ctrlWeapon, _ctrlBackgroundKiller, _ctrlNameKiller];
 
@@ -211,29 +211,17 @@ GVAR(ui_sys_drawKillFeed_EH) = addMissionEventHandler ["EachFrame", {
 			_ctrlGrp ctrlSetPosition [0, _indexRev * MACRO_POS_KF_ENTRY_HEIGHT - _animOffset * _animPhase];
 			_ctrlGrp ctrlCommit 0;
 
-			// Fade the solid controls
+			// Fade the controls out
 			_fade = ((_endTime - _time) min MACRO_UI_KILLFEED_ENTRYFADEDURATION) / MACRO_UI_KILLFEED_ENTRYFADEDURATION;
-			{
-				_col = +(_x getVariable [QGVAR(fillColour), [1,1,1,1]]);
-				_col set [3, (_col # 3) * _fade];
-				_x ctrlSetBackgroundColor _col;
-			} forEach [
-				_ctrlBackgroundVictim,
-				_ctrlBackgroundWeapon,
-				_ctrlBackgroundKiller
-			];
 
-			// Fade the text controls
-			{
-				_col = +(_x getVariable [QGVAR(textColour), [1,1,1,1]]);
-				_col set [3, (_col # 3) * _fade];
-				_x ctrlSetTextColor _col;
-			} forEach [
-				_ctrlNameKiller,
-				_ctrlSpecialIcon,
-				_ctrlWeapon,
-				_ctrlNameVictim
-			];
+			MACRO_FNC_FADECTRL_FILL(_ctrlBackgroundVictim, _col, _alpha, _fade);
+			MACRO_FNC_FADECTRL_FILL(_ctrlBackgroundWeapon, _col, _alpha, _fade);
+			MACRO_FNC_FADECTRL_FILL(_ctrlBackgroundKiller, _col, _alpha, _fade);
+
+			MACRO_FNC_FADECTRL_TEXT(_ctrlNameKiller, _col, _alpha, _fade);
+			MACRO_FNC_FADECTRL_TEXT(_ctrlSpecialIcon, _col, _alpha, _fade);
+			MACRO_FNC_FADECTRL_TEXT(_ctrlWeapon, _col, _alpha, _fade);
+			MACRO_FNC_FADECTRL_TEXT(_ctrlNameVictim, _col, _alpha, _fade);
 		};
 	};
 }];

@@ -38,17 +38,16 @@ case "ui_button_click": {
 	switch (_IDC) do {
 
 		// Menus
-		case MACRO_IDC_SM_SIDE_BUTTON:   {_newMenu = MACRO_IDC_SM_SIDE_FRAME};
-		case MACRO_IDC_SM_ROLE_BUTTON:   {_newMenu = MACRO_IDC_SM_ROLE_FRAME};
-		case MACRO_IDC_SM_DEPLOY_BUTTON: {_newMenu = MACRO_IDC_SM_DEPLOY_FRAME};
+		case MACRO_IDC_SM_FACTION_BUTTON:    {_newMenu = MACRO_IDC_SM_FACTION_FRAME};
+		case MACRO_IDC_SM_ROLE_BUTTON:       {_newMenu = MACRO_IDC_SM_ROLE_FRAME};
+		case MACRO_IDC_SM_DEPLOYMENT_BUTTON: {_newMenu = MACRO_IDC_SM_DEPLOYMENT_FRAME};
 
-		// Side menu
-		case MACRO_IDC_SM_SIDE_JOIN_LEFT_BUTTON:   {_newSide = east};
-		case MACRO_IDC_SM_SIDE_JOIN_MIDDLE_BUTTON: {_newSide = resistance};
-		case MACRO_IDC_SM_SIDE_JOIN_RIGHT_BUTTON:  {_newSide = west};
+		// Faction menu
+		case MACRO_IDC_SM_FACTION_JOIN_LEFT_BUTTON:   {_newSide = east};
+		case MACRO_IDC_SM_FACTION_JOIN_MIDDLE_BUTTON: {_newSide = resistance};
+		case MACRO_IDC_SM_FACTION_JOIN_RIGHT_BUTTON:  {_newSide = west};
 
 		// Role Preview Frame
-		//case MACRO_IDC_SM_ROLE_PREVIEW_FRAME: {_clickedOnRolePreview = (_button == 1)}; // Only consider right clicks
 		case MACRO_IDC_SM_ROLE_PREVIEW_FRAME:   {_clickedOnRolePreview = true};	 // Consider all clicks
 
 		// Roles
@@ -137,8 +136,8 @@ case "ui_button_click": {
 			};
 		};
 
-		// Deploy map
-		case MACRO_IDC_SM_DEPLOY_MAP: {
+		// Deployment map
+		case MACRO_IDC_SM_DEPLOYMENT_MAP: {
 			private _ctrlMap = _spawnMenu displayCtrl _IDC;
 			private _minDist = 9e9;
 			private _maxDist = 0.1 ^ 2; // in UI size
@@ -163,8 +162,8 @@ case "ui_button_click": {
 		default {
 
 			// Spawn sector
-			if (_curMenu == MACRO_IDC_SM_DEPLOY_FRAME) then {
-				if (_IDC >= MACRO_IDC_SM_DEPLOY_SECTOR_START) then {
+			if (_curMenu == MACRO_IDC_SM_DEPLOYMENT_FRAME) then {
+				if (_IDC >= MACRO_IDC_SM_DEPLOYMENT_SECTOR_START) then {
 					_newSpawn = _ctrl getVariable [QGVAR(sector), objNull];
 				};
 			};
@@ -180,8 +179,8 @@ case "ui_button_click": {
 	private _shouldChangeMenu = (_newMenu != _curMenu) and {
 		switch (_newMenu) do {
 			case MACRO_IDC_SM_ROLE_FRAME:   {_alive or {_curSidePlayable}};
-			case MACRO_IDC_SM_DEPLOY_FRAME: {GVAR(role) != MACRO_ENUM_ROLE_INVALID and {_alive or {_curSidePlayable}}};
-			default {true} // Side menu; must be allowed at all times
+			case MACRO_IDC_SM_DEPLOYMENT_FRAME: {GVAR(role) != MACRO_ENUM_ROLE_INVALID and {_alive or {_curSidePlayable}}};
+			default {true} // Faction menu; must be allowed at all times
 		}
 	};
 	if (_shouldChangeMenu) then {
@@ -194,9 +193,9 @@ case "ui_button_click": {
 		_spawnMenu setVariable [QGVAR(currentMenu), _newMenu];
 
 		// Hide all menu controls group
-		(_spawnMenu displayCtrl MACRO_IDC_SM_SIDE_CTRLGROUP) ctrlShow false;
+		(_spawnMenu displayCtrl MACRO_IDC_SM_FACTION_CTRLGROUP) ctrlShow false;
 		(_spawnMenu displayCtrl MACRO_IDC_SM_ROLE_CTRLGROUP) ctrlShow false;
-		(_spawnMenu displayCtrl MACRO_IDC_SM_DEPLOY_CTRLGROUP) ctrlShow false;
+		(_spawnMenu displayCtrl MACRO_IDC_SM_DEPLOYMENT_CTRLGROUP) ctrlShow false;
 
 		// Mark the menu as no longer being open (allows the respective update event to hide/reset its controls)
 		_spawnMenu setVariable [QGVAR(menu_isOpen), false];
@@ -204,22 +203,22 @@ case "ui_button_click": {
 
 		// Show the requested menu's controls group
 		switch (_newMenu) do {
-			case MACRO_IDC_SM_SIDE_FRAME: {
-				(_spawnMenu displayCtrl MACRO_IDC_SM_SIDE_CTRLGROUP) ctrlShow true;
-				["ui_update_side"] call FUNC(ui_spawnMenu);
+			case MACRO_IDC_SM_FACTION_FRAME: {
+				(_spawnMenu displayCtrl MACRO_IDC_SM_FACTION_CTRLGROUP) ctrlShow true;
+				["ui_update_faction"] call FUNC(ui_spawnMenu);
 			};
 			case MACRO_IDC_SM_ROLE_FRAME: {
 				(_spawnMenu displayCtrl MACRO_IDC_SM_ROLE_CTRLGROUP) ctrlShow true;
 				["ui_update_role"] call FUNC(ui_spawnMenu);
 			};
-			case MACRO_IDC_SM_DEPLOY_FRAME: {
-				(_spawnMenu displayCtrl MACRO_IDC_SM_DEPLOY_CTRLGROUP) ctrlShow true;
-				["ui_update_deploy"] call FUNC(ui_spawnMenu);
+			case MACRO_IDC_SM_DEPLOYMENT_FRAME: {
+				(_spawnMenu displayCtrl MACRO_IDC_SM_DEPLOYMENT_CTRLGROUP) ctrlShow true;
+				["ui_update_deployment"] call FUNC(ui_spawnMenu);
 			};
 		};
 
 		// Handle the deployment map's visibility
-		(_spawnMenu displayCtrl MACRO_IDC_SM_DEPLOY_MAP) ctrlShow (_newMenu == MACRO_IDC_SM_DEPLOY_FRAME);
+		(_spawnMenu displayCtrl MACRO_IDC_SM_DEPLOYMENT_MAP) ctrlShow (_newMenu == MACRO_IDC_SM_DEPLOYMENT_FRAME);
 
 		// End the group naming process (if it is currently active)
 		_spawnMenu setVariable [QGVAR(menuRole_isNamingGroup), false];
@@ -242,7 +241,7 @@ case "ui_button_click": {
 		// Leave the group
 		MACRO_FNC_LEAVEGROUP(_groupPly);
 
-		["ui_update_side"] call FUNC(ui_spawnMenu);
+		["ui_update_faction"] call FUNC(ui_spawnMenu);
 
 		#ifdef MACRO_DEBUG_GM_INSTANTROLESWITCH
 			[player, GVAR(side), GVAR(role)] call FUNC(lo_setRoleLoadout);
@@ -251,9 +250,9 @@ case "ui_button_click": {
 		// Reset the eachFrame update time to match the new menu
 		_spawnMenu setVariable [QGVAR(nextUpdateTime), 0];
 
-		// Reset the role and deploy menus' init variables, as the loadouts and sectors must be updated
+		// Reset the role and deployment menus' init variables, as the loadouts and sectors must be updated
 		_spawnMenu setVariable [QGVAR(menuRole_isInit), false];
-		_spawnMenu setVariable [QGVAR(menuDeploy_isInit), false];
+		_spawnMenu setVariable [QGVAR(menuDeployment_isInit), false];
 
 		// Switch to the role menu
 		//["ui_button_click", [_spawnMenu displayCtrl MACRO_IDC_SM_ROLE_BUTTON]] call FUNC(ui_spawnMenu);
@@ -307,7 +306,7 @@ case "ui_button_click": {
 		GVAR(spawnSector) = _newSpawn;
 
 		// Update the selected sector
-		["ui_update_deploy"] call FUNC(ui_spawnMenu);
+		["ui_update_deployment"] call FUNC(ui_spawnMenu);
 		["ui_update_spawn"] call FUNC(ui_spawnMenu);
 	};
 

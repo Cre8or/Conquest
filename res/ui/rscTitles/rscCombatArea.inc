@@ -33,14 +33,14 @@ class GVAR(RscCombatArea) {
 				class Warning_Title : GVAR(RscText) {
 					style = ST_CENTER;
 					text = "WARNING";
-					sizeEx = MACRO_UI_TEXTSIZE_4;
+					sizeEx = MACRO_POS_CA_TITLE_TEXTSIZE;
 					w = MACRO_POS_CA_WIDTH;
 					h = MACRO_POS_CA_HEIGHT * 0.3;
 				};
 
 				class Warning_Message : Warning_Title {
 					text = "Return to the combat area!";
-					sizeEx = MACRO_UI_TEXTSIZE_2;
+					sizeEx = MACRO_POS_CA_BODY_TEXTSIZE;
 					y = MACRO_POS_CA_HEIGHT * 0.3;
 				};
 

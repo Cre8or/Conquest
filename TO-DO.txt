@@ -16,7 +16,7 @@ TO DO:
 		- Play a short unit gesture/animation
 		- Notify the crew they are being repaired (via UI element/sounds)?
 	- Localise all UI elements:
-		- Spawnmenu
+		+ Spawnmenu
 		- Spawn status
 		- Combat area
 		- Score feed

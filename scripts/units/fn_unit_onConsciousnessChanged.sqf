@@ -43,7 +43,7 @@ _unit setVariable [QGVAR(bleedoutTime), [-1, _time + _reviveDuration] select _ne
 if (_newState) then {
 	_unit setVariable [QGVAR(health), 0, false];
 
-	[_unit, MACRO_ENUM_SOUND_VO_DEATH] call FUNC(unit_playSound);
+	[_unit, MACRO_ENUM_OBJSOUND_VO_DEATH] call FUNC(unit_playSound);
 
 	if (!isPlayer _unit) then {
 		// Interface with unitControl to allow the unit to give up and bleed out
@@ -69,7 +69,7 @@ if (_newState) then {
 	// Reset the unit's health to the lowest amount that can be given by a medic
 	_unit setVariable [QGVAR(health), MACRO_ACT_HEALUNIT_AMOUNT, false];
 
-	[_unit, MACRO_ENUM_SOUND_VO_REVIVE] call FUNC(unit_playSound);
+	[_unit, MACRO_ENUM_OBJSOUND_VO_REVIVE] call FUNC(unit_playSound);
 
 	// Allow AI units to talk again
 	if (!isPlayer _unit) then {

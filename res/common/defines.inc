@@ -102,6 +102,7 @@
 #ifndef MACRO_ENV_USEADDONFORMAT
 
 	import RscText;
+	import RscStructuredText;
 	import RscPicture;
 	import RscButton;
 	import RscFrame;
@@ -127,6 +128,7 @@
 // --------------------------------------------------------------------------
 #else
 	class RscText;
+	class RscStructuredText;
 	class RscPicture;
 	class RscButton;
 	class RscFrame;

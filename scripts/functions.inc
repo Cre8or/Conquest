@@ -88,6 +88,7 @@ class MACRO_PROJECT_PREFIX {
 		class gm_isSidePlayable {};
 		class gm_onSafeStartChanged {};
 		class gm_playRadioMsg {};
+		class gm_playSoundset {};
 		class gm_postInit {
 			postInit = 1;
 		};
@@ -195,6 +196,7 @@ class MACRO_PROJECT_PREFIX {
 		class ui_sys_drawMedicalEffects {};
 		class ui_sys_drawScoreFeed {};
 		class ui_sys_drawSectorHUD {};
+		class ui_sys_drawTutorialHints {};
 		class ui_sys_hookMapCtrls {};
 	};
 

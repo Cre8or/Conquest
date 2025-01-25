@@ -1,6 +1,7 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
+		[LE]
 		Plays a predefined radio message on the local machine. If a message with a higher priority is already
 		playing, it will only be interrupted if the requested message has a higher priority, or if is forced
 		to play (see arguments).

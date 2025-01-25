@@ -12,8 +12,9 @@
 
 #include "..\..\res\common\macros.inc"
 
+#include "..\..\res\macros\fnc_fadeCtrls.inc"
 #include "..\..\res\macros\fnc_initVar.inc"
-#include "..\..\res\macros\tween_rampDown.inc"
+#include "..\..\res\macros\fnc_tweens.inc"
 
 if (!hasInterface) exitWith {};
 
@@ -27,17 +28,6 @@ MACRO_FNC_INITVAR(GVAR(ui_sys_drawScoreFeed_EH), -1);
 GVAR(ui_sys_drawScoreFeed_data)       = [];    // Interfaces with ui_processScoreEvent
 GVAR(ui_sys_drawScoreFeed_redrawLast) = false; // Interfaces with ui_processScoreEvent
 GVAR(ui_sys_drawScoreFeed_ctrls)      = [];
-
-// Define some macros
-#define MACRO_FNC_FADECTRL_FILL(VARNAME_CONTROL,VARNAME_COLOUR,VARNAME_FADE) \
-	VARNAME_COLOUR = +(VARNAME_CONTROL getVariable [QGVAR(fillColour), [1,1,1,1]]); \
-	VARNAME_COLOUR set [3, (VARNAME_COLOUR select 3) * VARNAME_FADE]; \
-	VARNAME_CONTROL ctrlSetBackgroundColor VARNAME_COLOUR
-
-#define MACRO_FNC_FADECTRL_TEXT(VARNAME_CONTROL,VARNAME_COLOUR,VARNAME_FADE) \
-	VARNAME_COLOUR = +(VARNAME_CONTROL getVariable [QGVAR(textColour), [1,1,1,1]]); \
-	VARNAME_COLOUR set [3, (VARNAME_COLOUR select 3) * VARNAME_FADE]; \
-	VARNAME_CONTROL ctrlSetTextColor VARNAME_COLOUR
 
 
 
@@ -55,18 +45,17 @@ GVAR(ui_sys_drawScoreFeed_EH) = addMissionEventHandler ["EachFrame", {
 
 	if (isGamePaused) exitWith {};
 
-	private _time = time;
+	private _time          = time;
+	private _UI            = uiNamespace getVariable [QGVAR(RscScoreFeed), displayNull];
 	private _indexLastData = count GVAR(ui_sys_drawScoreFeed_data) - 1;
 	private _indexLastCtrl = count GVAR(ui_sys_drawScoreFeed_ctrls) - 1;
-
-	private _UI = uiNamespace getVariable [QGVAR(RscScoreFeed), displayNull];
-	private _ctrlGrpMain = _UI displayCtrl MACRO_IDC_SF_CTRLGRP;
-	private _animEndTime = _UI getVariable [QGVAR(animEndTime), 0];
-	private _animOffset  = _UI getVariable [QGVAR(animOffset), 0];
-	private _scoreSum    = _UI getVariable [QGVAR(scoreSum), 0];
-	private _ctrlsSum    = _UI getVariable [QGVAR(ctrlsSum), []];
-	private _animPhase   =  MACRO_TWEEN_RAMPDOWN(_time, _animEndTime, MACRO_UI_SCOREFEED_ANIMDURATION);
-	private _updateSum   = false;
+	private _ctrlGrpMain   = _UI displayCtrl MACRO_IDC_SF_CTRLGRP;
+	private _animStartTime = _UI getVariable [QGVAR(animStartTime), 0];
+	private _animOffset    = _UI getVariable [QGVAR(animOffset), 0];
+	private _animPhase     = 1 - MACRO_TWEEN_CUBIC_OUT(_animStartTime, _time, MACRO_UI_SCOREFEED_ANIMDURATION);
+	private _scoreSum      = _UI getVariable [QGVAR(scoreSum), 0];
+	private _ctrlsSum      = _UI getVariable [QGVAR(ctrlsSum), []];
+	private _updateSum     = false;
 
 	// Special case: redrawing is requested
 	if (GVAR(ui_sys_drawScoreFeed_redrawLast)) then {
@@ -76,7 +65,7 @@ GVAR(ui_sys_drawScoreFeed_EH) = addMissionEventHandler ["EachFrame", {
 		_indexLastCtrl = _indexLastCtrl - 1;
 	};
 
-	private ["_ctrls", "_indexRev", "_messageWidth", "_argWidth", "_scoreWidth", "_fade", "_col"];
+	private ["_ctrls", "_indexRev", "_messageWidth", "_argWidth", "_scoreWidth", "_fade", "_col", "_alpha"];
 
 	// Process the score feed entries
 	for "_index" from _indexLastData to 0 step -1 do {
@@ -98,9 +87,9 @@ GVAR(ui_sys_drawScoreFeed_EH) = addMissionEventHandler ["EachFrame", {
 
 				// Reset the animation
 				if (!GVAR(ui_sys_drawScoreFeed_redrawLast)) then {
-					_animEndTime = _time + MACRO_UI_SCOREFEED_ANIMDURATION;
-					_animOffset  = _animOffset * _animPhase + MACRO_POS_SF_ENTRY_TEXTSIZE;
-					_animPhase   = 1;
+					_animStartTime = _time;
+					_animOffset    = _animOffset * _animPhase + MACRO_POS_SF_ENTRY_TEXTSIZE;
+					_animPhase     = 1;
 				};
 
 				// Displayed score can differ from the entry's score in cases where the score event can stack.
@@ -110,7 +99,7 @@ GVAR(ui_sys_drawScoreFeed_EH) = addMissionEventHandler ["EachFrame", {
 					_scoreDisplayed = _score;
 				};
 
-				_UI setVariable [QGVAR(animEndTime), _animEndTime];
+				_UI setVariable [QGVAR(animStartTime), _animStartTime];
 				_UI setVariable [QGVAR(animOffset),  _animOffset];
 
 				_messageWidth = ("w" + _messageText) getTextWidth [MACRO_FONT_UI_MEDIUM, MACRO_POS_SF_ENTRY_TEXTSIZE];
@@ -128,7 +117,6 @@ GVAR(ui_sys_drawScoreFeed_EH) = addMissionEventHandler ["EachFrame", {
 					MACRO_POS_SF_ENTRY_HEIGHT
 				];
 				_ctrlBackground ctrlCommit 0;
-				_ctrlBackground setVariable [QGVAR(fillColour), SQUARE(MACRO_COLOUR_INGAME_BACKGROUND)];
 				_ctrlBackground ctrlSetPixelPrecision 2;
 
 				// Score background (only for penalties)
@@ -141,7 +129,8 @@ GVAR(ui_sys_drawScoreFeed_EH) = addMissionEventHandler ["EachFrame", {
 						MACRO_POS_SF_ENTRY_TEXTSIZE
 					];
 					_ctrlBackgroundScore ctrlCommit 0;
-					_ctrlBackgroundScore setVariable [QGVAR(fillColour), SQUARE(MACRO_COLOUR_A100_RED)];
+					_ctrlBackgroundScore ctrlSetBackgroundColor SQUARE(MACRO_COLOUR_A100_RED);
+					_ctrlBackgroundScore ctrlSetPixelPrecision 2;
 				} else {
 					_ctrlBackgroundScore = controlNull;
 				};
@@ -157,7 +146,7 @@ GVAR(ui_sys_drawScoreFeed_EH) = addMissionEventHandler ["EachFrame", {
 					];
 					_ctrlMessageArg ctrlCommit 0;
 					_ctrlMessageArg ctrlSetText _messageArg;
-					_ctrlMessageArg setVariable [QGVAR(textColour), _messageArgColour];
+					_ctrlMessageArg ctrlSetTextColor _messageArgColour;
 				} else {
 					_ctrlMessageArg = controlNull;
 				};
@@ -217,12 +206,12 @@ GVAR(ui_sys_drawScoreFeed_EH) = addMissionEventHandler ["EachFrame", {
 			// Fade the controls out
 			_fade = ((_endTime - _time) min MACRO_UI_SCOREFEED_ENTRYFADEDURATION) / MACRO_UI_SCOREFEED_ENTRYFADEDURATION;
 
-			MACRO_FNC_FADECTRL_FILL(_ctrlBackground, _col, _fade);
-			MACRO_FNC_FADECTRL_FILL(_ctrlBackgroundScore, _col, _fade);
+			MACRO_FNC_FADECTRL_FILL(_ctrlBackground, _col, _alpha, _fade);
+			MACRO_FNC_FADECTRL_FILL(_ctrlBackgroundScore, _col, _alpha, _fade);
 
-			MACRO_FNC_FADECTRL_TEXT(_ctrlMessage, _col, _fade);
-			MACRO_FNC_FADECTRL_TEXT(_ctrlMessageArg, _col, _fade);
-			MACRO_FNC_FADECTRL_TEXT(_ctrlScore, _col, _fade);
+			MACRO_FNC_FADECTRL_TEXT(_ctrlMessage, _col, _alpha, _fade);
+			MACRO_FNC_FADECTRL_TEXT(_ctrlMessageArg, _col, _alpha, _fade);
+			MACRO_FNC_FADECTRL_TEXT(_ctrlScore, _col, _alpha, _fade);
 		};
 	};
 
@@ -277,17 +266,18 @@ GVAR(ui_sys_drawScoreFeed_EH) = addMissionEventHandler ["EachFrame", {
 
 		// Update the score sum text and background
 		if (_updateSum) then {
-			_ctrlBackground setVariable [QGVAR(fillColour),
-				[SQUARE(MACRO_COLOUR_A100_RED), SQUARE(MACRO_COLOUR_INGAME_BACKGROUND)] select (_scoreSum >= 0)
-			];
+			_ctrlBackground ctrlSetBackgroundColor ([
+				SQUARE(MACRO_COLOUR_A100_RED),
+				SQUARE(MACRO_COLOUR_INGAME_BACKGROUND
+			)] select (_scoreSum >= 0));
 
 			_ctrlScore ctrlSetText _scoreSumText;
 		};
 
 		// Fade the controls out
 		_fade = ((_endTime - _time) min MACRO_UI_SCOREFEED_ENTRYFADEDURATION) / MACRO_UI_SCOREFEED_ENTRYFADEDURATION;
-		MACRO_FNC_FADECTRL_FILL(_ctrlBackground, _col, _fade);
-		MACRO_FNC_FADECTRL_TEXT(_ctrlScore, _col, _fade);
+		MACRO_FNC_FADECTRL_FILL(_ctrlBackground, _col, _alpha, _fade);
+		MACRO_FNC_FADECTRL_TEXT(_ctrlScore, _col, _alpha, _fade);
 
 	} else {
 

@@ -220,6 +220,12 @@ if (_health > 0) then {
 
 	// Handle revivability
 	private _reviveDuration = 0;
+
+	// Edge case: if the unit's side is no longer playable, prevent the unit from being revived
+	if !([_sideUnit] call FUNC(gm_isSidePlayable)) then {
+		_isRevivable = false;
+	};
+
 	if (_isRevivable) then {
 		if (_damageEnum == MACRO_ENUM_DAMAGE_PHYSICS) then {
 			_reviveDuration = GVAR(param_gm_unit_reviveDuration);

@@ -13,7 +13,7 @@
 #include "..\..\res\common\macros.inc"
 
 #include "..\..\res\macros\fnc_initVar.inc"
-#include "..\..\res\macros\tween_rampDown.inc"
+#include "..\..\res\macros\fnc_tweens.inc"
 
 
 
@@ -25,7 +25,7 @@ MACRO_FNC_INITVAR(GVAR(ca_sys_playerCombatArea_EH), -1);
 MACRO_FNC_INITVAR(GVAR(ui_ca_colourFx), -1);
 
 GVAR(ca_sys_playerCombatArea_state)      = true;
-GVAR(ca_sys_playerCombatArea_punishTime)  = 0;
+GVAR(ca_sys_playerCombatArea_leaveTime)  = 0;
 GVAR(ca_sys_playerCombatArea_nextUpdate) = 0;
 
 // Clear the UI, if it is present
@@ -72,7 +72,7 @@ GVAR(ca_sys_playerCombatArea_EH) = addMissionEventHandler ["EachFrame", {
 				GVAR(ui_ca_colourFx) ppEffectCommit MACRO_CA_WARNING_ANIMDURATION;
 
 			} else {
-				GVAR(ca_sys_playerCombatArea_punishTime) = _time + GVAR(param_ca_graceDuration);
+				GVAR(ca_sys_playerCombatArea_leaveTime) = _time;
 
 				// Start the combat area warning display
 				QGVAR(RscCombatArea) cutRsc [QGVAR(RscCombatArea), "PLAIN"];
@@ -89,7 +89,7 @@ GVAR(ca_sys_playerCombatArea_EH) = addMissionEventHandler ["EachFrame", {
 		};
 
 		// If the player is outside of the combat area for too long, kill them
-		if (!_newState and {_time > GVAR(ca_sys_playerCombatArea_punishTime)}) then {
+		if (!_newState and {_time > GVAR(ca_sys_playerCombatArea_leaveTime) + GVAR(param_ca_graceDuration)}) then {
 			[_player, -1, MACRO_ENUM_DAMAGE_COMBATAREA, _player, _player, false] call FUNC(gm_processUnitDamage);
 		};
 
@@ -104,19 +104,17 @@ GVAR(ca_sys_playerCombatArea_EH) = addMissionEventHandler ["EachFrame", {
 	if (!isNull _display) then {
 		private _ctrlGrp  = _display displayCtrl MACRO_IDC_CA_CTRLGRP;
 		private _ctrlText = _ctrlGrp controlsGroupCtrl MACRO_IDC_CA_TEXT_COUNTDOWN;
+		private _ctrlPos   = ctrlPosition _ctrlGrp;
 
-		// Perform a fade-in animation
-		private _animEndTime = GVAR(ca_sys_playerCombatArea_punishTime) - GVAR(param_ca_graceDuration) + MACRO_CA_WARNING_ANIMDURATION;
-		private _animPhase   = 1 - MACRO_TWEEN_RAMPDOWN(_time, _animEndTime, MACRO_CA_WARNING_ANIMDURATION);
-		private _ctrlPos     = ctrlPosition _ctrlGrp;
+		// Perform a fade-in animation, starting centered and expanding vertically in both directions
 
-		// Start centered, expand up and down
+		private _animPhase = MACRO_TWEEN_CUBIC_OUT(GVAR(ca_sys_playerCombatArea_leaveTime), _time, MACRO_CA_WARNING_ANIMDURATION);
 		_ctrlGrp ctrlSetPositionY (safeZoneY + safezoneH / 2 - MACRO_POS_CA_HEIGHT * (0.5 + 0.5 * _animPhase));
 		_ctrlGrp ctrlSetPositionH (MACRO_POS_CA_HEIGHT * _animPhase);
 		_ctrlGrp ctrlCommit 0;
 
 		// Update the countdown
-		private _delay = ceil (GVAR(ca_sys_playerCombatArea_punishTime) - _time max 0);
+		private _delay = ceil ((GVAR(ca_sys_playerCombatArea_leaveTime) + GVAR(param_ca_graceDuration) - _time) max 0);
 		_ctrlText ctrlSetText str _delay;
 	};
 }];

@@ -133,7 +133,7 @@
 	<!-- UI/Spawn Menu -->
 	<!-- ================================================================================ -->
 	<Package name="ui_spawnMenu">
-		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_side">
+		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_faction">
 		    <Original>Faction</Original>
 		    <German>Faktion</German>
 		    <French>Faction</French>
@@ -154,15 +154,20 @@
 		    <French>Apparaître</French>
 		</Key>
 
-		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_side_clicktoselect">
+		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_faction_clicktoselect">
 		    <Original>Click to select</Original>
 		    <German>Zum Auswählen klicken</German>
 		    <French>Cliquer pour sélectionner</French>
 		</Key>
-		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_side_selected">
+		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_faction_selected">
 		    <Original>Selected</Original>
 		    <German>Ausgewählt</German>
 		    <French>Sélectionnée</French>
+		</Key>
+		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_faction_unavailable">
+		    <Original>Unavailable</Original>
+		    <German>Nicht mehr spielbar</German>
+		    <French>Plus disponible</French>
 		</Key>
 		<Key ID="STR_cre8ive_conquest_ui_spawnMenu_role_cameraControls">
 		    <Original>Hold the left mouse button to pan/rotate\nScroll to zoom\nPress %1 to toggle nightvision</Original>

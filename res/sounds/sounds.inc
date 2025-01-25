@@ -11,7 +11,11 @@ class GVAR(FriendlyKilled) : GVAR(Default) {
 };
 
 class GVAR(SideDefeated) : GVAR(Default) {
-	sound[] = {"@a3\missions_f_beta\data\sounds\firing_drills\drill_finish.wss", db+5, 1};
+	sound[] = {"@A3\Missions_F_Bootcamp\data\sounds\vr_shutdown.wss", 1, 1};
+};
+
+class GVAR(SectorCaptured) : GVAR(Default) {
+	sound[] = {"@a3\missions_f_beta\data\sounds\firing_drills\drill_finish.wss", 1, 1};
 };
 
 class GVAR(Headshot) : GVAR(Default) {
@@ -19,7 +23,11 @@ class GVAR(Headshot) : GVAR(Default) {
 };
 
 class GVAR(TicketsLow_Siren) : GVAR(Default) {
-	sound[] = {"@a3\data_f_curator\sound\cfgsounds\air_raid", db+5, 1};
+	sound[] = {"@a3\data_f_curator\sound\cfgsounds\air_raid.wss", db+5, 1};
+};
+
+class GVAR(Hint) : GVAR(Default) {
+	sound[] = {"@a3\ui_f\data\Sound\CfgIngameUI\hintCollapse.wss", 1, 1};
 };
 
 

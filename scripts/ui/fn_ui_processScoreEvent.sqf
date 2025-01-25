@@ -66,6 +66,8 @@ switch (_enum) do {
 			MACRO_SCORE_SECTOR_CAPTURED,
 			"SECTOR CAPTURED"
 		];
+
+		_soundData = [QGVAR(SectorCaptured), 1, 1];
 	};
 
 	// --------
@@ -205,8 +207,8 @@ switch (_enum) do {
 				[_arg] call FUNC(gm_getSideName),
 				SQUARE(MACRO_COLOUR_A100_ENEMY)
 			];
+			_soundData = [QGVAR(SideDefeated), 2, 1];
 		};
-		_soundData = [QGVAR(SideDefeated), 4, 1];
 	};
 };
 
