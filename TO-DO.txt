@@ -1,4 +1,5 @@
 TO DO:
+	- Disable the ACE3 medical menu keybinding
 	- Prevent inventory interaction with weaponHolders using the action menu ("Take xxx")
 	- Prevent inventory interaction with weaponHolders using the ACE interaction menu
 	- Add function to prevent terrain objects (buildings) from being fully destroyed

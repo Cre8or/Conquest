@@ -50,6 +50,7 @@ GVAR(ui_sys_drawTutorialHints_EH) = addMissionEventHandler ["EachFrame", {
 	private _strBody  = "";
 	switch (GVAR(gm_sys_tutorialHints_activeHint)) do {
 
+		#include "drawTutorialHints\hint_magazineRepacking.sqf"
 		#include "drawTutorialHints\hint_reopenSpawnMenu.sqf"
 		#include "drawTutorialHints\hint_roleAbilities.sqf"
 	};

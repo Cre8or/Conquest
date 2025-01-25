@@ -66,4 +66,7 @@ GVAR(gm_sys_tutorialHints_EH) = addMissionEventHandler ["EachFrame", {
 	// Spawn menu toggling
 	#include "tutorialHints\subSys_reopenSpawnMenu.sqf";
 
+	// Automatic magazine repacking on reload
+	#include "tutorialHints\subSys_magazineRepacking.sqf";
+
 }];

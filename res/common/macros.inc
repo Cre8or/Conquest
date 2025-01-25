@@ -262,7 +262,7 @@
 	#define MACRO_POS_ES_TICKETS_TEXTSIZE                           MACRO_UI_TEXTSIZE_3
 
 	// Kill Feed
-	#define MACRO_POS_KF_WIDTH                                      (0.2 * safeZoneW)
+	#define MACRO_POS_KF_WIDTH                                      0.5
 	#define MACRO_POS_KF_X                                          (safeZoneX + safeZoneW - MACRO_POS_KF_WIDTH)
 	#define MACRO_POS_KF_Y                                          (safeZoneY + 0.25 * safeZoneH)
 	#define MACRO_POS_KF_WEAPON_WIDTH                               (0.025 * safeZoneW)
@@ -296,7 +296,7 @@
 	#define MACRO_POS_SB_COLUMN_X_PING                              0.91
 
 	// Score Feed
-	#define MACRO_POS_SF_WIDTH                                      (0.33 * safeZoneW)
+	#define MACRO_POS_SF_WIDTH                                      0.8
 	#define MACRO_POS_SF_X_OFFSET                                   (0.6 * MACRO_POS_SF_WIDTH)
 	#define MACRO_POS_SF_SCORE_WIDTH                                (0.1 * MACRO_POS_SF_WIDTH)
 	#define MACRO_POS_SF_ENTRY_HEIGHT                               MACRO_UI_TEXTSIZE_2
@@ -525,8 +525,9 @@
 	#define MACRO_NM_BITFLAG_SIDE_WEST                              1 // 2^0
 
 	// Tutorial hints
-	#define MACRO_TH_EXPIRATION_ROLEABILITIES                       15 // The duration, in seconds, that a role abilities hint remains visible before expiring and being hidden
-	#define MACRO_TH_EXPIRATION_REOPENSPAWNMENU                     15
+	#define MACRO_TH_EXPIRATION_SHORT                              10 // The duration, in seconds, that short tutorial hints remain visible for before expiring and being hidden
+	#define MACRO_TH_EXPIRATION_MEDIUM                             15 // The duration, in seconds, that medium-length tutorial hints remain visible for before expiring and being hidden
+	#define MACRO_TH_EXPIRATION_LONG                               20 // The duration, in seconds, that long tutorial hints remain visible for before expiring and being hidden
 
 	// Scoreboard
 	#define MACRO_SB_SYS_UPDATEINTERVAL                             1 // Interval, in seconds, between updates of the scoreboard contents
@@ -558,7 +559,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.22.1009" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.22.1011" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -1051,6 +1052,7 @@
 	#define MACRO_ENUM_TUTORIALHINT_REOPENSPAWNMENU                 1
 	#define MACRO_ENUM_TUTORIALHINT_REPOSITIONUI                    2
 	#define MACRO_ENUM_TUTORIALHINT_SPOTENEMY                       3
+	#define MACRO_ENUM_TUTORIALHINT_MAGAZINEREPACKING               4
 
 	// Resupply handling
 	#define MACRO_ENUM_TUTORIALHINT_RESUPPLY_SEEKSUPPORT            10

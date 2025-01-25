@@ -286,6 +286,17 @@
 	    <French>Tu peux reouvrir le menu du jeu à tout moment en appuyant %1.</French>
 	</Key>
 
+	<Key ID="STR_cre8ive_conquest_tutorialHints_magazineRepacking_title">
+	    <Original>Magazine repacking</Original>
+	    <German>Munitionsausgleich</German>
+	    <French>Équilibrage de munition</French>
+	</Key>
+	<Key ID="STR_cre8ive_conquest_tutorialHints_magazineRepacking_body">
+	    <Original>Your magazines are automatically repacked when you reload.%1As long as you have enough ammo, you'll always reload a full magazine.</Original>
+	    <German>Deine Magazine werden automatisch ausgeglichen wenn du nachlädst.%1Solange du genügend Munition hast lädst du immer ein volles Magazin nach.</German>
+	    <French>Tes chargeurs sont automatiquement équilibrés quand tu recharges.%1Tant que tu as suffisament de munition, tu recharges toujours un chargeur rempli.</French>
+	</Key>
+
 
 
 
