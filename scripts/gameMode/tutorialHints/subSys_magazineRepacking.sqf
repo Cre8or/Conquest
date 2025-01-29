@@ -1,3 +1,4 @@
+// Automatic magazine repacking on reload
 if (
 	GVAR(gm_sys_tutorialHints_activeHint) == MACRO_ENUM_TUTORIALHINT_INVALID
 	and {_alive}

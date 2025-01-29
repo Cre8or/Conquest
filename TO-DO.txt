@@ -1,5 +1,20 @@
 TO DO:
+	- Add support for muzzle-specific damage multipliers in faction definition files
+	- Implement 3D markers for sectors
+	- Transfer AI driver group locality to effective commander if necessary
+	- Reimplement vehicle locking for players (taking side into account)
+	- Highlight neary frag grenades as 3D UI icons
 	- Disable the ACE3 medical menu keybinding
+	- Implement tutorial hints to be shown on the UI for relevant actions:
+		+ Role abilities
+		+ Spawn menu keybinding
+		+ Magazine repacking
+		+ Healing yourself as medic
+		+ Healing others as medic
+		+ Reviving unconscious friendlies as medic
+		- Seeking a medic when injured
+		- Resupplying yourself as support
+		- Seeking a support when low on ammo
 	- Prevent inventory interaction with weaponHolders using the action menu ("Take xxx")
 	- Prevent inventory interaction with weaponHolders using the ACE interaction menu
 	- Add function to prevent terrain objects (buildings) from being fully destroyed

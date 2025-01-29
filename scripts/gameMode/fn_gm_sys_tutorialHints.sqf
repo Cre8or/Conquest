@@ -43,8 +43,11 @@ GVAR(gm_sys_tutorialHints_EH) = addMissionEventHandler ["EachFrame", {
 	private _time = time;
 	if (_time < GVAR(gm_sys_tutorialHints_nextUpdate)) exitWith {};
 
-	private _player = player;
-	private _alive  = [_player] call FUNC(unit_isAlive);
+	private _player    = player;
+	private _alive     = [_player] call FUNC(unit_isAlive);
+	private _health    = _player getVariable [QGVAR(health), 1];
+	private _allUnits  = allUnits select {[_x, true] call FUNC(unit_isAlive)};
+	private _teamMates = _allUnits select {GVAR(side) == (_x getVariable [QGVAR(side), sideEmpty])};
 
 	GVAR(gm_sys_tutorialHints_nextUpdate) = _time + MACRO_GM_SYS_TUTORIALHINTS_INTERVAL;
 
@@ -60,13 +63,12 @@ GVAR(gm_sys_tutorialHints_EH) = addMissionEventHandler ["EachFrame", {
 
 
 
-	// Role-specific ability hints (upon respawn)
 	#include "tutorialHints\subSys_roleAbilities.sqf";
-
-	// Spawn menu toggling
 	#include "tutorialHints\subSys_reopenSpawnMenu.sqf";
-
-	// Automatic magazine repacking on reload
 	#include "tutorialHints\subSys_magazineRepacking.sqf";
+
+	#include "tutorialHints\subSys_medical_healSelf.sqf";
+	#include "tutorialHints\subSys_medical_healFriendly.sqf";
+	#include "tutorialHints\subSys_medical_reviveFriendly.sqf";
 
 }];

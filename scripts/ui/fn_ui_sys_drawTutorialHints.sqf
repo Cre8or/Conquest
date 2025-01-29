@@ -48,11 +48,15 @@ GVAR(ui_sys_drawTutorialHints_EH) = addMissionEventHandler ["EachFrame", {
 	private _UI        = uiNamespace getVariable [QGVAR(RscTutorialHints), displayNull];
 	private _strTitle = "ERROR: Invalid hint";
 	private _strBody  = "";
-	switch (GVAR(gm_sys_tutorialHints_activeHint)) do {
 
-		#include "drawTutorialHints\hint_magazineRepacking.sqf"
-		#include "drawTutorialHints\hint_reopenSpawnMenu.sqf"
-		#include "drawTutorialHints\hint_roleAbilities.sqf"
+	switch (GVAR(gm_sys_tutorialHints_activeHint)) do {
+		#include "drawTutorialHints\hint_roleAbilities.sqf";
+		#include "drawTutorialHints\hint_reopenSpawnMenu.sqf";
+		#include "drawTutorialHints\hint_magazineRepacking.sqf";
+
+		#include "drawTutorialHints\hint_medical_healSelf.sqf";
+		#include "drawTutorialHints\hint_medical_healFriendly.sqf";
+		#include "drawTutorialHints\hint_medical_reviveFriendly.sqf";
 	};
 
 

@@ -297,6 +297,61 @@
 	    <French>Tes chargeurs sont automatiquement équilibrés quand tu recharges.%1Tant que tu as suffisament de munition, tu recharges toujours un chargeur rempli.</French>
 	</Key>
 
+	<Key ID="STR_cre8ive_conquest_tutorialHints_medical_resupplySelf_title">
+	    <Original>Resupply</Original>
+	    <German>Nachschub</German>
+	    <French>Ravitaillement</French>
+	</Key>
+	<Key ID="STR_cre8ive_conquest_tutorialHints_medical_resupplySelf_body">
+	    <Original>You could use some ammunition! As support, you can resupply yourself by holding %1.</Original>
+	    <German>Deine Munition wird langsam knapp! Als Versorger kannst du dich auch selbst versorgen undem du %1 gedrückt hälst.</German>
+	    <French>Tes munitions s'épuisent! En tant que ravitailleur, tu peux te réapprovisionner en maintenant la touche %1 enfoncée.</French>
+	</Key>
+
+	<Key ID="STR_cre8ive_conquest_tutorialHints_medical_resupplyFriendly_title">
+	    <Original>Resupply</Original>
+	    <German>Nachschub</German>
+	    <French>Ravitaillement</French>
+	</Key>
+	<Key ID="STR_cre8ive_conquest_tutorialHints_medical_resupplyFriendly_body">
+	    <Original>As support, you can resupply nearby friendlies with new ammunition by looking at them and holding %1.</Original>
+	    <German>Als Versorger kannst du Verbündete mit Munition versorgen indem du in ihre Richtung schaust und %1 gedrückt hälst.</German>
+	    <French>En tant que ravitailleur, tu peux approvisionner tes alliés en regardant vers eux et en maintenant la touche %1 enfoncée.</French>
+	</Key>
+
+	<Key ID="STR_cre8ive_conquest_tutorialHints_medical_healSelf_title">
+	    <Original>First-Aid</Original>
+	    <German>Erste-Hilfe</German>
+	    <French>Premier soins</French>
+	</Key>
+	<Key ID="STR_cre8ive_conquest_tutorialHints_medical_healSelf_body">
+	    <Original>You're injured! As a medic, you can heal yourself by holding %1.</Original>
+	    <German>Du bist verwundet! Als Sanitäter kannst du dich selbst heilen indem du %1 gedrückt hälst.</German>
+	    <French>Tu es blessé! En tant que médecin, tu peux te soigner en maintenant la touche %1 enfoncée.</French>
+	</Key>
+
+	<Key ID="STR_cre8ive_conquest_tutorialHints_medical_healFriendly_title">
+	    <Original>First-Aid</Original>
+	    <German>Erste-Hilfe</German>
+	    <French>Premier soins</French>
+	</Key>
+	<Key ID="STR_cre8ive_conquest_tutorialHints_medical_healFriendly_body">
+	    <Original>As a medic, you can heal nearby friendlies by looking at them and holding %1.</Original>
+	    <German>Als Sanitäter kannst du Verbündete heilen indem du in ihre Richtung schaust und %1 gedrückt hälst.</German>
+	    <French>En tant que médecin, tu peux soigner tes alliés en regardant vers eux et en maintenant la touche %1 enfoncée.</French>
+	</Key>
+
+	<Key ID="STR_cre8ive_conquest_tutorialHints_medical_reviveFriendly_title">
+	    <Original>First-Aid</Original>
+	    <German>Erste-Hilfe</German>
+	    <French>Premier soins</French>
+	</Key>
+	<Key ID="STR_cre8ive_conquest_tutorialHints_medical_reviveFriendly_body">
+	    <Original>You can revive your friendlies!%1As medic, approach your nearby unconscious friendlies and press %2 to revive them.</Original>
+	    <German>Du kannst deine Verbündeten wiederbeleben!%1Nähere dich deinen bewusstlosen Verbündete als Sanitäter und drücke %2 um sie wiederzubeleben.</German>
+	    <French>Tu peux ressusciter tes alliés!%1Approches-toi de tes alliés inconscients et appuye la touche %1 pour les ressusciter.</French>
+	</Key>
+
 
 
 

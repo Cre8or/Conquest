@@ -1,3 +1,4 @@
+// Spawn menu toggling
 if (
 	GVAR(gm_sys_tutorialHints_activeHint) == MACRO_ENUM_TUTORIALHINT_INVALID
 	and {GVAR(gm_sys_handlePlayerRespawn_state) >= MACRO_ENUM_RESPAWN_SPAWNED_FROZEN}
