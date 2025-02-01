@@ -52,5 +52,6 @@ force ace_ui_ammoCount = true;
 // ACRE2
 force acre_sys_core_fullDuplex = true;
 force acre_sys_core_ignoreAntennaDirection = false;
+force acre_sys_core_interference = false;
 force acre_sys_core_terrainLoss = 0;
 force acre_sys_signal_signalModel = 0;

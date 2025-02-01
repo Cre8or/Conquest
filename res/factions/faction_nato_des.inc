@@ -286,8 +286,14 @@ USAGE:
 
 	// Recoil balancing
 	[
-		["LMG_03_F", 2.5],
+		["LMG_03_F", 1.75],
 		["arifle_SPAR_02_blk_F", 2.0],
 		["SMG_02_F", 0.75]
+	],
+
+
+
+	// Damage balancing
+	[
 	]
 ]

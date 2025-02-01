@@ -289,7 +289,7 @@ USAGE:
 		["CUP_arifle_M4A1_camo", 1.75],
 		["CUP_srifle_m110_kac_black", 1.5],
 		["CUP_arifle_M4A1_GL_carryhandle", 1.5],
-		["CUP_lmg_M249_E2", 2.0],
+		["CUP_lmg_M249_E2", 1.5],
 		["CUP_arifle_Mk16_CQC", 2.0],
 		["CUP_arifle_M16A4_Base", 1.75],
 		["CUP_smg_MP5A5", 1.25]
@@ -299,6 +299,7 @@ USAGE:
 
 	// Damage balancing
 	[
-		["CUP_srifle_M24_blk", 1.5]
+		["CUP_srifle_M24_blk", 1.5],
+		["CUP_smg_MP5A5", 1.25]
 	]
 ]

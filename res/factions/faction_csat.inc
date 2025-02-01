@@ -292,5 +292,11 @@ USAGE:
 		["LMG_Zafir_F", 1.25],
 		["SMG_01_F", 0.5],
 		["arifle_CTAR_hex_F", 1.75]
+	],
+
+
+
+	// Damage balancing
+	[
 	]
 ]

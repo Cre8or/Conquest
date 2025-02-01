@@ -42,7 +42,7 @@ GVAR(acre_sys_handleRadios_EH) = addMissionEventHandler ["EachFrame", {
 	if (isNil "_targetRadio" or {_targetRadio == ""}) exitWith {
 		if !([_player, MACRO_ACRE2_RADIO_CLASSNAME] call acre_api_fnc_hasKindOfRadio) then {
 			_player addItem MACRO_ACRE2_RADIO_CLASSNAME;
-			systemChat format ["[ACRE] (%1) Added base radio: %2", time, MACRO_ACRE2_RADIO_CLASSNAME];
+			//systemChat format ["[ACRE] (%1) Added base radio: %2", time, MACRO_ACRE2_RADIO_CLASSNAME];
 		};
 	};
 
@@ -56,7 +56,7 @@ GVAR(acre_sys_handleRadios_EH) = addMissionEventHandler ["EachFrame", {
 	{
 		if (_x != _targetRadio) then {
 			_player removeItem _x;
-			systemChat format ["[ACRE] (%1) Removed non-standard radio: %2", time, _x];
+			//systemChat format ["[ACRE] (%1) Removed non-standard radio: %2", time, _x];
 		};
 	} forEach (call acre_api_fnc_getCurrentRadioList);
 
@@ -78,7 +78,7 @@ GVAR(acre_sys_handleRadios_EH) = addMissionEventHandler ["EachFrame", {
 	_radioData setVariable ["radioOn", parseNumber (_targetChannel >= 0)];
 
 	if (_targetChannel > 0 and {_curChannel != _targetChannel}) then {
-		systemChat format ["[ACRE] (%1) Set channel (%2) to %3", time, _targetRadio, _targetChannel];
+		//systemChat format ["[ACRE] (%1) Set channel (%2) to %3", time, _targetRadio, _targetChannel];
 		[_targetRadio, _targetChannel] call acre_api_fnc_setRadioChannel;
 	};
 }];

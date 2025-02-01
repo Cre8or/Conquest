@@ -19,9 +19,9 @@ _renderData = [];
 	_unitX = _x # 0;
 
 	_renderData pushBack (
-		_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), _unitX getVariable [QGVAR(isUnconscious), false]]
+		_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), _unitX getVariable [QGVAR(isUnconscious), false], _unitX == _player]
 	);
-} forEach (_squadMates + [[_player, getPosWorld _player]]);
+} forEach ([[_player, getPosWorld _player]] + _squadMates);
 
 {
 	_unitX = _x # 0;
@@ -34,17 +34,19 @@ _renderData = [];
 
 
 
-
+private ["_sizeX"];
 {
-	_x params ["_unit", "_posX", "_colourFill", "_isUnconscious"];
+	_x params ["_unit", "_posX", "_colourFill", "_isUnconscious", ["_isPlayer", false]];
+
+	_sizeX = [12, 18] select _isPlayer;
 
 	if (_isUnconscious) then {
 		_iconsQueue pushBack [
 			_c_iconUnitUnconscious,
 			_colourFill,
 			_posX,
-			12,
-			12,
+			_sizeX,
+			_sizeX,
 			0,
 			"",
 			2
@@ -55,12 +57,13 @@ _renderData = [];
 			_c_iconUnit,
 			_colourFill,
 			_posX,
-			12,
-			12,
+			_sizeX,
+			_sizeX,
 			_mapAngle + getDir _unit,
 			"",
 			2
 		];
+
 	};
 
 } forEach _renderData;

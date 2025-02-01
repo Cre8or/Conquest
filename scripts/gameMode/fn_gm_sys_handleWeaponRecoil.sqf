@@ -35,7 +35,7 @@ GVAR(gm_sys_handleWeaponRecoil_EH) = addMissionEventHandler ["EachFrame", {
 	if (isGamePaused) exitWith {};
 
 	private _player = player;
-	private _muzzle = currentMuzzle _player;
+	private _muzzle = toLower currentMuzzle _player;
 
 	// Trigger on muzzle changes
 	if (_muzzle == GVAR(gm_sys_handleWeaponRecoil_prevMuzzle)) exitWith {};

@@ -292,9 +292,16 @@ USAGE:
 	[
 		["CUP_srifle_SVD_top_rail", 1.25],
 		["CUP_arifle_AK74M_GL", 1.25],
-		["CUP_lmg_Pecheneg_woodland", 0.5],
+		["CUP_lmg_Pecheneg_woodland", 0.3],
 		["CUP_arifle_AKS74U", 1.25],
-		["CUP_arifle_AK74M_camo", 1.25]
-		//["CUP_smg_bizon", 1.5]
+		["CUP_arifle_AK74M_camo", 1.25],
+		["CUP_smg_bizon", 1.25]
+	],
+
+
+
+	// Damage balancing
+	[
+		["CUP_smg_bizon", 1.25]
 	]
 ]
