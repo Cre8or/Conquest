@@ -103,17 +103,17 @@ private ["_pos2D", "_nameX", "_colour", "_posXASL", "_angle", "_distMul"];
 		_c_iconHeal,
 		[_colour, _colourFill] select _showHealth,
 		_posX,
-		0.7,
-		0.7,
+		1.3 * _c_uiScale,
+		1.3 * _c_uiScale,
 		0,
 		_nameX,
 		2,
-		0.03,
-		MACRO_FONT_UI_THIN,
+		0.06 * _c_uiScale,
+		MACRO_FONT_UI_MEDIUM,
 		"center",
 		true,
 		0,
-		-0.09 * _c_uiScale
+		-0.085 * _c_uiScale
 	];
 
 	// Health bar
@@ -122,17 +122,17 @@ private ["_pos2D", "_nameX", "_colour", "_posXASL", "_angle", "_distMul"];
 			[_health] call FUNC(ui_getFillBarIcon),
 			_colour,
 			_posX,
-			0.7,
-			1.4,
+			1.3 * _c_uiScale,
+			2.6 * _c_uiScale,
 			0,
 			"",
 			2,
-			0.03,
-			MACRO_FONT_UI_THIN, // TahomaB
-			"center",
-			true,
 			0,
-			-0.09 * _c_uiScale
+			MACRO_FONT_UI_MEDIUM,
+			"center",
+			false,
+			0,
+			0
 		];
 	};
 

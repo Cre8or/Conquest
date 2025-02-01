@@ -24,7 +24,11 @@ if (!hasInterface) exitWith {};
 MACRO_FNC_INITVAR(GVAR(ui_sys_drawIcons3D_EH), -1);
 
 // Define some macros
-#define MACRO_BLINK_INTERVAL 0.5
+#define MACRO_BLINK_INTERVAL  0.5
+#define MACRO_SECTOR_CAPTURED 0
+#define MACRO_SECTOR_NEUTRAL  1
+#define MACRO_SECTOR_ENEMY    2
+
 
 
 
@@ -43,8 +47,9 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 	// Set up some constants
 	private _c_maxDistInfSqr      = MACRO_UI_ICONS3D_MAXDISTANCE_INF ^ 2;
 	private _c_maxDistVehSqr      = MACRO_UI_ICONS3D_MAXDISTANCE_VEH ^ 2;
+	private _c_maxDistSectorSqr   = MACRO_UI_ICONS3D_MAXDISTANCE_SECTOR ^ 2;
 	private _c_maxAngleSqr        = (0.2 * getObjectFOV cameraOn) ^ 2; // Minimum angle within which unit names should be displayed
-	private _c_uiScale            = getResolution # 5;
+	private _c_uiScale            = getResolution # 5; //(2 + sin (time * 180)) * getResolution # 5;
 	private _c_spottedTimeVarName = format [QGVAR(spottedTime_%1), GVAR(side)];
 
 	// Set up some variables
@@ -139,20 +144,48 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 
 
 
-	// Handle role-specific icon drawing
+	// Aggregate sectors data
+	private _allSectors = [];
+	private ["_flagX", "_sectorX"];
+	{
+		if (_x getVariable [QGVAR(isLocked), false]) then {
+			continue;
+		};
+
+		_flagX = _x getVariable [QGVAR(flagPole), objNull];
+		if (isNull _flagX) then {
+			_flagX = _x
+		};
+
+		_posX    = getPosWorld _flagX;
+		_distX   = _posPly distanceSqr _posX;
+		_sectorX = [ASLtoAGL _posX, _x getVariable [QGVAR(letter), "?"]];
+
+		switch (_x getVariable [QGVAR(side), sideEmpty]) do {
+			case GVAR(side): {_sectorX pushBack MACRO_SECTOR_CAPTURED};
+			case sideEmpty:  {_sectorX pushBack MACRO_SECTOR_NEUTRAL};
+			default          {_sectorX pushBack MACRO_SECTOR_ENEMY};
+		};
+
+		_allSectors pushBack [_distX, _sectorX];
+	} forEach GVAR(allSectors);
+
+	// Sort all sectors for distance-based rendering
+	_allSectors sort true;
+	//hintSilent str (_allSectors # 0);
+
+
+
 	private ["_renderData"];
 
+	// Role-specific icon drawing
 	#include "drawIcons3D\icons3D_role_medic.sqf"
-
 	#include "drawIcons3D\icons3D_role_support.sqf"
-
 	//#include "drawIcons3D\icons3D_role_engineer.sqf"
 
-
-
-	// Handle role-agnostic unit and vehicle icon drawing
+	// Role-agnostic unit and vehicle icon drawing
+	#include "drawIcons3D\icons3D_sectors.sqf"
 	#include "drawIcons3D\icons3D_vehicles.sqf"
-
 	#include "drawIcons3D\icons3D_units.sqf"
 
 

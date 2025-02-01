@@ -45,10 +45,7 @@ private ["_pos2D", "_posXASL", "_visibility", "_isUnconscious", "_nameX", "_angl
 	};
 
 	_isUnconscious = _unit getVariable [QGVAR(isUnconscious), false];
-
-	if (!_isUnconscious) then {
-		_nameX = name _unit;
-	};
+	_nameX = name _unit;
 
 	if (!_alwaysShown) then {
 		_angle = (_posPly vectorFromTo _posXASL) distanceSqr _dirPly;
@@ -66,34 +63,34 @@ private ["_pos2D", "_posXASL", "_visibility", "_isUnconscious", "_nameX", "_angl
 			_c_iconUnitUnconscious,
 			_colour,
 			_posX,
-			0.4,
-			0.4,
+			0.7 * _c_uiScale,
+			0.7 * _c_uiScale,
 			0,
-			"",
+			_nameX,
 			2,
-			0.03,
-			MACRO_FONT_UI_THIN, // TahomaB
+			0.055 * _c_uiScale,
+			MACRO_FONT_UI_MEDIUM, // TahomaB
 			"center",
 			false,
 			0,
-			-0.07 * _c_uiScale
+			-0.065 * _c_uiScale
 		];
 	} else {
 		_iconsQueue pushBack [
 			_c_iconUnit,
 			_colour,
 			_posX,
-			0.6,
-			0.6,
+			1.0 * _c_uiScale,
+			1.0 * _c_uiScale,
 			0,
 			_nameX,
 			2,
-			0.03,
-			MACRO_FONT_UI_THIN, // TahomaB
+			0.055 * _c_uiScale,
+			MACRO_FONT_UI_MEDIUM, // TahomaB
 			"center",
 			false,
 			0,
-			-0.07 * _c_uiScale
+			-0.065 * _c_uiScale
 		];
 	};
 } forEach _renderData;

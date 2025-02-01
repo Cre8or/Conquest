@@ -65,17 +65,17 @@ private ["_posXASL", "_pos2D", "_nameX", "_angle", "_distMul", "_class", "_icon"
 		_icon,
 		_colour,
 		_posX,
-		0.8,
-		0.4,
+		1.8 * _c_uiScale,
+		0.9 * _c_uiScale,
 		0,
 		_nameX,
 		2,
-		0.03,
-		MACRO_FONT_UI_THIN,
+		0.055 * _c_uiScale,
+		MACRO_FONT_UI_MEDIUM,
 		"center",
 		_alwaysShown,
 		0,
-		-0.08 * _c_uiScale
+		-0.07 * _c_uiScale
 	];
 
 	// Shadow
@@ -83,17 +83,17 @@ private ["_posXASL", "_pos2D", "_nameX", "_angle", "_distMul", "_class", "_icon"
 		_icon,
 		[0, 0, 0, _distMul],
 		_posX,
-		0.85,
-		0.45,
+		2.0 * _c_uiScale,
+		1.0 * _c_uiScale,
 		0,
 		"",
 		2,
-		0.03,
-		MACRO_FONT_UI_THIN,
+		0.0,
+		MACRO_FONT_UI_MEDIUM,
 		"center",
 		_alwaysShown,
 		0,
-		-0.08 * _c_uiScale
+		0.0
 	];
 
 } forEach _renderData;

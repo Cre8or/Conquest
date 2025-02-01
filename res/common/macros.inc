@@ -370,6 +370,7 @@
 	// Unit Icons
 	#define MACRO_UI_ICONS3D_MAXDISTANCE_INF                        500 // The maximum distance, in meters, at which infantry 3D icons are visible
 	#define MACRO_UI_ICONS3D_MAXDISTANCE_VEH                        1000 // The maximum distance, in meters, at which vehicle 3D icons are visible
+	#define MACRO_UI_ICONS3D_MAXDISTANCE_SECTOR                     3000 // The maximum distance, in meters, at which sector 3D icons are visible
 	#define MACRO_UI_ICONS3D_MAXDISTANCE_ROLEACTION                 80 // The maximum distance, in meters, at which role-specific infantry icons (healing/resupplying/repairing) are visible
 
 	// Combat Area
@@ -559,7 +560,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.22.1015" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.22.1018" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

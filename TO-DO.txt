@@ -1,6 +1,5 @@
 TO DO:
 	- Add support for muzzle-specific damage multipliers in faction definition files
-	- Implement 3D markers for sectors
 	- Transfer AI driver group locality to effective commander if necessary
 	- Reimplement vehicle locking for players (taking side into account)
 	- Highlight neary frag grenades as 3D UI icons
@@ -49,6 +48,7 @@ UNCONFIRMED:
 	- Investigate Joe's isssue with being able to spawn when no sectors are owned
 
 DONE:
+	- Implement 3D markers for sectors
 	- Fix escape menu buttons not working when initialised via RscUserInputBlocker
 	- Rewrite safestart system
 		+ Freeze players in an animation that prevents them from moving (rotation is fine, though)
