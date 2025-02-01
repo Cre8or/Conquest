@@ -1,8 +1,7 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
-		Parses the mission's sides data and sets shared global variables, such as the sides name, flag, loadouts
-		and abilities.
+		(Re)compiles the mission's factions data and sets shared global variables for use across the framework.
 
 		Only executed once by all machines upon initialisation.
 	Arguments:
@@ -21,17 +20,25 @@
 
 
 
-// Set up some constants
-private _configPath_weapons   = (configFile >> "CfgWeapons");
-private _configPath_magazines = (configFile >> "CfgMagazines");
-private _configPath_ammo      = (configFile >> "CfgAmmo");
-private _configPath_vehicles  = (configFile >> "CfgVehicles");
-private _allThrowables        = [];
+private _configPath_weapons     = (configFile >> "CfgWeapons");
+private _configPath_magazines   = (configFile >> "CfgMagazines");
+private _configPath_ammo        = (configFile >> "CfgAmmo");
+private _configPath_vehicles    = (configFile >> "CfgVehicles");
+private _allThrowablesMagCache  = createHashMap;
+private _allThrowablesAmmoCache = createHashMap;
 
-// Compile the list of throwable magazines
+// Compile the list of throwable magazines and ammo classnames
 {
 	{
-		_allThrowables pushBackUnique _x;
+		if (_x == "") then {
+			continue;
+		};
+		_allThrowablesMagCache set [_x, true];
+
+		_ammo = getText (_configPath_magazines >> _x >> "ammo");
+		if (_ammo != "") then {
+			_allThrowablesAmmoCache set [_ammo, true];
+		};
 	} forEach getArray (_x >> "magazines");
 } forEach configProperties [_configPath_weapons >> "Throw", "isClass _x"];
 
@@ -40,6 +47,9 @@ private _allSideFactions = [ // Fixed order by framework convention
 	[resistance, GVAR(param_gm_factionEnum_resistance)],
 	[west,       GVAR(param_gm_factionEnum_west)]
 ];
+
+// Interface with proj_onInit
+GVAR(allThrowablesAmmoCache) = _allThrowablesAmmoCache;
 
 
 
@@ -50,6 +60,7 @@ private ["_factionData", "_loadoutsCache", "_abilities", "_allMagazines", "_maga
 private ["_vehTypesCache", "_vehTypesIndexCache", "_definitionsXCopy"];
 private ["_accuracyMulCache", "_totalAccuracyMul"];
 private ["_muzzleRecoilMulCache"];
+private ["_muzzleDamageMulCache"];
 {
 	_x params ["_side", "_factionEnum"];
 
@@ -59,7 +70,8 @@ private ["_muzzleRecoilMulCache"];
 		["_factionLoadouts", [], [[]]],
 		["_factionVehicles", [], [[]]],
 		["_factionAIBalancing", [], [[]]],
-		["_factionRecoilBalancing", [], [[]]]
+		["_factionRecoilBalancing", [], [[]]],
+		["_factionDamageBalancing", [], [[]]]
 	];
 
 	// Parse the faction identity
@@ -214,7 +226,7 @@ private ["_muzzleRecoilMulCache"];
 					_isExplosiveX = (getNumber (_configPath_ammo >> _ammoTypeX >> "explosive") > 0);
 
 					// Check if the item is throwable
-					if (_classX in _allThrowables) then {
+					if (_classX in _allThrowablesMagCache) then {
 
 						if (_isExplosiveX) then {
 							_abilities pushBackUnique MACRO_ENUM_LOADOUT_ABILITY_HANDGRENADE_FRAG;
@@ -393,6 +405,7 @@ private ["_muzzleRecoilMulCache"];
 			["_muzzle", "", [""]],
 			["_recoilMul", 1, [1]]
 		];
+		_muzzle = toLower _muzzle;
 
 		if (_muzzle == "") then {
 			continue;
@@ -408,6 +421,32 @@ private ["_muzzleRecoilMulCache"];
 	} forEach _factionRecoilBalancing;
 
 	missionNamespace setVariable [format [QGVAR(muzzleRecoilMulCache_%1), _side], _muzzleRecoilMulCache, false];
+
+
+
+	// Muzzle damage balancing
+	_muzzleDamageMulCache = createHashMap;
+	{
+		_x params [
+			["_muzzle", "", [""]],
+			["_damageMul", 1, [1]]
+		];
+		_muzzle = toLower _muzzle;
+
+		if (_muzzle == "") then {
+			continue;
+		};
+
+		if (_muzzle in _muzzleDamageMulCache) then {
+			diag_log format ["[CONQUEST] ERROR: Damage multiplier for muzzle ""%1"" is defined multiple times!", _role];
+			continue;
+		};
+
+		_damageMul = _damageMul max 0;
+		_muzzleDamageMulCache set [_muzzle, _damageMul];
+	} forEach _factionDamageBalancing;
+
+	missionNamespace setVariable [format [QGVAR(muzzleDamageMulCache_%1), _side], _muzzleDamageMulCache, false];
 
 } forEach _allSideFactions;
 

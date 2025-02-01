@@ -84,7 +84,7 @@ private ["_currentAmmoCount", "_defaultAmmoCount", "_baseWeight"];
 } forEach _defaultMagazines;
 
 // Each unique magazine class has the same weight (as in "importance"). This count-based approach works because we
-// also deduplicated the magazines cache in gm_compileSidesData.
+// also deduplicated the magazines cache in gm_compileFactions.
 _overallAmmo = _overallAmmo / _numUniqueMagazines;
 
 // Special case: while reloading, the magazine being loaded cannot be detected via scripting commands, making it

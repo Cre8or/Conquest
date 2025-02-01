@@ -9,13 +9,8 @@
 
 [] spawn {
 
-	//systemChat format ["Display found: %1", !isNull findDisplay 313];
-	waitUntil {time > 1};
-
-	// Escape schedule environment again
+	// Set up some variables (as soon as possible to prevent repeat stuttering once the display becomes available)
 	isNil {
-
-		// Set up some variables
 		GVAR(eden_updateSectors)              = true;
 		GVAR(eden_updateSectors_reportErrors) = false;
 		GVAR(eden_drawData_sectors)           = [];
@@ -43,16 +38,12 @@
 			GVAR(eden_usesIndfor) = false;
 		#endif
 
-		private _display = findDisplay 313;
-
-
-
 		// Pick the factions that should be used for visualisation in 3DEN
 		GVAR(param_gm_factionEnum_east)       = MACRO_GM_FACTIONENUM_OPFOR;
 		GVAR(param_gm_factionEnum_resistance) = MACRO_GM_FACTIONENUM_INDFOR;
 		GVAR(param_gm_factionEnum_west)       = MACRO_GM_FACTIONENUM_BLUFOR;
 
-		// Define some functions
+		// Preload global functions
 		// We can't use CfgFunctions-defined functions here as the mission description isn't parsed yet
 		// (we're still in 3DEN, after all), and we can't rely on any mods/addons to help us out, since we
 		// don't know if they're present at this stage.
@@ -60,7 +51,7 @@
 		FUNC(fac_getData)     = compile preprocessFileLineNumbers "scripts\factions\fn_fac_getData.sqf";
 		FUNC(fac_getFilePath) = compile preprocessFileLineNumbers "scripts\factions\fn_fac_getFilePath.sqf";
 
-		FUNC(gm_compileSidesData) = compile preprocessFileLineNumbers "scripts\gamemode\fn_gm_compileSidesData.sqf";
+		FUNC(gm_compileFactions) = compile preprocessFileLineNumbers "scripts\gamemode\fn_gm_compileFactions.sqf";
 
 		FUNC(lo_getAllHitPointsArmour) = compile preprocessFileLineNumbers "scripts\loadouts\fn_lo_getAllHitPointsArmour.sqf";
 
@@ -92,7 +83,21 @@
 				} forEach _vehTypesIndexCache;
 			} forEach [east, resistance, west]
 		};
+	};
 
+
+
+
+
+	//systemChat format ["Display found: %1", !isNull findDisplay 313];
+	waitUntil {time > 0.5};
+
+	// Escape schedule environment again
+	isNil {
+
+		private _display = findDisplay 313;
+
+		// Define local functions
 		private _fnc_eden_cleanupEHs = {
 
 			private _isInit = _display getVariable [QGVAR(isInit), false];
@@ -272,9 +277,6 @@
 
 
 
-		// Preinitialise
-		call FUNC(gm_compileSidesData);
-
 		// Manually cleanup on init (in case this file is executed manually)
 		"init3DEN" call _fnc_eden_cleanupEHs;
 
@@ -376,7 +378,7 @@
 			GVAR(eden_updateSectors_reportErrors) = false;
 			GVAR(eden_drawData_sectors)           = [];
 
-			call FUNC(gm_compileSidesData);
+			call FUNC(gm_compileFactions);
 
 			private ["_sector", "_name", "_letter", "_flag", "_skip", "_spawnPointsVeh", "_texture", "_level", "_activation", "_side", "_textureIcon", "_isLocked"];
 			{

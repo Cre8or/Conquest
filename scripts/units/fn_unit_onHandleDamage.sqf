@@ -42,7 +42,7 @@ _this call {
 		"",
 		"_damageProcessed",
 		"_source",
-		"_ammoType",
+		"_ammoType", // _projectile
 		"",
 		"_instigator",
 		"_hitPoint",
@@ -209,8 +209,19 @@ _this call {
 				};
 			};
 
+			// Factor in faction-defined damage balancing
+			_ammoType = toLower _ammoType;
+			private _instigatorSide       = _instigator getVariable [QGVAR(side), sideEmpty];
+			private _instigatorMuzzleLUT  = _instigator getVariable [QGVAR(muzzleLUT), createHashMap];
+			private _muzzleDamageMulCache = missionNamespace getVariable [format [QGVAR(muzzleDamageMulCache_%1), _instigatorSide], createHashMap];
+			private _muzzle               = _instigatorMuzzleLUT getOrDefault [_ammoType, ""];
+			private _muzzleDamageMul      = _muzzleDamageMulCache getOrDefault [_muzzle, 1];
+
+			_damageDirect    = _damageDirect * _muzzleDamageMul;
+			_damageProcessed = _damageProcessed * _muzzleDamageMul;
+
 			// Remap the raw damage by exponent
-			_damageDirect = MACRO_GM_UNIT_RAWDAMAGE_BASEAMOUNT * ((_damageDirect / MACRO_GM_UNIT_RAWDAMAGE_BASEAMOUNT) ^ MACRO_GM_UNIT_RAWDAMAGE_EXPONENT);
+			_damageDirect = MACRO_GM_UNIT_RAWDAMAGE_BASEAMOUNT * ((_muzzleDamageMul * _damageDirect / MACRO_GM_UNIT_RAWDAMAGE_BASEAMOUNT) ^ MACRO_GM_UNIT_RAWDAMAGE_EXPONENT);
 			_newDamage    = MACRO_GM_UNIT_DAMAGEMUL_BULLET * _damageMul * (_damageProcessed * MACRO_GM_UNIT_DAMAGERATIO_PROCESSEDTORAW + _damageDirect) / (MACRO_GM_UNIT_DAMAGERATIO_PROCESSEDTORAW + 1);
 		};
 	};

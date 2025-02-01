@@ -7,36 +7,21 @@
 	Arguments:
 		(none)
 	Returns:
-		(none)
+		(nothing)
 -------------------------------------------------------------------------------------------------------------------- */
 
 #include "..\..\res\common\macros.inc"
 
 #include "..\..\res\macros\fnc_initVar.inc"
 
-// Set up some constants
-private _mapSize = worldSize;
-private _posCornersFar = [
-	[-MACRO_CA_CORNEROFFSET, -MACRO_CA_CORNEROFFSET, 0],
-	[_mapSize + MACRO_CA_CORNEROFFSET, -MACRO_CA_CORNEROFFSET, 0],
-	[_mapSize + MACRO_CA_CORNEROFFSET, _mapSize + MACRO_CA_CORNEROFFSET, 0],
-	[-MACRO_CA_CORNEROFFSET, _mapSize + MACRO_CA_CORNEROFFSET, 0],
-	[-MACRO_CA_CORNEROFFSET, -MACRO_CA_CORNEROFFSET, 0]
-];
-
-// Set up some variables
 MACRO_FNC_INITVAR(GVAR(ca_setupCombatAreas_EH_draw3D), -1);
 
-private _data_east =
-	#include "..\..\mission\combatArea\data_combatArea_east.inc"
-;
-private _data_resistance =
-	#include "..\..\mission\combatArea\data_combatArea_resistance.inc"
-;
-private _data_west =
-	#include "..\..\mission\combatArea\data_combatArea_west.inc"
-;
-private ["_curData", "_positions", "_normals", "_triangles"];
+private _allCombatAreas = [ // Fixed order by framework convention
+	[east,       "mission\combatArea\data_combatArea_opfor.inc"],
+	[resistance, "mission\combatArea\data_combatArea_indfor.inc"],
+	[west,       "mission\combatArea\data_combatArea_blufor.inc"]
+];
+private ["_data", "_positions", "_normals", "_triangles"];
 
 
 
@@ -44,32 +29,41 @@ private ["_curData", "_positions", "_normals", "_triangles"];
 
 // Iterate over all sides
 {
-	// Fetch the corresponding data array
-	_curData = switch (_x) do {
-		case east:		{_data_east};
-		case resistance:	{_data_resistance};
-		case west:		{_data_west};
-		default			{[]};
+	_x params ["_side", "_filePath"];
+
+	if (!fileExists _filePath) then {
+		private _str = format ["[CONQUEST] (ca_setupCombatAreas) ERROR: File not found! (%1)", _filePath];
+		systemChat _str;
+		diag_log _str;
+		continue;
 	};
 
-	// If there is any data for this side, parse it
-	if !(_curData isEqualTo []) then {
-
-		// Add a Z component to all positions and normals so they can be used properly
-		_positions = (_curData # 0) apply {_x + [0]};
-		_normals   = (_curData # 1) apply {_x + [0]};
-
-		// Compile the triangles array by fetching the position associated with each vertex ID
-		_triangles = (_curData # 2) apply {
-			_x apply {_positions # _x}
-		};
-
-		// Save the data onto the mission namespace
-		missionNamespace setVariable [format [QGVAR(ca_%1), _x], _positions select [0, (count _positions) - 4], false]; // Drop the last 4 entries (map corners)
-		missionNamespace setVariable [format [QGVAR(ca_%1_normals), _x], _normals, false];
-		missionNamespace setVariable [format [QGVAR(ca_%1_triangles), _x], _triangles, false];
+	_data = call compile preprocessFileLineNumbers _filePath;
+	if !(_data isEqualType []) then {
+		private _str = format ["[CONQUEST] (ca_setupCombatAreas) ERROR: Combat Area data is invalid! (%1)", _filePath];
+		systemChat _str;
+		diag_log _str;
+		continue;
 	};
-} forEach [east, resistance, west];
+
+	if (_data isEqualTo []) then {
+		continue;
+	};
+
+	// Add a Z component to all positions and normals so they can be used properly
+	_positions = (_data # 0) apply {_x + [0]};
+	_normals   = (_data # 1) apply {_x + [0]};
+
+	// Compile the triangles array by fetching the position associated with each vertex ID
+	_triangles = (_data # 2) apply {
+		_x apply {_positions # _x}
+	};
+
+	// Save the data for use across the framework
+	missionNamespace setVariable [format [QGVAR(ca_%1), _side], _positions select [0, (count _positions) - 4], false]; // Drop the last 4 entries (map corners)
+	missionNamespace setVariable [format [QGVAR(ca_%1_normals), _side], _normals, false];
+	missionNamespace setVariable [format [QGVAR(ca_%1_triangles), _side], _triangles, false];
+} forEach _allCombatAreas;
 
 
 

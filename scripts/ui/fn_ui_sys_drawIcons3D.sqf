@@ -20,7 +20,6 @@ if (!hasInterface) exitWith {};
 
 
 
-// Set up some variables
 MACRO_FNC_INITVAR(GVAR(ui_sys_drawIcons3D_EH), -1);
 
 // Define some macros
@@ -29,6 +28,18 @@ MACRO_FNC_INITVAR(GVAR(ui_sys_drawIcons3D_EH), -1);
 #define MACRO_SECTOR_NEUTRAL  1
 #define MACRO_SECTOR_ENEMY    2
 
+// Precompute the sector icon offsets
+private ["_flagX", "_posX"];
+GVAR(ui_sys_drawIcons3D_sectorData) = GVAR(allSectors) apply { // Same indexes as GVAR(allSectors)
+	_flagX = _x getVariable [QGVAR(flagPole), objNull];
+	_posX  = getPosWorld _flagX;
+
+	if (isNull _flagX or {!(ASLtoAGL _posX inArea _x)}) then {
+		_posX = getPosWorld _x vectorAdd [0, 0, (triggerArea _x # 4) / 2];
+	};
+
+	_posX
+};
 
 
 
@@ -146,18 +157,13 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 
 	// Aggregate sectors data
 	private _allSectors = [];
-	private ["_flagX", "_sectorX"];
+	private ["_sectorX"];
 	{
 		if (_x getVariable [QGVAR(isLocked), false]) then {
 			continue;
 		};
 
-		_flagX = _x getVariable [QGVAR(flagPole), objNull];
-		if (isNull _flagX) then {
-			_flagX = _x
-		};
-
-		_posX    = getPosWorld _flagX;
+		_posX    = GVAR(ui_sys_drawIcons3D_sectorData) # _forEachIndex;
 		_distX   = _posPly distanceSqr _posX;
 		_sectorX = [ASLtoAGL _posX, _x getVariable [QGVAR(letter), "?"]];
 
@@ -172,7 +178,6 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 
 	// Sort all sectors for distance-based rendering
 	_allSectors sort true;
-	//hintSilent str (_allSectors # 0);
 
 
 

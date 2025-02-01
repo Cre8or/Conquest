@@ -79,7 +79,7 @@ class MACRO_PROJECT_PREFIX {
 
 		class gm_addScore {};
 		class gm_compileParams {};
-		class gm_compileSidesData {};
+		class gm_compileFactions {};
 		class gm_endMission {};
 		class gm_getFlagTexture {};
 		class gm_getSideName {};

@@ -36,9 +36,6 @@ if (GVAR(missionState) < MACRO_ENUM_MISSION_LIVE) exitWith {
 
 
 
-// Initialise the projectile
-[_projectile] call FUNC(proj_onInit);
-
 // Fetch the lookup table
 private _LUT = _unit getVariable [QGVAR(ammoLUT), locationNull];
 if (isNull _LUT) then {

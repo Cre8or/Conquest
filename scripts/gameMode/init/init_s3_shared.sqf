@@ -5,7 +5,7 @@ diag_log "[CONQUEST] Shared initialisation (stage 3) starting...";
 
 
 
-GVAR(allVehicles) = [];
+MACRO_FNC_INITVAR(GVAR(proj_onInit_EH), -1);
 
 
 
@@ -23,6 +23,13 @@ call FUNC(ai_sys_unitControl);
 call FUNC(gm_sys_monitorUnitDamage);
 
 call FUNC(nm_sys_dangerLevel);
+
+
+// Detect projectile firing (irrespective of locality/distance to camera)
+removeMissionEventHandler ["ProjectileCreated", GVAR(proj_onInit_EH)];
+GVAR(proj_onInit_EH) = addMissionEventHandler ["ProjectileCreated", {
+	_this call FUNC(proj_onInit);
+}];
 
 
 

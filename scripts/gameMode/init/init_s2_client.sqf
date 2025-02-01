@@ -16,7 +16,8 @@ MACRO_FNC_INITVAR(GVAR(ticketBleedEast),       0);
 MACRO_FNC_INITVAR(GVAR(ticketBleedResistance), 0);
 MACRO_FNC_INITVAR(GVAR(ticketBleedWest),       0);
 
-MACRO_FNC_INITVAR(GVAR(cl_AIIdentities),[]);
+MACRO_FNC_INITVAR(GVAR(allVehicles), []);
+MACRO_FNC_INITVAR(GVAR(cl_AIIdentities), []);
 
 // Define global client variables
 MACRO_FNC_INITVAR(GVAR(side), sideEmpty);

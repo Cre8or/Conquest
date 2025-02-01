@@ -47,14 +47,14 @@
 
 	#define MACRO_GM_STARTINGTICKETS                                200 // How many respawn tickets each side should start with
 	#define MACRO_GM_UNIT_RESPAWNDELAY                              15 // How long, in seconds, a unit must wait before being able to respawn
-	#define MACRO_GM_UNIT_REVIVEDURATION                            30 // How long, in seconds, a unit can be revived for after being incapacitated
+	#define MACRO_GM_UNIT_REVIVEDURATION                            60 // How long, in seconds, a unit can be revived for after being incapacitated
 	#define MACRO_GM_UNIT_SPAWNPROTECTIONDURATION                   2 // How long, in seconds, the spawn protection (invincibility) for freshly respawned units should last for
 	#define MACRO_GM_SAFESTARTDURATION                              10 // How long the safestart countdown should last, in seconds
 	#define MACRO_GM_SECTOR_CAPTUREDURATION                         30 // How long it takes to neutralise or to capture a sector, in seconds
 
 	// Vehicles
 	#define MACRO_GM_ENABLEVEHICLES                                 true // Whether or not vehicles should be enabled
-	#define MACRO_GM_VEH_RESPAWNDELAY                               60 // The default delay, in seconds, after a vehicle has been destroyed before it is respawned
+	#define MACRO_GM_VEH_RESPAWNDELAY                               120 // The default delay, in seconds, after a vehicle has been destroyed before it is respawned
 
 	// Damage balancing
 	#define MACRO_GM_UNIT_DAMAGEMUL_HEADSHOT                        2 // Multiplier for the damage dealt by headshots

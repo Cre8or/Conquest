@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=7659;
+		nextID=7739;
 	};
 	class Camera
 	{
-		pos[]={5658.479,238.242,10598.04};
-		dir[]={0.80275244,-0.43583405,0.40698555};
-		up[]={0.38872927,0.9000271,0.19708094};
-		aside[]={0.4521926,1.4901161e-08,-0.89192039};
+		pos[]={5522.3364,188.34991,10884.638};
+		dir[]={0.92513406,-0.34022683,-0.16858755};
+		up[]={0.33472726,0.94034195,-0.060997438};
+		aside[]={-0.17928207,2.7293572e-07,-0.9838174};
 	};
 };
 binarizationWanted=0;
@@ -266,11 +266,12 @@ class Mission
 	};
 	class Entities
 	{
-		items=9;
+		items=8;
 		class Item0
 		{
 			dataType="Layer";
 			name="Sectors";
+			state=2;
 			class Entities
 			{
 				items=4;
@@ -11776,48 +11777,6 @@ class Mission
 			};
 		};
 		class Item6
-		{
-			dataType="Logic";
-			class PositionInfo
-			{
-				position[]={7034.1821,146.97978,7586.6841};
-				angles[]={6.13234,0,6.2200694};
-			};
-			id=2807;
-			type="ModuleCuratorAddEditableObjects";
-			atlOffset=7.6293945e-05;
-			class CustomAttributes
-			{
-				class Attribute0
-				{
-					property="ModuleCuratorAddEditableObjects_Curator";
-					expression="_this setVariable ['Curator',_value,true];";
-					class Value
-					{
-						class data
-						{
-							singleType="STRING";
-							value="CONQUEST_MODULE_CURATOR";
-						};
-					};
-				};
-				class Attribute1
-				{
-					property="ModuleCuratorAddEditableObjects_AddCrew";
-					expression="_this setVariable ['AddCrew',_value,true];";
-					class Value
-					{
-						class data
-						{
-							singleType="BOOL";
-							value=1;
-						};
-					};
-				};
-				nAttributes=2;
-			};
-		};
-		class Item7
 		{
 			dataType="Layer";
 			name="Nodemesh";
@@ -38398,7 +38357,7 @@ class Mission
 			id=3646;
 			atlOffset=5.4078674;
 		};
-		class Item8
+		class Item7
 		{
 			dataType="Marker";
 			position[]={5814.2236,215.22314,10203.936};

@@ -293,5 +293,12 @@ USAGE:
 		["CUP_arifle_Mk16_CQC", 2.0],
 		["CUP_arifle_M16A4_Base", 1.75],
 		["CUP_smg_MP5A5", 1.25]
+	],
+
+
+
+	// Damage balancing
+	[
+		["CUP_srifle_M24_blk", 1.5]
 	]
 ]

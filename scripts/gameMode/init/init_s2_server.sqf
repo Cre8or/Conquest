@@ -16,8 +16,9 @@ GVAR(ticketsResistance) = 0;
 GVAR(ticketsWest)       = 0;
 
 // Define global server variables
-GVAR(AIUnits)  = [];
-GVAR(sv_stats) = createHashMap;
+GVAR(AIUnits)     = [];
+GVAR(sv_stats)    = createHashMap;
+GVAR(allVehicles) = [];
 
 MACRO_FNC_INITVAR(GVAR(sv_handleSafeStart_handle), scriptNull);
 MACRO_FNC_INITVAR(GVAR(sv_firstInit), true);

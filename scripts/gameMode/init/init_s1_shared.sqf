@@ -21,7 +21,7 @@ GVAR(hasMod_acre) = isClass (_configMods >> "acre_api");
 // Compile the mission parameters
 call FUNC(gm_compileParams);
 
-call FUNC(gm_compileSidesData);
+call FUNC(gm_compileFactions);
 
 call FUNC(ca_setupCombatAreas);
 
