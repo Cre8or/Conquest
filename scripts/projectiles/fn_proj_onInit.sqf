@@ -21,6 +21,7 @@ params [
 if (isNull _projectile) exitWith {};
 
 MACRO_FNC_INITVAR(GVAR(allThrowablesAmmoCache), createHashMap);
+MACRO_FNC_INITVAR(GVAR(ui_sys_drawIcons3D_grenades), []);
 
 
 
@@ -31,8 +32,6 @@ _shotParents params ["_vehicle", "_instigator"];
 
 // Ignore fake projectiles (anything that doesn't have a valid instigator)
 if (isNull _instigator) exitWith {};
-
-//systemChat format ["(%1) proj_onInit: %2 (%3)", time, _projectile, _instigator];
 
 // Handle vehicle-fired projectiles
 if (_vehicle != _instigator) exitWith {
@@ -52,14 +51,20 @@ if (_vehicle != _instigator) exitWith {
 };
 
 // Handle unit-fired projectiles
-
 private _class = typeOf _projectile;
-if (_class in GVAR(allThrowablesAmmoCache)) exitWith {
-	//systemChat format ["Skipping throwable (%1)", _class];
-};
 
-private _muzzle    = currentMuzzle _instigator;
-private _muzzleLUT = _instigator getVariable [QGVAR(muzzleLUT), createHashMap];
-_muzzleLUT set [toLower _class, toLower _muzzle]; // Look-up from the projectile classname to the muzzle, so we can consider damage multipliers
-_instigator setVariable [QGVAR(muzzleLUT), _muzzleLUT, false];
-//systemChat format ["Fired from unit (%1) - best muzzle candidate: %2", name _instigator, _muzzle];
+// Special case: grenades
+if (_class in GVAR(allThrowablesAmmoCache)) then {
+	([_class] call FUNC(proj_getDamageData)) params ["", "", "_damageExplosive"];
+
+	if (_damageExplosive > 0) then {
+		GVAR(ui_sys_drawIcons3D_grenades) pushBackUnique _projectile;
+	};
+
+} else {
+	private _muzzle    = currentMuzzle _instigator;
+	private _muzzleLUT = _instigator getVariable [QGVAR(muzzleLUT), createHashMap];
+	_muzzleLUT set [toLower _class, toLower _muzzle]; // Look-up from the projectile classname to the muzzle, so we can consider damage multipliers
+	_instigator setVariable [QGVAR(muzzleLUT), _muzzleLUT, false];
+	//systemChat format ["Fired from unit (%1) - best muzzle candidate: %2", name _instigator, _muzzle];
+};

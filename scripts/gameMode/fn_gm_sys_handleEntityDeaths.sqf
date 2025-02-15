@@ -74,7 +74,12 @@ GVAR(gm_sys_handleEntityDeaths_EH) = addMissionEventHandler ["EntityKilled", {
 	private _sideObj        = _obj getVariable [QGVAR(side), sideEmpty];
 	private _sideInstigator = _instigator getVariable [QGVAR(side), sideEmpty];
 
+	// DEBUG
+	//if (true) exitWith {};
+
 	// Kill the crew
+	// BUG: This cannot kill remote units (e.g. players riding along in an AI-controlled vehicle).
+	// Find a way to account for that.
 	{
 		[
 			_x,

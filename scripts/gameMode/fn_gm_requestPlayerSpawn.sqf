@@ -22,7 +22,7 @@ params [
 	["_sector", objNull, [objNull]]
 ];
 
-if (!isPlayer _unit or {!alive _unit} or {_sector getVariable [QGVAR(letter), ""] == ""}) exitWith {};
+if (!isPlayer _unit or {!alive _unit} or {isNull _sector}) exitWith {};
 
 
 

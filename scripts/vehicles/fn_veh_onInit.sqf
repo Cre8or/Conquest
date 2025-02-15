@@ -7,8 +7,6 @@
 		Executed on every machine whenever a vehicle is (re)spawned.
 	Arguments:
 		0:	<OBJECT>	The vehicle to initialise
-		1:	<SIDE>		The side the vehicle belongs to
-		2:	<BOOLEAN>	Whether or not the vehicle is restricted to players (optional, default: false)
 	Returns:
 		(nothing)
 -------------------------------------------------------------------------------------------------------------------- */
@@ -17,9 +15,7 @@
 #include "..\..\res\macros\fnc_initVar.inc"
 
 params [
-	["_veh", objNull, [objNull]],
-	["_side", sideEmpty, [sideEmpty]],
-	["_playersOnly", false, [false]]
+	["_veh", objNull, [objNull]]
 ];
 
 if (isNull _veh) exitWith {};
@@ -34,21 +30,22 @@ MACRO_FNC_INITVAR(GVAR(allVehicles), []);
 GVAR(allVehicles) = GVAR(allVehicles) select {!isNull _x};
 GVAR(allVehicles) pushBackUnique _veh;
 
+
+
+
+
 // Shared data
-_veh setVariable [QGVAR(side), _side, false];
-_veh setVariable [QGVAR(playersOnly), _playersOnly, false];
+_veh removeAllEventHandlers "HandleDamage"; // Removes any modded event handlers (e.g. ACE3)
+_veh setVariable [QGVAR(EH_veh_onHandleDamage), _veh addEventHandler ["HandleDamage", FUNC(veh_onHandleDamage)], false];
+
+// Clear the vehicle's cargo locally
+clearWeaponCargo _veh;
+clearMagazineCargo _veh;
+clearItemCargo _veh;
+clearBackpackCargo _veh;
 
 
 
-
-
-if (local _veh) then {
-
-	// Clear the vehicle's cargo
-	clearWeaponCargoGlobal _veh;
-	clearMagazineCargoGlobal _veh;
-	clearItemCargoGlobal _veh;
-	clearBackpackCargoGlobal _veh;
 
 /*
 	// Remove the forbidden weapons
@@ -74,7 +71,7 @@ if (local _veh) then {
 		[_veh, _invincibleHitPoints] remoteExec [QFUNC(veh_handleDamage), 0, false];	// TODO: Find a way to make this JIP compatible without cluttering the JIP queue up with messages!
 	};
 */
-};
+
 
 
 

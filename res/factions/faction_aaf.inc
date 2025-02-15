@@ -286,7 +286,6 @@ USAGE:
 
 	// Recoil balancing
 	[
-		["LMG_Mk200_black_F", 1.25],
 		["SMG_03C_TR_khaki", 1.25]
 	],
 

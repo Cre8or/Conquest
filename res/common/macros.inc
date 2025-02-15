@@ -372,6 +372,7 @@
 	#define MACRO_UI_ICONS3D_MAXDISTANCE_VEH                        1000 // The maximum distance, in meters, at which vehicle 3D icons are visible
 	#define MACRO_UI_ICONS3D_MAXDISTANCE_SECTOR                     3000 // The maximum distance, in meters, at which sector 3D icons are visible
 	#define MACRO_UI_ICONS3D_MAXDISTANCE_ROLEACTION                 80 // The maximum distance, in meters, at which role-specific infantry icons (healing/resupplying/repairing) are visible
+	#define MACRO_UI_ICONS3D_MAXDISTANCE_GRENADES                   15 // The maximum distance, in meters, at which grenade warning icons are visible
 
 	// Combat Area
 	#define MACRO_CA_CORNEROFFSET                                   50000 // How much the combat area should overextend (beyond the map corners), in meters
@@ -505,7 +506,6 @@
 	#define MACRO_SECTOR_TRIGGERINTERVAL                            0.5 // The interval between two trigger executions, in seconds
 	#define MACRO_SECTOR_SCOREINTERVAL                              0.1 // The level interval between two score events for capturing a sector, in percent (1 being 100%)
 	#define MACRO_SECTOR_VEH_DELAYUNTILDAMAGE                       30 // How long, in seconds, a vehicle must be outside of the combat area (or be disabled) before it starts taking damage (to eventually respawn it)
-	#define MACRO_SECTOR_VEH_MAXSQRDISTFROMSPAWN                    50 ^ 2 // How far, in meters squared, vehicles may be moved from their spawn position before they are marked as abandoned and considered for cleanup
 
 	// Nodemesh Settings
 	#define MACRO_NM_DEFAULTRADIUS_INF                              3 // Minimum completion radius, in meters, of pathfind nodes for infantry
@@ -560,7 +560,7 @@
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.22.1027" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.22.1034" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

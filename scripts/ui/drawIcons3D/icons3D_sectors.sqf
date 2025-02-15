@@ -11,7 +11,7 @@ private ["_icon", "_colour", "_distRatio", "_distMul", "_scale"];
 {
 	_x params ["_dist", "_sectorX"];
 
-	// Optimisation: don't continue if the position is too far away, or if the icon is off-screem
+	// Optimisation: don't continue if the position is too far away
 	if (_dist > _c_maxDistSectorSqr) then {
 		continue;
 	};

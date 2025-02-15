@@ -316,7 +316,10 @@ if (GVAR(param_gm_enableVehicles) and {_side != sideEmpty}) then {
 			_veh setVectorDirAndUp [_vecDir, _vecUp];
 
 			[_veh, _textures, _animations, _pylons] call FUNC(veh_setCustomisation);
-			[_veh, _side, _playersOnly] remoteExecCall [QFUNC(veh_onInit), 0, format [QGVAR(veh_onInit_%1_%2), _letter, _forEachIndex]];
+			[_veh] remoteExecCall [QFUNC(veh_onInit), 0, format [QGVAR(veh_onInit_%1_%2), _letter, _forEachIndex]];
+
+			_veh setVariable [QGVAR(side), _side, true];
+			_veh setVariable [QGVAR(playersOnly), _playersOnly, true];
 
 			_sector setVariable [format [QGVAR(vehicle_%1), _forEachIndex], _veh, true];
 
@@ -327,6 +330,7 @@ if (GVAR(param_gm_enableVehicles) and {_side != sideEmpty}) then {
 			// If the vehicle is in use, clear its punish time
 			if (
 				GVAR(missionState) != MACRO_ENUM_MISSION_LIVE
+				or {isNull _veh}
 				or {crew _veh findIf {[_x] call FUNC(unit_isAlive)} >= 0}
 			) then {
 				_veh setVariable [QGVAR(sv_punishTime), -1, false];
@@ -338,10 +342,10 @@ if (GVAR(param_gm_enableVehicles) and {_side != sideEmpty}) then {
 
 			// If the vehicle is operable, belongs to the same side as the sector, and is inside the combat area, reset its punish time
 			if (
-				_vehPos distanceSqr _spawnPos <= MACRO_SECTOR_VEH_MAXSQRDISTFROMSPAWN	// Still near its spawn point
-				and {_vehSide == _side or {_side == sideEmpty}}					// Owned by the same side as the sector
-				and {[_veh] call FUNC(veh_isOperable)}
-				and {[_vehPos, _vehSide] call FUNC(ca_isInCombatArea)}	// Inside the combat area
+				_vehPos distanceSqr _spawnPos <= (2 * _radius) ^ 2     // Still near its spawn point
+				and {_vehSide == _side or {_side == sideEmpty}}        // Owned by the same side as the sector
+				and {[_veh] call FUNC(veh_isOperable)}                 // Is still useable
+				and {[_vehPos, _vehSide] call FUNC(ca_isInCombatArea)} // Inside the combat area
 			) then {
 				_veh setVariable [QGVAR(sv_punishTime), -1, false];
 				continue;

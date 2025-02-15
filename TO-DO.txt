@@ -1,9 +1,8 @@
 TO DO:
-	- Add support for muzzle-specific damage multipliers in faction definition files
 	- Transfer AI driver group locality to effective commander if necessary
 	- Reimplement vehicle locking for players (taking side into account)
-	- Highlight neary frag grenades as 3D UI icons
 	- Disable the ACE3 medical menu keybinding
+	- Switch weapons to fully automatic upon deployment (if supported)
 	- Implement tutorial hints to be shown on the UI for relevant actions:
 		+ Role abilities
 		+ Spawn menu keybinding
@@ -13,6 +12,7 @@ TO DO:
 		+ Reviving unconscious friendlies as medic
 		- Seeking a medic when injured
 		- Resupplying yourself as support
+		- Resupplying others as support
 		- Seeking a support when low on ammo
 	- Prevent inventory interaction with weaponHolders using the action menu ("Take xxx")
 	- Prevent inventory interaction with weaponHolders using the ACE interaction menu
@@ -37,7 +37,7 @@ TO DO:
 		- Combat area
 		- Score feed
 		- End game UI
-		- Keybindings
+		+ Keybindings
 	- Search for "DEBUG" and "TODO" keywords
 
 UNCONFIRMED:
@@ -48,6 +48,8 @@ UNCONFIRMED:
 	- Investigate Joe's isssue with being able to spawn when no sectors are owned
 
 DONE:
+	- Highlight neary frag grenades as 3D UI icons
+	- Add support for muzzle-specific damage multipliers in faction definition files
 	- Implement 3D markers for sectors
 	- Fix escape menu buttons not working when initialised via RscUserInputBlocker
 	- Rewrite safestart system

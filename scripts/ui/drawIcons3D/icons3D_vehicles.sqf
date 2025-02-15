@@ -18,7 +18,7 @@ private ["_posXASL", "_pos2D", "_nameX", "_angle", "_distMul", "_class", "_icon"
 {
 	_x params ["_veh", "_unit", "_colour", "_alwaysShown", "_showCrewCount"];
 
-	_posX    = _veh modelToWorld getCenterOfMass _veh;
+	_posX    = _veh modelToWorldVisual getCenterOfMass _veh;
 	_posXASL = AGLtoASL _posX;
 	_distX   = _posPly distanceSqr _posXASL;
 

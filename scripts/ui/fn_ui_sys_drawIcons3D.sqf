@@ -21,6 +21,7 @@ if (!hasInterface) exitWith {};
 
 
 MACRO_FNC_INITVAR(GVAR(ui_sys_drawIcons3D_EH), -1);
+MACRO_FNC_INITVAR(GVAR(ui_sys_drawIcons3D_grenades), []); // Interfaces with proj_onInit
 
 // Define some macros
 #define MACRO_BLINK_INTERVAL  0.5
@@ -59,6 +60,7 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 	private _c_maxDistInfSqr      = MACRO_UI_ICONS3D_MAXDISTANCE_INF ^ 2;
 	private _c_maxDistVehSqr      = MACRO_UI_ICONS3D_MAXDISTANCE_VEH ^ 2;
 	private _c_maxDistSectorSqr   = MACRO_UI_ICONS3D_MAXDISTANCE_SECTOR ^ 2;
+	private _c_maxDistGrenadesSqr = MACRO_UI_ICONS3D_MAXDISTANCE_GRENADES ^ 2;
 	private _c_maxAngleSqr        = (0.2 * getObjectFOV cameraOn) ^ 2; // Minimum angle within which unit names should be displayed
 	private _c_uiScale            = getResolution # 5; //(2 + sin (time * 180)) * getResolution # 5;
 	private _c_spottedTimeVarName = format [QGVAR(spottedTime_%1), GVAR(side)];
@@ -181,6 +183,25 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 
 
 
+	// Aggregate grenades data
+	private _alLGrenades = [];
+	{
+		if (!alive _x) then {
+			GVAR(ui_sys_drawIcons3D_grenades) deleteAt _forEachIndex;
+			continue;
+		};
+
+		_posX   = getPosASLVisual _x;
+		_distX  = _posPly distanceSqr _posX;
+		if (_distX > _c_maxDistGrenadesSqr) then {
+			continue;
+		};
+
+		_allGrenades pushBack [ASLtoAGL _posX, _distX];
+	} forEachReversed GVAR(ui_sys_drawIcons3D_grenades);
+
+
+
 	private ["_renderData"];
 
 	// Role-specific icon drawing
@@ -192,6 +213,7 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 	#include "drawIcons3D\icons3D_sectors.sqf"
 	#include "drawIcons3D\icons3D_vehicles.sqf"
 	#include "drawIcons3D\icons3D_units.sqf"
+	#include "drawIcons3D\icons3D_grenades.sqf"
 
 
 

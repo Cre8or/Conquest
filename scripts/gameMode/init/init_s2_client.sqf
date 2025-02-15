@@ -41,7 +41,11 @@ showCinemaBorder false;
 
 call FUNC(act_registerKeybindings);
 
-call FUNC(acre_sys_handleRadios);
+if (GVAR(hasMod_acre)) then {
+	[FUNC(acre_customSignalFunc)] call acre_api_fnc_setCustomSignalFunc;
+
+	call FUNC(acre_sys_handleRadios);
+};
 
 call FUNC(ca_sys_playerCombatArea);
 

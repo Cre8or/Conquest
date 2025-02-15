@@ -31,7 +31,7 @@ if (_class in GVAR(proj_getDamageData_cache)) exitWith {
 };
 
 // Otherwise, cache and return it
-private _config          = configFile >> "CfgAmmo" >> _ammoType;
+private _config          = configFile >> "CfgAmmo" >> _class;
 private _damageDirect    = getNumber (_config >> "hit");
 private _damageIndirect  = getNumber (_config >> "indirectHit");
 private _damageExplosive = getNumber (_config >> "explosive");

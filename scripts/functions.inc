@@ -3,6 +3,7 @@ class MACRO_PROJECT_PREFIX {
 	class acre {
 		file = "scripts\acre";
 
+		class acre_customSignalFunc {};
 		class acre_sys_assignChannels {};
 		class acre_sys_handleRadios {};
 	};
@@ -235,9 +236,9 @@ class MACRO_PROJECT_PREFIX {
 		class veh_getNextDefinition {};
 		class veh_getRoles {};
 		class veh_getUnitByRole {};
-		class veh_handleDamage {};
 		class veh_isClaimable {};
 		class veh_isOperable {};
+		class veh_onHandleDamage {};
 		class veh_onInit {};
 		class veh_setCustomisation {};
 	};
