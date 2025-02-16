@@ -2,8 +2,8 @@
 	Author:	 	Cre8or
 	Description:
 		[S]
-		Handles various serverside functionalities to entity deaths, such as score events, statistics and serverside
-		AI respawn times.
+		Handles various serverside functionalities to entity deaths, such as statistics and serverside AI respawn
+		times.
 
 		Only executed once by the server upon initialisation.
 	Arguments:
@@ -60,45 +60,5 @@ GVAR(gm_sys_handleEntityDeaths_EH) = addMissionEventHandler ["EntityKilled", {
 		_data set [MACRO_INDEX_SERVERSTAT_DEATHS, _deaths + 1];
 
 		GVAR(sv_stats) set [_UID, _data];
-	};
-
-
-
-	// Handle vehicles
-	if !(_obj isKindOf "Air" or {_obj isKindOf "LandVehicle"}) exitWith {};
-
-	if (isNull _instigator or {!(_instigator isKindOf "Man")}) then {
-		_instigator = _killer;
-	};
-
-	private _sideObj        = _obj getVariable [QGVAR(side), sideEmpty];
-	private _sideInstigator = _instigator getVariable [QGVAR(side), sideEmpty];
-
-	// DEBUG
-	//if (true) exitWith {};
-
-	// Kill the crew
-	// BUG: This cannot kill remote units (e.g. players riding along in an AI-controlled vehicle).
-	// Find a way to account for that.
-	{
-		[
-			_x,
-			-1,
-			MACRO_ENUM_DAMAGE_EXPLOSIVE,
-			_killer,
-			_instigator,
-			false,
-			"", // TODO: Fold this system into gm_processUnitDamage so we can detect the used weapon via vehicle HandleDamage EH
-			false
-		] call FUNC(gm_processUnitDamage);
-	} forEach (crew _obj select {alive _x});
-
-	// If the vehicle belongs to a side, hand out a score
-	if (_sideObj != sideEmpty) then {
-		[
-			_instigator,
-			[MACRO_ENUM_SCORE_DESTROYVEHICLE_ENEMY, MACRO_ENUM_SCORE_DESTROYVEHICLE_FRIENDLY] select (_sideObj == _sideInstigator),
-			_obj
-		] call FUNC(gm_addScore);
 	};
 }];

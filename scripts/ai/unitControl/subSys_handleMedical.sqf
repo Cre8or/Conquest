@@ -50,10 +50,6 @@ if (!_isInVehicle and {_actionPos isEqualTo []}) then {
 		{
 			_distSqrX = _x distanceSqr _unit;
 
-			if (isPlayer _x) then {
-				_distSqrX = _distSqrX / 4; // Half the [real] distance for players, to prioritise them
-			};
-
 			if (_distSqrX < _patientDistSqr) then {
 				_patientDistSqr = _distSqrX;
 				_patient        = _x;

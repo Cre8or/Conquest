@@ -142,6 +142,15 @@ switch (_enum) do {
 		};
 	};
 
+	case MACRO_ENUM_SCORE_VEHICLE_DESTROYASSIST: {
+		if (_arg isEqualType 0) then {
+			_eventData = [
+				_arg,
+				"VEHICLE DESTROY ASSIST"
+			];
+		};
+	};
+
 	// --------
 
 	case MACRO_ENUM_SCORE_KILL_ENEMY: {
@@ -181,7 +190,7 @@ switch (_enum) do {
 
 	// --------
 
-	case MACRO_ENUM_SCORE_DESTROYVEHICLE_ENEMY: {
+	case MACRO_ENUM_SCORE_VEHICLE_DESTROY_ENEMY: {
 		_eventData = [
 			MACRO_SCORE_DESTROYVEHICLE_ENEMY,
 			"VEHICLE DESTROYED"
@@ -189,7 +198,7 @@ switch (_enum) do {
 		_soundData = [QGVAR(EnemyKilled), 4, 1];
 	};
 
-	case MACRO_ENUM_SCORE_DESTROYVEHICLE_FRIENDLY: {
+	case MACRO_ENUM_SCORE_VEHICLE_DESTROY_FRIENDLY: {
 		_eventData = [
 			MACRO_SCORE_DESTROYVEHICLE_FRIENDLY,
 			"FRIENDLY VEHICLE DESTROYED"

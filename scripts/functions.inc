@@ -95,6 +95,7 @@ class MACRO_PROJECT_PREFIX {
 			postInit = 1;
 		};
 		class gm_processUnitDamage {};
+		class gm_processVehicleDamage {};
 		class gm_requestPlayerSpawn {};
 		class gm_spawnPlayer {};
 		class gm_spotTargetLocal {};
@@ -105,7 +106,7 @@ class MACRO_PROJECT_PREFIX {
 		class gm_sys_handlePlayerRespawn {};
 		class gm_sys_handleServerStats {};
 		class gm_sys_handleWeaponRecoil {};
-		class gm_sys_monitorUnitDamage {};
+		class gm_sys_monitorEntityDamage {};
 		class gm_sys_removeCorpses {};
 		class gm_sys_tickets {};
 		class gm_sys_tutorialHints {};
@@ -232,6 +233,7 @@ class MACRO_PROJECT_PREFIX {
 		file = "scripts\vehicles";
 		// Abbreviation:	veh
 
+		class veh_calculateHealth {};
 		class veh_getAvoidanceForce {};
 		class veh_getNextDefinition {};
 		class veh_getRoles {};

@@ -1,5 +1,5 @@
-private _c_maxDistMedicSqr = MACRO_UI_ICONS3D_MAXDISTANCE_ROLEACTION ^ 2;
-private _c_iconHeal        = getMissionPath "res\images\abilities\ability_heal.paa";
+private _c_maxDistEngineerSqr = MACRO_UI_ICONS3D_MAXDISTANCE_ROLEACTION ^ 2;
+private _c_iconRepair         = getMissionPath "res\images\abilities\ability_repair.paa";
 
 // Strip specific units from the existing arrays, so we can render them separately while leaving the remaining ones
 // for the role-agnostic render method
@@ -7,29 +7,12 @@ _renderData = [];
 private ["_unitX", "_distX"];
 
 // Define some macro functions
-#define MACRO_FNC_FILTERUNITS_LOWHEALTH(UNITARRAY, COLOUR) \
-	{ \
-		_unitX   = _x select 0; \
-		_distX   = _x select 2; \
-		_healthX = _unitX getVariable [QGVAR(health), 1]; \
- \
-		if ( \
-			_distX < _c_maxDistMedicSqr \
-			and {_healthX < 1 or {_unitX getVariable [QGVAR(isUnconscious), false]}} \
-		) then { \
-			_renderData pushBack ( \
-				_x + [SQUARE(COLOUR), _freeLook or {_healthX < MACRO_UNIT_HEALTH_THRESHOLDLOW}, _healthX, !(_unitX getVariable [QGVAR(isUnconscious), false])] \
-			); \
-			UNITARRAY deleteAt _forEachIndex; \
-		}; \
-	} forEachReversed UNITARRAY;
-
-#define MACRO_FNC_FILTERUNITS_ISMEDIC(UNITARRAY, COLOUR) \
+#define MACRO_FNC_FILTERUNITS_ISENGINEER(UNITARRAY, COLOUR) \
 	{ \
 		_unitX = _x select 0; \
 		_distX = _x select 2; \
  \
-		if (_distX < _c_maxDistMedicSqr and {_unitX getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] == MACRO_ENUM_ROLE_MEDIC} and {[_unitX] call FUNC(unit_isAlive)}) then { \
+		if (_distX < _c_maxDistEngineerSqr and {_unitX getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] == MACRO_ENUM_ROLE_ENGINEER} and {[_unitX] call FUNC(unit_isAlive)}) then { \
 			_renderData pushBack ( \
 				_x + [SQUARE(COLOUR), _isLowHealthOrFreeLook, _health, false] \
 			); \
@@ -41,24 +24,16 @@ private ["_unitX", "_distX"];
 
 
 
-// As a medic, the player is shown nearby units who are in need of healing
-if (GVAR(role) == MACRO_ENUM_ROLE_MEDIC and {!(_player getVariable [QGVAR(isUnconscious), false])}) then {
-	private ["_healthX"];
-
-	MACRO_FNC_FILTERUNITS_LOWHEALTH(_squadMates, MACRO_COLOUR_A100_SQUAD);
-	MACRO_FNC_FILTERUNITS_LOWHEALTH(_teamMates, MACRO_COLOUR_A100_FRIENDLY);
-
-// As a non-medic, the player is shown nearby medics when low on health
-} else {
-	private _health = _player getVariable [QGVAR(health), 1];
-
+// Inside of a vehicle, the player is shown nearby engineers when their vehicle is low on health
+if (_player != _vehPly) then {
+	private _health = _vehPly getVariable [QGVAR(health), 1];
 	if (_health >= 1) then {
 		breakTo QGVAR(ui_sys_drawIcons3D);
 	};
-	private _isLowHealthOrFreeLook = (_health < MACRO_UNIT_HEALTH_THRESHOLDLOW or {_freeLook});
+	private _isLowHealthOrFreeLook = (_health < MACRO_VEHICLE_HEALTH_THRESHOLDLOW or {_freeLook});
 
-	MACRO_FNC_FILTERUNITS_ISMEDIC(_squadMates, MACRO_COLOUR_A100_SQUAD);
-	MACRO_FNC_FILTERUNITS_ISMEDIC(_teamMates, MACRO_COLOUR_A100_FRIENDLY);
+	MACRO_FNC_FILTERUNITS_ISENGINEER(_squadMates, MACRO_COLOUR_A100_SQUAD);
+	MACRO_FNC_FILTERUNITS_ISENGINEER(_teamMates, MACRO_COLOUR_A100_FRIENDLY);
 };
 
 
@@ -83,7 +58,7 @@ private ["_pos2D", "_nameX", "_colour", "_posXASL", "_angle", "_distMul"];
 
 	_nameX = name _unit;
 
-	if (_blink and {_health < MACRO_UNIT_HEALTH_THRESHOLDLOW}) then {
+	if (_blink and {_health < MACRO_VEHICLE_HEALTH_THRESHOLDLOW}) then {
 		_colour = SQUARE(MACRO_COLOUR_A100_WHITE);
 	} else {
 		_colour = _colourFill;
@@ -102,7 +77,7 @@ private ["_pos2D", "_nameX", "_colour", "_posXASL", "_angle", "_distMul"];
 	};
 
 	_iconsQueue pushBack [
-		_c_iconHeal,
+		_c_iconRepair,
 		[_colour, _colourFill] select _showHealth,
 		_posX,
 		1.3 * _c_uiScale,

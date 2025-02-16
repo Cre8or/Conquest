@@ -551,16 +551,19 @@
 	#define MACRO_TICKETS_WARNINGTHRESHOLD                          50 // When 2 out of 3 sides have fewer than this many tickets, a warning is broadcast to build up suspense (the mission will likely be over soon)
 	#define MACRO_TICKETS_DECISIVEPERCENTAGE                        0.5 // The ratio of tickets that the winning side must still have (to the starting tickets count) at the end of the mision for the victory to count as decisive
 
-	// Health
-	#define MACRO_UNIT_HEALTH_FALLDAMAGEHEIGHT                      3 // The height in meters beyond which units receive fall damage when jumping off of surfaces (assuming no initial velocity)
-	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health. Below this threshold, AI units will seek out nearby medics.
-
 	// Ammo
 	#define MACRO_UNIT_AMMO_THRESHOLDLOW                            0.5 // The threshold of overall ammo below which a unit is considered to be at low ammo. Below this threshold, AI units will seek out nearby support units.
 	#define MACRO_UNIT_AMMO_RESUPPLYCOOLDOWN                        5 // The cooldown duration, in seconds, that nits who have been fully resupplied must wait before being allowed to receive supplies again
 
+	// Repair
+	#define MACRO_VEHICLE_HEALTH_THRESHOLDLOW                       0.5 // The threshold of health below which a vehicle is considered to be at low health. Below this threshold, AI drivers will seek out nearby engineers.
+
+	// Health
+	#define MACRO_UNIT_HEALTH_FALLDAMAGEHEIGHT                      3 // The height in meters beyond which units receive fall damage when jumping off of surfaces (assuming no initial velocity)
+	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health. Below this threshold, AI units will seek out nearby medics.
+
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.22.1034" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.22.1045" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -651,13 +654,14 @@
 
 	#define MACRO_ENUM_SCORE_SPOTASSIST                             30
 	#define MACRO_ENUM_SCORE_KILLASSIST                             31
+	#define MACRO_ENUM_SCORE_VEHICLE_DESTROYASSIST                  32
 
 	#define MACRO_ENUM_SCORE_KILL_ENEMY                             40
 	#define MACRO_ENUM_SCORE_KILL_FRIENDLY                          41
 	#define MACRO_ENUM_SCORE_HEADSHOT                               42
 
-	#define MACRO_ENUM_SCORE_DESTROYVEHICLE_ENEMY                   50
-	#define MACRO_ENUM_SCORE_DESTROYVEHICLE_FRIENDLY                51
+	#define MACRO_ENUM_SCORE_VEHICLE_DESTROY_ENEMY                  50
+	#define MACRO_ENUM_SCORE_VEHICLE_DESTROY_FRIENDLY               51
 
 	#define MACRO_ENUM_SCORE_SIDEDEFEATED                           60
 

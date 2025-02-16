@@ -78,9 +78,9 @@ if (_health > 0) then {
 	if (!isNull _instigator and {_sideUnit != _sideInstigator}) then {
 
 		private _endTime       = _time + MACRO_GM_KILLASSISTDURATION;
-		private _assists       = _unit getVariable [QGVAR(addHitDetection_assists), []];
-		private _assistTimes   = _unit getVariable [QGVAR(addHitDetection_assistTimes), []];
-		private _assistDamages = _unit getVariable [QGVAR(addHitDetection_assistDamages), []];
+		private _assists       = _unit getVariable [QGVAR(gm_processUnitDamage_assists), []];
+		private _assistTimes   = _unit getVariable [QGVAR(gm_processUnitDamage_assistTimes), []];
+		private _assistDamages = _unit getVariable [QGVAR(gm_processUnitDamage_assistDamages), []];
 		private _index         = _assists find _instigator;
 
 		// Instigator is already known; increase their total damage
@@ -95,9 +95,9 @@ if (_health > 0) then {
 			_assistDamages pushBack _damage;
 		};
 
-		_unit setVariable [QGVAR(addHitDetection_assists), _assists, false];
-		_unit setVariable [QGVAR(addHitDetection_assistTimes), _assistTimes, false];
-		_unit setVariable [QGVAR(addHitDetection_assistDamages), _assistDamages, false];
+		_unit setVariable [QGVAR(gm_processUnitDamage_assists), _assists, false];
+		_unit setVariable [QGVAR(gm_processUnitDamage_assistTimes), _assistTimes, false];
+		_unit setVariable [QGVAR(gm_processUnitDamage_assistDamages), _assistDamages, false];
 	};
 
 // Unit is unconscious / dead
@@ -142,22 +142,23 @@ if (_health > 0) then {
 	};
 
 	// Handle kill assists
-	private _assistTimes   = _unit getVariable [QGVAR(addHitDetection_assistTimes), []];
-	private _assistDamages = _unit getVariable [QGVAR(addHitDetection_assistDamages), []];
+	private _assistTimes   = _unit getVariable [QGVAR(gm_processUnitDamage_assistTimes), []];
+	private _assistDamages = _unit getVariable [QGVAR(gm_processUnitDamage_assistDamages), []];
 	private ["_assistTime", "_assistDamage"];
 
 	{
 		_assistTime   = _assistTimes # _forEachIndex;
-		_assistDamage = _assistDamages # _forEachIndex;
+		_assistDamage = (_assistDamages # _forEachIndex) min 1;
 
 		if (_x != _instigator and {_time <= _assistTime}) then {
 			[_x, MACRO_ENUM_SCORE_KILLASSIST, _assistDamage] remoteExecCall [QFUNC(gm_addScore), 2, false];
 		};
 
-	} forEach (_unit getVariable [QGVAR(addHitDetection_assists), []]);
+	} forEach (_unit getVariable [QGVAR(gm_processUnitDamage_assists), []]);
 
 	// Dispatch a kill feed event
-	private _killData = [];
+	private _killData = [MACRO_ENUM_KF_ICON_NONE, MACRO_ENUM_CLASSKIND_NONE, ""]; // Default
+
 	switch (_damageEnum) do {
 		case MACRO_ENUM_DAMAGE_UNKNOWN: {};
 
@@ -203,15 +204,15 @@ if (_health > 0) then {
 		};
 		case MACRO_ENUM_DAMAGE_COMBATAREA: {
 			_instigator = _unit;
-			_killData   = [MACRO_ENUM_KF_ICON_NONE, MACRO_ENUM_CLASSKIND_NONE, ""]; // Suicide from leaving the combat area
+			// Use the default kill data to imply suicide from leaving the combat area
 		};
 	};
 	[_instigator, _unit, _killData] remoteExecCall [QFUNC(ui_processKillFeedEvent), 0, false];
 
 	// Reset the units hit detection state (ensures compatibility with reviving)
-	_unit setVariable [QGVAR(addHitDetection_assists), nil, false];
-	_unit setVariable [QGVAR(addHitDetection_assistTimes), nil, false];
-	_unit setVariable [QGVAR(addHitDetection_assistDamages), nil, false];
+	_unit setVariable [QGVAR(gm_processUnitDamage_assists), nil, false];
+	_unit setVariable [QGVAR(gm_processUnitDamage_assistTimes), nil, false];
+	_unit setVariable [QGVAR(gm_processUnitDamage_assistDamages), nil, false];
 
 	// If the unit is inside a destroyed vehicle, they cannot be pulled out by medics, so we forcefully move them out instead
 	if (_unit != vehicle _unit) then {

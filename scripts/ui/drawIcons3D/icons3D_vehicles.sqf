@@ -14,13 +14,9 @@ _renderData = [];
 
 
 
-private ["_posXASL", "_pos2D", "_nameX", "_angle", "_distMul", "_class", "_icon"];
+private ["_pos2D", "_nameX", "_angle", "_distMul", "_class", "_icon"];
 {
-	_x params ["_veh", "_unit", "_colour", "_alwaysShown", "_showCrewCount"];
-
-	_posX    = _veh modelToWorldVisual getCenterOfMass _veh;
-	_posXASL = AGLtoASL _posX;
-	_distX   = _posPly distanceSqr _posXASL;
+	_x params ["_veh", "_unit", "_posX", "_distX", "_colour", "_alwaysShown", "_showCrewCount"];
 
 	// Optimisation: don't continue if the position is too far away, or if the icon is off-screem
 	if (!_alwaysShown) then {
@@ -39,7 +35,7 @@ private ["_posXASL", "_pos2D", "_nameX", "_angle", "_distMul", "_class", "_icon"
 	if (_alwaysShown) then {
 		_angle = 0;
 	} else {
-		_angle = (_posPly vectorFromTo _posXASL) distanceSqr _dirPly;
+		_angle = (_posPly vectorFromTo AGLtoASL _posX) distanceSqr _dirPly;
 	};
 
 	if (_angle < _c_maxAngleSqr) then {

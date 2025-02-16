@@ -122,14 +122,17 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 		_crew  = crew _x select {[_x] call FUNC(unit_isAlive)};
 		_unitX = driver _x;
 
-		if (isNull _unitX) then {
+		if (!alive _unitX) then {
 			_unitX = _crew param [0, objNull];
 		};
 
 		// Empty vehicles
-		if (isNull _unitX) then {
+		if (!alive _unitX) then {
 			continue;
 		};
+
+		_posX  = _x modelToWorldVisual getCenterOfMass _x; // unitAimPositionVisual
+		_distX = _posPly distanceSqr AGLtoASL _posX;
 
 		// Manned vehicles
 		_groupX = group _unitX;
@@ -142,15 +145,15 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 			};
 
 			if (_groupX == _groupPly) then {
-				_squadVehicles pushBack [_x, _unitX];
+				_squadVehicles pushBack [_x, _unitX, _posX, _distX];
 			} else {
-				_teamVehicles pushBack [_x, _unitX];
+				_teamVehicles pushBack [_x, _unitX, _posX, _distX];
 			};
 		} else {
 			_unitX = _crew param [_crew findIf {_time < _x getVariable [_c_spottedTimeVarName, 0]}, objNull];
 
 			if (!isNull _unitX) then {
-				_spottedVehicles pushBack [_x, _unitX];
+				_spottedVehicles pushBack [_x, _unitX, _posX, _distX];
 			};
 		};
 	} forEach _allVehicles;
@@ -184,7 +187,7 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 
 
 	// Aggregate grenades data
-	private _alLGrenades = [];
+	private _allGrenades = [];
 	{
 		if (!alive _x) then {
 			GVAR(ui_sys_drawIcons3D_grenades) deleteAt _forEachIndex;
@@ -207,7 +210,8 @@ GVAR(ui_sys_drawIcons3D_EH) = addMissionEventHandler ["Draw3D", {
 	// Role-specific icon drawing
 	#include "drawIcons3D\icons3D_role_medic.sqf"
 	#include "drawIcons3D\icons3D_role_support.sqf"
-	//#include "drawIcons3D\icons3D_role_engineer.sqf"
+	#include "drawIcons3D\icons3D_role_engineer.sqf"
+	#include "drawIcons3D\icons3D_role_engineer_vehicles.sqf"
 
 	// Role-agnostic unit and vehicle icon drawing
 	#include "drawIcons3D\icons3D_sectors.sqf"

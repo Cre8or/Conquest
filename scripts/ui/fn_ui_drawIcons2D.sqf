@@ -79,12 +79,12 @@ private ["_crew", "_unitX", "_groupX", "_groupIndex"];
 	_crew  = crew _x select {[_x] call FUNC(unit_isAlive)};
 	_unitX = driver _x;
 
-	if (isNull _unitX) then {
+	if (!alive _unitX) then {
 		_unitX = _crew param [0, objNull];
 	};
 
 	// Empty vehicles
-	if (isNull _unitX) then {
+	if (!alive _unitX) then {
 		if (_x getVariable [QGVAR(side), sideEmpty] == GVAR(side)) then {
 			_emptyVehicles pushBack [_x, _posX];
 		};
@@ -109,7 +109,7 @@ private ["_crew", "_unitX", "_groupX", "_groupIndex"];
 	} else {
 		_unitX = _crew param [_crew findIf {_time < _x getVariable [_c_spottedTimeVarName, 0]}, objNull];
 
-		if (!isNull _unitX) then {
+		if (alive _unitX) then {
 			_spottedVehicles pushBack [_x, _posX];
 		};
 	};
@@ -121,16 +121,11 @@ private ["_crew", "_unitX", "_groupX", "_groupIndex"];
 private ["_renderData", "_colour"];
 
 #include "drawIcons2D\icons2D_role_medic.sqf"
-
 #include "drawIcons2D\icons2D_role_support.sqf"
-
-//#include "drawIcons2D\icons2D_role_engineer.sqf"
-
-
+#include "drawIcons2D\icons2D_role_engineer.sqf"
 
 // Handle role-agnostic unit and vehicle icon drawing
 #include "drawIcons2D\icons2D_vehicles.sqf"
-
 #include "drawIcons2D\icons2D_units.sqf"
 
 

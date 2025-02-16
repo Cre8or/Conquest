@@ -77,7 +77,7 @@ _this call {
 
 
 	// World damage
-	if (isNull _instigator or {_ammoType == ""}) then {
+	if (_ammoType == "" or {isNull _source and {isNull _instigator}}) then {
 
 		_isPhysicsDamage = true;
 		private _time = time;
@@ -148,7 +148,7 @@ _this call {
 
 				private _damageMul = MACRO_GM_UNIT_DAMAGEMUL_EXPLOSIVE * 0.15;
 				private _damageIndirectCalc = sqrt _damageIndirect;
-				private _distMultiplier = 100 * _damageProcessed / _damageIndirect;
+				private _distMultiplier = 100 * _damageProcessed / _damageIndirect; // Normalise with indirect damage
 				private _distOffset = (MACRO_GM_UNIT_INDIRECTDAMAGE_MAXREFERENCEDAMAGE ^ 2 - _damageIndirect max 0) * MACRO_GM_UNIT_INDIRECTDAMAGE_MAXDISTOFFSET / MACRO_GM_UNIT_INDIRECTDAMAGE_MAXREFERENCEDAMAGE ^ 2;
 
 				if (_unitInVehicle) then {
@@ -228,7 +228,7 @@ _this call {
 
 	// Only keep the highest damage event in this frame
 	if (_newDamage > (_unit getVariable [QGVAR(damage_stored), 0]) and {_newDamage > MACRO_GM_UNIT_MINDAMAGETHRESHOLD}) then {
-		GVAR(gm_sys_monitorUnitDamage_update) = true;
+		GVAR(gm_sys_monitorEntityDamage_update) = true;
 
 		_unit setVariable [QGVAR(damage_stored), _newDamage, false];
 		_unit setVariable [QGVAR(damage_enum), _damageEnum, false];
@@ -236,6 +236,7 @@ _this call {
 		_unit setVariable [QGVAR(damage_instigator), _instigator, false];
 		_unit setVariable [QGVAR(damage_ammoType), _ammoType, false];
 
+		//diag_log format ["[CONQUEST] Highest damage: %1 (%2) - %3 / %4 / %5", _newDamage, _damageEnum, _source, _instigator, _ammoType];
 	};
 /*
 	// DEBUG

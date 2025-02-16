@@ -20,7 +20,7 @@ call FUNC(ai_sys_driverControl);
 call FUNC(ai_sys_groupKnowledge);
 call FUNC(ai_sys_unitControl);
 
-call FUNC(gm_sys_monitorUnitDamage);
+call FUNC(gm_sys_monitorEntityDamage);
 
 call FUNC(nm_sys_dangerLevel);
 

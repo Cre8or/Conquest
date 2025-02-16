@@ -1,16 +1,13 @@
 /* --------------------------------------------------------------------------------------------------------------------
 	Author:	 	Cre8or
 	Description:
-		Iterates over all local units and raises damage events (if any damage is detected) by executing
+		Iterates over all local units and vehicles, and raises damage events (if any damage is detected) by executing
 		gm_processUnitDamage on them.
-
-		Previously, damage processing was done exclusively on the server, but testing has shown that this introduces
-		significant delays in multiplayer. Instead we run things locally, which should be fine seeing as HandleDamage
-		exclusively runs on the local/owning machine anyway.
 
 		Damage detection is performed in this script (once per frame), as doing so from directly within the
 		HandleDamage EH might raise multiple damage events within a single frame (once for each affected hitpart).
-		We don't want that, as it would incur a performance penalty.
+		The unit and vehicle damage handlers instead raise a flag when damage has occured, which triggers the
+		execution of this monitor system.
 
 		Only executed once by all machines upon initialisation.
 	Arguments:
@@ -28,20 +25,24 @@
 
 
 
-// Set up some variables
-MACRO_FNC_INITVAR(GVAR(gm_sys_monitorUnitDamage_EH), -1);
-MACRO_FNC_INITVAR(GVAR(gm_sys_monitorUnitDamage_update), false);
+MACRO_FNC_INITVAR(GVAR(gm_sys_monitorEntityDamage_EH), -1);
+MACRO_FNC_INITVAR(GVAR(gm_sys_monitorEntityDamage_update), false);
 
 
 
 
 
-removeMissionEventHandler ["EachFrame", GVAR(gm_sys_monitorUnitDamage_EH)];
-GVAR(gm_sys_monitorUnitDamage_EH) = addMissionEventHandler ["EachFrame", {
+removeMissionEventHandler ["EachFrame", GVAR(gm_sys_monitorEntityDamage_EH)];
+GVAR(gm_sys_monitorEntityDamage_EH) = addMissionEventHandler ["EachFrame", {
 
 	if (isGamePaused) exitWith {};
 
-	if (!GVAR(gm_sys_monitorUnitDamage_update) or {GVAR(missionState) < MACRO_ENUM_MISSION_LIVE}) exitWith {};
+	if (!GVAR(gm_sys_monitorEntityDamage_update) or {GVAR(missionState) < MACRO_ENUM_MISSION_LIVE}) exitWith {};
+
+	// Reset for the next use
+	GVAR(gm_sys_monitorEntityDamage_update) = false;
+
+
 
 	// Look for injured local units, and if any are found, process their damage
 	private ["_storedDamage", "_isHeadShot", "_maxHitPoint"];
@@ -72,11 +73,41 @@ GVAR(gm_sys_monitorUnitDamage_EH) = addMissionEventHandler ["EachFrame", {
 			_isHeadShot
 		] call FUNC(gm_processUnitDamage);
 
-		// Reset the state
+		// Reset the damage event state
 		_x setVariable [QGVAR(damage_stored), 0, false];
 		_x setVariable [QGVAR(damage_storedProcessed), 0, false];
 		_x setVariable [QGVAR(damage_storedHitPoint), "", false];
 	} forEach (allUnits select {local _x});
 
-	GVAR(gm_sys_monitorUnitDamage_update) = false;
+
+
+	// Look for injured/destroyed local vehicles, and if any are found, process their damage
+	{
+		if ((_x getVariable [QGVAR(damage_stored), 0]) <= 0) then {
+			continue;
+		};
+
+		// Reset the damage event state
+		_x setVariable [QGVAR(damage_stored), 0, false];
+
+		if (local _x) then {
+			_healthOld = _x getVariable [QGVAR(health), 1];
+			_healthNew = [_x] call FUNC(veh_calculateHealth);
+
+			if (_healthNew >= _healthOld and {_healthNew > 0}) then {
+				_x setVariable [QGVAR(health), _healthNew, true];
+				continue;
+			};
+
+			[
+				_x,
+				_healthOld - _healthNew,
+				_x getVariable [QGVAR(damage_enum), MACRO_ENUM_DAMAGE_UNKNOWN],
+				_x getVariable [QGVAR(damage_source), objNull],
+				_x getVariable [QGVAR(damage_instigator), objNull],
+				_x getVariable [QGVAR(damage_ammoType), ""]
+			] call FUNC(gm_processVehicleDamage);
+		};
+
+	} forEach (GVAR(allVehicles));
 }];

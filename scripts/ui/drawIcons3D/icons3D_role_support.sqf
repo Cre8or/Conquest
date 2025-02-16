@@ -4,6 +4,7 @@ private _c_iconResupply      = getMissionPath "res\images\abilities\ability_resu
 // Strip specific units from the existing arrays, so we can render them separately while leaving the remaining ones
 // for the role-agnostic render method
 _renderData = [];
+private ["_unitX", "_distX"];
 
 // Define some macro functions
 #define MACRO_FNC_FILTERUNITS_LOWAMMO(UNITARRAY, COLOUR) \
@@ -30,7 +31,7 @@ _renderData = [];
  \
 		if (_distX < _c_maxDistSupportSqr and {_unitX getVariable [QGVAR(role), MACRO_ENUM_ROLE_INVALID] == MACRO_ENUM_ROLE_SUPPORT} and {[_unitX] call FUNC(unit_isAlive)}) then { \
 			_renderData pushBack ( \
-				_x + [SQUARE(COLOUR), _isLowAmmo or {_freeLook}, _ammo] \
+				_x + [SQUARE(COLOUR), _isLowAmmoOrFreeLook, _ammo] \
 			); \
 			UNITARRAY deleteAt _forEachIndex; \
 		}; \
@@ -42,7 +43,7 @@ _renderData = [];
 
 // As a support, the player is shown nearby units who are in need of resupplying
 if (GVAR(role) == MACRO_ENUM_ROLE_SUPPORT) then {
-	private ["_unitX", "_distX", "_ammoX"];
+	private ["_ammoX"];
 
 	MACRO_FNC_FILTERUNITS_LOWAMMO(_squadMates, MACRO_COLOUR_A100_SQUAD);
 	MACRO_FNC_FILTERUNITS_LOWAMMO(_teamMates, MACRO_COLOUR_A100_FRIENDLY);
@@ -50,12 +51,11 @@ if (GVAR(role) == MACRO_ENUM_ROLE_SUPPORT) then {
 // As a non-support, the player is shown nearby support units when low on ammo
 } else {
 	private _ammo = [_player] call FUNC(lo_getOverallAmmo);
-	private ["_unitX", "_distX"];
 
 	if (_ammo >= 1) then {
 		breakTo QGVAR(ui_sys_drawIcons3D);
 	};
-	private _isLowAmmo = (_ammo < MACRO_UNIT_AMMO_THRESHOLDLOW);
+	private _isLowAmmoOrFreeLook = (_ammo < MACRO_UNIT_AMMO_THRESHOLDLOW or {_freeLook});
 
 	MACRO_FNC_FILTERUNITS_ISSUPPORT(_squadMates, MACRO_COLOUR_A100_SQUAD);
 	MACRO_FNC_FILTERUNITS_ISSUPPORT(_teamMates, MACRO_COLOUR_A100_FRIENDLY);

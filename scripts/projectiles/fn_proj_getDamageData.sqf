@@ -23,6 +23,7 @@ params [
 
 
 MACRO_FNC_INITVAR(GVAR(proj_getDamageData_cache), createHashMap);
+
 _class = toLower _class;
 
 // If the result is cached, fetch and return it
@@ -31,12 +32,27 @@ if (_class in GVAR(proj_getDamageData_cache)) exitWith {
 };
 
 // Otherwise, cache and return it
-private _config          = configFile >> "CfgAmmo" >> _class;
-private _damageDirect    = getNumber (_config >> "hit");
-private _damageIndirect  = getNumber (_config >> "indirectHit");
-private _damageExplosive = getNumber (_config >> "explosive");
+private "_result";
+switch (_class) do {
 
-private _result = [_damageDirect, _damageIndirect, _damageExplosive];
+	// Edge cases: dampen vehicle cookoff explosions
+	case "fuelexplosion";
+	case "fuelexplosionbig": {
+		_result = [100, 10000, 1]; // Originally [100, 100, 1]
+		// Counter-intuitively, boosting indirect damage dampens the explosion, as the calculate damage
+		// within unit_onHandleDamage normalises engine-computed damage using this value.
+	};
+
+	default {
+		private _config          = configFile >> "CfgAmmo" >> _class;
+		private _damageDirect    = getNumber (_config >> "hit");
+		private _damageIndirect  = getNumber (_config >> "indirectHit");
+		private _damageExplosive = getNumber (_config >> "explosive");
+
+		_result = [_damageDirect, _damageIndirect, _damageExplosive];
+	};
+};
+
 GVAR(proj_getDamageData_cache) set [_class, _result];
 
 _result;

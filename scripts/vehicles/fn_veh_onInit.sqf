@@ -44,6 +44,10 @@ clearMagazineCargo _veh;
 clearItemCargo _veh;
 clearBackpackCargo _veh;
 
+// Player specific
+if (hasInterface) then {
+	group player reveal _veh;
+};
 
 
 
