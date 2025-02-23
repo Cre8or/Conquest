@@ -15,13 +15,19 @@ _renderData = [];
 	};
 } forEach _spottedEnemies;
 
+// Include the player if they are on foot
+private _playerArray = [];
+if (_player == _vehPly) then {
+	_playerArray = [[_player, getPosWorldVisual _player]];
+};
+
 {
 	_unitX = _x # 0;
 
 	_renderData pushBack (
 		_x + [SQUARE(MACRO_COLOUR_A100_SQUAD), _unitX getVariable [QGVAR(isUnconscious), false], _unitX == _player]
 	);
-} forEach ([[_player, getPosWorld _player]] + _squadMates);
+} forEach (_playerArray + _squadMates);
 
 {
 	_unitX = _x # 0;

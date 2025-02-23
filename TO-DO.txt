@@ -48,6 +48,8 @@ UNCONFIRMED:
 	- Investigate Joe's isssue with being able to spawn when no sectors are owned
 
 DONE:
+	- Fix vehicle killfeed events showing the instigator's primary weapon instead of the vehicle
+	- Implement a simplified vehicle damage handler
 	- Highlight neary frag grenades as 3D UI icons
 	- Add support for muzzle-specific damage multipliers in faction definition files
 	- Implement 3D markers for sectors

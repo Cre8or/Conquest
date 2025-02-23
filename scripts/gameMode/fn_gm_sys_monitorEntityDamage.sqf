@@ -47,14 +47,16 @@ GVAR(gm_sys_monitorEntityDamage_EH) = addMissionEventHandler ["EachFrame", {
 	// Look for injured local units, and if any are found, process their damage
 	private ["_storedDamage", "_isHeadShot", "_maxHitPoint"];
 	{
-		_storedDamage = _x getVariable [QGVAR(damage_stored), 0];
-
-		if (_storedDamage <= 0) then {
+		if !(_x getVariable [QGVAR(gm_sys_monitorEntityDamage_isHit), false]) then {
 			continue;
 		};
 
-		_isHeadShot  = false;
-		_maxHitPoint = _x getVariable [QGVAR(damage_storedHitPoint), ""];
+		// Reset the damage event flag
+		_x setVariable [QGVAR(gm_sys_monitorEntityDamage_isHit), false, false];
+
+		_isHeadShot   = false;
+		_storedDamage = _x getVariable [QGVAR(damage_stored), 0];
+		_maxHitPoint  = _x getVariable [QGVAR(damage_storedHitPoint), ""];
 
 		// Headshot bonus
 		if (_maxHitPoint in ["hithead", "hitface"]) then {
@@ -68,7 +70,7 @@ GVAR(gm_sys_monitorEntityDamage_EH) = addMissionEventHandler ["EachFrame", {
 			_x getVariable [QGVAR(damage_enum), MACRO_ENUM_DAMAGE_UNKNOWN],
 			_x getVariable [QGVAR(damage_source), objNull],
 			_x getVariable [QGVAR(damage_instigator), objNull],
-			true,
+			_storedDamage >= 0,
 			_x getVariable [QGVAR(damage_ammoType), ""],
 			_isHeadShot
 		] call FUNC(gm_processUnitDamage);
@@ -82,31 +84,39 @@ GVAR(gm_sys_monitorEntityDamage_EH) = addMissionEventHandler ["EachFrame", {
 
 
 	// Look for injured/destroyed local vehicles, and if any are found, process their damage
+	private ["_enum", "_damage"];
 	{
-		if ((_x getVariable [QGVAR(damage_stored), 0]) <= 0) then {
+		if (alive _x and {!(_x getVariable [QGVAR(gm_sys_monitorEntityDamage_isHit), false])}) then {
 			continue;
 		};
 
-		// Reset the damage event state
-		_x setVariable [QGVAR(damage_stored), 0, false];
+		// Reset the damage event flag
+		_x setVariable [QGVAR(gm_sys_monitorEntityDamage_isHit), false, false];
 
 		if (local _x) then {
 			_healthOld = _x getVariable [QGVAR(health), 1];
 			_healthNew = [_x] call FUNC(veh_calculateHealth);
+			_enum      = _x getVariable [QGVAR(damage_enum), MACRO_ENUM_DAMAGE_UNKNOWN];
 
-			if (_healthNew >= _healthOld and {_healthNew > 0}) then {
-				_x setVariable [QGVAR(health), _healthNew, true];
-				continue;
+			if (_enum == MACRO_ENUM_DAMAGE_CURATOR) then {
+				_damage = -1;
+			} else {
+				_damage = _healthOld - _healthNew;
+
+				if (_damage < 0) then {
+					continue;
+				};
 			};
 
 			[
 				_x,
-				_healthOld - _healthNew,
-				_x getVariable [QGVAR(damage_enum), MACRO_ENUM_DAMAGE_UNKNOWN],
+				_damage,
+				_enum,
 				_x getVariable [QGVAR(damage_source), objNull],
 				_x getVariable [QGVAR(damage_instigator), objNull],
 				_x getVariable [QGVAR(damage_ammoType), ""]
 			] call FUNC(gm_processVehicleDamage);
+
 		};
 
 	} forEach (GVAR(allVehicles));

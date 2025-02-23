@@ -3,11 +3,9 @@
 	Description:
 		[GA]
 		Calculates the total health (as a percentage in range 0 .. 1) of a vehicle, based on the total damage to its
-		hit points. Alternatively, a hashmap with hitpoint damage can be passed, for cases where the actual damage is
-		not representative of the vehicle's state (e.g. when capped by HandleDamage calculations).
+		hit points (with the hull hitpoint acting as the primary damage indicator).
 	Arguments:
 		0:	<NUMBER>	The concerned vehicle
-		1:	<HASHMAP>	Alternative reference hit points hashmap (optional, default: nil)
 	Returns:
 			<NUMBER>	The total vehicle health
 -------------------------------------------------------------------------------------------------------------------- */
@@ -17,8 +15,7 @@
 #include "..\..\res\macros\fnc_initVar.inc"
 
 params [
-	["_veh", objNull, [objNull]],
-	"_hashMap"
+	["_veh", objNull, [objNull]]
 ];
 
 if (!alive _veh) exitWith {0};
@@ -27,69 +24,26 @@ if (!alive _veh) exitWith {0};
 
 
 
-private _damageAverage  = damage _veh;
-private _damageCritical = _damageAverage;
-private _hitPoints      = [];
-private _damageValues   = [];
-private _countAverage   = 1;
-private _countCritical  = 1;
+private _damageAverage = damage _veh;
+private _hitPointData  = getAllHitPointsDamage _veh;
+private _hitPoints     = (_hitPointData param [0,[]]) apply {toLower _x};
+private _damageValues  = _hitPointData param [2, []];
+private _countAverage  = 1;
 
-// Flatten the provided hitpoint hashmap, if there is one
-if (!isNil "_hashMap" and {_hashMap isEqualType createHashMap}) then {
-	private _hitPointData = _hashMap toArray true;
-
-	_hitPoints    = (_hitPointsData param [0, []]) apply {toLower _x};
-	_damageValues = _hitPointsData param [1, []];
-} else {
-	private _hitPointData = getAllHitPointsDamage _veh;
-
-	_hitPoints    = (_hitPointData # 0) apply {toLower _x};
-	_damageValues = _hitPointData # 2;
-
-};
-
-
-
-
-
-// Calculate the overall health
+// Calculate the overall damage
 private ["_damageX"];
 {
 	_damageX = _damageValues param [_forEachIndex, 0];
 
 	_damageAverage = _damageAverage + _damageX;
 	_countAverage  = _countAverage + 1;
-
-	// Count critical hitpoints separately
-	switch (_x) do {
-		case "hitbody";
-		case "hithull";
-		case "hitfuel";
-		case "hitrotor";
-		case "hitvrotor";
-		case "hitengine";
-		case "hitengine1";
-		case "hitengine2";
-		case "hitengine3": {
-			_damageCritical = _damageCritical + _damageX;
-			_countCritical  = _countCritical + 1;
-			diag_log format ["[CONQUEST] CRIT %1: %2", _x, _damageX];
-		};
-
-		default {
-			diag_log format ["[CONQUEST]      %1: %2", _x, _damageX];
-		}
-	};
-
 } forEach _hitPoints;
 
-_damageAverage  = _damageAverage / _countAverage;
-_damageCritical = _damageCritical / _countCritical;
+_damageHull    = (_veh getHitPointDamage "hithull") / MACRO_VEHICLE_HEALTH_MAXHITPOINTDAMAGE;
+_damageAverage = _damageAverage / _countAverage;
 
-diag_log format ["[CONQUEST] %1 / %2", _damageAverage, _damageCritical];
-
-// Damage to critical components should matter more than overall average damage.
-private _damageMax = _damageAverage max _damageCritical;
+// Damage to the hull should matter more than average damage
+private _damageMax = (_damageAverage / 100) max _damageHull;
 
 // Convert damage to health
 (1 - _damageMax);

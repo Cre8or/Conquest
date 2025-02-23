@@ -51,6 +51,7 @@ _veh setVariable [QGVAR(health), _health, true];
 
 
 
+
 // Vehicle is still alive
 if (_health > 0) then {
 
@@ -126,9 +127,8 @@ if (_health > 0) then {
 				if (_ammoType isKindOf "TimeBombCore") then {
 					_iconEnum = MACRO_ENUM_KF_ICON_MINE;
 				} else {
-					if (_damageEnum == MACRO_ENUM_DAMAGE_EXPLOSIVE) then {
-						_iconEnum = MACRO_ENUM_KF_ICON_EXPLOSIVE;
-					};
+					// Even if a bullet killed the vehicle, we assume the vehicle is detonating from the cook-off
+					_iconEnum = MACRO_ENUM_KF_ICON_EXPLOSIVE;
 				};
 
 				_killData = [_iconEnum] + _ammoData;
@@ -141,10 +141,19 @@ if (_health > 0) then {
 			};
 		};
 
+		case MACRO_ENUM_DAMAGE_PHYSICS: {
+			_killData   = [MACRO_ENUM_KF_ICON_NONE, MACRO_ENUM_CLASSKIND_VEHICLE, typeOf _veh]; // Suicide by vehicle?
+			_instigator = objNull;
+		};
+
 		// Unused
-		case MACRO_ENUM_DAMAGE_PHYSICS;
 		case MACRO_ENUM_DAMAGE_COMBATAREA: {
 			_instigator = objNull;
+		};
+
+		case MACRO_ENUM_DAMAGE_CURATOR: {
+			_instigator = objNull;
+			_killData   = [MACRO_ENUM_KF_ICON_CURATOR, MACRO_ENUM_CLASSKIND_VEHICLE, typeOf _veh];
 		};
 	};
 

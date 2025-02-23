@@ -32,22 +32,27 @@ if (GVAR(missionState) < MACRO_ENUM_MISSION_LIVE) exitWith {
 	deleteVehicle _projectile;
 };
 
+// Disable spawn protection (only applicable for players)
+if (_unit == player) then {
+	GVAR(gm_sys_handlePlayerRespawn_protectionTime) = 0;
+};
+
 
 
 
 
 // Fetch the lookup table
-private _LUT = _unit getVariable [QGVAR(ammoLUT), locationNull];
-if (isNull _LUT) then {
-	_LUT = createLocation ["NameVillage", [0,0,0], 0, 0];
+private _LUT = _unit getVariable [QGVAR(ammoLUT), nil];
+if (isNil "_LUT") then {
+	_LUT = createHashMap;
 	_unit setVariable [QGVAR(ammoLUT), _LUT, false];
 };
 
 private _inVehicle   = _veh != _unit;
-private _iconClass   = currentWeapon _unit;
+private _curWeapon   = currentWeapon _unit;
+private _iconClass   = _curWeapon;
 private _classKind   = MACRO_ENUM_CLASSKIND_WEAPON;
 private _ammoData    = [];
-private _ammoDataLUT = _LUT getVariable [_ammoType, []];
 
 // Generate the ammo data
 if (_inVehicle) then {
@@ -72,21 +77,30 @@ _ammoData = [
 	_iconClass
 ];
 
+// Ensure all submunition types are considered aswell (e.g. RPG penetrators, cluster munitions, etc.)
+private _submunitions = [_ammoType] call FUNC(proj_getSubmunitionClasses);
+private "_ammoDataLUT";
+{
+	_ammoDataLUT = _LUT getOrDefault [_x, []];
 
+	// If the cached weapon data does not match the computed data, broadcast it
+	if (_ammoData isNotEqualTo _ammoDataLUT) then {
+		_unit setVariable [format [QGVAR(ammoData_%1), _x], _ammoData, true];
+		_LUT set [_x, _ammoData];
 
-
-
-// Disable spawn protection (only applicable for players)
-if (_unit == player) then {
-	GVAR(gm_sys_handlePlayerRespawn_protectionTime) = 0;
-};
+/*		// DEBUG
+		if (_unit == player) then {
+			systemChat format ["Broadcasting: %1 --> %2", _x, _ammoData];
+		};
+*/
+	};
+} forEach ([_ammoType] + _submunitions);
 
 
 
 
 
 // Interface with lo_getOverallAmmo
-private _curWeapon = currentWeapon _unit;
 if (_weapon == _curWeapon) then {
 
 	// To prevent network saturation, only invalidate the cache on the last bullet of the magazine.
@@ -101,20 +115,4 @@ if (_weapon == _curWeapon) then {
 		_unit setVariable [QGVAR(overallAmmo_isValid), false, false];
 		[_unit] call FUNC(lo_updateOverallAmmo);
 	};
-};
-
-
-
-
-
-// If the cached weapon data does not match the computed data, broadcast it
-if (_ammoData isNotEqualTo _ammoDataLUT) then {
-	_unit setVariable [format [QGVAR(ammoData_%1), _ammoType], _ammoData, true];
-	_LUT setVariable [_ammoType, _ammoData];
-
-/*	// DEBUG
-	if (_unit == player) then {
-		systemChat format ["Broadcasting: %1 --> %2", _ammoType, _ammoData];
-	};
-*/
 };

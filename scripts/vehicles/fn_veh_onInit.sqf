@@ -36,7 +36,7 @@ GVAR(allVehicles) pushBackUnique _veh;
 
 // Shared data
 _veh removeAllEventHandlers "HandleDamage"; // Removes any modded event handlers (e.g. ACE3)
-_veh setVariable [QGVAR(EH_veh_onHandleDamage), _veh addEventHandler ["HandleDamage", FUNC(veh_onHandleDamage)], false];
+_veh addEventHandler ["HandleDamage", FUNC(veh_onHandleDamage)];
 
 // Clear the vehicle's cargo locally
 clearWeaponCargo _veh;

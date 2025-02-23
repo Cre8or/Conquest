@@ -18,7 +18,6 @@
 
 
 
-// Define some macros
 #define MACRO_GM_UNIT_MINDAMAGETHRESHOLD 0.005
 #define MACRO_GM_UNIT_INDIRECTDAMAGE_MAXDISTOFFSET 2
 #define MACRO_GM_UNIT_INDIRECTDAMAGE_MAXREFERENCEDAMAGE 10
@@ -57,6 +56,17 @@ _this call {
 	// Filter out special hit points
 	if (_hitPoint == "incapacitated" or {_hitPoint select [0, 4] == "ace_"}) exitWith {0};
 
+	// Allow killing units through zeus
+	if (_context == 0 and {isNull _source} and {isNull _instigator} and {_damageProcessed == 1}) exitWith {
+		GVAR(gm_sys_monitorEntityDamage_update) = true;
+
+		_unit setVariable [QGVAR(gm_sys_monitorEntityDamage_isHit), true, false];
+		_unit setVariable [QGVAR(damage_stored), -1, false];
+		_unit setVariable [QGVAR(damage_enum), MACRO_ENUM_DAMAGE_CURATOR, false];
+
+		0
+	};
+
 	// Filter out indirect damage to anything other than the body
 	if (!_isDirect and {_ammoType != ""} and {_hitPoint != ""}) exitWith {0};
 
@@ -77,7 +87,7 @@ _this call {
 
 
 	// World damage
-	if (_ammoType == "" or {isNull _source and {isNull _instigator}}) then {
+	if ((_ammoType == "" and {isNull _instigator}) or {isNull _source and {isNull _instigator}}) then {
 
 		_isPhysicsDamage = true;
 		private _time = time;
@@ -229,6 +239,9 @@ _this call {
 	// Only keep the highest damage event in this frame
 	if (_newDamage > (_unit getVariable [QGVAR(damage_stored), 0]) and {_newDamage > MACRO_GM_UNIT_MINDAMAGETHRESHOLD}) then {
 		GVAR(gm_sys_monitorEntityDamage_update) = true;
+
+		// Flag the vehicle as having received damage (interfaces with gm_sys_monitorEntityDamage)
+		_unit setVariable [QGVAR(gm_sys_monitorEntityDamage_isHit), true, false];
 
 		_unit setVariable [QGVAR(damage_stored), _newDamage, false];
 		_unit setVariable [QGVAR(damage_enum), _damageEnum, false];

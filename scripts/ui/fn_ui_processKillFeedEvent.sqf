@@ -35,7 +35,7 @@ private _unitsPly = units group player;
 private _isKillerFriendly = (GVAR(side) == _killer getVariable [QGVAR(side), sideEmpty]);
 private _isVictimFriendly = (GVAR(side) == _victim getVariable [QGVAR(side), sideEmpty]);
 private _iconEnum   = MACRO_ENUM_KF_ICON_NONE;
-private _weaponIcon = MACRO_KF_ICON_UNKNOWN;
+private _weaponIcon = "";
 private ["_colourKiller", "_colourVictim"];
 
 if (_killer in _unitsPly) then {
@@ -81,17 +81,17 @@ if (_iconClass != "") then {
 if (_iconEnum == MACRO_ENUM_KF_ICON_MINE) then {
 	_weaponIcon = MACRO_KF_ICON_MINE;
 	_iconEnum = MACRO_ENUM_KF_ICON_NONE;
-
-} else {
-	// Special case 2: Suicide (from physics damage, or from self-damage with no additional data)
-	if (_iconClass == "" and {_killer == _victim}) then {
-		_weaponIcon = MACRO_KF_ICON_SUICIDE;
-	};
 };
 
 // Fallback - default icon
 if (_weaponIcon == "") then {
-	_weaponIcon = MACRO_KF_ICON_UNKNOWN;
+
+	// Special case 2: Suicide (from physics damage, or from self-damage with no additional data)
+	if (_iconClass == "" and {_killer == _victim}) then {
+		_weaponIcon = MACRO_KF_ICON_SUICIDE;
+	} else {
+		_weaponIcon = MACRO_KF_ICON_UNKNOWN;
+	};
 };
 
 

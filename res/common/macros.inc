@@ -557,13 +557,14 @@
 
 	// Repair
 	#define MACRO_VEHICLE_HEALTH_THRESHOLDLOW                       0.5 // The threshold of health below which a vehicle is considered to be at low health. Below this threshold, AI drivers will seek out nearby engineers.
+	#define MACRO_VEHICLE_HEALTH_MAXHITPOINTDAMAGE                  0.899 // The maximum damage threshold that (most) vehicle hitpoints should be clamped to (due to ArmA 3 automatically handling damage abvoe this value, such as cook-offs)
 
 	// Health
 	#define MACRO_UNIT_HEALTH_FALLDAMAGEHEIGHT                      3 // The height in meters beyond which units receive fall damage when jumping off of surfaces (assuming no initial velocity)
 	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health. Below this threshold, AI units will seek out nearby medics.
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.22.1045" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.23.1055" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)
@@ -854,6 +855,7 @@
 	#define MACRO_ENUM_DAMAGE_EXPLOSIVE                             2
 	#define MACRO_ENUM_DAMAGE_PHYSICS                               3
 	#define MACRO_ENUM_DAMAGE_COMBATAREA                            4
+	#define MACRO_ENUM_DAMAGE_CURATOR                               5
 
 
 
@@ -869,13 +871,16 @@
 	#define MACRO_ENUM_KF_ICON_ROADKILL                             2
 	#define MACRO_ENUM_KF_ICON_MINE                                 3
 	#define MACRO_ENUM_KF_ICON_EXPLOSIVE                            4
+	#define MACRO_ENUM_KF_ICON_CURATOR                              5
 
 	#define MACRO_KF_ICON_UNKNOWN                                   "a3\ui_f\data\IGUI\Cfg\simpleTasks\types\unknown_ca.paa"
 	#define MACRO_KF_ICON_SUICIDE                                   "res\images\suicide.paa"
+	//#define MACRO_KF_ICON_SUICIDE                                   a3\ui_f_curator\Data\CfgMarkers\kia_ca.paa
 	#define MACRO_KF_ICON_HEADSHOT                                  "a3\ui_f\data\IGUI\Cfg\simpleTasks\types\kill_ca.paa"
 	#define MACRO_KF_ICON_ROADKILL                                  "a3\ui_f\data\IGUI\RscIngameUI\RscUnitInfo\role_driver_ca.paa"
 	#define MACRO_KF_ICON_MINE                                      "a3\ui_f\data\IGUI\Cfg\simpleTasks\types\mine_ca.paa"
 	#define MACRO_KF_ICON_EXPLOSIVE                                 "a3\ui_f\data\IGUI\Cfg\simpleTasks\types\destroy_ca.paa"
+	#define MACRO_KF_ICON_CURATOR                                   "a3\ui_f_curator\Data\Logos\arma3_curator_eye_64_ca.paa"
 
 
 

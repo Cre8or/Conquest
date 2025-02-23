@@ -174,6 +174,7 @@ GVAR(ui_sys_drawKillFeed_EH) = addMissionEventHandler ["EachFrame", {
 						case MACRO_ENUM_KF_ICON_ROADKILL:  {MACRO_KF_ICON_ROADKILL};
 						case MACRO_ENUM_KF_ICON_MINE:      {MACRO_KF_ICON_MINE};
 						case MACRO_ENUM_KF_ICON_EXPLOSIVE: {MACRO_KF_ICON_EXPLOSIVE};
+						case MACRO_ENUM_KF_ICON_CURATOR:   {MACRO_KF_ICON_CURATOR};
 						default                            {""};
 					});
 				};

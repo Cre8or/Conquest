@@ -154,6 +154,7 @@ class MACRO_PROJECT_PREFIX {
 		// Abbreviation:	proj
 
 		class proj_getDamageData {};
+		class proj_getSubmunitionClasses {};
 		class proj_onInit {};
 	};
 

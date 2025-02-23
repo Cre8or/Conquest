@@ -164,7 +164,7 @@ if (_health > 0) then {
 
 		case MACRO_ENUM_DAMAGE_BULLET;
 		case MACRO_ENUM_DAMAGE_EXPLOSIVE: {
-			if (_ammoType != "") then {
+			if (_ammoType != "" and {_ammoType != "fuelexplosion"} and {_ammoType != "fuelexplosionbig"}) then {
 				private _ammoData = _instigator getVariable [format [QGVAR(ammoData_%1), _ammoType], []];
 				private _iconEnum = MACRO_ENUM_KF_ICON_NONE;
 
@@ -205,6 +205,11 @@ if (_health > 0) then {
 		case MACRO_ENUM_DAMAGE_COMBATAREA: {
 			_instigator = _unit;
 			// Use the default kill data to imply suicide from leaving the combat area
+		};
+
+		case MACRO_ENUM_DAMAGE_CURATOR: {
+			_instigator = _unit;
+			_killData   = [MACRO_ENUM_KF_ICON_CURATOR, MACRO_ENUM_CLASSKIND_NONE, ""];
 		};
 	};
 	[_instigator, _unit, _killData] remoteExecCall [QFUNC(ui_processKillFeedEvent), 0, false];

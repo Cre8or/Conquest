@@ -45,7 +45,7 @@ private _squadMates     = [];
 private _spottedEnemies = [];
 private ["_posX", "_groupX"];
 {
-	_posX   = getPosWorld _x;
+	_posX   = getPosWorldVisual _x;
 	_groupX = group _x;
 
 	if (side _groupX == GVAR(side)) then {
@@ -75,7 +75,7 @@ private _squadVehicles   = [];
 private _spottedVehicles = [];
 private ["_crew", "_unitX", "_groupX", "_groupIndex"];
 {
-	_posX  = _x modelToWorld getCenterOfMass _x;
+	_posX  = _x modelToWorldVisual getCenterOfMass _x;
 	_crew  = crew _x select {[_x] call FUNC(unit_isAlive)};
 	_unitX = driver _x;
 

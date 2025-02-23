@@ -28,9 +28,6 @@ private _isUnconscious = _unit getVariable [QGVAR(isUnconscious), false];
 
 _unit setVariable [QGVAR(isSpawned), false, false];
 
-// Clean up the unit's ammo data lookup table
-deleteLocation (_unit getVariable [QGVAR(ammoLUT), locationNull]);
-
 scopeName QGVAR(unit_onKilled_main);
 
 
