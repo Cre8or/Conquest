@@ -308,6 +308,16 @@ USAGE:
 
 		["B_MRAP_01_F", 0.5],
 		["B_MRAP_01_hmg_F", 0.5],
-		["B_MRAP_01_gmg_F", 0.5]
+		["B_MRAP_01_gmg_F", 0.5],
+
+		["B_APC_Wheeled_01_cannon_F", 0.65],
+		["B_APC_Tracked_01_rcws_F", 0.35],
+
+		["B_AFV_Wheeled_01_up_cannon_F", 0.4],
+
+		["B_MBT_01_cannon_F", 0.35],
+		["B_MBT_01_TUSK_F", 0.5],
+
+		["B_Plane_CAS_01_dynamicLoadout_F", 0.6]
 	]
 ]

@@ -91,8 +91,6 @@ GVAR(gm_sys_monitorEntityDamage_EH) = addMissionEventHandler ["EachFrame", {
 		_healthNew = [_x] call FUNC(veh_calculateHealth);
 		_enum      = _x getVariable [QGVAR(damage_enum), MACRO_ENUM_DAMAGE_UNKNOWN];
 
-		//systemChat format ["(%1) %2 damaged: %3", diag_frameNo, typeOf _x, _healthNew];
-
 		if (_enum == MACRO_ENUM_DAMAGE_CURATOR) then {
 			_damage = -1;
 		} else {
@@ -121,11 +119,13 @@ GVAR(gm_sys_monitorEntityDamage_EH) = addMissionEventHandler ["EachFrame", {
 			};
 
 			// Update the hull hitpoint, if this vehicle has one
-			if (_x getVariable [QGVAR(hasHullHitPoint), false]) then {
-				_healthNew = _healthOld - _damage;
-				private _hitPointDamage = (1 - _healthNew) * MACRO_VEHICLE_HEALTH_MAXHITPOINTDAMAGE;
+			_healthNew = _healthOld - _damage;
+			private _finalDamage = ((1 - _healthNew) min 1) * MACRO_VEHICLE_HEALTH_MAXHITPOINTDAMAGE;
 
-				_x setHitPointDamage ["hithull", _hitPointDamage min MACRO_VEHICLE_HEALTH_MAXHITPOINTDAMAGE];
+			if (_x getVariable [QGVAR(hasHullHitPoint), false]) then {
+				_x setHitPointDamage ["hithull", _finalDamage];
+			} else {
+				_x setDamage [_finalDamage, false];
 			};
 		};
 

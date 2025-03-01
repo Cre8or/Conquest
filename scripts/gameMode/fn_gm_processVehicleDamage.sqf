@@ -118,6 +118,7 @@ if (_health > 0) then {
 
 		case MACRO_ENUM_DAMAGE_BULLET;
 		case MACRO_ENUM_DAMAGE_EXPLOSIVE: {
+
 			// Vehicle detonations (e.g. by script) report the vehicle as the source. For these cases,
 			// use the vehicle as killfeed icon.
 			if (_veh == _source) then {

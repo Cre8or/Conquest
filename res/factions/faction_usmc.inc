@@ -302,5 +302,28 @@ USAGE:
 		["CUP_srifle_M24_blk", 1.5],
 		["CUP_smg_MP5A5", 1.25],
 		["CUP_launch_Mk153Mod0", 1.5]
+	],
+
+
+
+
+	// Vehicle health balancing
+	[
+		["CUP_B_M1130_CV_M2_Woodland", 0.5],
+		["CUP_B_LAV25M240_USMC", 1.25],
+
+		["B_APC_Wheeled_01_cannon_F", 0.65],
+		["B_APC_Tracked_01_rcws_F", 0.35],
+
+		["CUP_B_M7Bradley_USA_W", 1.5],
+		["CUP_B_M1128_MGS_Woodland", 0.6],
+
+		["CUP_B_M1A1SA_Woodland_US_Army", 0.3],
+		["CUP_B_M1A2C_TUSK_II_Woodland_US_Army", 0.4],
+
+		["CUP_B_AH1Z_Dynamic_USMC", 0.75],
+		["CUP_B_UH60M_US", 0.6],
+
+		["CUP_B_A10_DYN_USA", 0.75]
 	]
 ]
