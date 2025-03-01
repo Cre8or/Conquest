@@ -284,14 +284,22 @@ USAGE:
 
 
 
-	// Recoil balancing
+	// Weapon recoil balancing
 	[
 		["SMG_03C_TR_khaki", 1.25]
 	],
 
 
 
-	// Damage balancing
+	// Weapon damage balancing
 	[
+		["launch_MRAWS_olive_rail_F", 0.75]
+	],
+
+
+
+	// Vehicle health balancing
+	[
+		["I_MBT_03_cannon_F", 0.75]
 	]
 ]

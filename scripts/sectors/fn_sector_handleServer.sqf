@@ -360,7 +360,7 @@ if (GVAR(param_gm_enableVehicles) and {_side != sideEmpty}) then {
 
 			// If the punish time has been exceeded, start damaging the vehicle
 			} else {
-				if (_time < _punishTime) then {continue};
+				if (_time < _punishTime or {!alive _veh}) then {continue};
 
 				// Only continue if the vehicle is local
 				if (!local _veh) then {
@@ -368,17 +368,29 @@ if (GVAR(param_gm_enableVehicles) and {_side != sideEmpty}) then {
 					continue;
 				};
 
-				_damage = (_veh getHitPointDamage "HitEngine") + (0.05 * MACRO_SECTOR_TRIGGERINTERVAL);		// 0.05 damage per second
+				private _hasHull = _veh getVariable [QGVAR(hasHullHitPoint), false];
+				if (_hasHull) then {
+					_damage = _veh getHitPointDamage "hithull";
+				} else {
+					_damage = damage _veh;
+				};
+				_damage = _damage + (0.05 * MACRO_VEHICLE_HEALTH_MAXHITPOINTDAMAGE * MACRO_SECTOR_TRIGGERINTERVAL); // 5% damage per second
 
-				if (_damage >= 0.9) then {
+				if (_damage >= MACRO_VEHICLE_HEALTH_MAXHITPOINTDAMAGE) then {
 					//systemChat format ["[%1] Destroying abandoned vehicle: %2", _sector getVariable [QGVAR(letter), "???"], _class];
 					clearMagazineCargo _veh;
 					_veh setFuel 0;
 					_veh setVehicleAmmoDef 0;
 					_veh setDamage 1;
 				} else {
-					// TODO: Revisit for static emplacements
-					_veh setHitPointDamage ["HitEngine", _damage, false];
+					if (_hasHull) then {
+						_veh setHitPointDamage ["hithull", _damage, false];
+					} else {
+						_veh setDamage _damage;
+					};
+
+					private _health = [_veh] call FUNC(veh_calculateHealth);
+					_veh setVariable [QGVAR(health), _health, true];
 				};
 			};
 		};

@@ -26,24 +26,26 @@ if (!alive _veh) exitWith {0};
 
 private _damageAverage = damage _veh;
 private _hitPointData  = getAllHitPointsDamage _veh;
-private _hitPoints     = (_hitPointData param [0,[]]) apply {toLower _x};
 private _damageValues  = _hitPointData param [2, []];
 private _countAverage  = 1;
 
 // Calculate the overall damage
-private ["_damageX"];
 {
-	_damageX = _damageValues param [_forEachIndex, 0];
-
-	_damageAverage = _damageAverage + _damageX;
+	_damageAverage = _damageAverage + _x;
 	_countAverage  = _countAverage + 1;
-} forEach _hitPoints;
+} forEach _damageValues;
 
-_damageHull    = (_veh getHitPointDamage "hithull") / MACRO_VEHICLE_HEALTH_MAXHITPOINTDAMAGE;
 _damageAverage = _damageAverage / _countAverage;
 
-// Damage to the hull should matter more than average damage
-private _damageMax = (_damageAverage / 100) max _damageHull;
+private ["_damageMax"];
+if (_veh getVariable [QGVAR(hasHullHitPoint), false]) then {
+	private _damageHull = (_veh getHitPointDamage "hithull") / MACRO_VEHICLE_HEALTH_MAXHITPOINTDAMAGE;
+
+	// Damage to the hull should matter more than average damage
+	_damageMax = (_damageAverage / 100) max _damageHull;
+} else {
+	_damageMax = _damageAverage;
+};
 
 // Convert damage to health
 (1 - _damageMax);

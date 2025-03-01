@@ -286,7 +286,7 @@ USAGE:
 
 
 
-	// Recoil balancing
+	// Weapon recoil balancing
 	[
 		["arifle_ARX_blk_F", 1.75],
 		["LMG_Zafir_F", 1.25],
@@ -296,7 +296,17 @@ USAGE:
 
 
 
-	// Damage balancing
+	// Weapon damage balancing
 	[
+		["launch_RPG32_F", 0.75]
+	],
+
+
+
+	// Vehicle health balancing
+	[
+		["O_MRAP_02_F", 0.5],
+		["O_MRAP_02_hmg_F", 0.5],
+		["O_MRAP_02_gmg_F", 0.5]
 	]
 ]

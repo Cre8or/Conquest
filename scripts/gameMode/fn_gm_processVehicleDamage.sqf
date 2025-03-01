@@ -27,7 +27,7 @@ params [
 	["_ammoType", "", [""]]
 ];
 
-if (!local _veh or {_damage == 0} or {!alive _veh}) exitWith {};
+if (!local _veh or {_damage == 0}) exitWith {}; // Allow the function to run on dead vehicles
 
 
 
@@ -38,12 +38,15 @@ private _health         = _veh getVariable [QGVAR(health), 1];
 private _sideVeh        = _veh getVariable [QGVAR(side), sideEmpty];
 private _sideInstigator = _instigator getVariable [QGVAR(side), sideEmpty];
 
+// Filter out dead vehicles whose health is already 0
+if (!alive _veh and {_health <= 0}) exitWith {};
+
 // Edge case: negative damage always kills the vehicle
 if (_damage < 0) then {
 	_damage = _health;
 	_health = 0;
 } else {
-	_health = _health - _damage;
+	_health = (_health - _damage) max 0;
 };
 
 _veh setVariable [QGVAR(health), _health, true];
@@ -115,28 +118,35 @@ if (_health > 0) then {
 
 		case MACRO_ENUM_DAMAGE_BULLET;
 		case MACRO_ENUM_DAMAGE_EXPLOSIVE: {
-			if (_ammoType != "") then {
-				private _ammoData = _instigator getVariable [format [QGVAR(ammoData_%1), _ammoType], []];
-				private _iconEnum = MACRO_ENUM_KF_ICON_NONE;
+			// Vehicle detonations (e.g. by script) report the vehicle as the source. For these cases,
+			// use the vehicle as killfeed icon.
+			if (_veh == _source) then {
+				_killData = [MACRO_ENUM_KF_ICON_EXPLOSIVE, MACRO_ENUM_CLASSKIND_VEHICLE, typeOf _source];
 
-				// Fallback for when no ammo data exists (yet): let the clients determine it
-				if (_ammoData isEqualTo []) then {
-					_ammoData = [MACRO_ENUM_CLASSKIND_AMMO, _ammoType];
-				};
-
-				if (_ammoType isKindOf "TimeBombCore") then {
-					_iconEnum = MACRO_ENUM_KF_ICON_MINE;
-				} else {
-					// Even if a bullet killed the vehicle, we assume the vehicle is detonating from the cook-off
-					_iconEnum = MACRO_ENUM_KF_ICON_EXPLOSIVE;
-				};
-
-				_killData = [_iconEnum] + _ammoData;
 			} else {
-				if (_source isKindOf "Man") then {
-					_killData = [MACRO_ENUM_KF_ICON_EXPLOSIVE, MACRO_ENUM_CLASSKIND_VEHICLE, ""];
+				if (_ammoType != "") then {
+					private _ammoData = _instigator getVariable [format [QGVAR(ammoData_%1), _ammoType], []];
+					private _iconEnum = MACRO_ENUM_KF_ICON_NONE;
+
+					// Fallback for when no ammo data exists (yet): let the clients determine it
+					if (_ammoData isEqualTo []) then {
+						_ammoData = [MACRO_ENUM_CLASSKIND_AMMO, _ammoType];
+					};
+
+					if (_ammoType isKindOf "TimeBombCore") then {
+						_iconEnum = MACRO_ENUM_KF_ICON_MINE;
+					} else {
+						// Even if a bullet killed the vehicle, we assume the vehicle is detonating from the cook-off
+						_iconEnum = MACRO_ENUM_KF_ICON_EXPLOSIVE;
+					};
+
+					_killData = [_iconEnum] + _ammoData;
 				} else {
-					_killData = [MACRO_ENUM_KF_ICON_EXPLOSIVE, MACRO_ENUM_CLASSKIND_VEHICLE, typeOf _source];
+					if (_source isKindOf "Man") then {
+						_killData = [MACRO_ENUM_KF_ICON_EXPLOSIVE, MACRO_ENUM_CLASSKIND_VEHICLE, ""];
+					} else {
+						_killData = [MACRO_ENUM_KF_ICON_EXPLOSIVE, MACRO_ENUM_CLASSKIND_VEHICLE, typeOf _source];
+					};
 				};
 			};
 		};

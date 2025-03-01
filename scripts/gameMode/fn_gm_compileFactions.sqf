@@ -61,6 +61,7 @@ private ["_vehTypesCache", "_vehTypesIndexCache", "_definitionsXCopy"];
 private ["_accuracyMulCache", "_totalAccuracyMul"];
 private ["_muzzleRecoilMulCache"];
 private ["_muzzleDamageMulCache"];
+private ["_vehicleHealthMulCache"];
 {
 	_x params ["_side", "_factionEnum"];
 
@@ -70,8 +71,9 @@ private ["_muzzleDamageMulCache"];
 		["_factionLoadouts", [], [[]]],
 		["_factionVehicles", [], [[]]],
 		["_factionAIBalancing", [], [[]]],
-		["_factionRecoilBalancing", [], [[]]],
-		["_factionDamageBalancing", [], [[]]]
+		["_factionMuzzleRecoilBalancing", [], [[]]],
+		["_factionMuzzleDamageBalancing", [], [[]]],
+		["_factionVehicleHealthBalancing", [], [[]]]
 	];
 
 	// Parse the faction identity
@@ -398,7 +400,7 @@ private ["_muzzleDamageMulCache"];
 
 
 
-	// Muzzle recoil balancing
+	// Weapon recoil balancing
 	_muzzleRecoilMulCache = createHashMap;
 	{
 		_x params [
@@ -418,13 +420,13 @@ private ["_muzzleDamageMulCache"];
 
 		_recoilMul = _recoilMul max 0;
 		_muzzleRecoilMulCache set [_muzzle, _recoilMul];
-	} forEach _factionRecoilBalancing;
+	} forEach _factionMuzzleRecoilBalancing;
 
 	missionNamespace setVariable [format [QGVAR(muzzleRecoilMulCache_%1), _side], _muzzleRecoilMulCache, false];
 
 
 
-	// Muzzle damage balancing
+	// Weapon damage balancing
 	_muzzleDamageMulCache = createHashMap;
 	{
 		_x params [
@@ -444,9 +446,35 @@ private ["_muzzleDamageMulCache"];
 
 		_damageMul = _damageMul max 0;
 		_muzzleDamageMulCache set [_muzzle, _damageMul];
-	} forEach _factionDamageBalancing;
+	} forEach _factionMuzzleDamageBalancing;
 
 	missionNamespace setVariable [format [QGVAR(muzzleDamageMulCache_%1), _side], _muzzleDamageMulCache, false];
+
+
+
+	// Vehicle health balancing
+	_vehicleHealthMulCache = createHashMap;
+	{
+		_x params [
+			["_vehClass", "", [""]],
+			["_healthMul", 1, [1]]
+		];
+		_vehClass = toLower _vehClass;
+
+		if (_vehClass == "") then {
+			continue;
+		};
+
+		if (_vehClass in _vehicleHealthMulCache) then {
+			diag_log format ["[CONQUEST] ERROR: Health multiplier for vehicle ""%1"" is defined multiple times!", _role];
+			continue;
+		};
+
+		_healthMul = _healthMul max 0.001; // Must not be 0
+		_vehicleHealthMulCache set [_vehClass, _healthMul];
+	} forEach _factionVehicleHealthBalancing;
+
+	missionNamespace setVariable [format [QGVAR(vehicleHealthMulCache_%1), _side], _vehicleHealthMulCache, false];
 
 } forEach _allSideFactions;
 

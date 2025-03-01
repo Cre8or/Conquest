@@ -56,9 +56,11 @@ _unit setVariable [QGVAR(bleedoutTime), -1, _broadcast];
 _unit setVariable [QGVAR(lo_addOverallAmmo_accumulator), 0, false]; // Interfaces with lo_addOverallAmmo
 
 // Disable stamina
-if (_local) then {
-	_unit enableFatigue false;
-};
+_unit enableFatigue false;
+
+// Disable common third-party AI mods that might interfere
+_unit setVariable ["lambs_danger_disableAI", true, false]; // LAMBS Danger.fsm
+_unit setVariable ["vcom_noai", true, false]; // VCOM
 
 
 

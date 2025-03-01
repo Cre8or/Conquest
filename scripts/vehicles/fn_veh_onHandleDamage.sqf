@@ -35,42 +35,63 @@ _this call {
 		"_context"
 	];
 	_hitPoint = toLower _hitPoint;
-
-
-
+	_ammoType = toLower _ammoType;
+	//diag_log str _this;
 
 	// Allow vehicle destruction when health has reached 0
 	private _health = _veh getVariable [QGVAR(health), 1];
 	if (_health <= 0) exitWith {1};
 
+	private _side = _veh getVariable [QGVAR(side), sideEmpty];
+
+	// Determine the instigator's muzzle damage multiplier
+	private _muzzleDamageMul = 1;
+	if (_ammoType != "" and {!isNull _instigator}) then {
+		private _instigatorSide       = _instigator getVariable [QGVAR(side), sideEmpty];
+		private _instigatorMuzzleLUT  = _instigator getVariable [QGVAR(muzzleLUT), createHashMap];
+		private _muzzleDamageMulCache = missionNamespace getVariable [format [QGVAR(muzzleDamageMulCache_%1), _instigatorSide], createHashMap];
+		private _muzzle               = _instigatorMuzzleLUT getOrDefault [_ammoType, ""];
+		_muzzleDamageMul              = _muzzleDamageMulCache getOrDefault [_muzzle, 1];
+	};
+
 	// Cache the overall damage at the start of the event
 	if (_context == 0) exitWith {
 
+		// Flag the vehicle as having received damage (interfaces with gm_sys_monitorEntityDamage)
+		GVAR(gm_sys_monitorEntityDamage_vehicles) pushBackUnique _veh;
+
 		// Edge case: killing vehicles through Zeus
 		if (isNull _source and {isNull _instigator} and {_newRawTotalDamage >= 1}) then {
-			GVAR(gm_sys_monitorEntityDamage_update) = true;
-			_veh setVariable [QGVAR(gm_sys_monitorEntityDamage_isHit), true, false];
 			_veh setVariable [QGVAR(damage_enum), MACRO_ENUM_DAMAGE_CURATOR, false];
 			//diag_log "Killing vehicle through zeus";
 			0;
 
 		} else {
-			// TODO: Consider the vehicle health multiplier here
-			private _damage     = (_newRawTotalDamage - damage _veh) max 0;
-			private _prevDamage = _veh getVariable [QGVAR(damage_overall), 0];
+			private _prevTotalDamage   = damage _veh;
+			private _damage            = (_newRawTotalDamage - _prevTotalDamage) max 0;
+			private _prevOverallDamage = _veh getVariable [QGVAR(damage_overall), 0];
 
-			if (_damage > _prevDamage) then {
+			// Consider the vehicle health multiplier
+			private _healthMulCache = missionNamespace getVariable [format [QGVAR(vehicleHealthMulCache_%1), _side], createHashMap];
+			private _healthMul      = _healthMulCache getOrDefault [toLower typeOf _veh, 1];
+			_damage = _damage * _muzzleDamageMul / _healthMul;
+
+			if (_damage > _prevOverallDamage) then {
 				//diag_log format ["  (%1) Caching overall damage: %2", diag_frameNo, _damage];
-				_veh setVariable [QGVAR(damage_overall), _damage, false];
+				_veh setVariable [QGVAR(damage_overall),    _damage, false];
+				_veh setVariable [QGVAR(damage_source),     _source, false];
+				_veh setVariable [QGVAR(damage_instigator), _instigator, false];
+				_veh setVariable [QGVAR(damage_ammoType),   _ammoType, false];
+
 			};
 
-			_newRawTotalDamage min MACRO_VEHICLE_HEALTH_MAXHITPOINTDAMAGE;
+			// Do not modify overall damage!
+			_prevTotalDamage;
 		};
 	};
 
 
 
-	private _side            = _veh getVariable [QGVAR(side), sideEmpty];
 	private _damageEnum      = MACRO_ENUM_DAMAGE_UNKNOWN;
 	private _damageMul       = 1;
 	private _prevTotalDamage = _veh getHitPointDamage _hitPoint;
@@ -78,11 +99,15 @@ _this call {
 
 	// Filter out minuscule damage increments
 	if (_damage < 0.0001) exitWith {
-		//diag_log format ["  Skipping low damage (%1): %2", _hitPoint, _damage];
+		//diag_log format ["  Filtering low damage (%1): %2", _hitPoint, _damage];
 		_prevTotalDamage
 	};
 
 
+
+	// Fetch the vehicle health multiplier
+	private _healthMulCache = missionNamespace getVariable [format [QGVAR(vehicleHealthMulCache_%1), _side], createHashMap];
+	private _healthMul      = _healthMulCache getOrDefault [toLower typeOf _veh, 1];
 
 	// World damage
 	if (_ammoType == "" or {isNull _source and {isNull _instigator}}) then {
@@ -104,7 +129,7 @@ _this call {
 			_damageEnum = MACRO_ENUM_DAMAGE_BULLET;
 		};
 	};
-	private _damageAdjusted = _damage * _damageMul;
+	private _damageAdjusted = _damage * _damageMul * _muzzleDamageMul / _healthMul;
 	private _forceMaxDamage = false; // Currently only used for the main rotor
 
 	// Ensure hitPoint damage does not exceed a predefined maximum for vital parts
@@ -210,51 +235,9 @@ _this call {
 	};
 */
 
-
-	// For any hitpoint other than the hull, allow the total damage to be updated.
-	// The hull hitpoint is updated exclusively during the last hitpoint context, to prevent interference.
+	// Hull damage is handled separately in gm_sys_monitorEntityDamage to reflect the vehicle's total health
 	if (_hitPoint == "hithull") then {
 		_newCalcTotalDamage = _prevTotalDamage;
-	};
-
-	// Last hit point: override the hull damage
-	// Rationale: use the hull as "proxy" to convey overall damage.
-	// Every vehicle should have a "hithull" hitpoint, so this approach should be general enough to work
-	// in most/all cases.
-	if (_context == 2) then {
-		private _prevTotalDamageHull = _veh getHitPointDamage "hithull";
-		private _damageCalc          = _veh getVariable [QGVAR(damage_calc), 0];
-
-		// This is where the overall damage before hitpoint iteration comes into play.
-		// Since we are unable to determine its cause directly, we can infer its parameters from the
-		// highest damage's source (which we already store for damage tracking purposes).
-		// This way we can retroactively apply the damage multipliers as in the hitpoint iteration check.
-		private _damageOverall    = _veh getVariable [QGVAR(damage_overall), 0];
-		private _damageMulOverall = switch (_veh getVariable [QGVAR(damage_enum), MACRO_ENUM_DAMAGE_UNKNOWN]) do {
-			case MACRO_ENUM_DAMAGE_BULLET:    {MACRO_GM_VEH_DAMAGEMUL_BULLET};
-			case MACRO_ENUM_DAMAGE_EXPLOSIVE: {MACRO_GM_VEH_DAMAGEMUL_EXPLOSIVE};
-			case MACRO_ENUM_DAMAGE_PHYSICS:   {MACRO_GM_VEH_DAMAGEMUL_PHYSICS};
-			default                           {1};
-		};
-
-		// Put everything together into the total hull damage
-		private _newCalcTotalDamageHull = (_prevTotalDamageHull + _damageCalc + _damageOverall * _damageMulOverall) min MACRO_VEHICLE_HEALTH_MAXHITPOINTDAMAGE;
-		//diag_log format ["Hull damage: %1 (%2 + %3 + %4)", _newCalcTotalDamageHull, _prevTotalDamageHull, _damageCalc, _damageOverall * _damageMulOverall];
-
-		if (_hitPoint == "hithull") then  {
-			_newCalcTotalDamage = _newCalcTotalDamageHull;
-		} else {
-			_veh setHitPointDamage ["hithull", _newCalcTotalDamageHull];
-		};
-
-		// Flag the vehicle as having received damage (interfaces with gm_sys_monitorEntityDamage)
-		_veh setVariable [QGVAR(gm_sys_monitorEntityDamage_isHit), true, false];
-		GVAR(gm_sys_monitorEntityDamage_update) = true;
-
-		// Reset for future HandleDamage events
-		_veh setVariable [QGVAR(damage_overall), 0, false];
-		_veh setVariable [QGVAR(damage_calc),    0, false];
-		_veh setVariable [QGVAR(damage_stored),  0, false];
 	};
 
 	_newCalcTotalDamage;

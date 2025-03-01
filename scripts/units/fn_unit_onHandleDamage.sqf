@@ -58,9 +58,8 @@ _this call {
 
 	// Allow killing units through zeus
 	if (_context == 0 and {isNull _source} and {isNull _instigator} and {_damageProcessed == 1}) exitWith {
-		GVAR(gm_sys_monitorEntityDamage_update) = true;
+		GVAR(gm_sys_monitorEntityDamage_units) pushBackUnique _unit;
 
-		_unit setVariable [QGVAR(gm_sys_monitorEntityDamage_isHit), true, false];
 		_unit setVariable [QGVAR(damage_stored), -1, false];
 		_unit setVariable [QGVAR(damage_enum), MACRO_ENUM_DAMAGE_CURATOR, false];
 
@@ -82,7 +81,13 @@ _this call {
 	private _newDamage           = 0;
 	private _damageProcessedReal = _damageProcessed;
 
-
+	// Determine the instigator's muzzle damage multiplier
+	_ammoType = toLower _ammoType;
+	private _instigatorSide       = _instigator getVariable [QGVAR(side), sideEmpty];
+	private _instigatorMuzzleLUT  = _instigator getVariable [QGVAR(muzzleLUT), createHashMap];
+	private _muzzleDamageMulCache = missionNamespace getVariable [format [QGVAR(muzzleDamageMulCache_%1), _instigatorSide], createHashMap];
+	private _muzzle               = _instigatorMuzzleLUT getOrDefault [_ammoType, ""];
+	private _muzzleDamageMul      = _muzzleDamageMulCache getOrDefault [_muzzle, 1];
 
 
 
@@ -156,7 +161,7 @@ _this call {
 					_instigator = _source;
 				};
 
-				private _damageMul = MACRO_GM_UNIT_DAMAGEMUL_EXPLOSIVE * 0.15;
+				private _damageMul = MACRO_GM_UNIT_DAMAGEMUL_EXPLOSIVE * 0.15 * _muzzleDamageMul;
 				private _damageIndirectCalc = sqrt _damageIndirect;
 				private _distMultiplier = 100 * _damageProcessed / _damageIndirect; // Normalise with indirect damage
 				private _distOffset = (MACRO_GM_UNIT_INDIRECTDAMAGE_MAXREFERENCEDAMAGE ^ 2 - _damageIndirect max 0) * MACRO_GM_UNIT_INDIRECTDAMAGE_MAXDISTOFFSET / MACRO_GM_UNIT_INDIRECTDAMAGE_MAXREFERENCEDAMAGE ^ 2;
@@ -220,13 +225,6 @@ _this call {
 			};
 
 			// Factor in faction-defined damage balancing
-			_ammoType = toLower _ammoType;
-			private _instigatorSide       = _instigator getVariable [QGVAR(side), sideEmpty];
-			private _instigatorMuzzleLUT  = _instigator getVariable [QGVAR(muzzleLUT), createHashMap];
-			private _muzzleDamageMulCache = missionNamespace getVariable [format [QGVAR(muzzleDamageMulCache_%1), _instigatorSide], createHashMap];
-			private _muzzle               = _instigatorMuzzleLUT getOrDefault [_ammoType, ""];
-			private _muzzleDamageMul      = _muzzleDamageMulCache getOrDefault [_muzzle, 1];
-
 			_damageDirect    = _damageDirect * _muzzleDamageMul;
 			_damageProcessed = _damageProcessed * _muzzleDamageMul;
 
@@ -238,10 +236,9 @@ _this call {
 
 	// Only keep the highest damage event in this frame
 	if (_newDamage > (_unit getVariable [QGVAR(damage_stored), 0]) and {_newDamage > MACRO_GM_UNIT_MINDAMAGETHRESHOLD}) then {
-		GVAR(gm_sys_monitorEntityDamage_update) = true;
 
-		// Flag the vehicle as having received damage (interfaces with gm_sys_monitorEntityDamage)
-		_unit setVariable [QGVAR(gm_sys_monitorEntityDamage_isHit), true, false];
+		// Flag the unit as having received damage (interfaces with gm_sys_monitorEntityDamage)
+		GVAR(gm_sys_monitorEntityDamage_units) pushBackUnique _unit;
 
 		_unit setVariable [QGVAR(damage_stored), _newDamage, false];
 		_unit setVariable [QGVAR(damage_enum), _damageEnum, false];

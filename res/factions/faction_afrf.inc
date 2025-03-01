@@ -80,7 +80,7 @@ USAGE:
 
 		[	// Anti Tank
 			MACRO_ENUM_ROLE_ANTITANK,
-			[["CUP_smg_bizon","","","CUP_optic_ekp_8_02",["CUP_64Rnd_Green_Tracer_9x19_Bizon_M",64],[],""],["CUP_launch_RPG7V","","","",["CUP_PG7VL_M",1],[],""],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_VSR93_MSV",[]],["CUP_V_O_RUS_6B45_AK_Med_Summer",[["16Rnd_9x21_green_Mag",2,17],["CUP_64Rnd_Green_Tracer_9x19_Bizon_M",3,64],["HandGrenade",1,1]]],["CUP_B_RUS_Backpack",[["CUP_PG7VL_M",2,1]]],"CUP_H_RUS_6B47_6M2_6B34D_Summer","G_Balaclava_blk",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["CUP_smg_bizon","","","CUP_optic_ekp_8_02",["CUP_64Rnd_Green_Tracer_9x19_Bizon_M",64],[],""],["CUP_launch_RPG7V","","","",["CUP_PG7V_M",1],[],""],["hgun_Rook40_F","","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_VSR93_MSV",[]],["CUP_V_O_RUS_6B45_AK_Med_Summer",[["16Rnd_9x21_green_Mag",2,17],["CUP_64Rnd_Green_Tracer_9x19_Bizon_M",3,64],["HandGrenade",1,1]]],["CUP_B_RUS_Backpack",[["CUP_PG7V_M",3,1]]],"CUP_H_RUS_6B47_6M2_6B34D_Summer","G_Balaclava_blk",[],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		]
 	],
 
@@ -288,7 +288,7 @@ USAGE:
 
 
 
-	// Recoil balancing
+	// Weapon recoil balancing
 	[
 		["CUP_srifle_SVD_top_rail", 1.25],
 		["CUP_arifle_AK74M_GL", 1.25],
@@ -300,8 +300,30 @@ USAGE:
 
 
 
-	// Damage balancing
+	// Weapon damage balancing
 	[
-		["CUP_smg_bizon", 1.25]
+		["CUP_smg_bizon", 1.25],
+		["CUP_launch_RPG7V", 1.5]
+	],
+
+
+
+	// Vehicle health balancing
+	[
+		["CUP_O_UAZ_Unarmed_RU", 0.75],
+		["CUP_O_UAZ_MG_RU", 0.75],
+		["CUP_O_UAZ_METIS_RU", 0.75],
+
+		["CUP_O_BRDM2_RUS", 1.5],
+
+		["CUP_O_BTR80_GREEN_RU", 1.5],
+		["CUP_O_BTR80A_GREEN_RU", 1.5],
+		["CUP_O_BTR90_RU", 1.5],
+		["CUP_O_BMP2_RU", 2.5],
+		["CUP_O_BMP3_RU", 3.0],
+
+		["CUP_O_T72_RU", 0.5],
+		["CUP_O_T90_RU", 0.35],
+		["CUP_O_T90M_RU", 1.5]
 	]
 ]

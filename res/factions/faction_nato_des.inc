@@ -284,7 +284,7 @@ USAGE:
 
 
 
-	// Recoil balancing
+	// Weapon recoil balancing
 	[
 		["LMG_03_F", 1.75],
 		["arifle_SPAR_02_blk_F", 2.0],
@@ -293,7 +293,21 @@ USAGE:
 
 
 
-	// Damage balancing
+	// Weapon damage balancing
 	[
+		["launch_MRAWS_sand_rail_F", 0.75]
+	],
+
+
+
+	// Vehicle health balancing
+	[
+		["B_LSV_01_unarmed_F", 1.5],
+		["B_LSV_01_armed_F", 1.5],
+		["B_LSV_01_AT_F", 1.5],
+
+		["B_MRAP_01_F", 0.5],
+		["B_MRAP_01_hmg_F", 0.5],
+		["B_MRAP_01_gmg_F", 0.5]
 	]
 ]

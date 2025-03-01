@@ -284,7 +284,7 @@ USAGE:
 
 
 
-	// Recoil balancing
+	// Weapon recoil balancing
 	[
 		["CUP_arifle_M4A1_camo", 1.75],
 		["CUP_srifle_m110_kac_black", 1.5],
@@ -297,9 +297,10 @@ USAGE:
 
 
 
-	// Damage balancing
+	// Weapon damage balancing
 	[
 		["CUP_srifle_M24_blk", 1.5],
-		["CUP_smg_MP5A5", 1.25]
+		["CUP_smg_MP5A5", 1.25],
+		["CUP_launch_Mk153Mod0", 1.5]
 	]
 ]

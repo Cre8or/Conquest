@@ -21,6 +21,7 @@ params [
 if (isNull _veh) exitWith {};
 
 MACRO_FNC_INITVAR(GVAR(allVehicles), []);
+MACRO_FNC_INITVAR(GVAR(gm_sys_monitorEntityDamage_vehicles), []);
 
 
 
@@ -38,6 +39,13 @@ GVAR(allVehicles) pushBackUnique _veh;
 _veh removeAllEventHandlers "HandleDamage"; // Removes any modded event handlers (e.g. ACE3)
 _veh addEventHandler ["HandleDamage", FUNC(veh_onHandleDamage)];
 
+_veh removeAllEventHandlers "Killed";
+_veh addEventHandler ["Killed", {
+	_this params ["_veh"];
+
+	GVAR(gm_sys_monitorEntityDamage_vehicles) pushBackUnique _veh;
+}];
+
 // Clear the vehicle's cargo locally
 clearWeaponCargo _veh;
 clearMagazineCargo _veh;
@@ -48,6 +56,13 @@ clearBackpackCargo _veh;
 if (hasInterface) then {
 	group player reveal _veh;
 };
+
+private _hitPoints = (getAllHitPointsDamage _veh) param [0, []] apply {toLower _x};
+private _hasHull   = "hithull" in _hitPoints;
+
+_veh setVariable [QGVAR(hasHitPoints), _hitPoints isNotEqualTo [], false];
+_veh setVariable [QGVAR(hasHullHitPoint), _hasHull, false];
+
 
 
 
@@ -69,13 +84,7 @@ if (hasInterface) then {
 			} forEach _forbiddenMagazines;
 		} forEach allTurrets [_veh, false];
 	};
-
-	// If any hitpoints should be invincible, we need to add a Hit EH
-	if !(_invincibleHitPoints isEqualTo []) then {
-		[_veh, _invincibleHitPoints] remoteExec [QFUNC(veh_handleDamage), 0, false];	// TODO: Find a way to make this JIP compatible without cluttering the JIP queue up with messages!
-	};
 */
-
 
 
 
