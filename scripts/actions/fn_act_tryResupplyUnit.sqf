@@ -115,7 +115,7 @@ if (
 	_support != _recipient
 	and {stance _support != "PRONE"}
 ) then {
-	_support playActionNow "GestureEmpty";
+	//_support playActionNow "GestureEmpty";
 	_support playActionNow "GestureGo";
 } else {
 	_support action ["TakeWeapon", objNull, "Throw"];

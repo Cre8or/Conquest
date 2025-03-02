@@ -170,6 +170,13 @@ if (hasInterface) then {
 		[_sideRight,  _ticketsRight,  MACRO_IDC_ES_TICKETS_RIGHT_TEXT]
 	];
 
+	// Apply the final tickets count on the clients to combat desync due to message latency
+	if (!isServer) then {
+		GVAR(ticketsEast)       = _finalTickets # 0;
+		GVAR(ticketsResistance) = _finalTickets # 1;
+		GVAR(ticketsWest)       = _finalTickets # 2;
+	};
+
 	// ACRE2 compatibility
 	if (GVAR(hasMod_acre)) then {
 		[true] call acre_api_fnc_setSpectator;

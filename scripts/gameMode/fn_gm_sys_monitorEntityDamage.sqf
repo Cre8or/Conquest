@@ -83,7 +83,7 @@ GVAR(gm_sys_monitorEntityDamage_EH) = addMissionEventHandler ["EachFrame", {
 
 
 	// Look for injured/destroyed local vehicles, and if any are found, process their damage
-	private ["_enum", "_damage"];
+	private ["_enum", "_damage", "_damageCalc", "_damageOverall", "_damageMulOverall", "_finalDamage"];
 	{
 		if (!local _x) then {continue};
 
@@ -97,13 +97,13 @@ GVAR(gm_sys_monitorEntityDamage_EH) = addMissionEventHandler ["EachFrame", {
 			_damage = _healthOld - _healthNew;
 
 			// Combine the pending damage from the previous HandleDamage iterations into a final value
-			private _damageCalc = _x getVariable [QGVAR(damage_calc), 0];
+			_damageCalc = _x getVariable [QGVAR(damage_calc), 0];
 
 			// Since we are unable to determine the cause of overall damage directly, we can infer its
 			// parameters from the highest damage's source (which we already store for damage tracking purposes).
 			// This way we can retroactively apply the damage multipliers as in the hitpoint iteration check.
-			private _damageOverall    = _x getVariable [QGVAR(damage_overall), 0];
-			private _damageMulOverall = switch (_enum) do {
+			_damageOverall    = _x getVariable [QGVAR(damage_overall), 0];
+			_damageMulOverall = switch (_enum) do {
 				case MACRO_ENUM_DAMAGE_BULLET:    {MACRO_GM_VEH_DAMAGEMUL_BULLET};
 				case MACRO_ENUM_DAMAGE_EXPLOSIVE: {MACRO_GM_VEH_DAMAGEMUL_EXPLOSIVE};
 				case MACRO_ENUM_DAMAGE_PHYSICS:   {MACRO_GM_VEH_DAMAGEMUL_PHYSICS};
@@ -120,7 +120,7 @@ GVAR(gm_sys_monitorEntityDamage_EH) = addMissionEventHandler ["EachFrame", {
 
 			// Update the hull hitpoint, if this vehicle has one
 			_healthNew = _healthOld - _damage;
-			private _finalDamage = ((1 - _healthNew) min 1) * MACRO_VEHICLE_HEALTH_MAXHITPOINTDAMAGE;
+			_finalDamage = ((1 - _healthNew) min 1) * MACRO_VEHICLE_HEALTH_MAXHITPOINTDAMAGE;
 
 			if (_x getVariable [QGVAR(hasHullHitPoint), false]) then {
 				_x setHitPointDamage ["hithull", _finalDamage];

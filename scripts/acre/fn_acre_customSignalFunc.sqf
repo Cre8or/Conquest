@@ -23,10 +23,13 @@ params [
 	["_classRadioRx", "", [""]]
 ];
 
-systemChat format ["(%1) this: %2", _this];
+//systemChat format ["(%1) this: %2", _this];
 
-private _result = _this call acre_sys_signal_fnc_getSignalCore;
-
-systemChat format ["(%1) result: %2", _result];
+//private _result = _this call acre_sys_signal_fnc_getSignalCore;
+private _result = [
+	1, // 100% signal integrity
+	-50 // Decibels
+];
+//systemChat format ["(%1) result: %2", _result];
 
 _result;

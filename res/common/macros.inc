@@ -564,7 +564,7 @@
 	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health. Below this threshold, AI units will seek out nearby medics.
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.23.1069" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.23.1073" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

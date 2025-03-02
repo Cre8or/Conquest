@@ -87,7 +87,7 @@ GVAR(gm_sys_endConditions_EH) = addMissionEventHandler ["EachFrame", {
 
 				// Edge cases: no valid side remains
 				case 0: {
-					[sideEmpty, false] remoteExecCall [QFUNC(gm_endMission), 0, true];
+					[sideEmpty, false, _sideTickets] remoteExecCall [QFUNC(gm_endMission), 0, true];
 				};
 			};
 
