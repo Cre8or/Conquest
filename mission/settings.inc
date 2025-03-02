@@ -45,7 +45,7 @@
 	#define MACRO_GM_FACTIONENUM_OPFOR                              MACRO_ENUM_FACTION_CSAT // The default faction enum for OPFOR (see macros.inc)
 	#define MACRO_GM_FACTIONENUM_INDFOR                             MACRO_ENUM_FACTION_AAF // The default faction enum for INDFOR (see macros.inc)
 
-	#define MACRO_GM_STARTINGTICKETS                                200 // How many respawn tickets each side should start with
+	#define MACRO_GM_STARTINGTICKETS                                300 // How many respawn tickets each side should start with
 	#define MACRO_GM_UNIT_RESPAWNDELAY                              15 // How long, in seconds, a unit must wait before being able to respawn
 	#define MACRO_GM_UNIT_REVIVEDURATION                            60 // How long, in seconds, a unit can be revived for after being incapacitated
 	#define MACRO_GM_UNIT_SPAWNPROTECTIONDURATION                   2 // How long, in seconds, the spawn protection (invincibility) for freshly respawned units should last for
@@ -54,11 +54,14 @@
 
 	// Vehicles
 	#define MACRO_GM_ENABLEVEHICLES                                 true // Whether or not vehicles should be enabled
-	#define MACRO_GM_VEH_RESPAWNDELAY                               120 // The default delay, in seconds, after a vehicle has been destroyed before it is respawned
+	#define MACRO_GM_VEH_RESPAWNDELAY                               1 // The default delay, in seconds, after a vehicle has been destroyed before it is respawned
+	#define MACRO_GM_VEH_DAMAGEMUL_BULLET                           1 // Multiplier for the damage vehicles receive from bullet hits
+	#define MACRO_GM_VEH_DAMAGEMUL_EXPLOSIVE                        1 // Multiplier for the damage vehicles receive from explosions
+	#define MACRO_GM_VEH_DAMAGEMUL_PHYSICS                          0.25 // Multiplier for the damage vehicles receive from colliding with eachother/the world
 
-	// Damage balancing
-	#define MACRO_GM_UNIT_DAMAGEMUL_HEADSHOT                        2 // Multiplier for the damage dealt by headshots
-	#define MACRO_GM_UNIT_DAMAGEMUL_BULLET                          1 // Multiplier for the damage units receive from that bullet hits
+	// Units
+	#define MACRO_GM_UNIT_DAMAGEMUL_HEADSHOT                        3 // Multiplier for the damage dealt by headshots
+	#define MACRO_GM_UNIT_DAMAGEMUL_BULLET                          1.5 // Multiplier for the damage units receive from bullet hits
 	#define MACRO_GM_UNIT_DAMAGEMUL_EXPLOSIVE                       1 // Multiplier for the damage units receive from explosions
 	#define MACRO_GM_UNIT_DAMAGEMUL_FALLDAMAGE                      1 // Multiplier for the damage units receive from falling
 	#define MACRO_GM_UNIT_DAMAGEMUL_ROADKILL                        1 // Multiplier for the damage units receive when getting hit/run over by vehicles
