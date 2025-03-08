@@ -127,16 +127,18 @@ GVAR(gm_sys_tickets_EH_eachFrame) = addMissionEventHandler ["EachFrame", {
 
 	private _maxRatio         = 0;
 	private _sideSectorRatios = [0, 0, 0];
-	{
-		if (_x == sideEmpty) then {
-			continue;
-		};
+	if (_totalSectorCount > 0) then {
+		{
+			if (_x == sideEmpty) then {
+				continue;
+			};
 
-		_ratioX   = (_freeSectorCount + (_sideSectorCounts # _forEachIndex)) / _totalSectorCount;
-		_maxRatio = _maxRatio max _ratioX;
+			_ratioX   = (_freeSectorCount + (_sideSectorCounts # _forEachIndex)) / _totalSectorCount;
+			_maxRatio = _maxRatio max _ratioX;
 
-		_sideSectorRatios set [_forEachIndex, _ratioX];
-	} forEach GVAR(sides);
+			_sideSectorRatios set [_forEachIndex, _ratioX];
+		} forEach GVAR(sides);
+	};
 
 	// Perform ticket bleed
 	private _c_sectorRatioThresholdInv = 1 - MACRO_TICKETBLEED_SECTORRATIOTHRESHOLD;

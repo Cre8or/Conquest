@@ -18,17 +18,29 @@
 #include "..\..\res\macros\fnc_initVar.inc"
 
 params [
-	["_killer", objNull],
-	["_victim", objNull],
+	["_killer", objNull, [objNull]],
+	["_victim", objNull, [objNull, []]],
 	["_killData", [], [[]]]
 ];
 
-if (!hasInterface or {isNull _victim}) exitWith {};
+if (!hasInterface or {_victim isEqualType objNull and {isNull _victim}}) exitWith {};
 
 
 
 
-// Set up some variables
+
+// Edge case: certain killfeed events are batched in arrays (to reduce network traffic).
+// In these situations, re-run the function on every object within the array.
+if (_victim isEqualType []) exitWith {
+	{
+		[_killer, _x, _killData] call FUNC(ui_processKillFeedEvent);
+	} forEach _victim;
+};
+
+
+
+
+
 MACRO_FNC_INITVAR(GVAR(ui_sys_drawKillFeed_data), []);
 
 private _unitsPly = units group player;

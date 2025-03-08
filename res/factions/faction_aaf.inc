@@ -145,10 +145,10 @@ USAGE:
 		[
 			MACRO_ENUM_VEHICLETYPE_APC_LIGHT,
 			[
-				//["B_APC_Tracked_01_rcws_F",[[0,"a3\armor_f_beta\apc_tracked_01\data\apc_tracked_01_body_indp_co.paa"],[2,"a3\data_f\vehicles\turret_indp_co.paa"],[3,"a3\armor_f\data\camonet_aaf_digi_green_co.paa"]],[["showCamonetHull",1]]],
 				["I_APC_Wheeled_03_cannon_F","",[["showCamonetHull",1]]],
 				["I_APC_Wheeled_03_cannon_F"],
-				["I_LT_01_cannon_F","",[["showCamonetHull",1]]]
+				["I_LT_01_cannon_F","",[["showCamonetHull",1]]],
+				["I_LT_01_AT_F","",[["showCamonetHull",1],["showSLATHull",1]]]
 			]
 		],
 
@@ -157,7 +157,6 @@ USAGE:
 			[
 				["I_APC_tracked_03_cannon_F","",[["showCamonetHull",1],["showCamonetTurret",1],["showSLATHull",1],["showSLATTurret",1]]],
 				["I_APC_Wheeled_03_cannon_F","",[["showCamonetHull",1],["showSLATHull",1]]],
-				["I_LT_01_AT_F","",[["showCamonetHull",1],["showSLATHull",1]]],
 				["I_APC_tracked_03_cannon_F","",[["showSLATHull",1],["showSLATTurret",1]]]
 			]
 		],
@@ -187,6 +186,7 @@ USAGE:
 		[
 			MACRO_ENUM_VEHICLETYPE_AA_HEAVY,
 			[
+				["B_APC_Tracked_01_AA_F",[[0,"a3\armor_f_beta\apc_tracked_01\data\apc_tracked_01_body_indp_co.paa"],[1,"a3\armor_f_exp\mbt_01\data\MBT_01_body_olive_CO.paa"],[2,"a3\armor_f_exp\apc_tracked_01\data\apc_tracked_01_aa_tower_olive_co.paa"],[3,"a3\armor_f\data\camonet_aaf_digi_green_co.paa"]]],
 				["B_APC_Tracked_01_AA_F",[[0,"a3\armor_f_beta\apc_tracked_01\data\apc_tracked_01_body_indp_co.paa"],[1,"a3\armor_f_exp\mbt_01\data\MBT_01_body_olive_CO.paa"],[2,"a3\armor_f_exp\apc_tracked_01\data\apc_tracked_01_aa_tower_olive_co.paa"],[3,"a3\armor_f\data\camonet_aaf_digi_green_co.paa"]],[["showCamonetTurret",1],["showCamonetHull",1]]]
 			]
 		],
@@ -300,6 +300,16 @@ USAGE:
 
 	// Vehicle health balancing
 	[
-		["I_MBT_03_cannon_F", 0.75]
+		["I_APC_Wheeled_03_cannon_F", 0.5],
+		["I_APC_tracked_03_cannon_F", 0.75],
+
+		["I_MBT_03_cannon_F", 0.5],
+		["I_LT_01_AA_F", 2.0],
+		["I_LT_01_AT_F", 2.0],
+		["I_LT_01_cannon_F", 2.0],
+
+		["I_Heli_light_03_dynamicLoadout_F", 1.5],
+
+		["I_Plane_Fighter_03_dynamicLoadout_F", 1.5]
 	]
 ]

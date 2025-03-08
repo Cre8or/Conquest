@@ -180,6 +180,7 @@ USAGE:
 		[
 			MACRO_ENUM_VEHICLETYPE_AA_LIGHT,
 			[
+				["O_APC_Tracked_02_AA_F","",[["showCamonetHull",1],["showCamonetTurret",1]]],
 				["O_APC_Tracked_02_AA_F"]
 			]
 		],
@@ -187,6 +188,7 @@ USAGE:
 		[
 			MACRO_ENUM_VEHICLETYPE_AA_HEAVY,
 			[
+				["O_APC_Tracked_02_AA_F","",[["showSLATHull",1]]],
 				["O_APC_Tracked_02_AA_F","",[["showCamonetHull",1],["showCamonetTurret",1],["showSLATHull",1]]]
 			]
 		],
@@ -307,6 +309,21 @@ USAGE:
 	[
 		["O_MRAP_02_F", 0.5],
 		["O_MRAP_02_hmg_F", 0.5],
-		["O_MRAP_02_gmg_F", 0.5]
+		["O_MRAP_02_gmg_F", 0.5],
+
+		["O_APC_Wheeled_02_rcws_v2_F", 0.85],
+		["O_APC_Tracked_02_cannon_F", 0.5],
+
+		["O_MBT_02_cannon_F", 0.65],
+		["O_MBT_02_railgun_F", 0.75],
+
+		["O_Heli_Light_02_unarmed_F", 0.75],
+		["O_Heli_Transport_04_covered_F", 0.85],
+
+		["O_Heli_Light_02_dynamicLoadout_F", 0.75],
+		["O_Heli_Attack_02_dynamicLoadout_F", 0.75],
+
+		["O_Plane_Fighter_02_F", 0.65],
+		["O_Plane_CAS_02_dynamicLoadout_F", 0.5]
 	]
 ]

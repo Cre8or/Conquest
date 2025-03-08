@@ -26,6 +26,28 @@ params [
 // If no unit or score enum was passed, or if the function is not running on the server, exit
 if (_enum == MACRO_ENUM_SCORE_INVALID or {!isServer}) exitWith {};
 
+scopeName QGVAR(gm_addScore);
+
+
+
+
+
+// Edge case: certain score events are batched in arrays (to reduce network traffic).
+// In these situations, keep track of the amount of concerned objects.
+private _batchMul = 1;
+switch (_enum) do {
+
+	// Score events with unique arguments (e.g. player objects)
+	case MACRO_ENUM_SCORE_KILL_ENEMY;
+	case MACRO_ENUM_SCORE_KILL_FRIENDLY: {
+		if (!isNil "_arg" and {_arg isEqualType []}) then {
+			_batchMul = {!isNull _x} count _arg;
+		};
+	};
+};
+
+if (_batchMul <= 0) exitWith {};
+
 
 
 
@@ -65,8 +87,8 @@ private _score = switch (_enum) do {
 		ceil (_damage * MACRO_SCORE_DESTROYVEHICLE_ENEMY);
 	};
 
-	case MACRO_ENUM_SCORE_KILL_ENEMY:               {MACRO_SCORE_KILL_ENEMY};
-	case MACRO_ENUM_SCORE_KILL_FRIENDLY:            {MACRO_SCORE_KILL_FRIENDLY};
+	case MACRO_ENUM_SCORE_KILL_ENEMY:               {MACRO_SCORE_KILL_ENEMY * _batchMul};
+	case MACRO_ENUM_SCORE_KILL_FRIENDLY:            {MACRO_SCORE_KILL_FRIENDLY * _batchMul};
 	case MACRO_ENUM_SCORE_HEADSHOT:                 {MACRO_SCORE_HEADSHOT};
 
 	case MACRO_ENUM_SCORE_VEHICLE_DESTROY_ENEMY:    {MACRO_SCORE_DESTROYVEHICLE_ENEMY};
@@ -94,7 +116,7 @@ _data set [MACRO_INDEX_SERVERSTAT_SCORE, _totalScore];
 switch (_enum) do {
 	case MACRO_ENUM_SCORE_KILL_ENEMY: {
 		private _kills = _data param [MACRO_INDEX_SERVERSTAT_KILLS, 0];
-		_data set [MACRO_INDEX_SERVERSTAT_KILLS, _kills + 1];
+		_data set [MACRO_INDEX_SERVERSTAT_KILLS, _kills + _batchMul];
 	};
 	case MACRO_ENUM_SCORE_REVIVE: {
 		private _revives = _data param [MACRO_INDEX_SERVERSTAT_REVIVES, 0];
@@ -119,7 +141,10 @@ private _argOut = switch (_enum) do {
 	case MACRO_ENUM_SCORE_REVIVE;
 	case MACRO_ENUM_SCORE_KILL_ENEMY;
 	case MACRO_ENUM_SCORE_KILL_FRIENDLY: {
-		[nil, _arg] select (_arg isEqualType objNull);
+		[nil, _arg] select (
+			_arg isEqualType objNull // Single unit
+			or {_arg isEqualType []} // Batched array of units
+		);
 	};
 
 	case MACRO_ENUM_SCORE_SIDEDEFEATED: {

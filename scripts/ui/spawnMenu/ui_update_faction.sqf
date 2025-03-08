@@ -140,6 +140,10 @@ case "ui_update_faction": {
 		_ctrlFrame    = _spawnMenu displayCtrl _idcFrame;
 		_ctrlButton   = _spawnMenu displayCtrl _idcButton;
 
+		#ifdef MACRO_DEBUG_GM_INSTANTROLESWITCH
+			_isSelectable = true;
+		#endif
+
 		if (_isSelected and {_isSelectable}) then {
 			_ctrlFrame ctrlSetBackgroundColor SQUARE(MACRO_COLOUR_BUTTON_ACTIVE_PRESSED);
 		} else {

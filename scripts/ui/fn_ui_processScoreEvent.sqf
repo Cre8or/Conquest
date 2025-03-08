@@ -29,7 +29,21 @@ if (!hasInterface or {_enum == MACRO_ENUM_SCORE_INVALID}) exitWith {};
 
 
 
-// Set up some variables
+// Edge case: certain score events are batched in arrays (to reduce network traffic).
+// In these situations, re-run the function on every object within the array.
+if (_arg isEqualType [] and {_enum in [
+	MACRO_ENUM_SCORE_KILL_ENEMY,
+	MACRO_ENUM_SCORE_KILL_FRIENDLY
+]}) exitWith {
+	{
+		[_enum, _x] call FUNC(ui_processScoreEvent);
+	} forEach _arg;
+};
+
+
+
+
+
 MACRO_FNC_INITVAR(GVAR(ui_sys_drawScoreFeed_data), []);
 MACRO_FNC_INITVAR(GVAR(ui_sys_drawScoreFeed_redrawLast), false);
 MACRO_FNC_INITVAR(GVAR(ui_processScoreEvent_sound), -1);
