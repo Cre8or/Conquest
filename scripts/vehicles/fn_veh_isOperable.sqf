@@ -20,13 +20,12 @@ params [
 
 
 // TODO: Revisit this when custom vehicle damage is fully implemented
-/*
+
 // Basic checks
-if !(
-	alive _veh
-	and {canMove _veh}
-	and {fuel _veh > 0}
-	and {_veh isKindOf "AllVehicles"}
+if (
+	!alive _veh
+	or {!canMove _veh}
+	or {fuel _veh <= 0}
 ) exitWith {false};
-*/
+
 true;

@@ -186,7 +186,6 @@ if (_health > 0) then {
 		// :|
 		[_crewX, 1] remoteExecCall ["setDamage", _crewX, false];
 		_hasAnyCrew = true;
-		//moveOut _crewX;
 
 		if (_sideInstigator != _crewX getVariable [QGVAR(side), sideEmpty]) then {
 			_crewKilledEnemy pushBack _crewX;
@@ -196,7 +195,7 @@ if (_health > 0) then {
 	} forEach crew _veh;
 
 	if (_hasAnyCrew) then {
-		// Handle kill  scores for the crew
+		// Handle kill scores for the crew
 		if (_crewKilledEnemy isNotEqualTo []) then {
 			[_instigator, MACRO_ENUM_SCORE_KILL_ENEMY, _crewKilledEnemy] remoteExecCall [QFUNC(gm_addScore), 2, false];
 		};

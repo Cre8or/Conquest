@@ -284,12 +284,14 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 							// Store the time when we entered this state (used for the UI fade-in animation)
 							if (GVAR(gm_sys_handlePlayerRespawn_unconsciousTime) < 0) then {
 								GVAR(gm_sys_handlePlayerRespawn_unconsciousTime) = _time;
+								openMap [false, false];
 							};
 
 							private _bleedoutTime = _player getVariable [QGVAR(bleedoutTime), -1];
 
 							if (_time > _bleedoutTime) then {
 								_player setDamage 1;
+								openMap [false, false];
 
 								// Remember that the player bled out; this prevents the respawn timer from
 								// being reset once the system registers the player's death.
@@ -327,8 +329,6 @@ GVAR(gm_sys_handlePlayerRespawn_EH) = addMissionEventHandler ["EachFrame", {
 								and {[_x] call FUNC(unit_isAlive)}
 								and {_x != _player}
 							});
-
-							openMap [false, false];
 
 							// Handle the unconscious HUD
 							private _ctrlCountdown = _unconsciousHUD displayCtrl MACRO_IDC_UHUD_TEXT_COUNTDOWN;

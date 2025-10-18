@@ -49,7 +49,7 @@ USAGE:
 	[
 		[	// Spec Ops
 			MACRO_ENUM_ROLE_SPECOPS,
-			[["CUP_arifle_M4A1_camo","","CUP_acc_Flashlight_wdl","CUP_optic_HoloWdl",["CUP_30Rnd_556x45_Stanag_Tracer_Red",30],[],""],[],["CUP_hgun_M9","CUP_muzzle_snds_M9","","",["CUP_15Rnd_9x19_M9",15],[],""],["CUP_U_B_USMC_FROG1_WMARPAT",[]],["CUP_V_B_Eagle_SPC_TL",[["CUP_15Rnd_9x19_M9",2,15],["CUP_30Rnd_556x45_Stanag_Tracer_Red",7,30],["HandGrenade",1,1]]],[],"CUP_H_FR_Cap_Headset_Green","CUP_G_ESS_BLK_Scarf_Grn",["Binocular","","","",[],[],""],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["CUP_arifle_M4A1_camo","CUP_muzzle_snds_M16_camo","CUP_acc_Flashlight_wdl","CUP_optic_HoloWdl",["CUP_30Rnd_556x45_Stanag_Tracer_Red",30],[],""],[],["CUP_hgun_M9","CUP_muzzle_snds_M9","","",["CUP_15Rnd_9x19_M9",15],[],""],["CUP_U_B_USMC_FROG1_WMARPAT",[]],["CUP_V_B_Eagle_SPC_TL",[["CUP_15Rnd_9x19_M9",2,15],["CUP_30Rnd_556x45_Stanag_Tracer_Red",7,30],["HandGrenade",1,1]]],[],"CUP_H_FR_Cap_Headset_Green","CUP_G_ESS_BLK_Scarf_Grn",["Binocular","","","",[],[],""],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Sniper

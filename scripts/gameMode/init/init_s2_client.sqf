@@ -22,8 +22,9 @@ MACRO_FNC_INITVAR(GVAR(cl_AIIdentities), []);
 // Define global client variables
 MACRO_FNC_INITVAR(GVAR(side), sideEmpty);
 MACRO_FNC_INITVAR(GVAR(customGoggles), goggles player);
-GVAR(role)          = MACRO_ENUM_ROLE_INVALID;
-GVAR(spawnSector)   = objNull;
+GVAR(cam_role_isReady) = false;
+GVAR(role)             = MACRO_ENUM_ROLE_INVALID;
+GVAR(spawnSector)      = objNull;
 
 MACRO_FNC_INITVAR(GVAR(cam_panorama), objNull);
 MACRO_FNC_INITVAR(GVAR(STHUD_UIMode), 0);

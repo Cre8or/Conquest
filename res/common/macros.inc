@@ -481,7 +481,7 @@
 	#define MACRO_AI_DOMOVEINTERVAL                                 5 // The interval, in seconds, between two doMove commands being issued to AI units (as they sometimes need to be rescheduled to move)
 	#define MACRO_AI_CARELESSDURATION                               5 // The duration, in seconds, during which AI units will be careless when being forced to move
 	#define MACRO_AI_ROLEACTION_MAXDISTANCE_UNIT                    25 // The maximum distance, in meters, below which AI units will consider performing role-specific actions on nearby friendly units (and, for the recipients, to seek out the action-providing units), such as reviving, healing and resupplying
-	#define MACRO_AI_ROLEACTION_CHANGESTANCEDISTANCE                8 // The distance to the recipient, in meters, below which units performing role-specific actions will adjust their stance to that of the recipient
+	#define MACRO_AI_ROLEACTION_CHANGESTANCEDISTANCE                6 // The distance to the recipient, in meters, below which units performing role-specific actions will adjust their stance to that of the recipient
 	#define MACRO_AI_ROLEACTION_RECIPIENT_STOPDURATION              1.5 // For how long an AI unit remains stopped, in seconds, after being healed or resupplied, ontop of the performed action's cooldown duration (prevents them from running away while still being healed/resupplied)
 	#define MACRO_AI_MEDICAL_SELFHEALCOOLDOWN                       3 // The duration, in seconds, that a medic must wait after being injured before being allowed to heal itself (to combat heal-spamming)
 	#define MACRO_AI_MEDICAL_INITIALREVIVEDELAY                     2 // The initial delay, in seconds, after a unit has gone unconscious before AI medics are allowed to revive them (to combat revive-spamming)
@@ -534,7 +534,7 @@
 	#define MACRO_SB_SYS_UPDATEINTERVAL                             1 // Interval, in seconds, between updates of the scoreboard contents
 
 	// Spawn menu
-	#define MACRO_SM_ROLEPREVIEW_BASEHEIGHTASL                      10 // The height above sea level, in meters, that the spawn menu objects (preview unit, etc.) will spawn at
+	#define MACRO_SM_ROLEPREVIEW_BASEHEIGHT                         50 // The height above sea or terrain level, in meters, that the spawn menu objects (preview unit, etc.) will spawn at. Not all terrains are islands (e.g. Chernarus), so only relying on ASL height can cause clipping issue!
 	#define MACRO_SM_ROLEPREVIEW_BASEFOV                            0.1 // The default field of view of the role preview camera
 	#define MACRO_SM_ROLEPREVIEW_BASEDIRECTION                      315 // The default direction, in degrees, that the role preview unit should be facing
 	#define MACRO_SM_RESPAWN_OPENINTERVAL                           3 // When the player is respawning and closes the spawn menu, it is reopened after this many seconds (prevents the player from being unable to respawn after accidentally closing the menu)
@@ -549,7 +549,7 @@
 	#define MACRO_TICKETBLEED_FAST                                  60 // The bleed rate, in tickets per minute, of fast ticket bleed. Fast ticket bleed only occurs when a side owns no sectors, but still has units which are alive.
 
 	#define MACRO_TICKETS_WARNINGTHRESHOLD                          50 // When 2 out of 3 sides have fewer than this many tickets, a warning is broadcast to build up suspense (the mission will likely be over soon)
-	#define MACRO_TICKETS_DECISIVEPERCENTAGE                        0.5 // The ratio of tickets that the winning side must still have (to the starting tickets count) at the end of the mision for the victory to count as decisive
+	#define MACRO_TICKETS_DECISIVERATIO                             0.5 // The ratio of tickets that the winning side must still have (to the starting tickets count) at the end of the mision for the victory to count as decisive
 
 	// Ammo
 	#define MACRO_UNIT_AMMO_THRESHOLDLOW                            0.5 // The threshold of overall ammo below which a unit is considered to be at low ammo. Below this threshold, AI units will seek out nearby support units.
@@ -564,7 +564,7 @@
 	#define MACRO_UNIT_HEALTH_THRESHOLDLOW                          0.5 // The threshold of health below which a unit is considered to be at low health. Below this threshold, AI units will seek out nearby medics.
 
 	// Framework
-	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.23.1078" // The version of this framework
+	#define MACRO_MISSION_FRAMEWORK_VERSION                         "0.23.1083" // The version of this framework
 	#define MACRO_MISSION_FRAMEWORK_GAMEMODE                        "Conquest"
 
  	// Multiplayer settings (referenced by the Steam server browser)

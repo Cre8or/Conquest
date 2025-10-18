@@ -67,7 +67,7 @@ if (_disabled) then {
 
 		private _UI = uiNamespace getVariable [QGVAR(RscUserInputBlocker), displayNull];
 
-		if (isNull _UI and {time > 0} and {!dialog}) then {
+		if (isNull _UI and {time > 0} and {!dialog} and {!visibleMap}) then {
 
 			_UI = createDialog [QGVAR(RscUserInputBlocker), false];
 
@@ -102,6 +102,13 @@ if (_disabled) then {
 						setAccTime (accTime / 2 max 1);
 						_consumed = true;
 					};
+				};
+
+				// Map
+				if (_key in actionKeys "showMap") then {
+					_UI closeDisplay 0;
+					openMap true;
+					_consumed = true;
 				};
 
 				_consumed;

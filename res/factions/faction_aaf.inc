@@ -49,7 +49,7 @@ USAGE:
 	[
 		[	// Spec Ops
 			MACRO_ENUM_ROLE_SPECOPS,
-			[["arifle_Mk20C_F","","acc_flashlight","optic_ACO_grn_smg",["30Rnd_556x45_Stanag_Tracer_Yellow",30],[],""],[],["hgun_Pistol_heavy_01_green_F","muzzle_snds_acp","acc_flashlight_pistol","",["11Rnd_45ACP_Mag",15],[],""],["U_I_CombatUniform",[]],["V_PlateCarrierIA2_dgtl",[["30Rnd_556x45_Stanag_Tracer_Yellow",7,30],["HandGrenade",1,1],["11Rnd_45ACP_Mag",2,15]]],["B_AssaultPack_dgtl",[]],"H_MilCap_dgtl","G_Bandanna_oli",["Binocular","","","",[],[],""],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["arifle_Mk20C_F","muzzle_snds_M","acc_flashlight","optic_ACO_grn_smg",["30Rnd_556x45_Stanag_Tracer_Yellow",30],[],""],[],["hgun_Pistol_heavy_01_green_F","muzzle_snds_acp","acc_flashlight_pistol","",["11Rnd_45ACP_Mag",15],[],""],["U_I_CombatUniform",[]],["V_PlateCarrierIA2_dgtl",[["30Rnd_556x45_Stanag_Tracer_Yellow",7,30],["HandGrenade",1,1],["11Rnd_45ACP_Mag",2,15]]],["B_AssaultPack_dgtl",[]],"H_MilCap_dgtl","G_Bandanna_oli",["Binocular","","","",[],[],""],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Sniper
@@ -286,6 +286,7 @@ USAGE:
 
 	// Weapon recoil balancing
 	[
+		["LMG_Mk200_black_F", 0.75],
 		["SMG_03C_TR_khaki", 1.25]
 	],
 

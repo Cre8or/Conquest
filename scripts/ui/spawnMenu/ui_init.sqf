@@ -90,12 +90,15 @@ case "ui_init": {
 		deleteVehicle GVAR(rt_role_unit);
 		deleteVehicle GVAR(rt_role_light);
 
+		private _heightASL = (0 max getTerrainHeightASL [0,0,0]) + MACRO_SM_ROLEPREVIEW_BASEHEIGHT;
+		systemchat format ["Height ASL: %1", _heightASL];
+
 		GVAR(cam_role) = "camera" camCreate [0,0,0];
-		GVAR(cam_role) setPosWorld [0,0,MACRO_SM_ROLEPREVIEW_BASEHEIGHTASL];
+		GVAR(cam_role) setPosWorld [0,0,_heightASL];
 		GVAR(cam_role) setVectorDirAndUp [[0,-1,0], [0,0,1]];
 
 		GVAR(rt_role_wall) = "Land_VR_Block_04_F" createVehicleLocal [0,0,0];
-		GVAR(rt_role_wall) setPosWorld [0,-30,MACRO_SM_ROLEPREVIEW_BASEHEIGHTASL];
+		GVAR(rt_role_wall) setPosWorld [0,-30,_heightASL];
 		GVAR(rt_role_wall) setVectorDirAndUp [[0,1,0], [0,0,1]];
 		GVAR(rt_role_wall) setObjectTexture [0, "#(rgb,8,8,3)color(0.1,0.1,0.1,1)"];
 
@@ -106,7 +109,7 @@ case "ui_init": {
 		GVAR(rt_role_unit) setDir MACRO_SM_ROLEPREVIEW_BASEDIRECTION;
 
 		GVAR(rt_role_light) = "#lightpoint" createVehicleLocal [0,0,0];
-		GVAR(rt_role_light) setPosWorld [2,-13,MACRO_SM_ROLEPREVIEW_BASEHEIGHTASL];
+		GVAR(rt_role_light) setPosWorld [2,-13,_heightASL];
 		GVAR(rt_role_light) setLightIntensity 3;
 		GVAR(rt_role_light) setLightColor [250,150,100];
 		GVAR(rt_role_light) setLightAmbient [20,30,50];

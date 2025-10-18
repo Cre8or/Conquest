@@ -181,8 +181,9 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 			_leaderIsPlayer = isPlayer _leader;
 			_sector         = objNull;
 
+			// TODO: Revisit vehicle claim logic on respawn
 			// If the group leader is alive...
-			if (alive _leader and {!_unitIsLeader}) then {
+			if ([_leader] call FUNC(unit_isAlive)) then {
 
 				// If the leader isn't a player, the unit may roll to respawn on a sector that has a claimable vehicle
 				if (!_leaderIsPlayer and {GVAR(param_AI_allowVehicles)} and {random 1 <= MACRO_AI_CHANCE_RESPAWN_CLAIMVEHICLE}) then {
@@ -191,8 +192,7 @@ GVAR(EH_ai_sys_handleRespawn) = addMissionEventHandler ["EachFrame", {
 						!alive driver _x
 						and {!(_x getVariable [QGVAR(playersOnly), false])}
 						and {_x getVariable [QGVAR(side), sideEmpty] == _unitSide}
-						and {canMove _x}
-						and {fuel _x > 0}
+						and {([_x] call FUNC(veh_isOperable))}
 					};
 
 					// Pick a (random) sector that has a claimable vehicle within distance of it

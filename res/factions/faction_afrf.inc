@@ -50,7 +50,7 @@ USAGE:
 	[
 		[	// Spec Ops
 			MACRO_ENUM_ROLE_SPECOPS,
-			[["CUP_arifle_AK104","","acc_flashlight","CUP_optic_Kobra",["CUP_30Rnd_TE1_Green_Tracer_762x39_AK103_bakelite_M",30],[],""],[],["hgun_Rook40_F","muzzle_snds_L","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_EMR_rolled_up_gloves_pads",[]],["CUP_V_O_RUS_6B45_AK_Radio_Summer",[["16Rnd_9x21_green_Mag",2,17],["HandGrenade",1,1],["CUP_30Rnd_TE1_Green_Tracer_762x39_AK103_bakelite_M",7,30]]],["CUP_B_RUS_Backpack",[]],"CUP_H_PMC_Beanie_Headphones_Black","CUP_G_ESS_BLK_Facewrap_Black",["Binocular","","","",[],[],""],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
+			[["CUP_arifle_AK104","CUP_muzzle_Bizon","acc_flashlight","CUP_optic_Kobra",["CUP_30Rnd_TE1_Green_Tracer_762x39_AK103_bakelite_M",30],[],""],[],["hgun_Rook40_F","muzzle_snds_L","","",["16Rnd_9x21_green_Mag",17],[],""],["CUP_U_O_RUS_EMR_rolled_up_gloves_pads",[]],["CUP_V_O_RUS_6B45_AK_Radio_Summer",[["16Rnd_9x21_green_Mag",2,17],["HandGrenade",1,1],["CUP_30Rnd_TE1_Green_Tracer_762x39_AK103_bakelite_M",7,30]]],["CUP_B_RUS_Backpack",[]],"CUP_H_PMC_Beanie_Headphones_Black","CUP_G_ESS_BLK_Facewrap_Black",["Binocular","","","",[],[],""],["ItemMap","ItemGPS","ItemRadio","ItemCompass","ItemWatch",""]]
 		],
 
 		[	// Sniper

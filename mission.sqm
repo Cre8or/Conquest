@@ -30,39 +30,12 @@ binarizationWanted=0;
 sourceName="cre8or_cq64_gulf_of_malden";
 addons[]=
 {
-	"A3_Structures_F_Mil_Flags",
-	"A3_Misc_F_Helpers",
-	"A3_Characters_F",
-	"A3_Modules_F_Curator_Curator",
-	"A3_Structures_F_Ind_Cargo",
-	"A3_Structures_F_Walls",
-	"A3_Structures_F_Mil_Fortification",
-	"A3_Structures_F_Mil_Cargo",
-	"A3_Structures_F_Wrecks",
-	"A3_Structures_F_Argo_Signs_Warnings",
-	"A3_Structures_F_Argo_Military_ContainerBases",
-	"ace_cargo",
-	"A3_Structures_F_Heli_Ind_Cargo",
-	"A3_Modules_F",
-	"A3_Data_F_ParticleEffects",
-	"A3_Structures_F_Kart_Civ_SportsGrounds",
-	"A3_Rocks_F_Argo_Limestone",
-	"A3_Boat_F_Jets_Carrier_01",
-	"A3_Boat_F_Destroyer_Destroyer_01",
-	"A3_Signs_F",
-	"A3_Structures_F_Argo_Military_Bunkers",
-	"A3_Structures_F_Argo_Walls_Military",
-	"A3_Props_F_Tank_Military_Wrecks",
-	"A3_Structures_F_Argo_Military_Domes",
-	"A3_Structures_F_Bootcamp_VR_Helpers",
-	"A3_Structures_F_Heli_VR_Helpers",
-	"A3_Ui_F"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=20;
+		items=0;
 		class Item0
 		{
 			className="A3_Structures_F_Mil";

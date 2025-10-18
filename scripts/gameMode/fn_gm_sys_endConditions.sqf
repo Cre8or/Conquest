@@ -73,7 +73,7 @@ GVAR(gm_sys_endConditions_EH) = addMissionEventHandler ["EachFrame", {
 
 				case 1: {
 					private _winnerSide   = GVAR(sides) # (_sideTickets findIf {_x > 0});
-					private _isDecisive   = ([_winnerSide] call FUNC(gm_getSideTickets)) >= MACRO_TICKETS_DECISIVEPERCENTAGE * GVAR(param_gm_startingTickets);
+					private _isDecisive   = ([_winnerSide] call FUNC(gm_getSideTickets)) >= MACRO_TICKETS_DECISIVERATIO * GVAR(param_gm_startingTickets);
 
 					[_winnerSide, _isDecisive, _sideTickets] remoteExecCall [QFUNC(gm_endMission), 0, true];
 

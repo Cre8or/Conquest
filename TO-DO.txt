@@ -1,4 +1,8 @@
 TO DO:
+	- Allow respawning on squad leaders
+		- Cache the leader (upon group creation) to prevent abuse from passing ownership betwen players
+		- Enable AI respawning on leaders too
+		- Move units into a free vehicle seat if the leader is in a vehicle
 	- Transfer AI driver group locality to effective commander if necessary
 	- Reimplement vehicle locking for players (taking side into account)
 	- Disable the ACE3 medical menu keybinding
@@ -48,6 +52,7 @@ UNCONFIRMED:
 	- Investigate Joe's isssue with being able to spawn when no sectors are owned
 
 DONE:
+	- Allow opening and interacting with the map while unconscious
 	- Fix vehicle killfeed events showing the instigator's primary weapon instead of the vehicle
 	- Implement a simplified vehicle damage handler
 	- Highlight neary frag grenades as 3D UI icons
